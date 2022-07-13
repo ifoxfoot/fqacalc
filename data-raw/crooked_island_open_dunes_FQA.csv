@@ -1,0 +1,99 @@
+"Open Dunes - Crooked Island"
+2022-08-02
+"Crooked Island"
+"Crooked Island"
+Alpena
+MI
+USA
+"FQA DB Region:",Michigan
+"FQA DB Publication Year:",2014
+"FQA DB Description:","Reznicek, A.A., M.R. Penskar, B.S. Walters, and B.S. Slaughter.  2014.  Michigan Floristic Quality Assessment Database.  Herbarium, University of Michigan, Ann Arbor, MI and Michigan Natural Features Inventory, Michigan State University, Lansing, MI. http://michiganflora.net "
+
+Practitioner:,"Joshua Cohen, Jesse Lincoln, Tyler Bassett, Scott Warner"
+Latitude:,
+Longitude:,
+"Weather Notes:","Sunny, clear skies, 70s"
+"Duration Notes:","2 hours over the course of 4 days: 08-02 through 08-05."
+"Community Type Notes:","Open Dunes"
+"Other Notes:","Surveyed by Michigan Natural Features Inventory as part of project for National Wildlife Refuge."
+Private/Public:,Public
+
+"Conservatism-Based Metrics:"
+"Total Mean C:",5.4
+"Native Mean C:",6.7
+"Total FQI:",31.9
+"Native FQI:",35.5
+"Adjusted FQI:",59.9
+"% C value 0:",20
+"% C value 1-3:",8.6
+"% C value 4-6:",34.3
+"% C value 7-10:",37.1
+"Native Tree Mean C:",4
+"Native Shrub Mean C:",8.4
+"Native Herbaceous Mean C:",6.9
+
+"Species Richness:"
+"Total Species:",35
+"Native Species:",28,80%
+"Non-native Species:",7,20%
+
+"Species Wetness:"
+"Mean Wetness:",0.7
+"Native Mean Wetness:",0.9
+
+"Physiognomy Metrics:"
+Tree:,6,17.1%
+Shrub:,8,22.9%
+Vine:,0,0%
+Forb:,11,31.4%
+Grass:,9,25.7%
+Sedge:,0,0%
+Rush:,1,2.9%
+Fern:,0,0%
+Bryophyte:,0,0%
+
+"Duration Metrics:"
+Annual:,0,0%
+Perennial:,32,91.4%
+Biennial:,3,8.6%
+"Native Annual:",0,0%
+"Native Perennial:",27,77.1%
+"Native Biennial:",1,2.9%
+
+Species:
+"Scientific Name",Family,Acronym,Native?,C,W,Physiognomy,Duration,"Common Name"
+"Abies balsamea",Pinaceae,ABIBAL,native,3,0,tree,perennial,"balsam fir"
+"Ammophila breviligulata",Poaceae,AMMBRE,native,10,5,grass,perennial,"marram grass"
+"Anticlea elegans; zigadenus glaucus",Melanthiaceae,ANTELE,native,10,-3,forb,perennial,"white camas"
+"Arctostaphylos uva-ursi",Ericaceae,ARCUVA,native,8,5,shrub,perennial,bearberry
+"Artemisia campestris",Asteraceae,ARTCAM,native,5,5,forb,biennial,wormwood
+"Calamagrostis epigeios",Poaceae,CALEPI,non-native,0,3,grass,perennial,reedgrass
+"Calamovilfa longifolia",Poaceae,CALLON,native,10,5,grass,perennial,"sand reed grass"
+"Campanula aparinoides",Campanulaceae,CAMAPA,native,7,-5,forb,perennial,"marsh bellflower"
+"Campanula rotundifolia",Campanulaceae,CAMROT,native,6,3,forb,perennial,harebell
+"Centaurea stoebe; c. maculosa",Asteraceae,CENSTO,non-native,0,5,forb,biennial,"spotted knapweed"
+"Cirsium vulgare",Asteraceae,CIRVUL,non-native,0,3,forb,biennial,"bull thistle"
+"Dasiphora fruticosa; potentilla f.",Rosaceae,DASFRU,native,8,-3,shrub,perennial,"shrubby cinquefoil"
+"Elymus canadensis",Poaceae,ELYCAN,native,5,3,grass,perennial,"canada wild rye"
+"Elymus trachycaulus; agropyron t.",Poaceae,ELYTRA,native,8,3,grass,perennial,"slender wheatgrass"
+"Festuca saximontana",Poaceae,FESSAX,native,6,5,grass,perennial,fescue
+"Hypericum kalmianum",Hypericaceae,HYPKAL,native,10,-3,shrub,perennial,"kalms st. johns-wort"
+"Juncus balticus",Juncaceae,JUNBAL,native,4,-5,rush,perennial,rush
+"Juniperus communis",Cupressaceae,JUNCOI,native,4,3,shrub,perennial,"common or ground juniper"
+"Juniperus horizontalis",Cupressaceae,JUNHOR,native,10,3,shrub,perennial,"creeping juniper"
+"Larix laricina",Pinaceae,LARLAR,native,5,-3,tree,perennial,tamarack
+"Lobelia kalmii",Campanulaceae,LOBKAL,native,10,-5,forb,perennial,"bog lobelia"
+"Lythrum salicaria",Lythraceae,LYTSAL,non-native,0,-5,forb,perennial,"purple loosestrife"
+"Phragmites australis var. australis",Poaceae,PHRAUU,non-native,0,-3,grass,perennial,reed
+"Picea glauca",Pinaceae,PICGLA,native,3,3,tree,perennial,"white spruce"
+"Pinus resinosa",Pinaceae,PINRES,native,6,3,tree,perennial,"red pine"
+"Pinus strobus",Pinaceae,PINSTR,native,3,3,tree,perennial,"white pine"
+"Poa compressa",Poaceae,POACOM,non-native,0,3,grass,perennial,"canada bluegrass"
+"Potentilla anserina",Rosaceae,POTANS,native,5,-3,forb,perennial,silverweed
+"Prunus pumila",Rosaceae,PRUPUM,native,8,5,shrub,perennial,"sand cherry"
+"Salix cordata",Salicaceae,SALCOR,native,10,0,shrub,perennial,"sand-dune willow"
+"Salix myricoides",Salicaceae,SALMYR,native,9,-3,shrub,perennial,"blueleaf willow"
+"Schizachyrium scoparium; andropogon s.",Poaceae,SCHSCO,native,5,3,grass,perennial,"little bluestem"
+"Solidago ptarmicoides",Asteraceae,SOLPTA,native,6,3,forb,perennial,"upland white goldenrod"
+"Thuja occidentalis",Cupressaceae,THUOCC,native,4,-3,tree,perennial,"arbor vitae"
+"Typha angustifolia",Typhaceae,TYPANG,non-native,0,-5,forb,perennial,"narrow-leaved cat-tail"
