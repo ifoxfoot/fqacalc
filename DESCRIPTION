@@ -14,3 +14,5 @@ Depends:
 LazyData: true
 Imports: 
     dplyr
+URL: https://github.com/ifoxfoot/michigan2014
+BugReports: https://github.com/ifoxfoot/michigan2014/issues
