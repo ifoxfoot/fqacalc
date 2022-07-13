@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Iris", "Foxfoot", , "ifoxfoot@gmail.com", role = c("aut", "cre"),
            )
-Description: This package provides functions for calculating Mean C, FQI, and adjusted FQI based on Michigan's 2014 FQAI
+Description: This package provides functions for calculating Mean C, FQI, and adjusted FQI based on Michigan's 2014 FQAI.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
