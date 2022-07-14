@@ -4,18 +4,18 @@
 \alias{total_mean_c}
 \title{Calculate Mean C}
 \usage{
-total_mean_c(assessment)
+total_mean_c(x)
 }
 \arguments{
-\item{assessment}{A dataframe containing a list of plant species. This dataframe must have one of the following columns: \code{scientific_name}, \code{acronym}, or \code{common_name}.}
+\item{x}{A data frame containing a list of plant species. This data frame must have one of the following columns: \code{scientific_name}, \code{acronym}, or \code{common_name}.}
 }
 \value{
-A value for mean C
+A non-negative integer
 }
 \description{
 Calculate Mean C
 }
 \examples{
 plant_list <- crooked_island_site_assessment
-total_mean_c(assessment = plant_list)
+total_mean_c(x = plant_list)
 }

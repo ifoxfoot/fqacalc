@@ -13,6 +13,7 @@ Depends:
     R (>= 2.10)
 LazyData: true
 Imports: 
+    magrittr,
     dplyr
 URL: https://github.com/ifoxfoot/michigan2014
 BugReports: https://github.com/ifoxfoot/michigan2014/issues
