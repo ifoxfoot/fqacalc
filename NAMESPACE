@@ -2,6 +2,7 @@
 
 export("%>%")
 export(adjusted_FQI)
+export(all_metrics)
 export(native_FQI)
 export(native_mean_c)
 export(native_species_richness)

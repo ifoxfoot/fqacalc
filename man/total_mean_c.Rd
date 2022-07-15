@@ -7,13 +7,16 @@
 total_mean_c(x)
 }
 \arguments{
-\item{x}{A data frame containing a list of plant species. This data frame must have one of the following columns: \code{scientific_name}, \code{acronym}, or \code{common_name}.}
+\item{x}{A data frame containing a list of plant species. This data frame
+must have one of the following columns: \code{scientific_name}, \code{acronym}, or
+\code{common_name}.}
 }
 \value{
 A non-negative integer
 }
 \description{
-Calculate Mean C
+\code{total_mean_c()} calculates the mean conservation coefficient for all species in
+the site assessment.
 }
 \examples{
 plant_list <- crooked_island_site_assessment

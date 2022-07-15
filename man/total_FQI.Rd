@@ -7,13 +7,17 @@
 total_FQI(x)
 }
 \arguments{
-\item{x}{A data frame containing a list of plant species. This data frame must have one of the following columns: \code{scientific_name}, \code{acronym}, or \code{common_name}.}
+\item{x}{A data frame containing a list of plant species. This data frame
+must have one of the following columns: \code{scientific_name}, \code{acronym}, or
+\code{common_name}.}
 }
 \value{
 A non-negative integer
 }
 \description{
-Calculate Total FQI
+\code{total_FQI()} calculates the Floristic Quality Index (FQI) for the site using
+all species listed. FQI is found by multiplying the total mean C by the square
+root of the total species richness.
 }
 \examples{
 plant_list <- crooked_island_site_assessment

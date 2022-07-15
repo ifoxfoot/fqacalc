@@ -7,13 +7,18 @@
 adjusted_FQI(x)
 }
 \arguments{
-\item{x}{A data frame containing a list of plant species. This data frame must have one of the following columns: \code{scientific_name}, \code{acronym}, or \code{common_name}.}
+\item{x}{A data frame containing a list of plant species. This data frame
+must have one of the following columns: \code{scientific_name}, \code{acronym}, or
+\code{common_name}.}
 }
 \value{
 A non-negative integer
 }
 \description{
-Calculate Adjusted FQI
+\code{adjusted_FQI()} calculates the Adjusted Floristic Quality Index (FQI) for the
+site using all species. Adjusted FQI is found by multiplying 100 by the native
+mean C divided by ten and then multiplied by the square root of native species
+richness divided by the square root of total species richness.
 }
 \examples{
 plant_list <- crooked_island_site_assessment

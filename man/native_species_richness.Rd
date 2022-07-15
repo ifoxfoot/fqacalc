@@ -7,13 +7,16 @@
 native_species_richness(x)
 }
 \arguments{
-\item{x}{A data frame containing a list of plant species. This data frame must have one of the following columns: \code{scientific_name}, \code{acronym}, or \code{common_name}.}
+\item{x}{A data frame containing a list of plant species. This data frame
+must have one of the following columns: \code{scientific_name}, \code{acronym}, or
+\code{common_name}.}
 }
 \value{
 A non-negative integer
 }
 \description{
-Calculate Number of Native Species
+\code{native_species_richness()} calculates the total number of native species in the
+site assessment.
 }
 \examples{
 plant_list <- crooked_island_site_assessment
