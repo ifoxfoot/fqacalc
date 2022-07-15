@@ -1,0 +1,50 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# michigan2014
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This package provides functions for calculating total species richness,
+native species richness, mean C, native mean C, FQI, native FQI, and adjusted FQI 
+based on Michigan's 2014 FQAI database. This package is meant to be a small test-drive 
+of a larger, more comprehensive package for FQAI data bases across the USA.
+
+## Installation
+
+You can install the development version of michigan2014 from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("ifoxfoot/michigan2014")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(michigan2014)
+
+#the package comes with an example site assessment
+plants_of_crooked_island <- crooked_island_site_assessment
+
+head(plants_of_crooked_island)
+
+#here is an example of all metrics wrapped into one
+all_metrics(plants_of_crooked_island)
+```
+
