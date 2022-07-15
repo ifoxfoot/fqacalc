@@ -24,8 +24,6 @@ devtools::install_github("ifoxfoot/michigan2014")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
 ``` r
 library(michigan2014)
 
