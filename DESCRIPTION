@@ -17,3 +17,6 @@ Imports:
     dplyr
 URL: https://github.com/ifoxfoot/michigan2014
 BugReports: https://github.com/ifoxfoot/michigan2014/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
