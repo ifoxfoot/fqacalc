@@ -27,8 +27,8 @@ library(janitor)
 library(tidyverse)
 
 #clean the names, select relevant cols
-crooked_island_site_assessment <- clean_names(crooked_island_site) %>%
+crooked_island <- clean_names(crooked_island_site) %>%
   select(scientific_name, acronym, common_name)
 
 #use this dataset  (not viewable to package user)
-usethis::use_data(crooked_island_site_assessment, overwrite = TRUE)
+usethis::use_data(crooked_island, overwrite = TRUE)

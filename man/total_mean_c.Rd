@@ -19,6 +19,6 @@ A non-negative integer
 the site assessment.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 total_mean_c(x = plant_list)
 }

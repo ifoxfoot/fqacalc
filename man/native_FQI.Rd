@@ -20,6 +20,6 @@ only native species. Native FQI is found by multiplying the native mean C by
 the square root of the native species richness.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 native_FQI(x = plant_list)
 }

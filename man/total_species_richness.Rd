@@ -18,6 +18,6 @@ A non-negative integer
 assessment.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 total_species_richness(x = plant_list)
 }

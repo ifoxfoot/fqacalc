@@ -19,6 +19,6 @@ A data frame
 Mean C, Native Mean C, Total FQI, Native FQI, and Adjusted FQI.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 adjusted_FQI(x = plant_list)
 }

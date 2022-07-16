@@ -19,6 +19,6 @@ A non-negative integer
 species in the site assessment.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 native_mean_c(x = plant_list)
 }

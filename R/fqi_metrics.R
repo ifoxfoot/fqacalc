@@ -17,10 +17,18 @@ utils::globalVariables("native")
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' total_species_richness(x = plant_list)
 
 total_species_richness <- function(x) {
+
+  #join scores from Michigan FQAI to user's assessment
+  user_list_with_scores <- suppressMessages(
+    dplyr::left_join(x, michigan_2014_fqai))
+
+  #send warning to user if site assessment contains plant not in FQAI database
+  if( any(is.na(user_list_with_scores$c)) )
+    message("Species not listed in database, it will be treated as a non-native")
 
   #count how many unique observations are in species list
   species_richness <- nrow(unique(x))
@@ -45,7 +53,7 @@ total_species_richness <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' native_species_richness(x = plant_list)
 
 native_species_richness <- function(x) {
@@ -86,7 +94,7 @@ native_species_richness <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' total_mean_c(x = plant_list)
 
 total_mean_c <- function(x) {
@@ -97,7 +105,7 @@ total_mean_c <- function(x) {
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be given a C value of 0")
+    message("Species not listed in database, it will be treated as a non-native")
 
   #make it so non-matching plants have a c value of 0
   user_list_with_scores$c[is.na(user_list_with_scores$c)] <- 0
@@ -125,7 +133,7 @@ total_mean_c <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' native_mean_c(x = plant_list)
 
 native_mean_c <- function(x) {
@@ -136,7 +144,7 @@ native_mean_c <- function(x) {
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be given a C value of 0")
+    message("Species not listed in database, it will be treated as a non-native")
 
   #select only native species
   native_species <- user_list_with_scores %>%
@@ -166,7 +174,7 @@ native_mean_c <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' total_FQI(x = plant_list)
 
 total_FQI <- function(x) {
@@ -196,7 +204,7 @@ total_FQI <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' native_FQI(x = plant_list)
 
 native_FQI <- function(x) {
@@ -226,7 +234,7 @@ native_FQI <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list)
 
 adjusted_FQI <- function(x) {
@@ -255,7 +263,7 @@ adjusted_FQI <- function(x) {
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island_site_assessment
+#' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list)
 
 all_metrics <- function(x) {

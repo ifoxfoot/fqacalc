@@ -20,6 +20,6 @@ all species listed. FQI is found by multiplying the total mean C by the square
 root of the total species richness.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 total_FQI(x = plant_list)
 }

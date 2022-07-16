@@ -1,9 +1,10 @@
 #' A List of Plants from Crooked Island, MI
 #'
 #' A dataset containing a list of plants from a site assessment on crooked island in open dunes,
-#' in Michigan.
+#' in Michigan. The data was collected in the summer of 2022 by Joshua Cohen, Jesse Lincoln, Tyler Bassett, Scott Warner
+#' as part of project for the National Wildlife Refuge.
 #'
-#' @format A data frame with 53940 rows and 3 variables:
+#' @format A data frame with 35 rows and 3 variables:
 #' \describe{
 #'   \item{scientific_name}{scientific name}
 #'   \item{acronym}{a unique acronym for each plant}
@@ -11,4 +12,4 @@
 #'   ...
 #' }
 #' @source \url{https://universalfqa.org/}
-"crooked_island_site_assessment"
+"crooked_island"

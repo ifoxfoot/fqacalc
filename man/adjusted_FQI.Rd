@@ -21,6 +21,6 @@ mean C divided by ten and then multiplied by the square root of native species
 richness divided by the square root of total species richness.
 }
 \examples{
-plant_list <- crooked_island_site_assessment
+plant_list <- crooked_island
 adjusted_FQI(x = plant_list)
 }
