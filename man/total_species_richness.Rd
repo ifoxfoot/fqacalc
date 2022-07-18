@@ -4,7 +4,7 @@
 \alias{total_species_richness}
 \title{Calculate Number of Species}
 \usage{
-total_species_richness(x)
+total_species_richness(x, by = c("acronym", "scientific_name"))
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame must

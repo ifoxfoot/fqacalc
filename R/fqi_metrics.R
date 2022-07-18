@@ -20,18 +20,26 @@ utils::globalVariables("native")
 #' plant_list <- crooked_island
 #' total_species_richness(x = plant_list)
 
-total_species_richness <- function(x) {
+total_species_richness <- function(x, by = c("acronym", "scientific_name")) {
 
   #join scores from Michigan FQAI to user's assessment
-  user_list_with_scores <- suppressMessages(
-    dplyr::left_join(x, michigan_2014_fqai))
+  user_list_with_scores <-
+    dplyr::left_join(x, michigan_2014_fqai, by = match.arg(by))
+
+  #send warning to user if site assessment contains duplicate entries
+  if( nrow(x) != nrow(unique(x)) )
+    message("Duplicate entries detected. Duplicates will only be counted once.")
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be treated as a non-native")
+    message("Species X not listed in database, it will be discarded")
+
+  #select inputs that have match
+  user_list_matched <- user_list_with_scores %>%
+    dplyr::filter(!is.na(c))
 
   #count how many unique observations are in species list
-  species_richness <- nrow(unique(x))
+  species_richness <- nrow(unique(user_list_matched))
 
   #return number of species
   return(species_richness)
@@ -64,7 +72,7 @@ native_species_richness <- function(x) {
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be treated as a non-native")
+    message("Species not listed in database, it will be discarded")
 
   #select native plants
   native_species <- user_list_with_scores %>%
@@ -101,11 +109,11 @@ total_mean_c <- function(x) {
 
   #join scores from michigan fqai to user's assessment
   user_list_with_scores <- suppressMessages(
-    dplyr::left_join(x, michigan_2014_fqai))
+    dplyr::left_join(unique(x), michigan_2014_fqai))
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be treated as a non-native")
+    message("Species not listed in database, it will be discarded")
 
   #make it so non-matching plants have a c value of 0
   user_list_with_scores$c[is.na(user_list_with_scores$c)] <- 0
@@ -140,11 +148,11 @@ native_mean_c <- function(x) {
 
   #join scores from michigan fqai to user's assessment
   user_list_with_scores <- suppressMessages(
-    dplyr::left_join(x, michigan_2014_fqai))
+    dplyr::left_join(unique(x), michigan_2014_fqai))
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be treated as a non-native")
+    message("Species not listed in database, it will be discarded")
 
   #select only native species
   native_species <- user_list_with_scores %>%
