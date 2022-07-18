@@ -179,9 +179,8 @@ native_mean_c <- function(x) {
 
 total_FQI <- function(x) {
 
-
   #calculate total fqi
-  fqi <- total_mean_c(x) * sqrt(total_species_richness(x))
+  fqi <- total_mean_c(x) * suppressMessages(sqrt(total_species_richness(x)))
 
   #print
   return(fqi)
@@ -210,7 +209,7 @@ total_FQI <- function(x) {
 native_FQI <- function(x) {
 
   #calculate native fqi
-  fqi <- native_mean_c(x) * sqrt(native_species_richness(x))
+  fqi <- native_mean_c(x) * suppressMessages(sqrt(native_species_richness(x)))
 
   #print
   return(fqi)
@@ -241,7 +240,10 @@ adjusted_FQI <- function(x) {
 
   #calculate adjusted fqi
   fqi <- 100 * (native_mean_c(x)/10) *
-    (sqrt(native_species_richness(x))/sqrt(total_species_richness(x)))
+    suppressMessages(
+      sqrt(native_species_richness(x)/total_species_richness(x))
+      )
+
 
   #print
   return(fqi)
@@ -279,12 +281,12 @@ metrics <- c("Total Species Richness",
 
 #create list of values
 values <- c(total_species_richness(x),
-           native_species_richness(x),
-           total_mean_c(x),
-           native_mean_c(x),
-           total_FQI(x),
-           native_FQI(x),
-           adjusted_FQI(x))
+            suppressMessages( native_species_richness(x)),
+            suppressMessages(total_mean_c(x)),
+            suppressMessages(native_mean_c(x)),
+            suppressMessages(total_FQI(x)),
+            suppressMessages(native_FQI(x)),
+            suppressMessages(adjusted_FQI(x)))
 
 #bind metrics and values into data frame
 report <- data.frame(metrics, values)
