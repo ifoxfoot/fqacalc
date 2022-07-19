@@ -7,7 +7,7 @@ full_dup <- data.frame (acronym  = c("ABIBAL", "ABIBAL", "AMMBRE", "ANTELE"),
 
 
 #data frame with duplicates in one row, separate matching cases in another row
-partial_dup_match <- data.frame(acronuf  = c("ABIBAL", "ARCUVA", "AMMBRE", "ANTELE"),
+partial_dup_match <- data.frame(acronym  = c("ABIBAL", "ARCUVA", "AMMBRE", "ANTELE"),
                                 scientific_name = c("Abies balsamea", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus")
                                 )
 
@@ -23,7 +23,7 @@ partial_no_match <- data.frame(acronym  = c("ABIBAL", "typo", "AMMBRE", "ANTELE"
 
 #non_match in one column
 full_no_match <- data.frame(acronym  = c("ABIBAL", "typo", "AMMBRE", "ANTELE"),
-                               scientific_name = c("Abies balsamea", "typo", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus")
+                            scientific_name = c("Abies balsamea", "typo", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus")
                             )
 
 
@@ -41,10 +41,15 @@ test_that("total_species_richness() calculates total species richness", {
   expect_message(total_species_richness(full_dup))
 })
 
-#duplication in one column, no duplication in other column
+#duplication in scientific name, no duplication in acronym column
 test_that("total_species_richness() calculates total species richness", {
-  expect_equal(total_species_richness(partial_dup_match), 3)
-  expect_message(total_species_richness(partial_dup_match))
+  expect_equal(total_species_richness(partial_dup_match), 4)
+})
+
+#duplication in scientific name, no duplication in acronym column
+test_that("total_species_richness() calculates total species richness", {
+  expect_equal(total_species_richness(partial_dup_match, key = "scientific_name"), 3)
+  expect_message(total_species_richness(partial_dup_match, key = "scientific_name"))
 })
 
 #duplication in one column, one non-match in other

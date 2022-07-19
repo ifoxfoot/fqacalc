@@ -10,36 +10,39 @@ utils::globalVariables("native")
 #' assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame must
-#' have one of the following columns: `scientific_name`, `acronym`, or `common_name`.
-#'
+#' have one of the following columns: `scientific_name` or `acronym`.
+#' @param key A column name that will be used to join the input `x` with the 2014
+#' Michigan FQAI database. If a value is not specified the default is `acronym`.
+#' `scientific_name` and `acronym` are the recommended values for key.
 #'
 #' @return A non-negative integer
 #' @export
 #'
 #' @examples
+#'
 #' plant_list <- crooked_island
 #' total_species_richness(x = plant_list)
 
-total_species_richness <- function(x, by = c("acronym", "scientific_name")) {
+total_species_richness <- function(x, key = "acronym") {
+
+  #send warning to user if site assessment contains duplicate entries
+  if( sum(duplicated(x[,key])) > 0 )
+    message("Duplicate entries detected. Duplicates will only be counted once.")
 
   #join scores from Michigan FQAI to user's assessment
   user_list_with_scores <-
-    dplyr::left_join(x, michigan_2014_fqai, by = match.arg(by))
-
-  #send warning to user if site assessment contains duplicate entries
-  if( nrow(x) != nrow(unique(x)) )
-    message("Duplicate entries detected. Duplicates will only be counted once.")
+    dplyr::left_join(x, michigan_2014_fqai, by = key)
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
     message("Species X not listed in database, it will be discarded")
 
-  #select inputs that have match
+  #select only inputs that have a match
   user_list_matched <- user_list_with_scores %>%
     dplyr::filter(!is.na(c))
 
   #count how many unique observations are in species list
-  species_richness <- nrow(unique(user_list_matched))
+  species_richness <- length(unique(user_list_matched[,key]))
 
   #return number of species
   return(species_richness)
@@ -53,9 +56,11 @@ total_species_richness <- function(x, by = c("acronym", "scientific_name")) {
 #' `native_species_richness()` calculates the total number of native species in the
 #' site assessment.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name`, `acronym`, or
-#' `common_name`.
+#' @param x A data frame containing a list of plant species. This data frame must
+#' have one of the following columns: `scientific_name` or `acronym`.
+#' @param key A column name that will be used to join the input `x` with the 2014
+#' Michigan FQAI database. If a value is not specified the default is `acronym`.
+#' `scientific_name` and `acronym` are the recommended values for key.
 #'
 #' @return A non-negative integer
 #' @export
@@ -64,25 +69,29 @@ total_species_richness <- function(x, by = c("acronym", "scientific_name")) {
 #' plant_list <- crooked_island
 #' native_species_richness(x = plant_list)
 
-native_species_richness <- function(x) {
+native_species_richness <- function(x, key = "acronym") {
+
+  #send warning to user if site assessment contains duplicate entries
+  if( sum(duplicated(x[,key])) > 0 )
+    message("Duplicate entries detected. Duplicates will only be counted once.")
 
   #join scores from Michigan FQAI to user's assessment
-  user_list_with_scores <- suppressMessages(
-    dplyr::left_join(x, michigan_2014_fqai))
+  user_list_with_scores <-
+    dplyr::left_join(x, michigan_2014_fqai, by = key)
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be discarded")
+    message("Species X not listed in database, it will be discarded")
 
-  #select native plants
-  native_species <- user_list_with_scores %>%
+  #select only inputs that have a match
+  native <- user_list_with_scores %>%
     dplyr::filter(native == "native")
 
-  #count unique observations
-  native_num <- nrow(unique(native_species))
+  #count how many unique observations are in species list
+  native_richness <- length(unique(native[,key]))
 
-  #return number of native species
-  return(native_num)
+  #return number of species
+  return(native_richness)
 
 }
 
@@ -94,9 +103,10 @@ native_species_richness <- function(x) {
 #'the site assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name`, `acronym`, or
-#' `common_name`.
-#'
+#' must have one of the following columns: `scientific_name` or `acronym`.
+#' @param key A column name that will be used to join the input `x` with the 2014
+#' Michigan FQAI database. If a value is not specified the default is `acronym`.
+#' `scientific_name` and `acronym` are the recommended values for key.
 #'
 #' @return A non-negative integer
 #' @export
@@ -105,26 +115,31 @@ native_species_richness <- function(x) {
 #' plant_list <- crooked_island
 #' total_mean_c(x = plant_list)
 
-total_mean_c <- function(x) {
+total_mean_c <- function(x, key = "acronym") {
 
-  #join scores from michigan fqai to user's assessment
-  user_list_with_scores <- suppressMessages(
-    dplyr::left_join(unique(x), michigan_2014_fqai))
+  #send warning to user if site assessment contains duplicate entries
+  if( sum(duplicated(x[,key])) > 0 )
+    message("Duplicate entries detected. Duplicates will only be counted once.")
+
+  #join scores from Michigan FQAI to user's assessment
+  user_list_with_scores <-
+    dplyr::left_join(x, michigan_2014_fqai, by = key)
 
   #send warning to user if site assessment contains plant not in FQAI database
   if( any(is.na(user_list_with_scores$c)) )
-    message("Species not listed in database, it will be discarded")
+    message("Species X not listed in database, it will be discarded")
 
-  #make it so non-matching plants have a c value of 0
-  user_list_with_scores$c[is.na(user_list_with_scores$c)] <- 0
+  #select only unique entries
+  unique_scores <- user_list_with_scores %>%
+    dplyr::distinct(!!as.name(key), .keep_all = T)
 
-  #calculate mean C
-  mean_c <- mean(user_list_with_scores$c)
+  #calculate mean
+  mean_c <- mean(unique_scores$c)
 
   #print
   return(mean_c)
 
-  }
+}
 
 #-------------------------------------------------------------------------------
 
