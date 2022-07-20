@@ -176,6 +176,26 @@ total_mean_c <- function(x, key = "acronym") {
 
 native_mean_c <- function(x, key = "acronym") {
 
+  #error if x is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default")
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste0("argument ", x, " must be a data frame"))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste0(x, " must have a column named 'acronym' and/or 'scientific_name'"))
+
+  #error if key is not in col names
+  if( !key %in% colnames(x) )
+    stop(paste0(x, " does not have a column named ", key))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop(paste0("key must be equal to 'acronym' or 'scientific_name'"))
+
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
     message("Duplicate entries detected. Duplicates will only be counted once.")
