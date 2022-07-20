@@ -4,12 +4,15 @@
 \alias{all_metrics}
 \title{Calculate All FQA Metrics}
 \usage{
-all_metrics(x)
+all_metrics(x, key = "acronym")
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name}, \code{acronym}, or
-\code{common_name}.}
+must have one of the following columns: \code{scientific_name} or \code{acronym}.}
+
+\item{key}{A column name that will be used to join the input \code{x} with the 2014
+Michigan FQAI database. If a value is not specified the default is \code{acronym}.
+\code{scientific_name} and \code{acronym} are the recommended values for key.}
 }
 \value{
 A data frame
