@@ -30,8 +30,8 @@ total_species_richness <- function(x, key = "acronym") {
     stop("argument x is missing, with no default.")
 
   #error if x does not exist
-  if( is.null(x) )
-    stop(paste("argument ", x, " does not exist."))
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -106,8 +106,8 @@ native_species_richness <- function(x, key = "acronym") {
     stop("argument x is missing, with no default.")
 
   #error if x does not exist
-  if( is.null(x) )
-    stop(paste("argument ", x, " does not exist."))
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -183,8 +183,8 @@ total_mean_c <- function(x, key = "acronym") {
     stop("argument x is missing, with no default.")
 
   #error if x does not exist
-  if( is.null(x) )
-    stop(paste("argument ", x, " does not exist."))
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -259,8 +259,8 @@ native_mean_c <- function(x, key = "acronym") {
     stop("argument x is missing, with no default.")
 
   #error if x does not exist
-  if( is.null(x) )
-    stop(paste("argument ", x, " does not exist."))
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
