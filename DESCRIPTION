@@ -14,7 +14,9 @@ Depends:
 LazyData: true
 Imports: 
     magrittr,
-    dplyr
+    dplyr,
+    fuzzyjoin,
+    stringr
 URL: https://github.com/ifoxfoot/michigan2014
 BugReports: https://github.com/ifoxfoot/michigan2014/issues
 Suggests: 

@@ -60,7 +60,10 @@ total_species_richness <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    dplyr::left_join(unique_entries, michigan_2014_fqai, by = key)
+    fuzzyjoin::regex_left_join(unique_entries,
+                               michigan_2014_fqai,
+                               by = key,
+                               ignore_case = T)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -136,7 +139,10 @@ native_species_richness <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    dplyr::left_join(unique_entries, michigan_2014_fqai, by = key)
+    fuzzyjoin::regex_left_join(unique_entries,
+                               michigan_2014_fqai,
+                               by = key,
+                               ignore_case = T)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -213,7 +219,10 @@ total_mean_c <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    dplyr::left_join(unique_entries, michigan_2014_fqai, by = key)
+    fuzzyjoin::regex_left_join(unique_entries,
+                               michigan_2014_fqai,
+                               by = key,
+                               ignore_case = T)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -289,7 +298,10 @@ native_mean_c <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    dplyr::left_join(unique_entries, michigan_2014_fqai, by = key)
+    fuzzyjoin::regex_left_join(unique_entries,
+                               michigan_2014_fqai,
+                               by = key,
+                               ignore_case = T)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -332,6 +344,31 @@ native_mean_c <- function(x, key = "acronym") {
 
 total_FQI <- function(x, key = "acronym") {
 
+  #error if x argument is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default.")
+
+  #error if x does not exist
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste(deparse(substitute(x)),
+               "must have a column named 'acronym' and/or 'scientific_name'."))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop("key must be equal to 'acronym' or 'scientific_name'.")
+
+  #error if key is not in col names of x
+  if( !key %in% colnames(x) )
+    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+
   #calculate total fqi
   fqi <- total_mean_c(x) * suppressMessages(sqrt(total_species_richness(x)))
 
@@ -362,6 +399,31 @@ total_FQI <- function(x, key = "acronym") {
 #' native_FQI(x = plant_list)
 
 native_FQI <- function(x, key = "acronym") {
+
+  #error if x argument is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default.")
+
+  #error if x does not exist
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste(deparse(substitute(x)),
+               "must have a column named 'acronym' and/or 'scientific_name'."))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop("key must be equal to 'acronym' or 'scientific_name'.")
+
+  #error if key is not in col names of x
+  if( !key %in% colnames(x) )
+    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
 
   #calculate native fqi
   fqi <- native_mean_c(x) * suppressMessages(sqrt(native_species_richness(x)))
@@ -394,6 +456,31 @@ native_FQI <- function(x, key = "acronym") {
 #' adjusted_FQI(x = plant_list)
 
 adjusted_FQI <- function(x, key = "acronym") {
+
+  #error if x argument is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default.")
+
+  #error if x does not exist
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste(deparse(substitute(x)),
+               "must have a column named 'acronym' and/or 'scientific_name'."))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop("key must be equal to 'acronym' or 'scientific_name'.")
+
+  #error if key is not in col names of x
+  if( !key %in% colnames(x) )
+    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
 
   #calculate adjusted fqi
   fqi <- 100 * (native_mean_c(x)/10) *
@@ -429,8 +516,33 @@ adjusted_FQI <- function(x, key = "acronym") {
 
 all_metrics <- function(x, key = "acronym") {
 
-#create list of all metrics that will be included in the output
-metrics <- c("Total Species Richness",
+  #error if x argument is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default.")
+
+  #error if x does not exist
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste(deparse(substitute(x)),
+               "must have a column named 'acronym' and/or 'scientific_name'."))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop("key must be equal to 'acronym' or 'scientific_name'.")
+
+  #error if key is not in col names of x
+  if( !key %in% colnames(x) )
+    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+
+  #create list of all metrics that will be included in the output
+  metrics <- c("Total Species Richness",
             "Native Species Richness",
             "Mean C",
             "Native Mean C",
@@ -438,8 +550,8 @@ metrics <- c("Total Species Richness",
             "Native FQI",
             "Adjusted FQI")
 
-#create list of values
-values <- c(total_species_richness(x),
+  #create list of values
+  values <- c(total_species_richness(x),
             suppressMessages( native_species_richness(x)),
             suppressMessages(total_mean_c(x)),
             suppressMessages(native_mean_c(x)),
@@ -447,11 +559,11 @@ values <- c(total_species_richness(x),
             suppressMessages(native_FQI(x)),
             suppressMessages(adjusted_FQI(x)))
 
-#bind metrics and values into data frame
-report <- data.frame(metrics, values)
+  #bind metrics and values into data frame
+  report <- data.frame(metrics, values)
 
-#return the data frame
-return(report)
+  #return the data frame
+  return(report)
 
 }
 
