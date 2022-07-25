@@ -60,10 +60,10 @@ total_species_richness <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    fuzzyjoin::regex_left_join(unique_entries,
-                               michigan_2014_fqai,
-                               by = key,
-                               ignore_case = T)
+    dplyr::left_join(unique_entries %>%
+                       dplyr::mutate(!!key := toupper(!!as.name(key))),
+                     michigan_2014_fqai,
+                     by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -139,10 +139,10 @@ native_species_richness <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    fuzzyjoin::regex_left_join(unique_entries,
-                               michigan_2014_fqai,
-                               by = key,
-                               ignore_case = T)
+    dplyr::left_join(unique_entries %>%
+                       dplyr::mutate(!!key := toupper(!!as.name(key))),
+                     michigan_2014_fqai,
+                     by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -219,10 +219,10 @@ total_mean_c <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    fuzzyjoin::regex_left_join(unique_entries,
-                               michigan_2014_fqai,
-                               by = key,
-                               ignore_case = T)
+    dplyr::left_join(unique_entries %>%
+                       dplyr::mutate(!!key := toupper(!!as.name(key))),
+                     michigan_2014_fqai,
+                     by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -298,10 +298,10 @@ native_mean_c <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    fuzzyjoin::regex_left_join(unique_entries,
-                               michigan_2014_fqai,
-                               by = key,
-                               ignore_case = T)
+    dplyr::left_join(unique_entries %>%
+                       dplyr::mutate(!!key := toupper(!!as.name(key))),
+                     michigan_2014_fqai,
+                     by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
@@ -624,7 +624,8 @@ accepted_entries <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    dplyr::left_join(unique_entries,
+    dplyr::left_join(unique_entries %>%
+                       dplyr::mutate(!!key := toupper(!!as.name(key))),
                      michigan_2014_fqai,
                      by = key)
 
@@ -640,3 +641,4 @@ accepted_entries <- function(x, key = "acronym") {
   return(unique_entries_matched)
 
 }
+
