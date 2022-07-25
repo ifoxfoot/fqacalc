@@ -67,7 +67,7 @@ total_species_richness <- function(x, key = "acronym") {
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
-    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
+    message(paste0("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
                   "not listed in database. it will be discarded."))
 
   #discard entries that have no c score, select native entries
