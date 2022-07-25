@@ -67,8 +67,8 @@ total_species_richness <- function(x, key = "acronym") {
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
-    message(paste0("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
-                  "not listed in database. it will be discarded."))
+    message(paste0("Species ", "'", unique_entries_joined[is.na(unique_entries_joined$c), paste0(key, ".x")], "'",
+                  " is not listed in database and will be discarded."))
 
   #discard entries that have no c score, select native entries
   unique_entries_matched <- unique_entries_joined %>%
@@ -624,7 +624,9 @@ accepted_entries <- function(x, key = "acronym") {
 
   #join scores from Michigan FQAI to user's assessment
   unique_entries_joined <-
-    dplyr::left_join(unique_entries, michigan_2014_fqai, by = key)
+    dplyr::left_join(unique_entries,
+                     michigan_2014_fqai,
+                     by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )

@@ -25,3 +25,4 @@ typo <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "typo"),
 #data frame with incorrect entries in both rows
 fuzzy <- data.frame(acronym  = c("abeesc", "ABIBAL", "AMMBRE", "ANTELE"),
                     scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"))
+
