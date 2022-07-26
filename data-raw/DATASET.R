@@ -7,9 +7,11 @@ michigan_fqai <-
 
 #load the janitor package for cleaning names
 library(janitor)
+library(dplyr)
 
 #clean the names
-michigan_2014_fqai <- clean_names(michigan_fqai)
+michigan_2014_fqai <- clean_names(michigan_fqai) %>%
+  mutate(scientific_name = toupper(scientific_name))
 
 #use this dataset  (not viewable to package user)
 usethis::use_data(michigan_2014_fqai, overwrite = TRUE, internal = TRUE)
