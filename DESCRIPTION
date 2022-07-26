@@ -16,7 +16,8 @@ Imports:
     magrittr,
     dplyr,
     fuzzyjoin,
-    stringr
+    stringr,
+    rlang
 URL: https://github.com/ifoxfoot/michigan2014
 BugReports: https://github.com/ifoxfoot/michigan2014/issues
 Suggests: 

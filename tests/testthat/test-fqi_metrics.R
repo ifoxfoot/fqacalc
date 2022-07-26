@@ -82,6 +82,12 @@ test_that("native_species_richness() drops non-matching plants", {
   expect_message(native_species_richness(typo, key = "scientific_name"), "not listed in database")
 })
 
+#testing fuzzy matching
+test_that("native_species_richness() kind of fuzzy matches", {
+  expect_equal(native_species_richness(fuzzy), 3)
+  expect_equal(native_species_richness(fuzzy, key = "acronym"), 3)
+})
+
 #-------------------------------------------------------------------------------
 #testing total_mean_c()
 
@@ -114,10 +120,16 @@ test_that("total_mean_c() does not count duplicates", {
 test_that("total_mean_c() drops non-matching plants", {
   expect_equal(total_mean_c(typo), 4.33333333)
   expect_message(total_mean_c(typo), "not listed in database")
-  expect_equal(total_mean_c(typo, key = "acronym"), 4.33333333)
+  expect_equal(total_mean_c(typo, key = "acronym"),  4.33333333)
   expect_message(total_mean_c(typo, key = "acronym"), "not listed in database")
   expect_equal(total_mean_c(typo, key = "scientific_name"), 4.33333333)
   expect_message(total_mean_c(typo, key = "scientific_name"), "not listed in database")
+})
+
+#testing fuzzy matching
+test_that("total_mean_c() kind of fuzzy matches", {
+  expect_equal(total_mean_c(fuzzy),  5.75)
+  expect_equal(total_mean_c(fuzzy, key = "acronym"), 5.75)
 })
 
 #-------------------------------------------------------------------------------
@@ -158,6 +170,12 @@ test_that("native_mean_c() drops non-matching plants", {
   expect_message(native_mean_c(typo, key = "scientific_name"), "not listed in database")
 })
 
+#testing fuzzy matching
+test_that("native_mean_c() kind of fuzzy matches", {
+  expect_equal(native_mean_c(fuzzy),  7.6666667)
+  expect_equal(native_mean_c(fuzzy, key = "acronym"), 7.6666667)
+})
+
 
 #-------------------------------------------------------------------------------
 #testing total_FQI()
@@ -177,6 +195,31 @@ test_that("total_FQI() calculates errors correctly", {
   expect_error(total_FQI(bad_names, key = "acronym"), "must have a column named")
 })
 
+#test duplicate behavior
+test_that("total_FQI() does not count duplicates", {
+  expect_equal(total_FQI(duplicate), 7.5055535)
+  expect_message(total_FQI(duplicate), "Duplicate entries detected")
+  expect_equal(total_FQI(duplicate, key = "acronym"), 7.5055535)
+  expect_message(total_FQI(duplicate, key = "acronym"), "Duplicate entries detected")
+  expect_equal(total_FQI(duplicate, key = "scientific_name"), 7.5055535)
+  expect_message(total_FQI(duplicate, key = "scientific_name"), "Duplicate entries detected")
+})
+
+#test unrecognized behavior
+test_that("total_FQI() drops non-matching plants", {
+  expect_equal(total_FQI(typo), 7.5055535)
+  expect_message(total_FQI(typo), "not listed in database")
+  expect_equal(total_FQI(typo, key = "acronym"), 7.5055535)
+  expect_message(total_FQI(typo, key = "acronym"), "not listed in database")
+  expect_equal(total_FQI(typo, key = "scientific_name"), 7.5055535)
+  expect_message(total_FQI(typo, key = "scientific_name"), "not listed in database")
+})
+
+#testing fuzzy matching
+test_that("total_FQI() kind of fuzzy matches", {
+  expect_equal(total_FQI(fuzzy),  11.5)
+  expect_equal(total_FQI(fuzzy, key = "acronym"), 11.5)
+})
 
 #-------------------------------------------------------------------------------
 #testing native_FQI()
@@ -196,6 +239,32 @@ test_that("native_FQI() calculates errors correctly", {
   expect_error(native_FQI(bad_names, key = "acronym"), "must have a column named")
 })
 
+#test duplicate behavior
+test_that("native_FQI() does not count duplicates", {
+  expect_equal(native_FQI(duplicate), 9.19238815543)
+  expect_message(native_FQI(duplicate), "Duplicate entries detected")
+  expect_equal(native_FQI(duplicate, key = "acronym"), 9.19238815543)
+  expect_message(native_FQI(duplicate, key = "acronym"), "Duplicate entries detected")
+  expect_equal(native_FQI(duplicate, key = "scientific_name"), 9.19238815543)
+  expect_message(native_FQI(duplicate, key = "scientific_name"), "Duplicate entries detected")
+})
+
+#test unrecognized behavior
+test_that("native_FQI() drops non-matching plants", {
+  expect_equal(native_FQI(typo), 9.19238815)
+  expect_message(native_FQI(typo), "not listed in database")
+  expect_equal(native_FQI(typo, key = "acronym"), 9.19238815)
+  expect_message(native_FQI(typo, key = "acronym"), "not listed in database")
+  expect_equal(native_FQI(typo, key = "scientific_name"), 9.19238815)
+  expect_message(native_FQI(typo, key = "scientific_name"), "not listed in database")
+})
+
+#testing fuzzy matching
+test_that("native_FQI() kind of fuzzy matches", {
+  expect_equal(native_FQI(fuzzy),  13.27905619)
+  expect_equal(native_FQI(fuzzy, key = "acronym"), 13.27905619)
+})
+
 #-------------------------------------------------------------------------------
 #testing adjusted_FQI()
 
@@ -213,3 +282,31 @@ test_that("adjusted_FQI() calculates errors correctly", {
   expect_error(adjusted_FQI(crooked_island, key = "bad_key"), "key must be equal to")
   expect_error(adjusted_FQI(bad_names, key = "acronym"), "must have a column named")
 })
+
+#test duplicate behavior
+test_that("adjusted_FQI() does not count duplicates", {
+  expect_equal(adjusted_FQI(duplicate), 53.0722777)
+  expect_message(adjusted_FQI(duplicate), "Duplicate entries detected")
+  expect_equal(adjusted_FQI(duplicate, key = "acronym"), 53.0722777)
+  expect_message(adjusted_FQI(duplicate, key = "acronym"), "Duplicate entries detected")
+  expect_equal(adjusted_FQI(duplicate, key = "scientific_name"), 53.0722777)
+  expect_message(adjusted_FQI(duplicate, key = "scientific_name"), "Duplicate entries detected")
+})
+
+#test unrecognized behavior
+test_that("adjusted_FQI() drops non-matching plants", {
+  expect_equal(adjusted_FQI(typo), 53.0722777)
+  expect_message(adjusted_FQI(typo), "not listed in database")
+  expect_equal(adjusted_FQI(typo, key = "acronym"), 53.0722777)
+  expect_message(adjusted_FQI(typo, key = "acronym"), "not listed in database")
+  expect_equal(adjusted_FQI(typo, key = "scientific_name"), 53.0722777)
+  expect_message(adjusted_FQI(typo, key = "scientific_name"), "not listed in database")
+})
+
+#testing fuzzy matching
+test_that("adjusted_FQI() kind of fuzzy matches", {
+  expect_equal(adjusted_FQI(fuzzy),  66.3952812)
+  expect_equal(adjusted_FQI(fuzzy, key = "acronym"), 66.3952812)
+})
+
+

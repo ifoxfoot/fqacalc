@@ -16,6 +16,7 @@ utils::globalVariables("native")
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #'
 #' @return A non-negative integer
+#' @importFrom rlang :=
 #' @export
 #'
 #' @examples
@@ -96,6 +97,7 @@ total_species_richness <- function(x, key = "acronym") {
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #'
 #' @return A non-negative integer
+#' @importFrom rlang :=
 #' @export
 #'
 #' @examples
@@ -176,6 +178,7 @@ native_species_richness <- function(x, key = "acronym") {
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #'
 #' @return A non-negative integer
+#' @importFrom rlang :=
 #' @export
 #'
 #' @examples
@@ -255,6 +258,7 @@ total_mean_c <- function(x, key = "acronym") {
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #'
 #' @return A non-negative integer
+#' @importFrom rlang :=
 #' @export
 #'
 #' @examples
