@@ -4,6 +4,81 @@ utils::globalVariables("native")
 
 #-------------------------------------------------------------------------------
 
+#' Return Data Frame of Successfully matched Plant Species
+#'
+#' @param x A data frame containing a list of plant species. This data frame
+#' must have one of the following columns: `scientific_name` or `acronym`.
+#' @param key A column name that will be used to join the input `x` with the 2014
+#' Michigan FQAI database. If a value is not specified the default is `acronym`.
+#' `scientific_name` and `acronym` are the only acceptable values for key.
+#'
+#' @return A data frame containing the 'key' column --either `acronym` or
+#' `scientific_name` -- as well as columns from the Michigan 2014 fqai database.
+#' These columns include `family`, `native`, `c` (which represents the C score),
+#' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
+#' @export
+#'
+#' @examples
+#' plant_list <- crooked_island
+#' adjusted_FQI(x = plant_list)
+
+accepted_entries <- function(x, key = "acronym") {
+
+  #error if x argument is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default.")
+
+  #error if x does not exist
+  if( !exists(deparse(substitute(x))) )
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste({{x}},
+               "must have a column named 'acronym' and/or 'scientific_name'."))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop("key must be equal to 'acronym' or 'scientific_name'.")
+
+  #error if key is not in col names of x
+  if( !key %in% colnames(x) )
+    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+
+  #send message to user if site assessment contains duplicate entries
+  if( sum(duplicated(x[,key])) > 0 )
+    message("Duplicate entries detected. Duplicates will only be counted once.")
+
+  #select only unique entries
+  unique_entries <- x %>%
+    dplyr::distinct(!!as.name(key))
+
+  #join scores from Michigan FQAI to user's assessment
+  unique_entries_joined <-
+    dplyr::left_join(unique_entries %>%
+                       dplyr::mutate(!!key := toupper(!!as.name(key))),
+                     michigan_2014_fqai,
+                     by = key)
+
+  #send message to user if site assessment contains plant not in FQAI database
+  if( any(is.na(unique_entries_joined$c)) )
+    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
+                  "not listed in database. It will be discarded."))
+
+  #discard entries that have no c score, select native entries
+  unique_entries_matched <- unique_entries_joined %>%
+    dplyr::filter(!is.na(c))
+
+  return(unique_entries_matched)
+
+}
+
+#-------------------------------------------------------------------------------
+
 #' Calculate Number of Species
 #'
 #' `total_species_richness()` calculates the total number of species in the site
@@ -40,7 +115,7 @@ total_species_richness <- function(x, key = "acronym") {
 
   #error if x does not have correct col names
   if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
-    stop(paste(deparse(substitute(x)),
+    stop(paste({{x}},
                "must have a column named 'acronym' and/or 'scientific_name'."))
 
   #error if key is not acronym or scientific name
@@ -68,8 +143,8 @@ total_species_richness <- function(x, key = "acronym") {
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
-    message(paste0("Species ", "'", unique_entries_joined[is.na(unique_entries_joined$c), paste0(key, ".x")], "'",
-                  " is not listed in database and will be discarded."))
+    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
+                  "not listed in database. It will be discarded."))
 
   #discard entries that have no c score, select native entries
   unique_entries_matched <- unique_entries_joined %>%
@@ -112,7 +187,7 @@ native_species_richness <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -129,7 +204,7 @@ native_species_richness <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
@@ -193,7 +268,7 @@ total_mean_c <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -210,7 +285,7 @@ total_mean_c <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
@@ -273,7 +348,7 @@ native_mean_c <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -290,7 +365,7 @@ native_mean_c <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
@@ -354,7 +429,7 @@ total_FQI <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -371,7 +446,7 @@ total_FQI <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #calculate total fqi
   fqi <- total_mean_c(x) * suppressMessages(sqrt(total_species_richness(x)))
@@ -410,7 +485,7 @@ native_FQI <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -427,7 +502,7 @@ native_FQI <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #calculate native fqi
   fqi <- native_mean_c(x) * suppressMessages(sqrt(native_species_richness(x)))
@@ -467,7 +542,7 @@ adjusted_FQI <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -484,7 +559,7 @@ adjusted_FQI <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #calculate adjusted fqi
   fqi <- 100 * (native_mean_c(x)/10) *
@@ -526,7 +601,7 @@ all_metrics <- function(x, key = "acronym") {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+    stop(paste("argument", deparse(substitute(x)), "does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -543,7 +618,7 @@ all_metrics <- function(x, key = "acronym") {
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
@@ -572,77 +647,4 @@ all_metrics <- function(x, key = "acronym") {
 }
 
 #-------------------------------------------------------------------------------
-
-#' Return Data Frame of Successfully matched Plant Species
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#'
-#' @return A data frame containing the 'key' column --either `acronym` or
-#' `scientific_name` -- as well as columns from the Michigan 2014 fqai database.
-#' These columns include `family`, `native`, `c` (which represents the C score),
-#' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
-#' @export
-#'
-#' @examples
-#' plant_list <- crooked_island
-#' adjusted_FQI(x = plant_list)
-
-accepted_entries <- function(x, key = "acronym") {
-
-  #error if x argument is missing
-  if( missing(x) )
-    stop("argument x is missing, with no default.")
-
-  #error if x does not exist
-  if( is.null(x) )
-    stop(paste("argument ", x, " does not exist."))
-
-  #error if x is not a data frame
-  if( !is.data.frame(x) )
-    stop(paste(deparse(substitute(x)), "must be a data frame."))
-
-  #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
-    stop(paste(deparse(substitute(x)),
-               "must have a column named 'acronym' and/or 'scientific_name'."))
-
-  #error if key is not acronym or scientific name
-  if( !key %in% c("acronym", "scientific_name") )
-    stop("key must be equal to 'acronym' or 'scientific_name'.")
-
-  #error if key is not in col names of x
-  if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
-
-  #send message to user if site assessment contains duplicate entries
-  if( sum(duplicated(x[,key])) > 0 )
-    message("Duplicate entries detected. Duplicates will only be counted once.")
-
-  #select only unique entries
-  unique_entries <- x %>%
-    dplyr::distinct(!!as.name(key))
-
-  #join scores from Michigan FQAI to user's assessment
-  unique_entries_joined <-
-    dplyr::left_join(unique_entries %>%
-                       dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     michigan_2014_fqai,
-                     by = key)
-
-  #send message to user if site assessment contains plant not in FQAI database
-  if( any(is.na(unique_entries_joined$c)) )
-    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
-                  "not listed in database. it will be discarded."))
-
-  #discard entries that have no c score, select native entries
-  unique_entries_matched <- unique_entries_joined %>%
-    dplyr::filter(!is.na(c))
-
-  return(unique_entries_matched)
-
-}
 
