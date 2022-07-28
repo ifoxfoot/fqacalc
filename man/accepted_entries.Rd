@@ -2,9 +2,9 @@
 % Please edit documentation in R/fqi_metrics.R
 \name{accepted_entries}
 \alias{accepted_entries}
-\title{Return Data Frame of Successfully matched Plant Species}
+\title{Return Data Frame of Successfully Matched Plant Species}
 \usage{
-accepted_entries(x, key = "acronym")
+accepted_entries(x, key = "acronym", db)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -13,6 +13,8 @@ must have one of the following columns: \code{scientific_name} or \code{acronym}
 \item{key}{A column name that will be used to join the input \code{x} with the 2014
 Michigan FQAI database. If a value is not specified the default is \code{acronym}.
 \code{scientific_name} and \code{acronym} are the only acceptable values for key.}
+
+\item{db}{A character string representing the regional FQA database to use.}
 }
 \value{
 A data frame containing the 'key' column --either \code{acronym} or
@@ -21,9 +23,9 @@ These columns include \code{family}, \code{native}, \code{c} (which represents t
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }
 \description{
-Return Data Frame of Successfully matched Plant Species
+Return Data Frame of Successfully Matched Plant Species
 }
 \examples{
 plant_list <- crooked_island
-adjusted_FQI(x = plant_list)
+adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 }

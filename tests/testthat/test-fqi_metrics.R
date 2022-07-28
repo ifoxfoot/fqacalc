@@ -4,7 +4,7 @@
 
 #perfect case-crooked island
 test_that("total_species_richness() calculates total species richness in perfect setting", {
-  expect_equal(total_species_richness(crooked_island), 35)
+  expect_equal(total_species_richness(crooked_island, db = "michigan_2014"), 35)
 })
 
 #testing errors
@@ -20,35 +20,35 @@ test_that("total_species_richness() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("total_species_richness() does not count duplicates", {
-  expect_equal(total_species_richness(duplicate), 3)
-  expect_message(total_species_richness(duplicate), "Duplicate entries detected")
-  expect_equal(total_species_richness(duplicate, key = "acronym"), 3)
-  expect_message(total_species_richness(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(total_species_richness(duplicate, key = "scientific_name"), 3)
-  expect_message(total_species_richness(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(total_species_richness(duplicate, db = "michigan_2014"), 3)
+  expect_message(total_species_richness(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(total_species_richness(duplicate, key = "acronym", db = "michigan_2014"), 3)
+  expect_message(total_species_richness(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(total_species_richness(duplicate, key = "scientific_name", db = "michigan_2014"), 3)
+  expect_message(total_species_richness(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("total_species_richness() drops non-matching plants", {
-  expect_equal(total_species_richness(typo), 3)
-  expect_message(total_species_richness(typo), "not listed in database")
-  expect_equal(total_species_richness(typo, key = "acronym"), 3)
-  expect_message(total_species_richness(typo, key = "acronym"), "not listed in database")
-  expect_equal(total_species_richness(typo, key = "scientific_name"), 3)
-  expect_message(total_species_richness(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(total_species_richness(typo, db = "michigan_2014"), 3)
+  expect_message(total_species_richness(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(total_species_richness(typo, key = "acronym", db = "michigan_2014"), 3)
+  expect_message(total_species_richness(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(total_species_richness(typo, key = "scientific_name", db = "michigan_2014"), 3)
+  expect_message(total_species_richness(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("total_species_richness() kind of fuzzy matches", {
-  expect_equal(total_species_richness(fuzzy), 4)
-  expect_equal(total_species_richness(fuzzy, key = "acronym"), 4)
+  expect_equal(total_species_richness(fuzzy, db = "michigan_2014"), 4)
+  expect_equal(total_species_richness(fuzzy, key = "acronym", db = "michigan_2014"), 4)
 })
 
 #-------------------------------------------------------------------------------
 #testing native_species_richness()
 
 test_that("native_species_richness() calculates total species richness", {
-  expect_equal(native_species_richness(crooked_island), 28)
+  expect_equal(native_species_richness(crooked_island, db = "michigan_2014"), 28)
 })
 
 #testing errors
@@ -64,35 +64,35 @@ test_that("native_species_richness() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("native_species_richness() does not count duplicates", {
-  expect_equal(native_species_richness(duplicate), 2)
-  expect_message(native_species_richness(duplicate), "Duplicate entries detected")
-  expect_equal(native_species_richness(duplicate, key = "acronym"), 2)
-  expect_message(native_species_richness(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(native_species_richness(duplicate, key = "scientific_name"), 2)
-  expect_message(native_species_richness(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(native_species_richness(duplicate, db = "michigan_2014"), 2)
+  expect_message(native_species_richness(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(native_species_richness(duplicate, key = "acronym", db = "michigan_2014"), 2)
+  expect_message(native_species_richness(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(native_species_richness(duplicate, key = "scientific_name", db = "michigan_2014"), 2)
+  expect_message(native_species_richness(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("native_species_richness() drops non-matching plants", {
-  expect_equal(native_species_richness(typo), 2)
-  expect_message(native_species_richness(typo), "not listed in database")
-  expect_equal(native_species_richness(typo, key = "acronym"), 2)
-  expect_message(native_species_richness(typo, key = "acronym"), "not listed in database")
-  expect_equal(native_species_richness(typo, key = "scientific_name"), 2)
-  expect_message(native_species_richness(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(native_species_richness(typo, db = "michigan_2014"), 2)
+  expect_message(native_species_richness(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(native_species_richness(typo, key = "acronym", db = "michigan_2014"), 2)
+  expect_message(native_species_richness(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(native_species_richness(typo, key = "scientific_name", db = "michigan_2014"), 2)
+  expect_message(native_species_richness(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("native_species_richness() kind of fuzzy matches", {
-  expect_equal(native_species_richness(fuzzy), 3)
-  expect_equal(native_species_richness(fuzzy, key = "acronym"), 3)
+  expect_equal(native_species_richness(fuzzy, db = "michigan_2014"), 3)
+  expect_equal(native_species_richness(fuzzy, key = "acronym", db = "michigan_2014"), 3)
 })
 
 #-------------------------------------------------------------------------------
 #testing total_mean_c()
 
 test_that("total_mean_c() calculates total species richness", {
-  expect_equal(total_mean_c(crooked_island), 5.3714286)
+  expect_equal(total_mean_c(crooked_island, db = "michigan_2014"), 5.3714286)
 })
 
 #testing errors
@@ -108,35 +108,35 @@ test_that("total_mean_c() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("total_mean_c() does not count duplicates", {
-  expect_equal(total_mean_c(duplicate), 4.33333333)
-  expect_message(total_mean_c(duplicate), "Duplicate entries detected")
-  expect_equal(total_mean_c(duplicate, key = "acronym"), 4.33333333)
-  expect_message(total_mean_c(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(total_mean_c(duplicate, key = "scientific_name"), 4.33333333)
-  expect_message(total_mean_c(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(total_mean_c(duplicate, db = "michigan_2014"), 4.33333333)
+  expect_message(total_mean_c(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(total_mean_c(duplicate, key = "acronym", db = "michigan_2014"), 4.33333333)
+  expect_message(total_mean_c(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(total_mean_c(duplicate, key = "scientific_name", db = "michigan_2014"), 4.33333333)
+  expect_message(total_mean_c(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("total_mean_c() drops non-matching plants", {
-  expect_equal(total_mean_c(typo), 4.33333333)
-  expect_message(total_mean_c(typo), "not listed in database")
-  expect_equal(total_mean_c(typo, key = "acronym"),  4.33333333)
-  expect_message(total_mean_c(typo, key = "acronym"), "not listed in database")
-  expect_equal(total_mean_c(typo, key = "scientific_name"), 4.33333333)
-  expect_message(total_mean_c(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(total_mean_c(typo, db = "michigan_2014"), 4.33333333)
+  expect_message(total_mean_c(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(total_mean_c(typo, key = "acronym", db = "michigan_2014"),  4.33333333)
+  expect_message(total_mean_c(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(total_mean_c(typo, key = "scientific_name", db = "michigan_2014"), 4.33333333)
+  expect_message(total_mean_c(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("total_mean_c() kind of fuzzy matches", {
-  expect_equal(total_mean_c(fuzzy),  5.75)
-  expect_equal(total_mean_c(fuzzy, key = "acronym"), 5.75)
+  expect_equal(total_mean_c(fuzzy, db = "michigan_2014"),  5.75)
+  expect_equal(total_mean_c(fuzzy, key = "acronym", db = "michigan_2014"), 5.75)
 })
 
 #-------------------------------------------------------------------------------
 #testing native_mean_c()
 
 test_that("native_mean_c() calculates total species richness", {
-  expect_equal(native_mean_c(crooked_island), 6.7142857)
+  expect_equal(native_mean_c(crooked_island, db = "michigan_2014"), 6.7142857)
 })
 
 #testing errors
@@ -152,28 +152,28 @@ test_that("native_mean_c() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("native_mean_c() does not count duplicates", {
-  expect_equal(native_mean_c(duplicate), 6.5)
-  expect_message(native_mean_c(duplicate), "Duplicate entries detected")
-  expect_equal(native_mean_c(duplicate, key = "acronym"), 6.5)
-  expect_message(native_mean_c(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(native_mean_c(duplicate, key = "scientific_name"), 6.5)
-  expect_message(native_mean_c(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(native_mean_c(duplicate, db = "michigan_2014"), 6.5)
+  expect_message(native_mean_c(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(native_mean_c(duplicate, key = "acronym", db = "michigan_2014"), 6.5)
+  expect_message(native_mean_c(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(native_mean_c(duplicate, key = "scientific_name", db = "michigan_2014"), 6.5)
+  expect_message(native_mean_c(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("native_mean_c() drops non-matching plants", {
-  expect_equal(native_mean_c(typo), 6.5)
-  expect_message(native_mean_c(typo), "not listed in database")
-  expect_equal(native_mean_c(typo, key = "acronym"), 6.5)
-  expect_message(native_mean_c(typo, key = "acronym"), "not listed in database")
-  expect_equal(native_mean_c(typo, key = "scientific_name"), 6.5)
-  expect_message(native_mean_c(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(native_mean_c(typo, db = "michigan_2014"), 6.5)
+  expect_message(native_mean_c(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(native_mean_c(typo, key = "acronym", db = "michigan_2014"), 6.5)
+  expect_message(native_mean_c(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(native_mean_c(typo, key = "scientific_name", db = "michigan_2014"), 6.5)
+  expect_message(native_mean_c(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("native_mean_c() kind of fuzzy matches", {
-  expect_equal(native_mean_c(fuzzy),  7.6666667)
-  expect_equal(native_mean_c(fuzzy, key = "acronym"), 7.6666667)
+  expect_equal(native_mean_c(fuzzy, db = "michigan_2014"),  7.6666667)
+  expect_equal(native_mean_c(fuzzy, key = "acronym", db = "michigan_2014"), 7.6666667)
 })
 
 
@@ -181,7 +181,7 @@ test_that("native_mean_c() kind of fuzzy matches", {
 #testing total_FQI()
 
 test_that("total_FQI() calculates total species richness", {
-  expect_equal(total_FQI(crooked_island), 31.7778)
+  expect_equal(total_FQI(crooked_island, db = "michigan_2014"), 31.7778)
 })
 
 #testing errors
@@ -197,35 +197,35 @@ test_that("total_FQI() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("total_FQI() does not count duplicates", {
-  expect_equal(total_FQI(duplicate), 7.5055535)
-  expect_message(total_FQI(duplicate), "Duplicate entries detected")
-  expect_equal(total_FQI(duplicate, key = "acronym"), 7.5055535)
-  expect_message(total_FQI(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(total_FQI(duplicate, key = "scientific_name"), 7.5055535)
-  expect_message(total_FQI(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(total_FQI(duplicate, db = "michigan_2014"), 7.5055535)
+  expect_message(total_FQI(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(total_FQI(duplicate, key = "acronym", db = "michigan_2014"), 7.5055535)
+  expect_message(total_FQI(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(total_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), 7.5055535)
+  expect_message(total_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("total_FQI() drops non-matching plants", {
-  expect_equal(total_FQI(typo), 7.5055535)
-  expect_message(total_FQI(typo), "not listed in database")
-  expect_equal(total_FQI(typo, key = "acronym"), 7.5055535)
-  expect_message(total_FQI(typo, key = "acronym"), "not listed in database")
-  expect_equal(total_FQI(typo, key = "scientific_name"), 7.5055535)
-  expect_message(total_FQI(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(total_FQI(typo, db = "michigan_2014"), 7.5055535)
+  expect_message(total_FQI(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(total_FQI(typo, key = "acronym", db = "michigan_2014"), 7.5055535)
+  expect_message(total_FQI(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(total_FQI(typo, key = "scientific_name", db = "michigan_2014"), 7.5055535)
+  expect_message(total_FQI(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("total_FQI() kind of fuzzy matches", {
-  expect_equal(total_FQI(fuzzy),  11.5)
-  expect_equal(total_FQI(fuzzy, key = "acronym"), 11.5)
+  expect_equal(total_FQI(fuzzy, db = "michigan_2014"),  11.5)
+  expect_equal(total_FQI(fuzzy, key = "acronym", db = "michigan_2014"), 11.5)
 })
 
 #-------------------------------------------------------------------------------
 #testing native_FQI()
 
 test_that("native_FQI() calculates total species richness", {
-  expect_equal(native_FQI(crooked_island), 35.52866)
+  expect_equal(native_FQI(crooked_island, db = "michigan_2014"), 35.52866)
 })
 
 #testing errors
@@ -241,35 +241,35 @@ test_that("native_FQI() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("native_FQI() does not count duplicates", {
-  expect_equal(native_FQI(duplicate), 9.19238815543)
-  expect_message(native_FQI(duplicate), "Duplicate entries detected")
-  expect_equal(native_FQI(duplicate, key = "acronym"), 9.19238815543)
-  expect_message(native_FQI(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(native_FQI(duplicate, key = "scientific_name"), 9.19238815543)
-  expect_message(native_FQI(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(native_FQI(duplicate, db = "michigan_2014"), 9.19238815543)
+  expect_message(native_FQI(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(native_FQI(duplicate, key = "acronym", db = "michigan_2014"), 9.19238815543)
+  expect_message(native_FQI(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(native_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), 9.19238815543)
+  expect_message(native_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("native_FQI() drops non-matching plants", {
-  expect_equal(native_FQI(typo), 9.19238815)
-  expect_message(native_FQI(typo), "not listed in database")
-  expect_equal(native_FQI(typo, key = "acronym"), 9.19238815)
-  expect_message(native_FQI(typo, key = "acronym"), "not listed in database")
-  expect_equal(native_FQI(typo, key = "scientific_name"), 9.19238815)
-  expect_message(native_FQI(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(native_FQI(typo, db = "michigan_2014"), 9.19238815)
+  expect_message(native_FQI(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(native_FQI(typo, key = "acronym", db = "michigan_2014"), 9.19238815)
+  expect_message(native_FQI(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(native_FQI(typo, key = "scientific_name", db = "michigan_2014"), 9.19238815)
+  expect_message(native_FQI(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("native_FQI() kind of fuzzy matches", {
-  expect_equal(native_FQI(fuzzy),  13.27905619)
-  expect_equal(native_FQI(fuzzy, key = "acronym"), 13.27905619)
+  expect_equal(native_FQI(fuzzy, db = "michigan_2014"),  13.27905619)
+  expect_equal(native_FQI(fuzzy, key = "acronym", db = "michigan_2014"), 13.27905619)
 })
 
 #-------------------------------------------------------------------------------
 #testing adjusted_FQI()
 
 test_that("adjusted_FQI() calculates total species richness", {
-  expect_equal(adjusted_FQI(crooked_island), 60.054397)
+  expect_equal(adjusted_FQI(crooked_island, db = "michigan_2014"), 60.054397)
 })
 
 #testing errors
@@ -285,28 +285,28 @@ test_that("adjusted_FQI() calculates errors correctly", {
 
 #test duplicate behavior
 test_that("adjusted_FQI() does not count duplicates", {
-  expect_equal(adjusted_FQI(duplicate), 53.0722777)
-  expect_message(adjusted_FQI(duplicate), "Duplicate entries detected")
-  expect_equal(adjusted_FQI(duplicate, key = "acronym"), 53.0722777)
-  expect_message(adjusted_FQI(duplicate, key = "acronym"), "Duplicate entries detected")
-  expect_equal(adjusted_FQI(duplicate, key = "scientific_name"), 53.0722777)
-  expect_message(adjusted_FQI(duplicate, key = "scientific_name"), "Duplicate entries detected")
+  expect_equal(adjusted_FQI(duplicate, db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(adjusted_FQI(duplicate, key = "acronym", db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(adjusted_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
 test_that("adjusted_FQI() drops non-matching plants", {
-  expect_equal(adjusted_FQI(typo), 53.0722777)
-  expect_message(adjusted_FQI(typo), "not listed in database")
-  expect_equal(adjusted_FQI(typo, key = "acronym"), 53.0722777)
-  expect_message(adjusted_FQI(typo, key = "acronym"), "not listed in database")
-  expect_equal(adjusted_FQI(typo, key = "scientific_name"), 53.0722777)
-  expect_message(adjusted_FQI(typo, key = "scientific_name"), "not listed in database")
+  expect_equal(adjusted_FQI(typo, db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(typo, db = "michigan_2014"), "not listed in database")
+  expect_equal(adjusted_FQI(typo, key = "acronym", db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
+  expect_equal(adjusted_FQI(typo, key = "scientific_name", db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching
 test_that("adjusted_FQI() kind of fuzzy matches", {
-  expect_equal(adjusted_FQI(fuzzy),  66.3952812)
-  expect_equal(adjusted_FQI(fuzzy, key = "acronym"), 66.3952812)
+  expect_equal(adjusted_FQI(fuzzy, db = "michigan_2014"),  66.3952812)
+  expect_equal(adjusted_FQI(fuzzy, key = "acronym", db = "michigan_2014"), 66.3952812)
 })
 
 

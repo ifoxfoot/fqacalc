@@ -4,6 +4,52 @@ utils::globalVariables("native")
 
 #-------------------------------------------------------------------------------
 
+#' Look Up the Name of Regional FQAI Databases
+#'
+#' @return A list of regional FQAI data base names. These are acceptable values
+#' for `db` in other `fqacalc` functions.
+#' @export
+#'
+#' @examples
+#' db_names()
+
+db_names <- function() {
+
+  #filter system data for db names
+  names <- unique(fqa_db$fqa_db)
+
+  #return names
+  return(names)
+
+}
+
+
+#-------------------------------------------------------------------------------
+
+#' Look Up a Regional FQAI Database
+#'
+#' @param db A character string representing the name of the regional FQAI data
+#' base to retrieve. Generally the format is "place_yearpublished".
+#'
+#' @return The regional FQAI data base.
+#' @export
+#'
+#' @examples
+#' view_db("michigan_2014")
+
+view_db <- function(db) {
+
+  #filter system data for correct db
+  db <- fqa_db %>%
+    dplyr::filter(fqa_db == db)
+
+  #return db
+  return(db)
+
+}
+
+#-------------------------------------------------------------------------------
+
 #' Return Data Frame of Successfully Matched Plant Species
 #'
 #' @param x A data frame containing a list of plant species. This data frame
@@ -11,6 +57,7 @@ utils::globalVariables("native")
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A data frame containing the 'key' column --either `acronym` or
 #' `scientific_name` -- as well as columns from the Michigan 2014 fqai database.
@@ -20,9 +67,9 @@ utils::globalVariables("native")
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' adjusted_FQI(x = plant_list)
+#' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-accepted_entries <- function(x, key = "acronym") {
+accepted_entries <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -49,6 +96,10 @@ accepted_entries <- function(x, key = "acronym") {
   if( !key %in% colnames(x) )
     stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
 
+  # #error if db is not a legit db
+  # if( !db %in% list(unique(fqa_db$fqa_db)) )
+  #   stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
+
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
     message("Duplicate entries detected. Duplicates will only be counted once.")
@@ -61,7 +112,8 @@ accepted_entries <- function(x, key = "acronym") {
   unique_entries_joined <-
     dplyr::left_join(unique_entries %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     michigan_2014_fqai,
+                     fqa_db %>%
+                       dplyr::filter(fqa_db == db),
                      by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
@@ -89,6 +141,7 @@ accepted_entries <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -97,9 +150,9 @@ accepted_entries <- function(x, key = "acronym") {
 #' @examples
 #'
 #' plant_list <- crooked_island
-#' total_species_richness(x = plant_list)
+#' total_species_richness(x = plant_list, key = "acronym", db = "michigan_2014")
 
-total_species_richness <- function(x, key = "acronym") {
+total_species_richness <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -138,7 +191,8 @@ total_species_richness <- function(x, key = "acronym") {
   unique_entries_joined <-
     dplyr::left_join(unique_entries %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     michigan_2014_fqai,
+                     fqa_db %>%
+                       dplyr::filter(fqa_db == db),
                      by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
@@ -170,6 +224,7 @@ total_species_richness <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -177,9 +232,9 @@ total_species_richness <- function(x, key = "acronym") {
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' native_species_richness(x = plant_list)
+#' native_species_richness(x = plant_list, key = "acronym", db = "michigan_2014")
 
-native_species_richness <- function(x, key = "acronym") {
+native_species_richness <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -218,7 +273,8 @@ native_species_richness <- function(x, key = "acronym") {
   unique_entries_joined <-
     dplyr::left_join(unique_entries %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     michigan_2014_fqai,
+                     fqa_db %>%
+                       dplyr::filter(fqa_db == db),
                      by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
@@ -251,6 +307,7 @@ native_species_richness <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -258,9 +315,9 @@ native_species_richness <- function(x, key = "acronym") {
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' total_mean_c(x = plant_list)
+#' total_mean_c(x = plant_list, key = "acronym", db = "michigan_2014")
 
-total_mean_c <- function(x, key = "acronym") {
+total_mean_c <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -299,7 +356,8 @@ total_mean_c <- function(x, key = "acronym") {
   unique_entries_joined <-
     dplyr::left_join(unique_entries %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     michigan_2014_fqai,
+                     fqa_db %>%
+                       dplyr::filter(fqa_db == db),
                      by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
@@ -312,7 +370,7 @@ total_mean_c <- function(x, key = "acronym") {
     dplyr::filter(!is.na(c))
 
   #calculate mean c score
-  mean_c <- mean(unique_entries_matched $c)
+  mean_c <- mean(unique_entries_matched$c)
 
   #print
   return(mean_c)
@@ -331,6 +389,7 @@ total_mean_c <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -338,9 +397,9 @@ total_mean_c <- function(x, key = "acronym") {
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' native_mean_c(x = plant_list)
+#' native_mean_c(x = plant_list, key = "acronym", db = "michigan_2014")
 
-native_mean_c <- function(x, key = "acronym") {
+native_mean_c <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -379,7 +438,8 @@ native_mean_c <- function(x, key = "acronym") {
   unique_entries_joined <-
     dplyr::left_join(unique_entries %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     michigan_2014_fqai,
+                     fqa_db %>%
+                       dplyr::filter(fqa_db == db),
                      by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
@@ -413,15 +473,16 @@ native_mean_c <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @export
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' total_FQI(x = plant_list)
+#' total_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-total_FQI <- function(x, key = "acronym") {
+total_FQI <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -449,7 +510,7 @@ total_FQI <- function(x, key = "acronym") {
     stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #calculate total fqi
-  fqi <- total_mean_c(x) * suppressMessages(sqrt(total_species_richness(x)))
+  fqi <- total_mean_c(x, key, db) * suppressMessages(sqrt(total_species_richness(x, key, db)))
 
   #print
   return(fqi)
@@ -469,15 +530,16 @@ total_FQI <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @export
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' native_FQI(x = plant_list)
+#' native_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-native_FQI <- function(x, key = "acronym") {
+native_FQI <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -505,7 +567,7 @@ native_FQI <- function(x, key = "acronym") {
     stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #calculate native fqi
-  fqi <- native_mean_c(x) * suppressMessages(sqrt(native_species_richness(x)))
+  fqi <- native_mean_c(x, key, db) * suppressMessages(sqrt(native_species_richness(x, key, db)))
 
   #print
   return(fqi)
@@ -526,15 +588,16 @@ native_FQI <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A non-negative integer
 #' @export
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' adjusted_FQI(x = plant_list)
+#' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-adjusted_FQI <- function(x, key = "acronym") {
+adjusted_FQI <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -562,9 +625,9 @@ adjusted_FQI <- function(x, key = "acronym") {
     stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #calculate adjusted fqi
-  fqi <- 100 * (native_mean_c(x)/10) *
+  fqi <- 100 * (native_mean_c(x, key, db)/10) *
     suppressMessages(
-      sqrt(native_species_richness(x)/total_species_richness(x))
+      sqrt(native_species_richness(x, key, db)/total_species_richness(x, key, db))
       )
 
 
@@ -585,15 +648,16 @@ adjusted_FQI <- function(x, key = "acronym") {
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
 #'
 #' @return A data frame
 #' @export
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' adjusted_FQI(x = plant_list)
+#' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-all_metrics <- function(x, key = "acronym") {
+all_metrics <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -630,13 +694,13 @@ all_metrics <- function(x, key = "acronym") {
             "Adjusted FQI")
 
   #create list of values
-  values <- c(total_species_richness(x),
-            suppressMessages( native_species_richness(x)),
-            suppressMessages(total_mean_c(x)),
-            suppressMessages(native_mean_c(x)),
-            suppressMessages(total_FQI(x)),
-            suppressMessages(native_FQI(x)),
-            suppressMessages(adjusted_FQI(x)))
+  values <- c(total_species_richness(x, key, db),
+            suppressMessages( native_species_richness(x, key, db)),
+            suppressMessages(total_mean_c(x, key, db)),
+            suppressMessages(native_mean_c(x, key, db)),
+            suppressMessages(total_FQI(x, key, db)),
+            suppressMessages(native_FQI(x, key, db)),
+            suppressMessages(adjusted_FQI(x, key, db)))
 
   #bind metrics and values into data frame
   report <- data.frame(metrics, values)

@@ -156,11 +156,13 @@ fqa_db <- fqa_db_bind %>%
     ~ "native", T ~ native)) %>%
   mutate(native = case_when(
     native %in% c("Exotic", "I", "Likely Exotic", "Nonnative", "non-native")
-    ~ "exotic", T ~ native))
+    ~ "exotic", T ~ native)) %>%
+  #fix c values later!!!
+  mutate(c = as.numeric(c))
 
 
 #use this dataset  (not viewable to package user)
-usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE)
+usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE, compress = "bzip2")
 
 #-------------------------------------------------------------------------------
 
