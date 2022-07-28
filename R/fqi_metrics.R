@@ -4,7 +4,7 @@ utils::globalVariables("native")
 
 #-------------------------------------------------------------------------------
 
-#' Return Data Frame of Successfully matched Plant Species
+#' Return Data Frame of Successfully Matched Plant Species
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
