@@ -13,36 +13,35 @@ knitr::opts_chunk$set(
 )
 ```
 
-# michigan2014
+# fqacalc
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 This package provides functions for calculating total species richness,
 native species richness, mean C, native mean C, FQI, native FQI, and adjusted FQI 
-based on Michigan's 2014 FQAI database. This package is meant to be a small test-drive 
-of a larger, more comprehensive package for FQAI data bases across the USA.
+based on Michigan's 2014 FQAI database. 
 
 ## Installation
 
-You can install the development version of michigan2014 from [GitHub](https://github.com/) with:
+You can install the development version of fqacalc from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ifoxfoot/michigan2014")
+devtools::install_github("ifoxfoot/fqacalc")
 ```
 
 ## Example
 
 ```{r example}
-library(michigan2014)
+library(fqacalc)
 
 #the package comes with an example site assessment
-plants_of_crooked_island <- crooked_island_site_assessment
+plants_of_crooked_island <- crooked_island
 
-head(plants_of_crooked_island)
+head(crooked_island)
 
 #here is an example of all metrics wrapped into one
-all_metrics(plants_of_crooked_island)
+all_metrics(crooked_island)
 ```
 

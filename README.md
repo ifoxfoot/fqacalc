@@ -1,36 +1,34 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# michigan2014
+# fqacalc
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 This package provides functions for calculating total species richness,
 native species richness, mean C, native mean C, FQI, native FQI, and
-adjusted FQI based on Michigan’s 2014 FQAI database. This package is
-meant to be a small test-drive of a larger, more comprehensive package
-for FQAI data bases across the USA.
+adjusted FQI based on Michigan’s 2014 FQAI database.
 
 ## Installation
 
-You can install the development version of michigan2014 from
+You can install the development version of fqacalc from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ifoxfoot/michigan2014")
+devtools::install_github("ifoxfoot/fqacalc")
 ```
 
 ## Example
 
 ``` r
-library(michigan2014)
+library(fqacalc)
 
 #the package comes with an example site assessment
-plants_of_crooked_island <- crooked_island_site_assessment
+plants_of_crooked_island <- crooked_island
 
-head(plants_of_crooked_island)
+head(crooked_island)
 #>                       scientific_name acronym  common_name
 #> 1                      Abies balsamea  ABIBAL   balsam fir
 #> 2             Ammophila breviligulata  AMMBRE marram grass
@@ -40,7 +38,7 @@ head(plants_of_crooked_island)
 #> 6              Calamagrostis epigeios  CALEPI    reedgrass
 
 #here is an example of all metrics wrapped into one
-all_metrics(plants_of_crooked_island)
+all_metrics(crooked_island)
 #>                   metrics    values
 #> 1  Total Species Richness 35.000000
 #> 2 Native Species Richness 28.000000

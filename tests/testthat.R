@@ -1,4 +1,4 @@
 library(testthat)
-library(michigan2014)
+library(fqacalc)
 
-test_check("michigan2014")
+test_check("fqacalc")

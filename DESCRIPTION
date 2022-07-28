@@ -1,5 +1,5 @@
-Package: michigan2014
-Title: Calculate Michigan 2014 FQA Metrics
+Package: fqacalc
+Title: Calculate FQA Metrics
 Version: 0.0.0.9000
 Authors@R: 
     person("Iris", "Foxfoot", , "ifoxfoot@gmail.com", role = c("aut", "cre"),
@@ -18,8 +18,8 @@ Imports:
     fuzzyjoin,
     stringr,
     rlang
-URL: https://github.com/ifoxfoot/michigan2014
-BugReports: https://github.com/ifoxfoot/michigan2014/issues
+URL: https://github.com/ifoxfoot/fqacalc
+BugReports: https://github.com/ifoxfoot/fqacalc/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
