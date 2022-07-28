@@ -1,0 +1,1278 @@
+"Minnesota Wetlands"
+2007
+"Milburn, S. A., M. Bourdaghs, and J. J. Husveth. 2007. Floristic Quality Assessment for Minnesota Wetlands. Minnesota Pollution Control Agency, St. Paul, Minn."
+"Minnesota Wetlands  , 2007"
+
+"Total Species:",1266
+"Native Species:",1108
+"Non-native Species:",158
+"Total Mean C:",5.2
+"Native Mean C:",5.9
+
+"Scientific Name",Family,Acronym,Native?,C,W,Physiognomy,Duration,"Common Name"
+"Abies balsamea",Pinaceae,,native,4,-3,tree,annual,"balsam fir"
+"Abutilon theophrasti",Malvaceae,,non-native,0,4,forb,annual,
+"Acalypha rhomboidea",Euphorbiaceae,,native,0,3,forb,annual,"three-seeded mercury"
+"Acer negundo",Aceraceae,,native,1,-2,tree,annual,"box elder"
+"Acer rubrum var. rubrum",Aceraceae,,native,3,0,tree,annual,"red maple"
+"Acer saccharinum",Aceraceae,,native,3,-3,tree,annual,"silver maple"
+"Acer saccharum var. saccharum",Aceraceae,,native,5,3,tree,annual,"sugar maple"
+"Acer spicatum",Aceraceae,,native,5,0,tree,annual,"mountain maple"
+"Achillea millefolium",Asteraceae,,native,1,3,forb,annual,yarrow
+"Achnatherum hymenoides",Poaceae,,native,6,2,grass,annual,"indian rice grass"
+"Acorus americanus",Acoraceae,,native,7,-5,forb,annual,"sweet flag"
+"Acorus calamus",Acoraceae,,non-native,0,-5,forb,annual,
+"Adiantum pedatum",Pteridaceae,,native,7,1,forb,annual,"maidenhair fern"
+"Adoxa moschatellina",Adoxaceae,,native,9,0,forb,annual,moschatel
+"Aegopodium podagraria",Apiaceae,,non-native,0,0,forb,annual,
+"Agalinis aspera",Scrophulariaceae,,native,7,1,forb,annual,"rough gerardia"
+"Agalinis paupercula",Scrophulariaceae,,native,7,-5,forb,annual,"purple false foxglove"
+"Agalinis purpurea",Scrophulariaceae,,native,7,-3,forb,annual,"purple false foxglove"
+"Agalinis tenuifolia",Scrophulariaceae,,native,3,-3,forb,annual,"slender-leaved false foxglove"
+"Agastache nepetoides",Lamiaceae,,native,4,3,shrub,annual,"yellow giant hyssop"
+"Ageratina altissima var. altissima",Asteraceae,,native,2,3,forb,annual,"white snakeroot"
+"Agoseris glauca var. glauca",Asteraceae,,native,8,3,forb,annual,"glaucous false dandelion"
+"Agrimonia gryposepala",Rosaceae,,native,2,2,forb,annual,"common agrimony"
+"Agrimonia striata",Rosaceae,,native,3,1,forb,annual,"roadside agrimony"
+"Agrostis gigantea",Poaceae,,non-native,0,-3,grass,annual,
+"Agrostis hyemalis",Poaceae,,native,8,1,grass,annual,"winter bentgrass"
+"Agrostis perennans",Poaceae,,native,3,1,grass,annual,"autumn bentgrass"
+"Agrostis scabra",Poaceae,,native,2,0,grass,annual,"winter bentgrass"
+"Agrostis stolonifera",Poaceae,,native,1,-3,grass,annual,"redtop poaceae"
+"Alisma gramineum",Alismataceae,,native,5,-5,forb,annual,"narrow-leaved water plantain"
+"Alisma subcordatum",Alismataceae,,native,4,-5,forb,annual,"heart-leaved water plantain"
+"Alisma triviale",Alismataceae,,native,4,-5,forb,annual,"common water plantain"
+"Alliaria petiolata",Brassicaceae,,non-native,0,0,forb,annual,
+"Allium canadense var. canadense",Liliaceae,,native,5,3,forb,annual,"wild garlic"
+"Allium schoenoprasum var. sibiricum",Liliaceae,,native,9,-1,forb,annual,"wild chives"
+"Allium tricoccum",Liliaceae,,native,6,2,forb,annual,"wild leek"
+"Alnus incana ssp. rugosa",Betulaceae,,native,3,-5,tree,annual,"speckled alder"
+"Alnus viridis ssp. crispa",Betulaceae,,native,6,0,tree,annual,"green alder"
+"Alopecurus aequalis var. aequalis",Poaceae,,native,4,-5,grass,annual,"short-awn foxtail"
+"Alopecurus carolinianus",Poaceae,,native,8,-3,grass,annual,"carolina foxtail"
+"Amaranthus albus",Amaranthaceae,,non-native,0,3,forb,annual,
+"Amaranthus retroflexus",Amaranthaceae,,non-native,0,2,forb,annual,
+"Amaranthus rudis",Amaranthaceae,,native,0,-3,forb,annual,"tamarisk water hemp"
+"Amaranthus tuberculatus",Amaranthaceae,,native,2,-5,forb,annual,"tubercled amaranth"
+"Ambrosia artemisiifolia",Asteraceae,,native,0,3,forb,annual,"common ragweed"
+"Ambrosia psilostachya",Asteraceae,,native,2,1,forb,annual,"western ragweed"
+"Ambrosia trifida var. trifida",Asteraceae,,native,0,-1,shrub,annual,"great ragweed"
+"Amelanchier alnifolia var. alnifolia",Rosaceae,,native,5,2,tree,annual,"saskatoon juneberry"
+"Amelanchier arborea var. arborea",Rosaceae,,native,6,3,tree,annual,"downy serviceberry"
+"Amelanchier bartramiana",Rosaceae,,native,6,0,tree,annual,"northern juneberry"
+"Amelanchier stolonifera",Rosaceae,,native,3,3,shrub,annual,"creeping juneberry"
+"Amelanchier x intermedia",Rosaceae,,native,3,-3,tree,annual,"intermediate juneberry"
+"Amerorchis rotundifolia",Orchidaceae,,native,10,-5,forb,annual,"small round-leaved orchis"
+"Ammannia coccinea",Lythraceae,,native,5,-5,shrub,annual,ammannia
+"Amorpha fruticosa",Fabaceae,,native,4,-4,shrub,annual,"false indigo"
+"Amphicarpaea bracteata",Fabaceae,,native,2,0,vine,annual,"hog peanut"
+"Andromeda polifolia var. glaucophylla",Ericaceae,,native,9,-5,shrub,annual,"bog rosemary"
+"Andropogon gerardii",Poaceae,,native,4,1,grass,annual,"big bluestem"
+"Androsace occidentalis",Primulaceae,,native,2,4,forb,annual,"western androsace"
+"Androsace septentrionalis ssp. puberulenta",Primulaceae,,native,5,1,forb,annual,"northern androsace"
+"Anemone canadensis",Ranunculaceae,,native,3,-3,forb,annual,"canada anemone"
+"Anemone quinquefolia var. bifolia",Ranunculaceae,,native,5,0,forb,annual,"wood anemone"
+"Angelica atropurpurea",Apiaceae,,native,6,-5,forb,annual,angelica
+"Anthemis cotula",Asteraceae,,non-native,0,3,forb,annual,
+"Apios americana",Fabaceae,,native,4,-3,vine,annual,groundnut
+"Aplectrum hyemale",Orchidaceae,,native,8,1,forb,annual,puttyroot
+"Apocynum cannabinum",Apocynaceae,,native,3,0,forb,annual,"american hemp"
+"Aquilegia canadensis",Ranunculaceae,,native,4,1,forb,annual,columbine
+"Arabis drummondii",Brassicaceae,,native,7,3,forb,annual,"drummonds rock cress"
+"Arabis hirsuta",Brassicaceae,,native,6,3,forb,annual,"hairy rock cress"
+"Arabis lyrata",Brassicaceae,,native,6,4,forb,annual,"lyre-leaved rock cress"
+"Arabis x divaricarpa",Brassicaceae,,native,6,3,forb,annual,"spreading rock cress"
+"Aralia nudicaulis",Araliaceae,,native,4,3,shrub,annual,"wild sarsaparilla"
+"Arceuthobium pusillum",Viscaceae,,native,6,-3,shrub,annual,"eastern dwarf mistletoe"
+"Arenaria serpyllifolia",Caryophyllaceae,,non-native,0,0,forb,annual,
+"Arethusa bulbosa",Orchidaceae,,native,10,-5,forb,annual,"dragons mouth"
+"Argentina anserina",Rosaceae,,native,4,-4,forb,annual,silverweed
+"Arisaema dracontium",Araceae,,native,8,-3,forb,annual,"green dragon"
+"Arisaema triphyllum",Araceae,,native,4,-2,forb,annual,jack-in-the-pulpit
+"Aristida longispica var. geniculata",Poaceae,,native,6,4,grass,annual,"spiked needlegrass"
+"Armoracia rusticana",Brassicaceae,,non-native,0,0,forb,annual,
+"Arnoglossum plantagineum",Asteraceae,,native,10,0,forb,annual,"tuberous indian plantain"
+"Arrhenatherum elatius var. elatius",Poaceae,,non-native,0,3,grass,annual,
+"Artemisia biennis var. biennis",Asteraceae,,non-native,0,-2,forb,annual,
+"Artemisia stelleriana",Asteraceae,,non-native,0,4,forb,annual,
+"Asclepias incarnata ssp. incarnata",Asclepiadaceae,,native,4,-5,forb,annual,"swamp milkweed"
+"Asclepias speciosa",Asclepiadaceae,,native,7,0,forb,annual,"showy milkweed"
+"Asparagus officinalis",Liliaceae,,non-native,0,3,forb,annual,
+"Asplenium platyneuron var. platyneuron",Aspleniaceae,,native,7,3,forb,annual,"ebony spleenwort"
+"Astragalus agrestis",Fabaceae,,native,7,-2,forb,annual,"field milk vetch"
+"Astragalus alpinus var. alpinus",Fabaceae,,native,9,0,forb,annual,"alpine milk vetch"
+"Astragalus canadensis var. canadensis",Fabaceae,,native,5,-1,forb,annual,"canada milk vetch"
+"Astragalus neglectus",Fabaceae,,native,5,4,forb,annual,"coopers milk vetch"
+"Athyrium filix-femina ssp. angustum",Dryopteridaceae,,native,4,0,forb,annual,"lady fern"
+"Atriplex hortensis",Chenopodiaceae,,non-native,0,0,forb,annual,
+"Atriplex patula",Chenopodiaceae,,non-native,0,-2,forb,annual,
+"Azolla mexicana",Azollaceae,,native,3,-5,forb,annual,"mexican mosquito fern"
+"Bacopa rotundifolia",Scrophulariaceae,,native,7,-5,forb,annual,water-hyssop
+"Baptisia alba var. macrophylla",Fabaceae,,native,8,0,forb,annual,"white wild indigo"
+"Barbarea orthoceras",Brassicaceae,,native,5,-5,forb,annual,"winter cress"
+"Barbarea vulgaris",Brassicaceae,,non-native,0,0,forb,annual,
+"Bartonia virginica",Gentianaceae,,native,9,-4,forb,annual,"virginia bartonia"
+"Beckmannia syzigachne",Poaceae,,native,4,-5,grass,annual,"american slough grass"
+"Berberis thunbergii",Berberidaceae,,non-native,0,4,shrub,annual,
+"Berberis vulgaris",Berberidaceae,,non-native,0,3,shrub,annual,
+"Berula erecta",Apiaceae,,native,8,-5,forb,annual,"wild parsnip"
+"Betula alleghaniensis var. alleghaniensis",Betulaceae,,native,7,0,tree,annual,"yellow birch"
+"Betula nigra",Betulaceae,,native,6,-3,tree,annual,"river birch"
+"Betula papyrifera var. cordifolia",Betulaceae,,native,4,2,tree,annual,"heart-leaved birch"
+"Betula papyrifera var. papyrifera",Betulaceae,,native,3,2,tree,annual,"paper birch"
+"Betula pumila var. glandulifera",Betulaceae,,native,7,-5,shrub,annual,"bog birch"
+"Betula x purpusii",Betulaceae,,native,4,-5,tree,annual,"purpus birch"
+"Betula x sandbergii",Betulaceae,,native,4,-5,tree,annual,"sandbergs birch"
+"Bidens cernua",Asteraceae,,native,3,-5,forb,annual,"nodding bur marigold"
+"Bidens connata",Asteraceae,,native,3,-5,forb,annual,"swamp beggarticks"
+"Bidens coronata",Asteraceae,,native,7,-5,forb,annual,"showy beggarticks"
+"Bidens discoidea",Asteraceae,,native,8,-3,forb,annual,bur-marigold
+"Bidens frondosa",Asteraceae,,native,1,-3,forb,annual,"leafy beggarticks"
+"Bidens tripartita",Asteraceae,,native,4,-5,forb,annual,"tufted beggarticks"
+"Blephilia hirsuta var. hirsuta",Lamiaceae,,native,7,0,forb,annual,woodmint
+"Boehmeria cylindrica",Urticaceae,,native,5,-5,forb,annual,"false nettle"
+"Boltonia asteroides var. recognita",Asteraceae,,native,4,-3,forb,annual,boltonia
+"Botrychium dissectum",Ophioglossaceae,,native,4,0,forb,annual,"dissected grapefern"
+"Botrychium lanceolatum var. angustisegmentum",Ophioglossaceae,,native,8,-3,forb,annual,"narrow triangle moonwort"
+"Botrychium lunaria",Ophioglossaceae,,native,4,-3,forb,annual,"common moonwort"
+"Botrychium matricariifolium",Ophioglossaceae,,native,4,3,forb,annual,"matricary grapefern"
+"Botrychium mormo",Ophioglossaceae,,native,10,3,forb,annual,"goblin fern"
+"Botrychium multifidum",Ophioglossaceae,,native,4,3,forb,annual,"leathery grapefern"
+"Botrychium oneidense",Ophioglossaceae,,native,7,-2,forb,annual,"blunt-lobed grapefern"
+"Botrychium rugulosum",Ophioglossaceae,,native,3,3,forb,annual,"st. lawrence grapefern"
+"Botrychium simplex",Ophioglossaceae,,native,4,0,forb,annual,"least moonwort"
+"Botrychium virginianum",Ophioglossaceae,,native,6,3,forb,annual,"rattlesnake fern"
+"Brasenia schreberi",Cabombaceae,,native,7,-5,forb,annual,watershield
+"Bromus ciliatus var. ciliatus",Poaceae,,native,6,-3,grass,annual,"fringed brome"
+"Bromus japonicus",Poaceae,,non-native,0,3,grass,annual,
+"Bromus kalmii",Poaceae,,native,7,0,grass,annual,"kalms brome"
+"Bromus latiglumis",Poaceae,,native,6,-2,grass,annual,"broad-glumed broom"
+"Buchloe dactyloides",Poaceae,,native,7,4,grass,annual,"buffalo grass"
+"Bulbostylis capillaris ssp. capillaris",Cyperaceae,,native,6,2,rush,annual,bulbostylis
+"Butomus umbellatus",Butomaceae,,non-native,0,-5,forb,annual,
+"Calamagrostis canadensis",Poaceae,,native,4,-5,grass,annual,bluejoint
+"Calamagrostis stricta ssp. inexpansa",Poaceae,,native,7,-4,grass,annual,"marsh reedgrass"
+"Calamagrostis stricta ssp. stricta",Poaceae,,native,7,-4,grass,annual,"narrow reedgrass"
+"Calla palustris",Araceae,,native,8,-5,forb,annual,"wild calla"
+"Callitriche hermaphroditica",Callitrichaceae,,native,8,-5,forb,annual,"autumn water starwort"
+"Callitriche heterophylla ssp. heterophylla",Callitrichaceae,,native,8,-5,forb,annual,"larger water starwort"
+"Callitriche palustris",Callitrichaceae,,native,6,-5,forb,annual,"spring water starwort"
+"Calopogon oklahomensis",Orchidaceae,,native,10,0,forb,annual,"oklahoma grass pink"
+"Calopogon tuberosus var. tuberosus",Orchidaceae,,native,9,-5,forb,annual,"tuberous grass pink"
+"Caltha natans",Ranunculaceae,,native,9,-5,forb,annual,"floating marsh marigold"
+"Caltha palustris var. palustris",Ranunculaceae,,native,6,-5,forb,annual,"common marsh marigold"
+"Calypso bulbosa var. americana",Orchidaceae,,native,9,-3,forb,annual,"fairy slipper"
+"Calystegia sepium",Convolvulaceae,,native,1,0,shrub,annual,"hedge bindweed"
+"Camelina sativa",Brassicaceae,,non-native,0,1,forb,annual,
+"Campanula aparinoides",Campanulaceae,,native,5,-5,forb,annual,"marsh bellflower"
+"Campanula rotundifolia",Campanulaceae,,native,5,1,forb,annual,harebell
+"Campanulastrum americanum",Campanulaceae,,native,4,0,forb,annual,"tall bellflower"
+"Canadanthus modestus",Asteraceae,,native,7,-1,forb,annual,"modest aster"
+"Cannabis sativa ssp. sativa",Cannabaceae,,non-native,0,0,forb,annual,
+"Capsella bursa-pastoris",Brassicaceae,,non-native,0,1,forb,annual,
+"Cardamine bulbosa",Brassicaceae,,native,6,-5,forb,annual,"spring cress"
+"Cardamine concatenata",Brassicaceae,,native,5,3,forb,annual,"cut-leaved toothwort"
+"Cardamine parviflora var. arenicola",Brassicaceae,,native,5,0,forb,annual,"small-flowered bitter cress"
+"Cardamine pensylvanica",Brassicaceae,,native,4,-4,forb,annual,"pensylvania bitter cress"
+"Cardamine pratensis var. pratensis",Brassicaceae,,native,7,-5,forb,annual,"cuckoo flower"
+"Carex alopecoidea",Cyperaceae,,native,5,-4,rush,annual,"foxtail sedge"
+"Carex amphibola",Cyperaceae,,native,4,-1,rush,annual,"ambiguous sedge"
+"Carex annectens",Cyperaceae,,native,3,-3,rush,annual,"yellow-fruited sedge"
+"Carex aquatilis var. aquatilis",Cyperaceae,,native,7,-5,rush,annual,"aquatic sedge"
+"Carex arcta",Cyperaceae,,native,6,-5,rush,annual,"northern clustered sedge"
+"Carex arctata",Cyperaceae,,native,4,0,rush,annual,"drooping woodland sedge"
+"Carex atherodes",Cyperaceae,,native,5,-5,rush,annual,"slough sedge"
+"Carex aurea",Cyperaceae,,native,4,-4,rush,annual,"golden fruited sedge"
+"Carex bebbii",Cyperaceae,,native,5,-5,rush,annual,"bebbs sedge"
+"Carex bicknellii var. bicknellii",Cyperaceae,,native,6,1,rush,annual,"bicknells sedge"
+"Carex blanda",Cyperaceae,,native,2,0,rush,annual,"charming sedge"
+"Carex brevior",Cyperaceae,,native,3,0,rush,annual,"short sedge"
+"Carex bromoides var. bromoides",Cyperaceae,,native,8,-4,rush,annual,"brome-like sedge"
+"Carex brunnescens",Cyperaceae,,native,6,-3,rush,annual,"brownish sedge"
+"Carex bushii",Cyperaceae,,non-native,0,-3,rush,annual,
+"Carex buxbaumii",Cyperaceae,,native,8,-5,rush,annual,"buxbaums sedge"
+"Carex canescens",Cyperaceae,,native,7,-5,rush,annual,"silvery sedge"
+"Carex capillaris",Cyperaceae,,native,8,-3,rush,annual,"hair-like sedge"
+"Carex castanea",Cyperaceae,,native,5,-4,rush,annual,"chestnut-colored sedge"
+"Carex cephaloidea",Cyperaceae,,native,5,2,rush,annual,"thin-leaved sedge"
+"Carex cephalophora",Cyperaceae,,native,4,3,rush,annual,"oval-headed sedge"
+"Carex chordorrhiza",Cyperaceae,,native,10,-5,rush,annual,"creeping sedge"
+"Carex comosa",Cyperaceae,,native,4,-5,rush,annual,"bristly sedge"
+"Carex conjuncta",Cyperaceae,,native,8,-3,rush,annual,"jointed sedge"
+"Carex conoidea",Cyperaceae,,native,8,-4,rush,annual,"field sedge"
+"Carex crawei",Cyperaceae,,native,8,-3,rush,annual,"crawes sedge"
+"Carex crawfordii",Cyperaceae,,native,4,-1,rush,annual,"crawfords sedge"
+"Carex crinita var. crinita",Cyperaceae,,native,6,-4,rush,annual,"fringe sedge"
+"Carex cristatella",Cyperaceae,,native,3,-4,rush,annual,"crested sedge"
+"Carex crus-corvi",Cyperaceae,,native,8,-5,rush,annual,"ravens foot sedge"
+"Carex cryptolepis",Cyperaceae,,native,7,-5,rush,annual,"secretive sedge"
+"Carex davisii",Cyperaceae,,native,8,-1,rush,annual,"davis sedge"
+"Carex debilis var. rudgei",Cyperaceae,,native,6,-3,rush,annual,"weak sedge"
+"Carex deweyana",Cyperaceae,,native,6,4,rush,annual,"deweys sedge"
+"Carex diandra",Cyperaceae,,native,8,-5,rush,annual,"lesser-panicled sedge"
+"Carex disperma",Cyperaceae,,native,6,-5,rush,annual,"soft-leaved sedge"
+"Carex eburnea",Cyperaceae,,native,6,4,rush,annual,"ivory sedge"
+"Carex echinata ssp. echinata",Cyperaceae,,native,8,-5,rush,annual,"slender sedge"
+"Carex emoryi",Cyperaceae,,native,7,-5,rush,annual,"emorys sedge"
+"Carex exilis",Cyperaceae,,native,10,-5,rush,annual,"coastal sedge"
+"Carex festucacea",Cyperaceae,,native,8,0,rush,annual,"fescue sedge"
+"Carex flava",Cyperaceae,,native,9,-5,rush,annual,"yellow sedge"
+"Carex formosa",Cyperaceae,,native,9,-2,rush,annual,"handsome sedge"
+"Carex garberi",Cyperaceae,,native,6,-3,rush,annual,"garbers sedge"
+"Carex gracillima",Cyperaceae,,native,4,0,rush,annual,"graceful sedge"
+"Carex granularis",Cyperaceae,,native,3,-4,rush,annual,"granular sedge"
+"Carex grayi",Cyperaceae,,native,8,-4,rush,annual,"grays sedge"
+"Carex gynocrates",Cyperaceae,,native,9,-5,rush,annual,"feminine sedge"
+"Carex haydenii",Cyperaceae,,native,8,-5,rush,annual,"haydens sedge"
+"Carex hystericina",Cyperaceae,,native,4,-5,rush,annual,"porcupine sedge"
+"Carex interior",Cyperaceae,,native,7,-5,rush,annual,"interior sedge"
+"Carex intumescens",Cyperaceae,,native,5,-4,rush,annual,"bladder sedge"
+"Carex lacustris",Cyperaceae,,native,5,-5,rush,annual,"lake sedge"
+"Carex laeviconica",Cyperaceae,,native,6,-5,rush,annual,"smooth-cone sedge"
+"Carex laevivaginata",Cyperaceae,,native,9,-5,rush,annual,"smooth-sheathed sedge"
+"Carex lasiocarpa var. americana",Cyperaceae,,native,7,-5,rush,annual,"wiregrass sedge"
+"Carex lenticularis var. lenticularis",Cyperaceae,,native,9,-5,rush,annual,"lenticular sedge"
+"Carex leptalea ssp. leptalea",Cyperaceae,,native,7,-5,rush,annual,"bristle-stalked sedge"
+"Carex leptonervia",Cyperaceae,,native,5,0,rush,annual,"fine-nerved sedge"
+"Carex limosa",Cyperaceae,,native,9,-5,rush,annual,"candle-lantern sedge"
+"Carex livida var. radicaulis",Cyperaceae,,native,9,-5,rush,annual,"lead-colored sedge"
+"Carex lupulina",Cyperaceae,,native,6,-5,rush,annual,"hop umbrella sedge"
+"Carex magellanica ssp. irrigua",Cyperaceae,,native,8,-5,rush,annual,"poor sedge"
+"Carex meadii",Cyperaceae,,native,6,0,rush,annual,"meads sedge"
+"Carex michauxiana",Cyperaceae,,native,8,-5,rush,annual,"michauxs sedge"
+"Carex molesta",Cyperaceae,,native,3,-1,rush,annual,"field oval sedge"
+"Carex muskingumensis",Cyperaceae,,native,7,-5,rush,annual,"muskingum sedge"
+"Carex normalis",Cyperaceae,,native,4,-3,rush,annual,"right-angle sedge"
+"Carex norvegica",Cyperaceae,,native,10,-3,rush,annual,cyperaceae
+"Carex oligosperma",Cyperaceae,,native,8,-5,rush,annual,"bog wiregrass sedge"
+"Carex pauciflora",Cyperaceae,,native,9,-5,rush,annual,"few-flowered sedge"
+"Carex pellita",Cyperaceae,,native,4,-5,rush,annual,"woolly sedge"
+"Carex praegracilis",Cyperaceae,,native,5,-3,rush,annual,"very slender sedge"
+"Carex prairea",Cyperaceae,,native,8,-4,rush,annual,"prairie sedge"
+"Carex praticola",Cyperaceae,,native,9,0,rush,annual,"prairie-dweller sedge"
+"Carex projecta",Cyperaceae,,native,4,-4,rush,annual,"projecting sedge"
+"Carex pseudocyperus",Cyperaceae,,native,5,-5,rush,annual,"cyperus sedge"
+"Carex radiata",Cyperaceae,,native,4,1,rush,annual,"eastern star sedge"
+"Carex retrorsa",Cyperaceae,,native,5,-5,rush,annual,"retrorse sedge"
+"Carex rostrata",Cyperaceae,,native,8,-5,rush,annual,"northern yellow lake sedge"
+"Carex sartwellii var. sartwellii",Cyperaceae,,native,7,-4,rush,annual,"sartwells sedge"
+"Carex scirpoidea",Cyperaceae,,native,10,3,rush,annual,"northern singlespike sedge"
+"Carex scoparia var. scoparia",Cyperaceae,,native,4,-3,rush,annual,"pointed broom sedge"
+"Carex sparganioides",Cyperaceae,,native,6,0,rush,annual,"thin-leaved sedge"
+"Carex sprengelii",Cyperaceae,,native,4,0,rush,annual,"sprengels sedge"
+"Carex sterilis",Cyperaceae,,native,10,-5,rush,annual,"sterile sedge"
+"Carex stipata var. stipata",Cyperaceae,,native,3,-5,rush,annual,"awl-fruited sedge"
+"Carex stricta",Cyperaceae,,native,5,-5,rush,annual,"tussock sedge"
+"Carex suberecta",Cyperaceae,,native,9,-5,rush,annual,"wedge-fruited oval sedge"
+"Carex sychnocephala",Cyperaceae,,native,5,-4,rush,annual,"many-headed sedge"
+"Carex tenera",Cyperaceae,,native,4,-1,rush,annual,"marsh straw sedge"
+"Carex tenuiflora",Cyperaceae,,native,8,-5,rush,annual,"sparse-flowered sedge"
+"Carex tetanica",Cyperaceae,,native,7,-3,rush,annual,"rigid sedge"
+"Carex tribuloides var. tribuloides",Cyperaceae,,native,4,-4,rush,annual,"blunt broom sedge"
+"Carex trichocarpa",Cyperaceae,,native,7,-5,rush,annual,"hairy-fruited sedge"
+"Carex trisperma var. trisperma",Cyperaceae,,native,7,-5,rush,annual,"three-seeded bog sedge"
+"Carex tuckermanii",Cyperaceae,,native,6,-5,rush,annual,"tuckermans sedge"
+"Carex typhina",Cyperaceae,,native,9,-5,rush,annual,"cattail sedge"
+"Carex utriculata",Cyperaceae,,native,7,-5,rush,annual,"beaked sedge"
+"Carex vaginata",Cyperaceae,,native,8,-5,rush,annual,"sheathed sedge"
+"Carex vesicaria",Cyperaceae,,native,6,-5,rush,annual,"inflated sedge"
+"Carex viridula ssp. viridula",Cyperaceae,,native,6,-5,rush,annual,"green sedge"
+"Carex vulpinoidea",Cyperaceae,,native,3,-5,rush,annual,"fox sedge"
+"Carex woodii",Cyperaceae,,native,9,0,rush,annual,"woods sedge"
+"Carpinus caroliniana ssp. virginiana",Betulaceae,,native,5,0,tree,annual,"blue beech"
+"Carya cordiformis",Juglandaceae,,native,5,0,tree,annual,"bitternut hickory"
+"Carya ovata",Juglandaceae,,native,5,3,tree,annual,"shagbark hickory"
+"Castilleja coccinea",Scrophulariaceae,,native,6,0,forb,annual,"indian paintbrush"
+"Catalpa speciosa",Bignoniaceae,,non-native,0,3,tree,annual,
+"Celastrus scandens",Celastraceae,,native,3,0,vine,annual,"climbing bittersweet"
+"Celtis occidentalis var. occidentalis",Ulmaceae,,native,3,1,tree,annual,hackberry
+"Centaurium pulchellum",Gentianaceae,,non-native,0,4,forb,annual,
+"Cephalanthus occidentalis",Rubiaceae,,native,7,-5,tree,annual,buttonbush
+"Cerastium arvense",Caryophyllaceae,,native,5,4,forb,annual,"field chickweed"
+"Cerastium brachypodum",Caryophyllaceae,,native,6,4,forb,annual,"short-stalk chickweed"
+"Cerastium fontanum ssp. vulgare",Caryophyllaceae,,non-native,0,3,forb,annual,
+"Cerastium nutans var. nutans",Caryophyllaceae,,native,2,2,forb,annual,"nodding chickweed"
+"Ceratophyllum demersum",Ceratophyllaceae,,native,2,-5,forb,annual,"common coontail"
+"Ceratophyllum echinatum",Ceratophyllaceae,,native,10,-5,forb,annual,"spiny coontail"
+"Chamaecrista fasciculata var. fasciculata",Fabaceae,,native,2,4,forb,annual,"partridge pea"
+"Chamaedaphne calyculata var. angustifolia",Ericaceae,,native,8,-5,shrub,annual,leatherleaf
+"Chamaesyce maculata",Euphorbiaceae,,native,0,4,forb,annual,"prostrate hairy spurge"
+"Chamaesyce nutans",Euphorbiaceae,,native,0,3,forb,annual,"nodding spurge"
+"Chamerion angustifolium ssp. circumvagum",Onagraceae,,native,3,0,forb,annual,fireweed
+"Chelone glabra",Scrophulariaceae,,native,7,-5,forb,annual,"white turtlehead"
+"Chenopodium album",Chenopodiaceae,,non-native,0,1,forb,annual,
+"Chenopodium botrys",Chenopodiaceae,,non-native,0,4,forb,annual,
+"Chenopodium glaucum",Chenopodiaceae,,non-native,0,-3,forb,annual,
+"Chenopodium rubrum",Chenopodiaceae,,native,3,-5,forb,annual,"alkali blite"
+"Chrysosplenium americanum",Saxifragaceae,,native,9,-5,forb,annual,"american golden saxifrage"
+"Chrysosplenium iowense",Saxifragaceae,,native,10,-5,forb,annual,"iowa golden saxifrage"
+"Cicuta bulbifera",Apiaceae,,native,7,-5,forb,annual,"bulb-bearing water hemlock"
+"Cicuta maculata",Apiaceae,,native,5,-5,forb,annual,"spotted water hemlock"
+"Cinna arundinacea",Poaceae,,native,5,-3,grass,annual,"stout woodreed"
+"Cinna latifolia",Poaceae,,native,5,-4,grass,annual,"drooping woodreed"
+"Circaea alpina ssp. alpina",Onagraceae,,native,6,-3,forb,annual,"alpine enchanters nightshade"
+"Circaea lutetiana ssp. canadensis",Onagraceae,,native,2,3,forb,annual,"common enchanters nightshade"
+"Cirsium arvense",Asteraceae,,non-native,0,3,forb,annual,
+"Cirsium muticum",Asteraceae,,native,6,-5,forb,annual,"swamp thistle"
+"Cirsium vulgare",Asteraceae,,non-native,0,4,forb,annual,
+"Cladium mariscoides",Cyperaceae,,native,10,-5,rush,annual,"twig rush"
+"Claytonia caroliniana var. caroliniana",Portulacaceae,,native,8,3,forb,annual,"carolina spring beauty"
+"Claytonia virginica var. virginica",Portulacaceae,,native,6,3,forb,annual,"virginia spring beauty"
+"Clematis virginiana",Ranunculaceae,,native,4,0,shrub,annual,"virgins bower"
+"Cleome serrulata",Capparaceae,,non-native,0,4,forb,annual,
+"Clintonia borealis",Liliaceae,,native,7,-1,forb,annual,"bluebead lily"
+"Coeloglossum viride var. virescens",Orchidaceae,,native,6,0,forb,annual,"long-bracted orchid"
+"Collomia linearis",Polemoniaceae,,native,5,3,forb,annual,"linear-leaved collomia"
+"Comandra umbellata ssp. umbellata",Santalaceae,,native,4,3,shrub,annual,"bastard toadflax"
+"Comarum palustre",Rosaceae,,native,7,-5,forb,annual,"marsh cinquefoil"
+"Commelina communis var. communis",Commelinaceae,,non-native,0,0,forb,annual,
+"Conium maculatum",Apiaceae,,non-native,0,-3,forb,annual,
+"Conyza canadensis var. canadensis",Asteraceae,,native,0,1,forb,annual,horseweed
+"Coptis trifolia",Ranunculaceae,,native,7,-3,forb,annual,goldthread
+"Corallorrhiza maculata",Orchidaceae,,native,7,4,forb,annual,"spotted coralroot"
+"Corallorrhiza striata var. striata",Orchidaceae,,native,8,4,forb,annual,"striped coralroot"
+"Corallorrhiza trifida",Orchidaceae,,native,6,-2,forb,annual,"early coralroot"
+"Coreopsis lanceolata",Asteraceae,,non-native,0,3,forb,annual,
+"Coreopsis tinctoria var. tinctoria",Asteraceae,,non-native,0,1,forb,annual,
+"Corispermum americanum",Chenopodiaceae,,native,3,3,forb,annual,"american bugseed"
+"Cornus canadensis",Cornaceae,,native,6,0,shrub,annual,bunchberry
+"Cornus obliqua",Cornaceae,,native,4,-4,shrub,annual,"silky dogwood"
+"Cornus racemosa",Cornaceae,,native,2,-2,shrub,annual,"gray dogwood"
+"Cornus sericea ssp. sericea",Cornaceae,,native,3,-3,tree,annual,"red-osier dogwood"
+"Corylus americana",Betulaceae,,native,3,4,shrub,annual,"american hazelnut"
+"Crassula aquatica",Crassulaceae,,native,5,-5,forb,annual,pigmyweed
+"Crataegus douglasii var. douglasii",Rosaceae,,native,5,0,tree,annual,"black hawthorn"
+"Crataegus mollis",Rosaceae,,native,1,-2,tree,annual,"downy hawthorn"
+"Crepis runcinata ssp. runcinata",Asteraceae,,native,8,-3,forb,annual,"incised hawks beard"
+"Cryptogramma stelleri",Pteridaceae,,native,10,3,forb,annual,"slender cliff brake"
+"Cryptotaenia canadensis",Apiaceae,,native,3,0,forb,annual,honewort
+"Cuscuta cephalanthi",Cuscutaceae,,native,3,0,vine,annual,"buttonbush dodder"
+"Cuscuta coryli",Cuscutaceae,,native,3,3,vine,annual,"hazel dodder"
+"Cuscuta glomerata",Cuscutaceae,,native,3,0,vine,annual,"aster dodder"
+"Cuscuta gronovii",Cuscutaceae,,native,3,-3,vine,annual,"swamp dodder"
+"Cuscuta polygonorum",Cuscutaceae,,native,3,-3,vine,annual,"smartweed dodder"
+"Cycloloma atriplicifolium",Chenopodiaceae,,native,2,3,forb,annual,"winged pigweed"
+"Cyperus acuminatus",Cyperaceae,,native,8,-5,rush,annual,"short-pointed umbrella sedge"
+"Cyperus bipartitus",Cyperaceae,,native,4,-4,rush,annual,"brook nut sedge"
+"Cyperus diandrus",Cyperaceae,,native,5,-4,rush,annual,"sedge galingale"
+"Cyperus erythrorhizos",Cyperaceae,,native,2,-5,rush,annual,"red-rooted cyperus"
+"Cyperus esculentus var. leptostachyus",Cyperaceae,,non-native,0,-3,rush,annual,
+"Cyperus lupulinus",Cyperaceae,,native,6,4,rush,annual,"slender nut sedge"
+"Cyperus odoratus",Cyperaceae,,native,4,-3,rush,annual,"fragrant cyperus"
+"Cyperus rotundus",Cyperaceae,,non-native,0,1,rush,annual,
+"Cyperus schweinitzii",Cyperaceae,,native,5,2,rush,annual,"schweinitzs nut sedge"
+"Cyperus squarrosus",Cyperaceae,,native,2,-5,rush,annual,"awned umbrella sedge"
+"Cyperus strigosus",Cyperaceae,,native,2,-3,rush,annual,"straw-colored umbrella sedge"
+"Cypripedium acaule",Orchidaceae,,native,8,-3,forb,annual,"stemless ladys slipper"
+"Cypripedium arietinum",Orchidaceae,,native,9,-4,forb,annual,"rams head orchid"
+"Cypripedium candidum",Orchidaceae,,native,10,-5,forb,annual,"small white ladys slipper"
+"Cypripedium parviflorum",Orchidaceae,,native,8,-1,forb,annual,"yellow ladys slipper"
+"Cypripedium pubescens var. pubescens",Orchidaceae,,native,8,-1,forb,annual,"yellow ladys slipper"
+"Cypripedium reginae",Orchidaceae,,native,8,-4,forb,annual,"showy ladys slipper"
+"Cypripedium x andrewsii",Orchidaceae,,native,9,-3,forb,annual,"andrews ladys slipper"
+"Cystopteris bulbifera",Dryopteridaceae,,native,8,-2,forb,annual,"bulblet fern"
+"Cystopteris fragilis",Dryopteridaceae,,native,6,3,forb,annual,"fragile fern"
+"Dactylis glomerata ssp. glomerata",Poaceae,,non-native,0,3,grass,annual,
+"Dasiphora floribunda",Rosaceae,,native,7,-3,shrub,annual,"shrubby cinquefoil"
+"Decodon verticillatus",Lythraceae,,native,8,-5,shrub,annual,waterwillow
+"Deparia acrostichoides",Dryopteridaceae,,native,8,0,forb,annual,"silvery spleenwort"
+"Deschampsia caespitosa",Poaceae,,native,8,-4,grass,annual,"tufted hair grass"
+"Desmanthus illinoensis",Fabaceae,,native,8,1,shrub,annual,"prairie mimosa"
+"Desmodium canadense",Fabaceae,,native,4,1,forb,annual,"canada tick trefoil"
+"Dichanthelium acuminatum",Poaceae,,native,5,0,grass,annual,"hairy panic grass"
+"Dichanthelium boreale",Poaceae,,native,5,2,grass,annual,"northern panic grass"
+"Dichanthelium latifolium",Poaceae,,native,6,3,grass,annual,"broad-leaved panic grass"
+"Dichanthelium leibergii",Poaceae,,native,10,2,grass,annual,"leibergs panic grass"
+"Dichanthelium oligosanthes",Poaceae,,native,3,3,grass,annual,"scribners panic grass"
+"Dichanthelium ovale var. addisonii",Poaceae,,native,7,3,grass,annual,"stiff -leaved panic grass"
+"Dichanthelium sabulorum",Poaceae,,native,8,1,grass,annual,"columbian panic grass"
+"Didiplis diandra",Lythraceae,,native,5,-5,forb,annual,"water purslane"
+"Digitaria ischaemum",Poaceae,,non-native,0,3,grass,annual,
+"Digitaria sanguinalis",Poaceae,,non-native,0,3,grass,annual,
+"Dioscorea villosa",Dioscoreaceae,,native,4,1,vine,annual,"wild yam"
+"Diplazium pycnocarpon",Dryopteridaceae,,native,10,1,forb,annual,"narrow-leaved spleenwort"
+"Dirca palustris",Thymelaeaceae,,native,8,0,shrub,annual,leatherwood
+"Distichlis spicata",Poaceae,,native,6,-3,grass,annual,"salt grass"
+"Dodecatheon meadia ssp. meadia",Primulaceae,,native,10,3,forb,annual,"prairie shooting star"
+"Doellingeria umbellata",Asteraceae,,native,5,-3,forb,annual,"flat-topped aster"
+"Dracocephalum parviflorum",Lamiaceae,,native,3,3,forb,annual,dragonhead
+"Drosera anglica",Droseraceae,,native,10,-5,forb,annual,"english sundew"
+"Drosera intermedia",Droseraceae,,native,8,-5,forb,annual,"spatulate-leaved sundew"
+"Drosera linearis",Droseraceae,,native,10,-5,forb,annual,"linear-leaved sundew"
+"Drosera rotundifolia var. rotundifolia",Droseraceae,,native,8,-5,forb,annual,"round-leaved sundew"
+"Dryopteris carthusiana",Dryopteridaceae,,native,6,-2,forb,annual,"spinulose shield fern"
+"Dryopteris cristata",Dryopteridaceae,,native,7,-5,forb,annual,"crested fern"
+"Dryopteris expansa",Dryopteridaceae,,native,8,0,forb,annual,"spreading wood fern"
+"Dryopteris goldiana",Dryopteridaceae,,native,10,0,forb,annual,"goldies fern dryopteridaceae"
+"Dryopteris intermedia",Dryopteridaceae,,native,7,0,forb,annual,"glandular wood fern"
+"Dryopteris marginalis",Dryopteridaceae,,native,10,3,forb,annual,"marginal shield fern"
+"Dryopteris x boottii",Dryopteridaceae,,native,10,-3,forb,annual,"bootts shield fern"
+"Dryopteris x triploidea",Dryopteridaceae,,native,10,0,forb,annual,"triploid shield fern"
+"Dryopteris x uliginosa",Dryopteridaceae,,native,10,0,forb,annual,"swamp shield fern"
+"Dulichium arundinaceum",Cyperaceae,,native,8,-5,rush,annual,"three-way sedge"
+"Echinochloa crus-galli",Poaceae,,non-native,0,-3,grass,annual,
+"Echinochloa muricata",Poaceae,,native,1,-5,grass,annual,"rough barnyardgrass"
+"Echinochloa walteri",Poaceae,,native,5,-5,grass,annual,"walters barnyard grass"
+"Echinocystis lobata",Cucurbitaceae,,native,2,-2,vine,annual,"wild cucumber"
+"Eclipta prostrata",Asteraceae,,non-native,0,-3,forb,annual,
+"Elaeagnus angustifolia",Elaeagnaceae,,non-native,0,4,tree,annual,
+"Elatine minima",Elatinaceae,,native,9,-5,forb,annual,"small waterwort"
+"Elatine triandra",Elatinaceae,,native,9,-5,forb,annual,"three-stamened waterwort"
+"Eleocharis acicularis var. acicularis",Cyperaceae,,native,4,-5,rush,annual,"least spikerush"
+"Eleocharis compressa",Cyperaceae,,native,8,-3,rush,annual,"flattened spikerush"
+"Eleocharis elliptica",Cyperaceae,,native,7,-3,rush,annual,"elliptic spikerush"
+"Eleocharis engelmannii",Cyperaceae,,native,8,-3,rush,annual,"engelmanns spike rush"
+"Eleocharis erythropoda",Cyperaceae,,native,3,-5,rush,annual,"red-rooted spike rush"
+"Eleocharis intermedia",Cyperaceae,,native,6,-3,rush,annual,"intermediate spikerush"
+"Eleocharis nitida",Cyperaceae,,native,5,-5,rush,annual,"neat spike rush"
+"Eleocharis obtusa",Cyperaceae,,native,3,-5,rush,annual,"blunt spike rush"
+"Eleocharis olivacea var. olivacea",Cyperaceae,,native,9,-5,rush,annual,"olivaceous spikerush"
+"Eleocharis ovata",Cyperaceae,,native,6,-5,rush,annual,"ovoid spikerush"
+"Eleocharis palustris",Cyperaceae,,native,5,-5,rush,annual,"red-stalked spikerush"
+"Eleocharis parvula",Cyperaceae,,native,6,-5,rush,annual,"dwarf spikerush"
+"Eleocharis quinqueflora",Cyperaceae,,native,9,-5,rush,annual,"few-flowered spike rush"
+"Eleocharis robbinsii",Cyperaceae,,native,10,-5,rush,annual,"robbins spikerush"
+"Eleocharis rostellata",Cyperaceae,,native,10,-5,rush,annual,"beaked spikerush"
+"Eleocharis wolfii",Cyperaceae,,native,10,-5,rush,annual,"wolfs spikerush"
+"Eleusine indica",Poaceae,,non-native,0,3,grass,annual,
+"Ellisia nyctelea",Hydrophyllaceae,,native,1,-1,forb,annual,ellisia
+"Elodea bifoliata",Hydrocharitaceae,,native,5,-5,forb,annual,"two leaf waterweed"
+"Elodea canadensis",Hydrocharitaceae,,native,4,-5,forb,annual,"canadian elodea"
+"Elodea nuttallii",Hydrocharitaceae,,native,7,-5,forb,annual,"nuttalls elodea"
+"Elymus canadensis",Poaceae,,native,3,1,grass,annual,"nodding wild rye"
+"Elymus repens",Poaceae,,non-native,0,3,grass,annual,
+"Elymus trachycaulus",Poaceae,,native,5,0,grass,annual,"slender wheatgrass"
+"Elymus villosus",Poaceae,,native,5,3,grass,annual,"downy wild rye"
+"Elymus virginicus",Poaceae,,native,4,-2,grass,annual,"virginia wild rye"
+"Elymus wiegandii",Poaceae,,native,8,0,grass,annual,"weigands wild rye"
+"Empetrum eamesii ssp. atropurpureum",Empetraceae,,native,10,0,shrub,annual,"purple crowberry"
+"Empetrum nigrum ssp. hermaphroditum",Empetraceae,,native,10,-2,shrub,annual,"black crowberry"
+"Enemion biternatum",Ranunculaceae,,native,5,0,forb,annual,"false rue anemone"
+"Epilobium ciliatum ssp. ciliatum",Onagraceae,,native,3,3,forb,annual,"american willow herb"
+"Epilobium ciliatum ssp. glandulosum",Onagraceae,,native,3,3,forb,annual,"northern willow herb"
+"Epilobium coloratum",Onagraceae,,native,3,-5,forb,annual,"purple-leaved willow herb"
+"Epilobium leptophyllum",Onagraceae,,native,7,-5,forb,annual,"linear-leaved willow herb"
+"Epilobium palustre",Onagraceae,,native,7,-5,forb,annual,"marsh willow herb"
+"Epilobium strictum",Onagraceae,,native,8,-5,forb,annual,"downy willow herb"
+"Equisetum arvense",Equisetaceae,,native,1,0,forb,annual,"field horsetail"
+"Equisetum fluviatile",Equisetaceae,,native,7,-5,forb,annual,"water horsetail"
+"Equisetum hyemale var. affine",Equisetaceae,,native,2,-2,forb,annual,"tall scouring rush"
+"Equisetum laevigatum",Equisetaceae,,native,2,-3,forb,annual,"smooth scouring rush"
+"Equisetum palustre",Equisetaceae,,native,9,-3,forb,annual,"marsh horsetail"
+"Equisetum pratense",Equisetaceae,,native,6,-3,forb,annual,"meadow horsetail"
+"Equisetum scirpoides",Equisetaceae,,native,6,-1,forb,annual,"dwarf scouring rush"
+"Equisetum sylvaticum",Equisetaceae,,native,6,-3,forb,annual,"woodland horsetail"
+"Equisetum variegatum var. variegatum",Equisetaceae,,native,6,-3,forb,annual,"variegated scouring rush"
+"Equisetum x ferrissii",Equisetaceae,,native,2,-3,forb,annual,"ferriss scouring rush"
+"Equisetum x litorale",Equisetaceae,,native,7,-5,forb,annual,"shallow-water horsetail"
+"Equisetum x nelsonii",Equisetaceae,,native,5,-1,forb,annual,"nelsons scouring rush"
+"Eragrostis cilianensis",Poaceae,,non-native,0,3,grass,annual,
+"Eragrostis frankii",Poaceae,,native,5,-3,grass,annual,"franks lovegrass"
+"Eragrostis hypnoides",Poaceae,,native,4,-5,grass,annual,"creeping lovegrass"
+"Eragrostis pectinacea var. pectinacea",Poaceae,,native,0,0,grass,annual,"tufted lovegrass"
+"Eragrostis pilosa",Poaceae,,non-native,0,3,grass,annual,
+"Erechtites hieraciifolia var. hieraciifolia",Asteraceae,,native,2,3,forb,annual,pilewort
+"Erigeron acris ssp. politus",Asteraceae,,native,8,0,forb,annual,"bitter fleabane"
+"Erigeron annuus",Asteraceae,,native,0,1,forb,annual,"annual fleabane"
+"Erigeron lonchophyllus",Asteraceae,,native,6,-2,forb,annual,"short ray fleabane asteraceae"
+"Erigeron philadelphicus var. philadelphicus",Asteraceae,,native,2,-3,forb,annual,"philadelphia fleabane"
+"Erigeron pulchellus",Asteraceae,,native,6,3,forb,annual,"poor robins fleabane"
+"Erigeron strigosus",Asteraceae,,native,2,1,forb,annual,"daisy fleabane"
+"Eriocaulon aquaticum",Eriocaulaceae,,native,9,-5,forb,annual,pipewort
+"Eriophorum angustifolium",Cyperaceae,,native,8,-5,rush,annual,"tall cottongrass"
+"Eriophorum chamissonis",Cyperaceae,,native,10,-5,rush,annual,"chamissos cottongrass"
+"Eriophorum gracile var. gracile",Cyperaceae,,native,9,-5,rush,annual,"slender cottongrass"
+"Eriophorum tenellum",Cyperaceae,,native,9,-5,rush,annual,"delicate cottongrass"
+"Eriophorum vaginatum var. spissum",Cyperaceae,,native,9,-5,rush,annual,"tussock cottongrass"
+"Eriophorum virginicum",Cyperaceae,,native,8,-5,rush,annual,"tawny cottongrass"
+"Eriophorum viridicarinatum",Cyperaceae,,native,9,-5,rush,annual,"green-keeled cottongrass"
+"Eryngium yuccifolium var. yuccifolium",Apiaceae,,native,9,-1,forb,annual,"rattlesnake master apiaceae"
+"Erysimum cheiranthoides",Brassicaceae,,non-native,0,3,forb,annual,
+"Erythronium propullans",Liliaceae,,native,5,3,forb,annual,"dwarf trout lily"
+"Euonymus atropurpurea var. atropurpurea",Celastraceae,,native,7,1,tree,annual,wahoo
+"Eupatorium maculatum",Asteraceae,,native,4,-5,shrub,annual,"spotted joe pye weed"
+"Eupatorium perfoliatum var. perfoliatum",Asteraceae,,native,4,-4,forb,annual,"common boneset"
+"Eupatorium purpureum",Asteraceae,,native,6,0,forb,annual,"sweet joe pye weed"
+"Euphorbia marginata",Euphorbiaceae,,native,1,4,forb,annual,snow-on-the-mountain
+"Euphorbia spathulata",Euphorbiaceae,,native,5,0,forb,annual,"prairie spurge"
+"Euthamia graminifolia",Asteraceae,,native,4,-2,forb,annual,"grass-leaved goldenrod"
+"Euthamia gymnospermoides",Asteraceae,,native,5,-3,forb,annual,"great plains goldenrod"
+"Festuca paradoxa",Poaceae,,native,7,0,grass,annual,"paradox fescue"
+"Festuca rubra ssp. rubra",Poaceae,,native,3,1,grass,annual,"red fescue"
+"Festuca subverticillata",Poaceae,,native,6,2,grass,annual,"nodding fescue"
+"Fimbristylis autumnalis",Cyperaceae,,native,6,-4,rush,annual,"autumn fimbry"
+"Fimbristylis puberula var. interior",Cyperaceae,,native,10,-5,rush,annual,"hairy fimbry cyperaceae"
+"Floerkea proserpinacoides",Limnanthaceae,,native,9,-1,forb,annual,"false mermaid"
+"Fragaria virginiana",Rosaceae,,native,2,1,forb,annual,"common strawberry"
+"Frangula alnus",Rhamnaceae,,non-native,0,-1,tree,annual,
+"Fraxinus americana",Oleaceae,,native,5,3,tree,annual,"white ash"
+"Fraxinus nigra",Oleaceae,,native,6,-4,tree,annual,"black ash"
+"Fraxinus pennsylvanica",Oleaceae,,native,2,-3,tree,annual,"green ash"
+"Galium aparine",Rubiaceae,,native,1,3,vine,annual,cleavers
+"Galium asprellum",Rubiaceae,,native,6,-5,forb,annual,"rough bedstraw"
+"Galium boreale",Rubiaceae,,native,4,0,shrub,annual,"northern bedstraw"
+"Galium brevipes",Rubiaceae,,native,8,-5,forb,annual,"short-stalked bedstraw"
+"Galium concinnum",Rubiaceae,,native,5,3,forb,annual,"shining bedstraw"
+"Galium labradoricum",Rubiaceae,,native,9,-5,forb,annual,"labrador bedstraw"
+"Galium obtusum ssp. obtusum",Rubiaceae,,native,5,-4,forb,annual,"obtuse bedstraw"
+"Galium tinctorium",Rubiaceae,,native,5,-5,forb,annual,"small bedstraw"
+"Galium trifidum ssp. trifidum",Rubiaceae,,native,6,-4,vine,annual,"three-cleft bedstraw"
+"Galium triflorum",Rubiaceae,,native,4,2,forb,annual,"sweet-scented bedstraw"
+"Gaultheria hispidula",Ericaceae,,native,8,-3,shrub,annual,"creeping snowberry"
+"Gaultheria procumbens",Ericaceae,,native,6,3,shrub,annual,wintergreen
+"Gaura biennis",Onagraceae,,native,2,4,forb,annual,"biennial gaura"
+"Gaylussacia baccata",Ericaceae,,native,7,3,shrub,annual,"black huckleberry"
+"Gentiana alba",Gentianaceae,,native,7,3,forb,annual,"yellowish gentian"
+"Gentiana andrewsii",Gentianaceae,,native,6,-3,forb,annual,"bottle gentian"
+"Gentiana rubricaulis",Gentianaceae,,native,7,-5,forb,annual,"great lakes gentian"
+"Gentianella amarella ssp. acuta",Gentianaceae,,native,7,-5,forb,annual,felwort
+"Gentianella quinquefolia ssp. occidentalis",Gentianaceae,,native,8,0,forb,annual,"stiff gentian"
+"Gentianopsis crinita",Gentianaceae,,native,7,-4,forb,annual,"greater fringed gentian"
+"Gentianopsis virgata",Gentianaceae,,native,8,0,forb,annual,"lesser fringed gentian"
+"Geocaulon lividum",Santalaceae,,native,9,-2,forb,annual,"northern comandra"
+"Geranium maculatum",Geraniaceae,,native,4,3,forb,annual,"wild geranium"
+"Geum aleppicum",Rosaceae,,native,3,-1,forb,annual,"yellow avens"
+"Geum canadense",Rosaceae,,native,2,0,forb,annual,"white avens"
+"Geum laciniatum",Rosaceae,,native,4,-3,forb,annual,"rough avens"
+"Geum macrophyllum var. perincisum",Rosaceae,,native,5,-4,forb,annual,"big-leaved avens"
+"Geum rivale",Rosaceae,,native,8,-5,forb,annual,"purple avens"
+"Geum triflorum var. triflorum",Rosaceae,,native,7,4,forb,annual,"prairie smoke"
+"Glaux maritima",Primulaceae,,native,6,0,forb,annual,"sea milkwort"
+"Glechoma hederacea",Lamiaceae,,non-native,0,3,forb,annual,
+"Gleditsia triacanthos",Fabaceae,,non-native,0,0,tree,annual,
+"Glyceria borealis",Poaceae,,native,8,-5,grass,annual,"northern manna grass"
+"Glyceria canadensis",Poaceae,,native,7,-5,grass,annual,"rattlesnake grass"
+"Glyceria grandis var. grandis",Poaceae,,native,6,-5,grass,annual,"tall manna grass"
+"Glyceria striata",Poaceae,,native,4,-5,grass,annual,"fowl manna grass"
+"Glycyrrhiza lepidota",Fabaceae,,native,4,4,forb,annual,"wild licorice"
+"Gnaphalium uliginosum",Asteraceae,,non-native,0,0,forb,annual,
+"Goodyera pubescens",Orchidaceae,,native,8,0,forb,annual,"downy rattlesnake plantain"
+"Goodyera repens",Orchidaceae,,native,8,3,forb,annual,"lesser rattlesnake plantain"
+"Goodyera tesselata",Orchidaceae,,native,7,3,forb,annual,"tesselated rattlesnake plantain"
+"Gratiola neglecta",Scrophulariaceae,,native,4,-5,forb,annual,"disk hyssop"
+"Grindelia squarrosa",Asteraceae,,native,0,3,forb,annual,gumweed
+"Gymnocarpium dryopteris",Dryopteridaceae,,native,6,0,forb,annual,"common oak fern"
+"Gymnocarpium robertianum",Dryopteridaceae,,native,9,3,forb,annual,"northern oak fern"
+"Hackelia virginiana",Boraginaceae,,native,1,1,forb,annual,"virginia stickseed"
+"Halenia deflexa",Gentianaceae,,native,6,0,forb,annual,"spurred gentian"
+"Hamamelis virginiana",Hamamelidaceae,,native,7,3,tree,annual,"witch hazel"
+"Hasteola suaveolens",Asteraceae,,native,9,-5,forb,annual,"sweet smelling indian plantain"
+"Helenium autumnale var. autumnale",Asteraceae,,native,4,-4,forb,annual,"autumn sneezeweed"
+"Helenium flexuosum",Asteraceae,,non-native,0,-1,forb,annual,
+"Helianthus annuus",Asteraceae,,native,0,1,forb,annual,"common sunflower"
+"Helianthus giganteus",Asteraceae,,native,4,-3,forb,annual,"giant sunflower"
+"Helianthus grosseserratus",Asteraceae,,native,3,-2,forb,annual,"sawtooth sunflower"
+"Helianthus occidentalis ssp. occidentalis",Asteraceae,,native,6,4,forb,annual,"western sunflower"
+"Helianthus tuberosus",Asteraceae,,native,2,0,forb,annual,"jerusalem artichoke"
+"Heracleum maximum",Apiaceae,,native,4,-3,forb,annual,"cow parsnip"
+"Heteranthera dubia",Pontederiaceae,,native,6,-5,forb,annual,"water stargrass"
+"Heteranthera limosa",Pontederiaceae,,native,7,-5,forb,annual,"mud plantain"
+"Heuchera richardsonii",Saxifragaceae,,native,7,1,forb,annual,alumroot
+"Hibiscus laevis",Malvaceae,,non-native,0,-5,forb,annual,
+"Hierochloe hirta ssp. arctica",Poaceae,,native,7,-3,grass,annual,"sweet grass"
+"Hippuris vulgaris",Hippuridaceae,,native,9,-5,forb,annual,"mares tail"
+"Hordeum jubatum ssp. jubatum",Poaceae,,native,0,-1,grass,annual,"foxtail barley"
+"Hordeum pusillum",Poaceae,,native,8,0,grass,annual,"little barley"
+"Humulus lupulus",Cannabaceae,,native,3,0,vine,annual,"common hops"
+"Huperzia lucidula",Lycopodiaceae,,native,7,-1,shrub,annual,"shining fir moss"
+"Huperzia porophila",Lycopodiaceae,,native,9,3,shrub,annual,"rock fir moss"
+"Huperzia selago var. selago",Lycopodiaceae,,native,8,4,shrub,annual,"northern fir moss"
+"Hydrocotyle americana",Apiaceae,,native,9,-5,forb,annual,"american water pennywort"
+"Hydrophyllum virginianum",Hydrophyllaceae,,native,3,-2,forb,annual,"virginia waterleaf"
+"Hypericum ascyron",Clusiaceae,,native,6,-1,forb,annual,"great st. johns wort"
+"Hypericum boreale",Clusiaceae,,native,6,-5,forb,annual,"northern st. johns wort"
+"Hypericum canadense",Clusiaceae,,non-native,0,-3,forb,annual,
+"Hypericum ellipticum",Clusiaceae,,native,9,-5,forb,annual,"pale st. johns wort"
+"Hypericum majus",Clusiaceae,,native,5,-3,forb,annual,"large st. johns wort"
+"Hypericum punctatum",Clusiaceae,,native,4,-1,forb,annual,"spotted st. johns wort"
+"Hypoxis hirsuta",Iridaceae,,native,8,0,forb,annual,"yellow stargrass"
+"Ilex verticillata",Aquifoliaceae,,native,6,-4,tree,annual,winterberry
+"Impatiens capensis",Balsaminaceae,,native,2,-3,forb,annual,"spotted touch-me-not"
+"Impatiens pallida",Balsaminaceae,,native,5,-3,forb,annual,"pale touch-me-not"
+"Iodanthus pinnatifidus",Brassicaceae,,native,9,-3,forb,annual,"purple rocket"
+"Ipomoea hederacea",Convolvulaceae,,non-native,0,0,vine,annual,
+"Ipomoea purpurea",Convolvulaceae,,non-native,0,4,vine,annual,
+"Iris pseudacorus",Iridaceae,,non-native,0,-5,forb,annual,
+"Iris versicolor",Iridaceae,,native,4,-5,forb,annual,"northern blue flag"
+"Iris virginica var. shrevei",Iridaceae,,native,5,-5,forb,annual,"southern blue flag"
+"Isoetes lacustris",Isoetaceae,,native,9,-5,grass,annual,"lake quillwort"
+"Isoetes melanopoda",Isoetaceae,,native,10,-5,grass,annual,"prairie quillwort"
+"Isoetes tenella",Isoetaceae,,native,8,-5,grass,annual,"brauns quillwort"
+"Iva xanthifolia",Asteraceae,,native,0,0,forb,annual,"marsh elder"
+"Juglans cinerea",Juglandaceae,,native,6,2,tree,annual,butternut
+"Juglans nigra",Juglandaceae,,native,4,3,tree,annual,"black walnut"
+"Juncus alpinoarticulatus",Juncaceae,,native,6,-5,rush,annual,"alpine rush"
+"Juncus articulatus",Juncaceae,,native,7,-5,rush,annual,"jointed rush"
+"Juncus balticus var. littoralis",Juncaceae,,native,4,-5,rush,annual,"baltic rush"
+"Juncus brachycarpus",Juncaceae,,native,10,-3,rush,annual,"short-fruited rush"
+"Juncus brevicaudatus",Juncaceae,,native,7,-5,rush,annual,"narrow-panicled rush"
+"Juncus bufonius var. bufonius",Juncaceae,,native,2,-4,rush,annual,"toad rush"
+"Juncus canadensis",Juncaceae,,native,7,-5,rush,annual,"canada rush"
+"Juncus compressus",Juncaceae,,non-native,0,-5,rush,annual,
+"Juncus dudleyi",Juncaceae,,native,3,0,rush,annual,"dudleys rush"
+"Juncus effusus",Juncaceae,,native,4,-5,rush,annual,"soft rush"
+"Juncus filiformis",Juncaceae,,native,7,-3,rush,annual,"thread-like rush"
+"Juncus gerardii var. gerardii",Juncaceae,,native,0,-5,rush,annual,"black-grass rush"
+"Juncus greenei",Juncaceae,,native,7,0,rush,annual,"greenes rush"
+"Juncus interior var. interior",Juncaceae,,native,5,-1,rush,annual,"inland rush"
+"Juncus longistylis var. longistylis",Juncaceae,,native,9,-3,rush,annual,"long-styled rush"
+"Juncus marginatus",Juncaceae,,native,10,-3,rush,annual,"marginated rush"
+"Juncus nodosus var. nodosus",Juncaceae,,native,5,-5,rush,annual,"knotty rush"
+"Juncus pelocarpus",Juncaceae,,native,8,-5,rush,annual,"brown-fruited rush"
+"Juncus stygius ssp. americanus",Juncaceae,,native,10,-5,rush,annual,"bog rush"
+"Juncus subtilis",Juncaceae,,native,10,-5,rush,annual,"creeping rush"
+"Juncus tenuis",Juncaceae,,native,1,0,rush,annual,"path rush"
+"Juncus torreyi",Juncaceae,,native,4,-3,rush,annual,"torreys rush"
+"Juncus vaseyi",Juncaceae,,native,7,-3,rush,annual,"vaseys rush"
+"Juniperus horizontalis",Cupressaceae,,native,10,1,shrub,annual,"creeping juniper"
+"Juniperus virginiana var. virginiana",Cupressaceae,,native,2,3,tree,annual,"eastern red cedar"
+"Kalmia polifolia",Ericaceae,,native,9,-5,shrub,annual,"bog laurel"
+"Kochia scoparia",Chenopodiaceae,,non-native,0,4,forb,annual,
+"Krigia biflora var. biflora",Asteraceae,,native,5,3,forb,annual,"two-flowered cynthia"
+"Lactuca biennis",Asteraceae,,native,3,0,forb,annual,"biennial blue lettuce"
+"Lactuca canadensis",Asteraceae,,native,2,2,forb,annual,"canada wild lettuce"
+"Lactuca floridana",Asteraceae,,native,5,1,forb,annual,"florida wild lettuce"
+"Lactuca serriola",Asteraceae,,non-native,0,0,forb,annual,
+"Lactuca tatarica var. pulchella",Asteraceae,,native,4,0,forb,annual,"beautiful blue lettuce"
+"Laportea canadensis",Urticaceae,,native,3,-3,forb,annual,"wood nettle"
+"Larix laricina",Pinaceae,,native,7,-3,tree,annual,tamarack
+"Lathyrus japonicus var. maritimus",Fabaceae,,native,7,4,vine,annual,"beach pea"
+"Lathyrus palustris",Fabaceae,,native,6,-3,vine,annual,"marsh vetchling"
+"Lathyrus venosus",Fabaceae,,native,6,0,vine,annual,"veiny pea"
+"Ledum groenlandicum",Ericaceae,,native,8,-5,shrub,annual,"labrador tea"
+"Leersia lenticularis",Poaceae,,native,8,-5,grass,annual,"catchfly grass"
+"Leersia oryzoides",Poaceae,,native,3,-5,grass,annual,"rice cut grass"
+"Leersia virginica",Poaceae,,native,5,-3,grass,annual,"white grass"
+"Lemna minor",Lemnaceae,,native,5,-5,forb,annual,"lesser duckweed"
+"Lemna obscura",Lemnaceae,,native,1,-5,forb,annual,"little duckweed"
+"Lemna perpusilla",Lemnaceae,,native,1,-5,forb,annual,"minute duckweed"
+"Lemna trisulca",Lemnaceae,,native,5,-5,forb,annual,"star duckweed"
+"Lemna turionifera",Lemnaceae,,native,1,-5,forb,annual,"turion duckweed"
+"Lepidium densiflorum",Brassicaceae,,native,0,0,forb,annual,"green-flowered peppergrass"
+"Lepidium perfoliatum",Brassicaceae,,non-native,0,0,forb,annual,
+"Lepidium virginicum var. virginicum",Brassicaceae,,native,0,4,forb,annual,"virginia peppergrass"
+"Lespedeza capitata",Fabaceae,,native,3,3,forb,annual,"round-headed bush clover"
+"Liatris pycnostachya var. pycnostachya",Asteraceae,,native,7,1,forb,annual,"great blazing star"
+"Lilium michiganense",Liliaceae,,native,7,-1,forb,annual,"michigan lily"
+"Lilium philadelphicum var. andinum",Liliaceae,,native,9,1,forb,annual,"wood lily"
+"Limosella aquatica",Scrophulariaceae,,native,6,-5,forb,annual,mudwort
+"Lindernia dubia",Scrophulariaceae,,native,6,-5,forb,annual,"yellow-seeded false pimpernel"
+"Linnaea borealis ssp. americana",Caprifoliaceae,,native,7,0,shrub,annual,twinflower
+"Liparis liliifolia",Orchidaceae,,native,5,4,forb,annual,"lily-leaved twayblade"
+"Liparis loeselii",Orchidaceae,,native,6,-4,forb,annual,"loesels twayblade"
+"Lipocarpha micrantha",Cyperaceae,,native,6,-5,rush,annual,hemicarpha
+"Listera auriculata",Orchidaceae,,native,10,-4,forb,annual,"auricled twayblade"
+"Listera convallarioides",Orchidaceae,,native,10,-3,forb,annual,"broad-leaved twayblade"
+"Listera cordata var. cordata",Orchidaceae,,native,8,-3,forb,annual,"heart-leaved twayblade"
+"Littorella uniflora",Plantaginaceae,,native,10,-5,forb,annual,"american shore plantain"
+"Lobelia cardinalis",Campanulaceae,,native,7,-5,forb,annual,"cardinal flower"
+"Lobelia dortmanna",Campanulaceae,,native,10,-5,forb,annual,"water lobelia"
+"Lobelia inflata",Campanulaceae,,native,3,4,forb,annual,"indian tobacco"
+"Lobelia kalmii",Campanulaceae,,native,9,-5,forb,annual,"kalms lobelia"
+"Lobelia siphilitica var. ludoviciana",Campanulaceae,,native,5,-4,forb,annual,"great lobelia"
+"Lobelia spicata",Campanulaceae,,native,7,0,forb,annual,"pale-spiked lobelia"
+"Lolium arundinaceum",Poaceae,,non-native,0,2,grass,annual,
+"Lolium perenne",Poaceae,,non-native,0,3,grass,annual,
+"Lolium pratense",Poaceae,,non-native,0,4,grass,annual,
+"Lonicera canadensis",Caprifoliaceae,,native,6,3,shrub,annual,"fly honeysuckle"
+"Lonicera dioica",Caprifoliaceae,,native,5,3,vine,annual,"wild honeysuckle"
+"Lonicera hirsuta",Caprifoliaceae,,native,6,0,vine,annual,"hairy honeysuckle"
+"Lonicera oblongifolia",Caprifoliaceae,,native,8,-5,shrub,annual,"swamp fly honeysuckle"
+"Lonicera tatarica",Caprifoliaceae,,non-native,0,0,shrub,annual,
+"Lonicera villosa",Caprifoliaceae,,native,8,-3,shrub,annual,"mountain fly honeysuckle"
+"Lotus corniculatus",Fabaceae,,non-native,0,1,forb,annual,
+"Ludwigia palustris",Onagraceae,,native,5,-5,forb,annual,"common water primrose"
+"Ludwigia polycarpa",Onagraceae,,native,6,-5,forb,annual,"false loosestrife"
+"Luzula acuminata var. acuminata",Juncaceae,,native,6,1,rush,annual,"pointed woodrush"
+"Luzula multiflora ssp. multiflora",Juncaceae,,native,5,3,rush,annual,"many-flowered woodrush"
+"Luzula parviflora",Juncaceae,,native,8,0,rush,annual,"small-flowered woodrush"
+"Lycopodiella inundata",Lycopodiaceae,,native,7,-5,shrub,annual,"bog clubmoss"
+"Lycopodium annotinum",Lycopodiaceae,,native,7,0,shrub,annual,"bristly clubmoss"
+"Lycopodium clavatum",Lycopodiaceae,,native,6,0,shrub,annual,"running clubmoss"
+"Lycopodium complanatum",Lycopodiaceae,,native,6,2,shrub,annual,"northern groundcedar"
+"Lycopodium dendroideum",Lycopodiaceae,,native,6,0,shrub,annual,"round-branched groundpine"
+"Lycopodium obscurum",Lycopodiaceae,,native,6,3,shrub,annual,"ground pine"
+"Lycopus americanus",Lamiaceae,,native,4,-5,forb,annual,"cut-leaved bugleweed"
+"Lycopus asper",Lamiaceae,,native,4,-5,forb,annual,"rough bugleweed"
+"Lycopus uniflorus",Lamiaceae,,native,5,-5,forb,annual,"northern bugleweed"
+"Lycopus virginicus",Lamiaceae,,native,5,-5,forb,annual,"virginia bugleweed"
+"Lysimachia ciliata",Primulaceae,,native,5,-3,forb,annual,"fringed loosestrife"
+"Lysimachia hybrida",Primulaceae,,native,7,-5,forb,annual,"hybrid loosestrife"
+"Lysimachia nummularia",Primulaceae,,non-native,0,-4,forb,annual,
+"Lysimachia quadriflora",Primulaceae,,native,8,-5,forb,annual,"whorled loosestrife"
+"Lysimachia terrestris",Primulaceae,,native,7,-5,forb,annual,"yellow loosestrife"
+"Lysimachia thyrsiflora",Primulaceae,,native,6,-5,forb,annual,"tufted loosestrife"
+"Lythrum alatum var. alatum",Lythraceae,,native,6,-5,shrub,annual,"wing-angled loosestrife"
+"Lythrum salicaria",Lythraceae,,non-native,0,-5,shrub,annual,
+"Madia glomerata",Asteraceae,,native,0,3,forb,annual,tarweed
+"Maianthemum canadense",Liliaceae,,native,5,0,forb,annual,"canada mayflower"
+"Maianthemum racemosum ssp. racemosum",Liliaceae,,native,5,3,forb,annual,"common false solomons seal"
+"Maianthemum stellatum",Liliaceae,,native,5,1,forb,annual,"starry false solomons seal"
+"Maianthemum trifolium",Liliaceae,,native,9,-5,forb,annual,"three-leaved false solomons seal"
+"Malaxis brachypoda",Orchidaceae,,native,10,-3,forb,annual,"white adders mouth"
+"Malaxis paludosa",Orchidaceae,,native,10,-5,forb,annual,"bog adders mouth"
+"Malaxis unifolia",Orchidaceae,,native,7,0,forb,annual,"green adders mouth"
+"Marrubium vulgare",Lamiaceae,,non-native,0,0,shrub,annual,
+"Marsilea vestita ssp. vestita",Marsileaceae,,native,7,-5,forb,annual,"hairy waterclover"
+"Matricaria discoidea",Asteraceae,,non-native,0,3,forb,annual,
+"Matteuccia struthiopteris",Dryopteridaceae,,native,5,-3,forb,annual,"ostrich fern"
+"Medicago lupulina",Fabaceae,,non-native,0,1,forb,annual,
+"Megalodonta beckii var. beckii",Asteraceae,,native,8,-5,forb,annual,"water marigold"
+"Melampyrum lineare var. lineare",Scrophulariaceae,,native,6,1,forb,annual,"cow wheat"
+"Melilotus officinalis",Fabaceae,,non-native,0,3,forb,annual,
+"Menispermum canadense",Menispermaceae,,native,4,0,shrub,annual,"canada moonseed"
+"Mentha arvensis",Lamiaceae,,native,3,-3,forb,annual,"common mint"
+"Mentha spicata",Lamiaceae,,non-native,0,-4,forb,annual,
+"Mentha x piperita",Lamiaceae,,non-native,0,-5,forb,annual,
+"Menyanthes trifoliata",Menyanthaceae,,native,9,-5,forb,annual,buckbean
+"Mertensia paniculata var. paniculata",Boraginaceae,,native,8,0,shrub,annual,"panicled bluebells"
+"Mertensia virginica",Boraginaceae,,native,6,-3,forb,annual,"virginia bluebells"
+"Milium effusum var. cisatlanticum",Poaceae,,native,7,3,grass,annual,"woodland millet grass"
+"Mimulus glabratus var. jamesii",Scrophulariaceae,,native,9,-5,forb,annual,"yellow monkey flower"
+"Mimulus ringens var. ringens",Scrophulariaceae,,native,5,-5,forb,annual,"blue monkey flower"
+"Mitchella repens",Rubiaceae,,native,6,2,shrub,annual,partridgeberry
+"Mitella diphylla",Saxifragaceae,,native,7,2,forb,annual,"two-leaved miterwort"
+"Mitella nuda",Saxifragaceae,,native,7,-3,forb,annual,"naked miterwort"
+"Moehringia lateriflora",Caryophyllaceae,,native,6,0,forb,annual,"side-flowering sandwort"
+"Mollugo verticillata",Molluginaceae,,non-native,0,0,forb,annual,
+"Monarda fistulosa ssp. fistulosa",Lamiaceae,,native,3,3,shrub,annual,"wild bergamot"
+"Moneses uniflora",Pyrolaceae,,native,8,0,forb,annual,"one-flowered pyrola"
+"Monotropa uniflora",Monotropaceae,,native,6,3,forb,annual,"indian pipe"
+"Montia chamissoi",Portulacaceae,,native,10,-5,forb,annual,montia
+"Morus alba",Moraceae,,non-native,0,0,tree,annual,
+"Morus rubra var. rubra",Moraceae,,non-native,0,1,tree,annual,
+"Muhlenbergia asperifolia",Poaceae,,native,3,-3,grass,annual,scratchgrass
+"Muhlenbergia frondosa",Poaceae,,native,3,-3,grass,annual,"swamp muhly grass"
+"Muhlenbergia glomerata",Poaceae,,native,8,-4,grass,annual,"clustered muhly grass"
+"Muhlenbergia mexicana",Poaceae,,native,3,-3,grass,annual,"mexican muhly grass"
+"Muhlenbergia racemosa",Poaceae,,native,4,-3,grass,annual,"marsh muhly grass"
+"Muhlenbergia richardsonis",Poaceae,,native,8,-1,grass,annual,"mat muhly grass"
+"Muhlenbergia schreberi",Poaceae,,native,1,0,grass,annual,"dropseed muhly grass"
+"Muhlenbergia sylvatica",Poaceae,,native,8,-3,grass,annual,"woodland muhly grass"
+"Muhlenbergia uniflora",Poaceae,,native,9,-5,grass,annual,"one-flowered muhly"
+"Myosotis arvensis",Boraginaceae,,non-native,0,0,forb,annual,
+"Myosotis laxa",Boraginaceae,,native,7,-5,forb,annual,"smaller forget-me-not"
+"Myosotis scorpioides",Boraginaceae,,non-native,0,-5,forb,annual,
+"Myosotis verna",Boraginaceae,,native,7,1,forb,annual,"virginia forget-me-not"
+"Myosoton aquaticum",Caryophyllaceae,,non-native,0,-1,forb,annual,
+"Myosurus minimus",Ranunculaceae,,native,2,-3,forb,annual,mousetail
+"Myrica gale",Myricaceae,,native,8,-5,shrub,annual,"sweet gale"
+"Myriophyllum alterniflorum",Haloragaceae,,native,10,-5,forb,annual,"alternate-flower water milfoil"
+"Myriophyllum farwellii",Haloragaceae,,native,9,-5,forb,annual,"farwells water milfoil"
+"Myriophyllum heterophyllum",Haloragaceae,,native,7,-5,forb,annual,"broadleaf water milfoil"
+"Myriophyllum sibiricum",Haloragaceae,,native,7,-5,forb,annual,"common water-milfoil"
+"Myriophyllum spicatum",Haloragaceae,,non-native,0,-5,forb,annual,
+"Myriophyllum tenellum",Haloragaceae,,native,9,-5,forb,annual,"slender water milfoil"
+"Myriophyllum verticillatum",Haloragaceae,,native,8,-5,forb,annual,"whorled water milfoil"
+"Najas flexilis",Najadaceae,,native,5,-5,forb,annual,"flexuous naiad"
+"Najas gracillima",Najadaceae,,native,10,-5,forb,annual,"slender naiad"
+"Najas guadalupensis",Najadaceae,,native,8,-5,forb,annual,"southern naiad"
+"Najas marina",Najadaceae,,native,4,-5,forb,annual,"sea naiad"
+"Napaea dioica",Malvaceae,,native,6,-2,forb,annual,"glade mallow"
+"Nelumbo lutea",Nelumbonaceae,,native,8,-5,forb,annual,"american lotus"
+"Nemopanthus mucronatus",Aquifoliaceae,,native,8,-5,tree,annual,"swamp holly"
+"Nepeta cataria",Lamiaceae,,non-native,0,1,forb,annual,
+"Nuphar lutea ssp. pumila",Nymphaeaceae,,native,9,-5,forb,annual,"yellow pond lily"
+"Nuphar lutea ssp. rubrodisca",Nymphaeaceae,,native,9,-5,forb,annual,"intermediate pond-lily"
+"Nuphar lutea ssp. variegata",Nymphaeaceae,,native,6,-5,forb,annual,"yellow pond lily"
+"Nymphaea leibergii",Nymphaeaceae,,native,10,-5,forb,annual,"small white waterlily"
+"Nymphaea odorata",Nymphaeaceae,,native,6,-5,forb,annual,"american white waterlily"
+"Oenothera biennis",Onagraceae,,native,1,3,forb,annual,"common evening primrose"
+"Oenothera laciniata",Onagraceae,,native,5,3,forb,annual,"cut-leaved evening primrose"
+"Oenothera parviflora",Onagraceae,,native,2,3,forb,annual,"northern evening primrose"
+"Oenothera perennis",Onagraceae,,native,6,0,forb,annual,"perennial evening primrose"
+"Oenothera rhombipetala",Onagraceae,,native,7,3,forb,annual,"rhombic evening primrose"
+"Oenothera villosa",Onagraceae,,native,1,0,forb,annual,"common evening primrose"
+"Oligoneuron riddellii",Asteraceae,,native,8,-5,forb,annual,"riddells goldenrod"
+"Oligoneuron rigidum var. humile",Asteraceae,,native,4,4,forb,annual,"stiff goldenrod"
+"Onoclea sensibilis",Dryopteridaceae,,native,4,-3,forb,annual,"sensitive fern"
+"Ophioglossum pusillum",Ophioglossaceae,,native,8,-3,forb,annual,"adders tongue"
+"Ornithogalum umbellatum",Liliaceae,,non-native,0,1,forb,annual,
+"Orthilia secunda",Pyrolaceae,,native,7,-1,shrub,annual,"one-sided pyrola"
+"Orthocarpus luteus",Scrophulariaceae,,native,6,3,forb,annual,"owl clover"
+"Osmorhiza claytonii",Apiaceae,,native,3,4,forb,annual,"claytons sweet cicely"
+"Osmorhiza longistylis",Apiaceae,,native,4,4,forb,annual,aniseroot
+"Osmunda cinnamomea var. cinnamomea",Osmundaceae,,native,7,-3,forb,annual,"cinnamon fern"
+"Osmunda claytoniana",Osmundaceae,,native,6,-1,forb,annual,"interrupted fern"
+"Osmunda regalis var. spectabilis",Osmundaceae,,native,7,-5,forb,annual,"royal fern"
+"Ostrya virginiana var. virginiana",Betulaceae,,native,4,4,tree,annual,ironwood
+"Oxalis montana",Oxalidaceae,,native,9,0,forb,annual,"common wood sorrel"
+"Oxalis stricta",Oxalidaceae,,native,0,3,forb,annual,"yellow wood sorrel"
+"Oxypolis rigidior",Apiaceae,,native,8,-5,forb,annual,cowbane
+"Oxytropis lambertii var. lambertii",Fabaceae,,native,8,4,forb,annual,"lamberts locoweed"
+"Packera aurea",Asteraceae,,native,6,-3,forb,annual,"golden ragwort"
+"Packera indecora",Asteraceae,,native,10,0,forb,annual,"elegant groundsel"
+"Packera paupercula",Asteraceae,,native,4,-1,forb,annual,"balsam ragwort"
+"Packera plattensis",Asteraceae,,native,6,4,forb,annual,"prairie ragwort"
+"Packera pseudaurea var. semicordata",Asteraceae,,native,7,-3,forb,annual,"western heart-leaved groundsel"
+"Panicum capillare",Poaceae,,native,0,0,grass,annual,"witch grass"
+"Panicum dichotomiflorum var. dichotomiflorum",Poaceae,,native,0,-2,grass,annual,"fall panic grass"
+"Panicum philadelphicum",Poaceae,,native,4,-3,grass,annual,"philadelphia panic grass"
+"Panicum virgatum var. virgatum",Poaceae,,native,2,-1,grass,annual,switchgrass
+"Parietaria pensylvanica",Urticaceae,,native,2,3,forb,annual,pellitory
+"Parnassia glauca",Saxifragaceae,,native,9,-5,forb,annual,"american grass-of-parnassus"
+"Parnassia palustris",Saxifragaceae,,native,8,-5,forb,annual,"northern grass of parnassus"
+"Parthenocissus quinquefolia",Vitaceae,,native,9,1,vine,annual,woodbine
+"Parthenocissus vitacea",Vitaceae,,native,2,3,shrub,annual,"virginia creeper"
+"Pascopyrum smithii",Poaceae,,native,3,2,grass,annual,"western wheatgrass"
+"Paspalum setaceum",Poaceae,,native,3,0,grass,annual,"hairy beadgrass"
+"Pedicularis canadensis ssp. canadensis",Scrophulariaceae,,native,7,2,shrub,annual,"wood betony"
+"Pedicularis lanceolata",Scrophulariaceae,,native,8,-4,forb,annual,"swamp lousewort"
+"Peltandra virginica",Araceae,,non-native,0,-5,forb,annual,
+"Pennisetum glaucum",Poaceae,,non-native,0,0,grass,annual,
+"Penstemon digitalis",Scrophulariaceae,,non-native,0,1,forb,annual,
+"Penthorum sedoides",Crassulaceae,,native,3,-5,forb,annual,"ditch stonecrop"
+"Perilla frutescens var. frutescens",Lamiaceae,,non-native,0,0,forb,annual,
+"Petasites frigidus var. palmatus",Asteraceae,,native,6,-3,forb,annual,"palmate sweet coltsfoot"
+"Petasites sagittatus",Asteraceae,,native,8,-5,forb,annual,"arrow-leaved sweet coltsfoot"
+"Phalaris arundinacea",Poaceae,,non-native,0,-4,grass,annual,
+"Phalaris canariensis",Poaceae,,non-native,0,3,grass,annual,
+"Phegopteris hexagonoptera",Thelypteridaceae,,native,9,1,forb,annual,"broad beech fern"
+"Phleum pratense",Poaceae,,non-native,0,3,grass,annual,
+"Phlox divaricata ssp. laphamii",Polemoniaceae,,native,5,3,shrub,annual,"blue phlox"
+"Phlox maculata ssp. maculata",Polemoniaceae,,native,8,-4,forb,annual,"wild sweet william"
+"Phlox paniculata",Polemoniaceae,,non-native,0,3,forb,annual,
+"Phlox pilosa ssp. fulgida",Polemoniaceae,,native,7,1,shrub,annual,"prairie phlox"
+"Photinia melanocarpa",Rosaceae,,native,7,-2,shrub,annual,"black chokeberry"
+"Phragmites australis",Poaceae,,native,1,-4,shrub,annual,"common reed grass"
+"Phyla lanceolata",Verbenaceae,,native,6,-5,vine,annual,fogfruit
+"Physocarpus opulifolius",Rosaceae,,native,5,-2,shrub,annual,ninebark
+"Physostegia virginiana ssp. virginiana",Lamiaceae,,native,6,-3,forb,annual,"obedient plant"
+"Picea glauca",Pinaceae,,native,5,3,tree,annual,"white spruce"
+"Picea mariana",Pinaceae,,native,7,-3,tree,annual,"black spruce"
+"Pilea fontana",Urticaceae,,native,4,-3,forb,annual,"black-fruited clearweed"
+"Pilea pumila var. pumila",Urticaceae,,native,3,-3,forb,annual,"dwarf clearweed"
+"Pinguicula vulgaris",Lentibulariaceae,,native,10,-5,forb,annual,butterwort
+"Pinus banksiana",Pinaceae,,native,5,3,tree,annual,"jack pine"
+"Pinus resinosa",Pinaceae,,native,5,3,tree,annual,"red pine"
+"Pinus strobus",Pinaceae,,native,5,3,tree,annual,"white pine"
+"Plagiobothrys scouleri",Boraginaceae,,native,8,0,forb,annual,"popcorn flower"
+"Plantago elongata ssp. elongata",Plantaginaceae,,native,8,-3,forb,annual,"slender plantain"
+"Plantago eriopoda",Plantaginaceae,,native,7,0,forb,annual,"alkali plantain"
+"Plantago lanceolata",Plantaginaceae,,non-native,0,0,forb,annual,
+"Plantago major",Plantaginaceae,,non-native,0,-1,forb,annual,
+"Plantago rugelii var. rugelii",Plantaginaceae,,native,0,0,forb,annual,"rugels plantain"
+"Plantago virginica",Plantaginaceae,,native,0,4,forb,annual,"hoary plantain"
+"Platanthera clavellata",Orchidaceae,,native,9,-5,forb,annual,"small green wood orchid"
+"Platanthera dilatata var. dilatata",Orchidaceae,,native,10,-4,forb,annual,"tall white bog orchid"
+"Platanthera flava var. herbiola",Orchidaceae,,native,8,-3,forb,annual,"tubercled rein orchid"
+"Platanthera hookeri",Orchidaceae,,native,8,-1,forb,annual,"hookers orchid"
+"Platanthera hyperborea",Orchidaceae,,native,5,-4,forb,annual,"tall northern bog orchid"
+"Platanthera lacera",Orchidaceae,,native,7,-3,forb,annual,"ragged fringed orchid"
+"Platanthera obtusata",Orchidaceae,,native,8,-3,forb,annual,"small northern bog orchid"
+"Platanthera orbiculata",Orchidaceae,,native,9,0,forb,annual,"large round-leaved orchid"
+"Platanthera praeclara",Orchidaceae,,native,10,-4,forb,annual,"western prairie fringed orchid"
+"Platanthera psycodes",Orchidaceae,,native,7,-3,forb,annual,"small purple fringed orchid"
+"Poa alsodes",Poaceae,,native,5,-2,grass,annual,"wood bluegrass"
+"Poa annua",Poaceae,,non-native,0,1,grass,annual,
+"Poa arida",Poaceae,,native,8,0,grass,annual,"plains bluegrass"
+"Poa compressa",Poaceae,,non-native,0,2,grass,annual,
+"Poa nemoralis",Poaceae,,non-native,0,0,grass,annual,
+"Poa paludigena",Poaceae,,native,10,-5,grass,annual,"bog bluegrass"
+"Poa palustris",Poaceae,,native,5,-4,grass,annual,"fowl bluegrass"
+"Poa pratensis ssp. pratensis",Poaceae,,non-native,0,1,grass,annual,
+"Poa sylvestris",Poaceae,,native,8,0,grass,annual,"woodland bluegrass"
+"Poa trivialis",Poaceae,,non-native,0,-3,grass,annual,
+"Podophyllum peltatum",Berberidaceae,,native,4,3,forb,annual,mayapple
+"Pogonia ophioglossoides",Orchidaceae,,native,9,-5,forb,annual,"rose pogonia"
+"Polemonium occidentale ssp. lacustre",Polemoniaceae,,native,10,-5,forb,annual,"western jacobs ladder"
+"Polemonium reptans var. reptans",Polemoniaceae,,native,6,0,shrub,annual,"spreading jacobs ladder"
+"Polygala cruciata var. aquilonia",Polygalaceae,,native,9,-4,forb,annual,"cross-leaved milkwort polygalaceae"
+"Polygala paucifolia",Polygalaceae,,native,7,3,forb,annual,gaywings
+"Polygala polygama",Polygalaceae,,native,8,4,forb,annual,"racemed milkwort"
+"Polygala sanguinea",Polygalaceae,,native,5,3,forb,annual,"blood milkwort"
+"Polygala senega",Polygalaceae,,native,7,3,forb,annual,"seneca snakeroot"
+"Polygonatum biflorum var. commutatum",Liliaceae,,native,4,3,forb,annual,"giant solomons seal"
+"Polygonum achoreum",Polygonaceae,,native,0,0,forb,annual,"blue knotweed"
+"Polygonum amphibium",Polygonaceae,,native,4,-5,forb,annual,"water smartweed"
+"Polygonum arifolium",Polygonaceae,,native,7,-5,shrub,annual,"prostrate knotweed"
+"Polygonum aviculare",Polygonaceae,,non-native,0,1,forb,annual,
+"Polygonum careyi",Polygonaceae,,native,6,-4,forb,annual,"careys smartweed"
+"Polygonum convolvulus var. convolvulus",Polygonaceae,,non-native,0,1,vine,annual,
+"Polygonum cuspidatum",Polygonaceae,,non-native,0,3,shrub,annual,
+"Polygonum douglasii ssp. douglasii",Polygonaceae,,native,7,3,forb,annual,"douglas knotweed"
+"Polygonum erectum",Polygonaceae,,native,1,3,forb,annual,"erect knotweed"
+"Polygonum hydropiper",Polygonaceae,,non-native,0,-5,forb,annual,
+"Polygonum hydropiperoides",Polygonaceae,,native,4,-5,forb,annual,"mild waterpepper"
+"Polygonum lapathifolium",Polygonaceae,,native,2,-4,forb,annual,"nodding smartweed"
+"Polygonum pensylvanicum",Polygonaceae,,native,1,-4,forb,annual,"pennsylvania smartweed"
+"Polygonum persicaria",Polygonaceae,,non-native,0,-3,forb,annual,
+"Polygonum punctatum",Polygonaceae,,native,5,-5,forb,annual,"dotted smartweed"
+"Polygonum ramosissimum",Polygonaceae,,native,2,1,forb,annual,"bushy knotweed"
+"Polygonum sagittatum",Polygonaceae,,native,4,-5,shrub,annual,"arrow-leaved tearthumb"
+"Polygonum scandens",Polygonaceae,,native,3,0,vine,annual,"false buckwheat"
+"Polygonum virginianum",Polygonaceae,,native,5,0,forb,annual,"virginia knotweed"
+"Polygonum viviparum",Polygonaceae,,native,10,-3,forb,annual,"alpine bistort"
+"Polypogon monspeliensis",Poaceae,,non-native,0,-5,grass,annual,
+"Pontederia cordata",Pontederiaceae,,native,8,-5,forb,annual,pickerelweed
+"Populus balsamifera ssp. balsamifera",Salicaceae,,native,4,-3,tree,annual,"balsam popla"
+"Populus deltoides ssp. monilifera",Salicaceae,,native,1,-1,tree,annual,cottonwood
+"Populus grandidentata",Salicaceae,,native,4,3,tree,annual,"big-toothed aspen"
+"Populus tremuloides",Salicaceae,,native,2,0,tree,annual,"quaking aspen"
+"Portulaca oleracea",Portulacaceae,,non-native,0,1,forb,annual,
+"Potamogeton alpinus",Potamogetonaceae,,native,9,-5,forb,annual,"alpine pondweed"
+"Potamogeton amplifolius",Potamogetonaceae,,native,7,-5,forb,annual,"large-leaved pondweed"
+"Potamogeton bicupulatus",Potamogetonaceae,,native,10,-5,forb,annual,"snailseed pondweed"
+"Potamogeton crispus",Potamogetonaceae,,non-native,0,-5,forb,annual,
+"Potamogeton diversifolius",Potamogetonaceae,,native,10,-5,forb,annual,"diverse-leaved pondweed"
+"Potamogeton epihydrus",Potamogetonaceae,,native,8,-5,forb,annual,"ribbon-leaved pondweed"
+"Potamogeton foliosus ssp. foliosus",Potamogetonaceae,,native,6,-5,forb,annual,"leafy pondweed"
+"Potamogeton friesii",Potamogetonaceae,,native,8,-5,forb,annual,"fries pondweed"
+"Potamogeton gramineus",Potamogetonaceae,,native,7,-5,forb,annual,"grass-leaved pondweed"
+"Potamogeton illinoensis",Potamogetonaceae,,native,6,-5,forb,annual,"illinois pondweed"
+"Potamogeton natans",Potamogetonaceae,,native,5,-5,forb,annual,"floating pondweed"
+"Potamogeton nodosus",Potamogetonaceae,,native,6,-5,forb,annual,"american pondweed"
+"Potamogeton oakesianus",Potamogetonaceae,,native,10,-5,forb,annual,"oakes pondweed"
+"Potamogeton obtusifolius",Potamogetonaceae,,native,8,-5,forb,annual,"blunt-leaved pondweed"
+"Potamogeton praelongus",Potamogetonaceae,,native,7,-5,forb,annual,"white-stemmed pondweed"
+"Potamogeton pusillus",Potamogetonaceae,,native,7,-5,forb,annual,"small pondweed"
+"Potamogeton richardsonii",Potamogetonaceae,,native,5,-5,forb,annual,"richardsons pondweed"
+"Potamogeton robbinsii",Potamogetonaceae,,native,8,-5,forb,annual,"robbins pondweed"
+"Potamogeton spirillus",Potamogetonaceae,,native,8,-5,forb,annual,"spiral-fruited pondweed"
+"Potamogeton strictifolius",Potamogetonaceae,,native,8,-5,forb,annual,"straight-leaved pondweed"
+"Potamogeton vaseyi",Potamogetonaceae,,native,10,-5,forb,annual,"vaseys pondweed"
+"Potamogeton zosteriformis",Potamogetonaceae,,native,6,-5,forb,annual,"flat-stemmed pondweed"
+"Potentilla argentea var. argentea",Rosaceae,,non-native,0,3,forb,annual,
+"Potentilla arguta ssp. arguta",Rosaceae,,native,8,4,shrub,annual,"prairie cinquefoil"
+"Potentilla gracilis",Rosaceae,,native,5,0,shrub,annual,"slender cinquefoil"
+"Potentilla norvegica ssp. monspeliensis",Rosaceae,,native,1,0,forb,annual,"rough cinquefoil"
+"Potentilla paradoxa",Rosaceae,,native,5,-4,forb,annual,"bushy cinquefoil"
+"Potentilla rivalis",Rosaceae,,native,4,-4,forb,annual,"brook cinquefoil"
+"Potentilla simplex",Rosaceae,,native,2,4,forb,annual,"oldfield cinquefoil"
+"Prenanthes alba",Asteraceae,,native,5,3,forb,annual,"white rattlesnakeroot"
+"Prenanthes crepidinea",Asteraceae,,native,10,-1,forb,annual,"nodding rattlesnakeroot"
+"Prenanthes racemosa",Asteraceae,,native,9,-3,forb,annual,"smooth rattlesnakeroot"
+"Primula mistassinica",Primulaceae,,native,10,-3,forb,annual,"mistassini primrose"
+"Prunella vulgaris ssp. lanceolata",Lamiaceae,,native,0,0,forb,annual,heal-all
+"Prunella vulgaris ssp. vulgaris",Lamiaceae,,non-native,0,0,forb,annual,
+"Prunus nigra",Rosaceae,,native,6,4,tree,annual,"canada plum"
+"Prunus pensylvanica var. pensylvanica",Rosaceae,,native,4,0,tree,annual,"pin cherry"
+"Prunus serotina var. serotina",Rosaceae,,native,4,3,tree,annual,"black cherry"
+"Prunus virginiana var. virginiana",Rosaceae,,native,3,1,tree,annual,chokecherry
+"Ptelea trifoliata ssp. trifoliata",Rutaceae,,non-native,0,2,tree,annual,
+"Pteridium aquilinum var. latiusculum",Dennstaedtiaceae,,native,3,3,forb,annual,bracken
+"Puccinellia distans ssp. distans",Poaceae,,non-native,0,-5,grass,annual,
+"Puccinellia nuttalliana",Poaceae,,native,7,-5,grass,annual,"nuttalls alkali grass"
+"Pycnanthemum virginianum",Lamiaceae,,native,6,-4,forb,annual,"virginia mountain mint"
+"Pyrola americana",Pyrolaceae,,native,8,1,shrub,annual,"round-leaved pyrola"
+"Pyrola asarifolia ssp. asarifolia",Pyrolaceae,,native,7,0,shrub,annual,"pink shinleaf"
+"Pyrola chlorantha",Pyrolaceae,,native,7,3,shrub,annual,"green-flowered pyrola"
+"Pyrola minor",Pyrolaceae,,native,7,-1,shrub,annual,"small shinleaf"
+"Quercus alba",Fagaceae,,native,7,3,tree,annual,"white oak"
+"Quercus bicolor",Fagaceae,,native,8,-4,tree,annual,"swamp white oak"
+"Quercus macrocarpa var. macrocarpa",Fagaceae,,native,5,1,tree,annual,"bur oak"
+"Quercus rubra",Fagaceae,,native,5,3,tree,annual,"northern red oak"
+"Ranunculus abortivus",Ranunculaceae,,native,1,-2,forb,annual,"kidney-leaved buttercup"
+"Ranunculus acris var. acris",Ranunculaceae,,non-native,0,-2,forb,annual,
+"Ranunculus cymbalaria",Ranunculaceae,,native,2,-5,forb,annual,"seaside crowfoot"
+"Ranunculus fascicularis",Ranunculaceae,,native,6,3,forb,annual,"swamp buttercup"
+"Ranunculus flabellaris",Ranunculaceae,,native,6,-5,forb,annual,"large yellow water crowfoot"
+"Ranunculus flammula",Ranunculaceae,,native,7,-3,forb,annual,spearwort
+"Ranunculus gmelinii",Ranunculaceae,,native,6,-4,forb,annual,"small yellow water crowfoot"
+"Ranunculus hispidus",Ranunculaceae,,native,6,0,forb,annual,"hispid buttercup"
+"Ranunculus lapponicus",Ranunculaceae,,native,10,-5,forb,annual,"lapland buttercup"
+"Ranunculus longirostris",Ranunculaceae,,native,7,-5,forb,annual,"limp white water crowfoot"
+"Ranunculus macounii",Ranunculaceae,,native,6,-5,forb,annual,"macouns buttercup"
+"Ranunculus pensylvanicus",Ranunculaceae,,native,5,-5,forb,annual,"bristly buttercup"
+"Ranunculus recurvatus var. recurvatus",Ranunculaceae,,native,5,-3,forb,annual,"hooked crowfoot"
+"Ranunculus repens",Ranunculaceae,,non-native,0,-1,forb,annual,
+"Ranunculus sceleratus",Ranunculaceae,,native,3,-5,forb,annual,"cursed crowfoot"
+"Ranunculus trichophyllus var. trichophyllus",Ranunculaceae,,native,7,-5,forb,annual,"limp white water crowfoot"
+"Rhamnus alnifolia",Rhamnaceae,,native,7,-5,shrub,annual,"dwarf alder"
+"Rhamnus cathartica",Rhamnaceae,,non-native,0,3,tree,annual,
+"Rhynchospora alba",Cyperaceae,,native,7,-5,rush,annual,"white beak rush"
+"Rhynchospora capillacea",Cyperaceae,,native,10,-5,rush,annual,"hair-like beak rush"
+"Rhynchospora fusca",Cyperaceae,,native,9,-5,rush,annual,"sooty-colored beak rush"
+"Ribes americanum",Grossulariaceae,,native,4,-3,shrub,annual,"wild black currant"
+"Ribes aureum var. villosum",Grossulariaceae,,non-native,0,1,shrub,annual,
+"Ribes glandulosum",Grossulariaceae,,native,6,-3,shrub,annual,"skunk currant"
+"Ribes hirtellum",Grossulariaceae,,native,6,-3,shrub,annual,"swamp gooseberry"
+"Ribes hudsonianum var. hudsonianum",Grossulariaceae,,native,8,-5,shrub,annual,"northern black currant"
+"Ribes lacustre",Grossulariaceae,,native,8,-3,shrub,annual,"swamp black currant"
+"Ribes triste",Grossulariaceae,,native,7,-5,shrub,annual,"swamp red currant"
+"Robinia pseudoacacia",Fabaceae,,non-native,0,4,tree,annual,
+"Rorippa austriaca",Brassicaceae,,non-native,0,-2,forb,annual,
+"Rorippa microphylla",Brassicaceae,,non-native,0,-5,forb,annual,
+"Rorippa nasturtium-aquaticum",Brassicaceae,,non-native,0,-5,forb,annual,
+"Rorippa palustris",Brassicaceae,,native,4,-5,forb,annual,"icelandic yellow cress"
+"Rorippa sessiliflora",Brassicaceae,,native,8,-5,forb,annual,"sessile-flowered yellow cress"
+"Rorippa sinuata",Brassicaceae,,native,8,-3,forb,annual,"spreading yellow cress"
+"Rorippa sylvestris",Brassicaceae,,non-native,0,-5,forb,annual,
+"Rosa blanda",Rosaceae,,native,7,3,shrub,annual,"smooth wild rose"
+"Rosa multiflora",Rosaceae,,non-native,0,3,shrub,annual,
+"Rosa rugosa",Rosaceae,,non-native,0,0,shrub,annual,
+"Rosa woodsii var. woodsii",Rosaceae,,native,5,3,shrub,annual,"woods rose"
+"Rotala ramosior",Lythraceae,,native,7,-5,forb,annual,toothcup
+"Rubus allegheniensis var. allegheniensis",Rosaceae,,native,2,2,shrub,annual,"allegheny blackberry"
+"Rubus arcticus ssp. acaulis",Rosaceae,,native,9,-5,shrub,annual,"northern dwarf raspberry"
+"Rubus idaeus ssp. strigosus",Rosaceae,,native,3,2,shrub,annual,"red raspberry"
+"Rubus parviflorus var. parviflorus",Rosaceae,,native,3,2,shrub,annual,thimbleberry
+"Rubus pubescens var. pubescens",Rosaceae,,native,6,-4,shrub,annual,"dwarf raspberry"
+"Rubus semisetosus",Rosaceae,,native,9,0,shrub,annual,"swamp blackberry"
+"Rubus setosus",Rosaceae,,native,7,-2,shrub,annual,"bristly blackberry"
+"Rudbeckia hirta var. pulcherrima",Asteraceae,,native,3,3,forb,annual,"black-eyed susan"
+"Rudbeckia laciniata var. laciniata",Asteraceae,,native,4,-4,shrub,annual,"tall coneflower"
+"Rudbeckia triloba var. triloba",Asteraceae,,native,5,1,forb,annual,"three-leaved coneflower"
+"Rumex acetosella",Polygonaceae,,non-native,0,0,forb,annual,
+"Rumex altissimus",Polygonaceae,,native,2,-2,forb,annual,"tall water dock"
+"Rumex crispus ssp. crispus",Polygonaceae,,non-native,0,-1,forb,annual,
+"Rumex longifolius",Polygonaceae,,non-native,0,0,forb,annual,
+"Rumex maritimus",Polygonaceae,,native,1,-4,forb,annual,"golden dock"
+"Rumex obtusifolius",Polygonaceae,,non-native,0,-3,forb,annual,
+"Rumex orbiculatus",Polygonaceae,,native,6,-5,forb,annual,"great water dock"
+"Rumex salicifolius var. mexicanus",Polygonaceae,,native,1,-5,forb,annual,"willow-leaved dock"
+"Rumex stenophyllus",Polygonaceae,,non-native,0,0,forb,annual,
+"Rumex verticillatus",Polygonaceae,,native,5,-5,forb,annual,"whorled water dock"
+"Ruppia cirrhosa",Ruppiaceae,,native,6,-5,forb,annual,ditch-grass
+"Sagina nodosa ssp. borealis",Caryophyllaceae,,native,10,0,forb,annual,"knotty pearlwort"
+"Sagina procumbens",Caryophyllaceae,,non-native,0,-3,forb,annual,
+"Sagittaria brevirostra",Alismataceae,,native,9,-5,forb,annual,"short-beaked arrowhead"
+"Sagittaria calycina var. calycina",Alismataceae,,native,8,-5,forb,annual,"hooded arrowhead"
+"Sagittaria cristata",Alismataceae,,native,8,-5,forb,annual,"crested arrowhead"
+"Sagittaria cuneata",Alismataceae,,native,6,-5,forb,annual,"arum-leaved arrowhead"
+"Sagittaria latifolia",Alismataceae,,native,3,-5,forb,annual,"broad-leaved arrowhead"
+"Sagittaria rigida",Alismataceae,,native,7,-5,forb,annual,"sessile-fruited arrowhead"
+"Salicornia rubra",Chenopodiaceae,,native,3,-5,shrub,annual,"red saltwort"
+"Salix alba",Salicaceae,,non-native,0,-3,tree,annual,
+"Salix amygdaloides",Salicaceae,,native,5,-3,tree,annual,"peach-leaved willow"
+"Salix bebbiana",Salicaceae,,native,6,-4,tree,annual,"bebbs willow"
+"Salix candida",Salicaceae,,native,9,-5,shrub,annual,"sage-leaved willow"
+"Salix discolor",Salicaceae,,native,3,-3,tree,annual,"pussy willow"
+"Salix eriocephala",Salicaceae,,native,4,-3,tree,annual,"heart-leaved willow"
+"Salix fragilis",Salicaceae,,non-native,0,-1,tree,annual,
+"Salix humilis",Salicaceae,,native,6,3,shrub,annual,"prairie willow"
+"Salix interior",Salicaceae,,native,2,-5,tree,annual,"sandbar willow"
+"Salix lucida ssp. lucida",Salicaceae,,native,5,-4,tree,annual,"shining willow"
+"Salix maccalliana",Salicaceae,,native,9,-3,tree,annual,"mccallas willow"
+"Salix nigra",Salicaceae,,native,4,-5,tree,annual,"black willow"
+"Salix pedicellaris",Salicaceae,,native,8,-5,shrub,annual,"bog willow"
+"Salix pellita",Salicaceae,,native,8,-3,tree,annual,"satiny willow"
+"Salix petiolaris",Salicaceae,,native,5,-4,tree,annual,"slender willow"
+"Salix planifolia",Salicaceae,,native,8,-5,tree,annual,"diamond-leaved willow"
+"Salix pseudomonticola",Salicaceae,,native,9,-3,shrub,annual,"false mountaineer willow"
+"Salix pyrifolia",Salicaceae,,native,8,-4,tree,annual,"balsam willow"
+"Salix sericea",Salicaceae,,native,10,-5,tree,annual,"silky willow"
+"Salix serissima",Salicaceae,,native,7,-5,tree,annual,"autumn willow"
+"Salsola tragus",Chenopodiaceae,,non-native,0,3,forb,annual,
+"Sambucus nigra ssp. canadensis",Caprifoliaceae,,native,3,-2,tree,annual,"common elder"
+"Sambucus racemosa var. racemosa",Caprifoliaceae,,native,5,2,tree,annual,"red-berried elder"
+"Sanguinaria canadensis",Papaveraceae,,native,6,0,forb,annual,bloodroot
+"Sanicula canadensis",Apiaceae,,native,5,2,forb,annual,"canadian black snakeroot"
+"Sanicula odorata",Apiaceae,,native,3,-1,forb,annual,"gregarious black snakeroot"
+"Saponaria officinalis",Caryophyllaceae,,non-native,0,3,forb,annual,
+"Sarracenia purpurea ssp. purpurea",Sarraceniaceae,,native,9,-5,shrub,annual,"pitcher plant"
+"Saxifraga cernua",Saxifragaceae,,native,10,-3,forb,annual,"nodding saxifrage"
+"Saxifraga paniculata ssp. neogaea",Saxifragaceae,,native,10,0,forb,annual,"encrusted saxifrage"
+"Saxifraga pensylvanica",Saxifragaceae,,native,7,-5,forb,annual,"swamp saxifrage"
+"Saxifraga virginiensis var. virginiensis",Saxifragaceae,,native,10,1,forb,annual,"early saxifrage"
+"Scheuchzeria palustris ssp. americana",Scheuchzeriaceae,,native,9,-5,forb,annual,scheuchzeria
+"Schizachne purpurascens",Poaceae,,native,5,2,grass,annual,"false melic grass"
+"Schizachyrium scoparium var. scoparium",Poaceae,,native,5,4,grass,annual,"little bluestem"
+"Schoenoplectus acutus var. acutus",Cyperaceae,,native,6,-5,rush,annual,"hardstem bulrush"
+"Schoenoplectus fluviatilis",Cyperaceae,,native,4,-5,rush,annual,"river bulrush"
+"Schoenoplectus heterochaetus",Cyperaceae,,native,8,-5,rush,annual,"slender bulrush"
+"Schoenoplectus maritimus",Cyperaceae,,native,6,-5,rush,annual,"prairie bulrush"
+"Schoenoplectus pungens",Cyperaceae,,native,6,-5,rush,annual,"three-square bulrush"
+"Schoenoplectus purshianus",Cyperaceae,,native,8,-5,rush,annual,"weak-stalk club-rush"
+"Schoenoplectus smithii",Cyperaceae,,native,8,-5,rush,annual,"purshs bulrush"
+"Schoenoplectus subterminalis",Cyperaceae,,native,9,-5,rush,annual,"swaying bulrush"
+"Schoenoplectus tabernaemontani",Cyperaceae,,native,4,-5,rush,annual,"soft stem bulrush"
+"Schoenoplectus torreyi",Cyperaceae,,native,8,-5,rush,annual,"torreys bulrush"
+"Scirpus atrocinctus",Cyperaceae,,native,7,-5,rush,annual,"black-girdled wool-grass"
+"Scirpus atrovirens",Cyperaceae,,native,4,-5,rush,annual,"dark green bulrush"
+"Scirpus cyperinus",Cyperaceae,,native,3,-5,rush,annual,woolgrass
+"Scirpus georgianus",Cyperaceae,,native,4,-5,rush,annual,"bristleless darkgreen bulrush"
+"Scirpus hattorianus",Cyperaceae,,native,4,-5,rush,annual,"early dark green bulrush"
+"Scirpus microcarpus",Cyperaceae,,native,6,-5,rush,annual,"small-fruited bulrush"
+"Scirpus pallidus",Cyperaceae,,native,4,-5,rush,annual,"dark green bulrush"
+"Scirpus pedicellatus",Cyperaceae,,native,6,-5,rush,annual,"stalked wool-grass"
+"Scirpus pendulus",Cyperaceae,,native,3,-5,rush,annual,"cloked bulrush"
+"Scleranthus annuus",Caryophyllaceae,,non-native,0,3,forb,annual,
+"Scleria triglomerata",Cyperaceae,,native,10,0,rush,annual,"tall nutrush"
+"Scleria verticillata",Cyperaceae,,native,10,-5,rush,annual,"whorled nutrush"
+"Scolochloa festucacea",Poaceae,,native,7,-5,grass,annual,whitetop
+"Scrophularia lanceolata",Scrophulariaceae,,native,4,2,forb,annual,"lance-leaved figwort"
+"Scrophularia marilandica",Scrophulariaceae,,native,5,0,shrub,annual,"maryland figwort"
+"Scutellaria galericulata",Lamiaceae,,native,5,-5,forb,annual,"marsh skullcap"
+"Scutellaria lateriflora",Lamiaceae,,native,5,-5,forb,annual,"mad dog skullcap"
+"Scutellaria ovata ssp. ovata",Lamiaceae,,native,8,3,forb,annual,"ovate-leaved skullcap"
+"Scutellaria parvula",Lamiaceae,,native,7,0,forb,annual,"prairie skullcap"
+"Selaginella selaginoides",Selaginellaceae,,native,10,-4,forb,annual,"northern spikemoss"
+"Senecio congestus",Asteraceae,,native,3,-4,forb,annual,"swamp ragwort"
+"Senecio integerrimus var. integerrimus",Asteraceae,,native,7,0,forb,annual,"entire ragwort"
+"Setaria faberi",Poaceae,,non-native,0,2,grass,annual,
+"Setaria italica",Poaceae,,non-native,0,3,grass,annual,
+"Setaria verticillata",Poaceae,,non-native,0,0,grass,annual,
+"Sicyos angulatus",Cucurbitaceae,,native,2,-2,vine,annual,"bur cucumber"
+"Silene nivea",Caryophyllaceae,,native,9,-3,forb,annual,"snowy campion"
+"Silphium perfoliatum var. perfoliatum",Asteraceae,,native,4,-2,forb,annual,"cup plant"
+"Sisymbrium altissimum",Brassicaceae,,non-native,0,3,forb,annual,
+"Sisyrinchium angustifolium",Iridaceae,,native,6,-2,forb,annual,"narrowleaf blue-eyed grass"
+"Sisyrinchium montanum",Iridaceae,,native,6,-1,forb,annual,"mountain blue-eyed grass"
+"Sisyrinchium mucronatum",Iridaceae,,native,7,-2,forb,annual,"pointed-petal blue-eyed grass"
+"Sium suave",Apiaceae,,native,5,-5,forb,annual,"water parsnip"
+"Smilax herbacea",Smilacaceae,,native,5,0,vine,annual,"smooth carrion flower"
+"Smilax tamnoides",Smilacaceae,,native,4,0,shrub,annual,greenbrier
+"Solanum carolinense var. carolinense",Solanaceae,,non-native,0,4,shrub,annual,
+"Solanum dulcamara var. dulcamara",Solanaceae,,non-native,0,0,shrub,annual,
+"Solidago canadensis",Asteraceae,,native,1,3,forb,annual,"canada goldenrod"
+"Solidago flexicaulis",Asteraceae,,native,5,3,forb,annual,"zigzag goldenrod"
+"Solidago gigantea",Asteraceae,,native,3,-3,forb,annual,"giant goldenrod"
+"Solidago uliginosa var. uliginosa",Asteraceae,,native,9,-5,forb,annual,"bog goldenrod"
+"Sonchus arvensis",Asteraceae,,non-native,0,1,forb,annual,
+"Sonchus asper",Asteraceae,,non-native,0,0,forb,annual,
+"Sonchus oleraceus",Asteraceae,,non-native,0,3,forb,annual,
+"Sorbus americana",Rosaceae,,native,5,-1,tree,annual,"american mountain ash"
+"Sorghastrum nutans",Poaceae,,native,5,2,grass,annual,"indian grass"
+"Sparganium americanum",Sparganiaceae,,native,8,-5,forb,annual,"nuttalls bur reed"
+"Sparganium androcladum",Sparganiaceae,,native,8,-5,forb,annual,"branching bur reed"
+"Sparganium angustifolium",Sparganiaceae,,native,8,-5,forb,annual,"narrow-leaved bur reed"
+"Sparganium erectum ssp. stoloniferum",Sparganiaceae,,native,7,-5,forb,annual,"unbranched bur reed"
+"Sparganium eurycarpum",Sparganiaceae,,native,5,-5,forb,annual,"giant bur reed"
+"Sparganium fluctuans",Sparganiaceae,,native,8,-5,forb,annual,"floating bur reed"
+"Sparganium glomeratum",Sparganiaceae,,native,7,-5,forb,annual,"clustered bur reed"
+"Sparganium natans",Sparganiaceae,,native,9,-5,forb,annual,"small bur reed"
+"Spartina pectinata",Poaceae,,native,5,-4,grass,annual,"prairie cordgrass"
+"Spergularia rubra",Caryophyllaceae,,non-native,0,3,forb,annual,
+"Sphenopholis obtusata",Poaceae,,native,8,0,grass,annual,"prairie wedge grass"
+"Spiraea alba",Rosaceae,,native,5,-4,shrub,annual,"white meadowsweet"
+"Spiraea tomentosa var. rosea",Rosaceae,,native,7,-3,shrub,annual,steeplebush
+"Spiranthes cernua",Orchidaceae,,native,5,-2,forb,annual,"nodding ladies tresses"
+"Spiranthes lacera",Orchidaceae,,native,7,-1,forb,annual,"northern slender ladies tresses"
+"Spiranthes romanzoffiana",Orchidaceae,,native,9,-4,forb,annual,"hooded ladies tresses"
+"Spirodela polyrrhiza",Lemnaceae,,native,5,-5,forb,annual,"greater duckweed"
+"Sporobolus cryptandrus",Poaceae,,native,7,4,grass,annual,"sand dropseed"
+"Sporobolus heterolepis",Poaceae,,native,9,4,grass,annual,"prairie dropseed"
+"Stachys palustris",Lamiaceae,,native,4,-5,forb,annual,woundwort
+"Stachys tenuifolia",Lamiaceae,,native,5,-5,forb,annual,"narrow-leaved hedge nettle"
+"Staphylea trifolia",Staphyleaceae,,native,6,0,tree,annual,bladdernut
+"Stellaria longifolia",Caryophyllaceae,,native,6,-4,forb,annual,"long-leaved chickweed"
+"Stellaria longipes",Caryophyllaceae,,native,9,-5,forb,annual,"long-stalked chickweed"
+"Stellaria media ssp. media",Caryophyllaceae,,non-native,0,3,forb,annual,
+"Streptopus amplexifolius var. amplexifolius",Liliaceae,,native,10,-1,forb,annual,"clasping leaved twistedstalk"
+"Streptopus lanceolatus var. longipes",Liliaceae,,native,7,0,forb,annual,"rose twistedstalk"
+"Strophostyles helvula",Fabaceae,,native,4,-1,vine,annual,"wild bean"
+"Stuckenia filiformis",Potamogetonaceae,,native,8,-5,forb,annual,"thread-leaved pondweed"
+"Stuckenia pectinatus",Potamogetonaceae,,native,3,-5,forb,annual,"sago pondweed"
+"Stuckenia vaginatus",Potamogetonaceae,,native,9,-5,forb,annual,"sheathed pondweed"
+"Suaeda calceoliformis",Chenopodiaceae,,native,2,-3,shrub,annual,seablite
+"Subularia aquatica var. americana",Brassicaceae,,native,10,-5,forb,annual,awlwort
+"Symphoricarpos albus var. albus",Caprifoliaceae,,native,6,4,shrub,annual,snowberry
+"Symphyotrichum boreale",Asteraceae,,native,9,-5,forb,annual,"bog aster"
+"Symphyotrichum ciliatum",Asteraceae,,native,2,0,forb,annual,"short-rayed aster"
+"Symphyotrichum ericoides",Asteraceae,,native,4,1,forb,annual,"heath aster"
+"Symphyotrichum falcatum var. commutatum",Asteraceae,,native,6,1,forb,annual,"sickle-shaped aster"
+"Symphyotrichum lanceolatum",Asteraceae,,native,5,-3,forb,annual,"eastern panicled aster"
+"Symphyotrichum lateriflorum",Asteraceae,,native,4,-2,forb,annual,"side-flowering aster"
+"Symphyotrichum novae-angliae",Asteraceae,,native,3,-3,forb,annual,"new england aster"
+"Symphyotrichum ontarione",Asteraceae,,native,5,0,forb,annual,"ontario aster"
+"Symphyotrichum pilosum var. pilosum",Asteraceae,,native,1,2,forb,annual,"awl aster"
+"Symphyotrichum praealtum var. praealtum",Asteraceae,,native,6,-3,forb,annual,"veiny lined aster"
+"Symphyotrichum prenanthoides",Asteraceae,,native,8,0,forb,annual,"crooked aster"
+"Symphyotrichum puniceum",Asteraceae,,native,6,-5,shrub,annual,"red-stemmed aster"
+"Symplocarpus foetidus",Araceae,,native,8,-5,forb,annual,"skunk cabbage"
+"Taraxacum officinale",Asteraceae,,non-native,0,3,forb,annual,
+"Taxus canadensis",Taxaceae,,native,8,3,shrub,annual,"canada yew"
+"Teucrium canadense",Lamiaceae,,native,4,-2,forb,annual,germander
+"Thalictrum dasycarpum",Ranunculaceae,,native,4,-2,forb,annual,"tall meadow-rue"
+"Thalictrum dioicum",Ranunculaceae,,native,5,2,forb,annual,"early meadow-rue"
+"Thalictrum revolutum",Ranunculaceae,,native,5,0,forb,annual,"purple meadow-rue"
+"Thalictrum venulosum",Ranunculaceae,,native,8,0,forb,annual,"veiny meadow-rue"
+"Thelypteris palustris var. pubescens",Thelypteridaceae,,native,7,-4,forb,annual,"northern marsh fern"
+"Thuja occidentalis",Cupressaceae,,native,7,-3,tree,annual,"white cedar"
+"Tiarella cordifolia var. cordifolia",Saxifragaceae,,non-native,0,1,forb,annual,
+"Tilia americana var. americana",Tiliaceae,,native,5,3,tree,annual,basswood
+"Tofieldia glutinosa ssp. glutinosa",Liliaceae,,native,9,-5,forb,annual,"sticky false asphodel"
+"Tofieldia pusilla",Liliaceae,,native,10,-4,forb,annual,"small false asphodel"
+"Torreyochloa pallida",Poaceae,,native,8,-5,grass,annual,"torreys manna-grass"
+"Toxicodendron radicans ssp. negundo",Anacardiaceae,,native,7,-1,shrub,annual,"common poison ivy"
+"Toxicodendron rydbergii",Anacardiaceae,,native,1,0,shrub,annual,"western poison ivy"
+"Toxicodendron vernix",Anacardiaceae,,native,7,-5,tree,annual,"poison sumac"
+"Tradescantia bracteata",Commelinaceae,,native,7,4,forb,annual,"bracted spiderwort"
+"Tradescantia ohiensis",Commelinaceae,,native,6,2,forb,annual,"ohio spiderwort"
+"Triadenum fraseri",Clusiaceae,,native,6,-5,forb,annual,"marsh st. johns wort"
+"Trichophorum alpinum",Cyperaceae,,native,10,-5,rush,annual,"hudson bay bulrush"
+"Trichophorum caespitosum",Cyperaceae,,native,9,-5,rush,annual,"tufted bulrush"
+"Trichophorum clintonii",Cyperaceae,,native,9,4,rush,annual,"clintons bulrush"
+"Trientalis borealis ssp. borealis",Primulaceae,,native,6,-1,forb,annual,starflower
+"Trifolium hybridum",Fabaceae,,non-native,0,1,forb,annual,
+"Trifolium pratense",Fabaceae,,non-native,0,2,forb,annual,
+"Trifolium repens",Fabaceae,,non-native,0,2,forb,annual,
+"Triglochin maritimum",Juncaginaceae,,native,8,-5,grass,annual,"seaside arrowgrass"
+"Triglochin palustre",Juncaginaceae,,native,10,-5,grass,annual,"marsh arrowgrass"
+"Trillium cernuum",Liliaceae,,native,7,0,forb,annual,"nodding trillium"
+"Trillium flexipes",Liliaceae,,native,8,1,forb,annual,"drooping trillium"
+"Triodanis perfoliata var. perfoliata",Campanulaceae,,native,4,0,forb,annual,"clasping-leaved venus looking-glass"
+"Tripleurospermum maritima ssp. maritima",Asteraceae,,non-native,0,0,forb,annual,
+"Trisetum spicatum",Poaceae,,native,9,1,grass,annual,"spike trisetum"
+"Tsuga canadensis",Pinaceae,,native,10,3,tree,annual,"eastern hemlock"
+"Tussilago farfara",Asteraceae,,non-native,0,3,forb,annual,
+"Typha angustifolia",Typhaceae,,non-native,0,-5,forb,annual,
+"Typha latifolia",Typhaceae,,native,2,-5,forb,annual,"broad-leaved cattail"
+"Typha x glauca",Typhaceae,,non-native,0,-5,forb,annual,
+"Ulmus americana",Ulmaceae,,native,3,-2,tree,annual,"american elm"
+"Ulmus rubra",Ulmaceae,,native,4,0,tree,annual,"red elm"
+"Ulmus thomasii",Ulmaceae,,native,5,-1,tree,annual,"rock elm"
+"Urtica dioica ssp. gracilis",Urticaceae,,native,1,-1,forb,annual,"stinging nettle"
+"Utricularia cornuta",Lentibulariaceae,,native,10,-5,forb,annual,"horned bladderwort"
+"Utricularia geminiscapa",Lentibulariaceae,,native,10,-5,forb,annual,"hidden-fruited bladderwort"
+"Utricularia gibba",Lentibulariaceae,,native,9,-5,forb,annual,"humped bladderwort"
+"Utricularia intermedia",Lentibulariaceae,,native,8,-5,forb,annual,"intermediate bladderwort"
+"Utricularia macrorhiza",Lentibulariaceae,,native,5,-5,forb,annual,"common bladderwort"
+"Utricularia minor",Lentibulariaceae,,native,8,-5,forb,annual,"lesser bladderwort"
+"Utricularia purpurea",Lentibulariaceae,,native,10,-5,forb,annual,"purple-flowered bladderwort"
+"Utricularia resupinata",Lentibulariaceae,,native,10,-5,forb,annual,"lavender bladderwort"
+"Uvularia sessilifolia",Liliaceae,,native,6,1,forb,annual,"pale bellwort"
+"Vaccinium angustifolium",Ericaceae,,native,5,3,shrub,annual,"lowbush blueberry"
+"Vaccinium caespitosum var. caespitosum",Ericaceae,,native,5,0,shrub,annual,"dwarf bilberry"
+"Vaccinium macrocarpon",Ericaceae,,native,9,-5,shrub,annual,"large cranberry"
+"Vaccinium myrtilloides",Ericaceae,,native,6,-2,shrub,annual,"velvet-leaved blueberry"
+"Vaccinium oxycoccos",Ericaceae,,native,8,-5,shrub,annual,"small cranberry"
+"Vaccinium uliginosum",Ericaceae,,native,10,0,shrub,annual,"alpine bilberry"
+"Vaccinium vitis-idaea ssp. minus",Ericaceae,,native,9,0,shrub,annual,lingonberry
+"Valeriana edulis var. ciliata",Valerianaceae,,native,10,-4,forb,annual,"edible valerian"
+"Vallisneria americana",Hydrocharitaceae,,native,6,-5,forb,annual,eelgrass
+"Verbena bracteata",Verbenaceae,,native,0,3,forb,annual,"large-bracted vervain"
+"Verbena hastata",Verbenaceae,,native,6,-4,forb,annual,"blue vervain"
+"Verbena urticifolia",Verbenaceae,,native,6,-1,forb,annual,"white vervain"
+"Vernonia fasciculata",Asteraceae,,native,5,-3,forb,annual,"bunched ironweed"
+"Veronica americana",Scrophulariaceae,,native,6,-5,forb,annual,"american brooklime"
+"Veronica anagallis-aquatica",Scrophulariaceae,,native,5,-5,forb,annual,"water speedwell"
+"Veronica peregrina",Scrophulariaceae,,native,0,-4,forb,annual,"purslane speedwell"
+"Veronica scutellata",Scrophulariaceae,,native,6,-5,forb,annual,"marsh speedwell"
+"Veronica serpyllifolia ssp. humifusa",Scrophulariaceae,,native,0,-3,forb,annual,"thyme-leaved speedwell"
+"Veronica serpyllifolia ssp. serpyllifolia",Scrophulariaceae,,non-native,0,-3,forb,annual,
+"Veronicastrum virginicum",Scrophulariaceae,,native,6,0,forb,annual,"culvers root"
+"Viburnum edule",Caprifoliaceae,,native,7,-3,shrub,annual,squashberry
+"Viburnum lentago",Caprifoliaceae,,native,4,-1,tree,annual,nannyberry
+"Viburnum opulus var. americanum",Caprifoliaceae,,native,5,-3,tree,annual,"highbush cranberry"
+"Vicia sativa",Fabaceae,,non-native,0,4,vine,annual,
+"Viola adunca var. adunca",Violaceae,,native,6,1,forb,annual,"sand violet"
+"Viola affinis",Violaceae,,native,4,-3,forb,annual,"common blue violet"
+"Viola blanda",Violaceae,,native,6,-2,forb,annual,"big-leaved white violet"
+"Viola conspersa",Violaceae,,native,5,-2,forb,annual,"dog violet"
+"Viola cucullata",Violaceae,,native,6,-5,forb,annual,"marsh violet"
+"Viola labradorica",Violaceae,,native,7,0,forb,annual,"sand violet"
+"Viola lanceolata ssp. lanceolata",Violaceae,,native,7,-5,forb,annual,"lance-leaved violet"
+"Viola macloskeyi ssp. pallens",Violaceae,,native,7,-5,forb,annual,"northern white violet"
+"Viola nephrophylla",Violaceae,,native,8,-4,forb,annual,"northern bog violet"
+"Viola novae-angliae",Violaceae,,native,6,-5,forb,annual,"new england violet"
+"Viola pedatifida",Violaceae,,native,8,4,forb,annual,"bearded birdfoot violet"
+"Viola pubescens",Violaceae,,native,4,4,forb,annual,"yellow violet"
+"Viola renifolia",Violaceae,,native,7,-3,forb,annual,"kidney-leaved violet"
+"Viola sagittata var. sagittata",Violaceae,,native,6,-2,forb,annual,"arrow-leaved violet"
+"Viola sororia",Violaceae,,native,4,1,forb,annual,"common blue violet"
+"Vitis aestivalis var. bicolor",Vitaceae,,native,7,3,vine,annual,"silverleaf grape"
+"Vitis riparia",Vitaceae,,native,2,-2,vine,annual,"wild grape"
+"Vulpia octoflora var. glauca",Poaceae,,native,3,0,grass,annual,"eightweek fescue"
+"Wolffia borealis",Lemnaceae,,native,5,-5,forb,annual,"spotted watermeal"
+"Wolffia columbiana",Lemnaceae,,native,5,-5,forb,annual,"columbian watermeal"
+"Xanthium strumarium",Asteraceae,,native,0,0,forb,annual,cocklebur
+"Xyris montana",Xyridaceae,,native,10,-5,forb,annual,"montane yellow-eyed grass"
+"Xyris torta",Xyridaceae,,native,10,-5,forb,annual,"twisted yellow-eyed grass"
+"Zannichellia palustris",Zannichelliaceae,,native,7,-5,forb,annual,"horned pondweed"
+"Zigadenus elegans ssp. elegans",Liliaceae,,native,9,1,forb,annual,"white camass"
+"Zizania aquatica var. aquatica",Poaceae,,native,8,-5,grass,annual,"wild rice"
+"Zizania palustris",Poaceae,,native,8,-5,grass,annual,"wild rice"
+"Zizia aptera",Apiaceae,,native,8,3,forb,annual,"heart-leaved alexanders"
+"Zizia aurea",Apiaceae,,native,6,-1,forb,annual,"golden alexanders"

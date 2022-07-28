@@ -1,24 +1,170 @@
-## code to prepare `michigan_2014_fqai` dataset goes here
+## code to prepare `fqa_db` dataset goes here
 
-#read in the data, skipping misc info that is listed at the top of the csv file
-michigan_fqai <-
-  read.csv("~/Desktop/michigan2014/data-raw/michigan_2014_FQA_database.csv",
-           skip = 11)
-
-#load the janitor package for cleaning names
+#load required packaged
+library(here)
 library(janitor)
-library(dplyr)
+library(tidyverse)
+library(readxl)
 
-#clean the names
-michigan_2014_fqai <- clean_names(michigan_fqai) %>%
-  mutate(scientific_name = toupper(scientific_name))
+#FOR UNIVERSAL FQA DBS
+
+#create list of file names
+univ_files <- list.files(path = here("data-raw", "FQA_databases"),
+                         pattern = "*.csv",
+                         full.names = F)
+
+#read them in and create new col with region
+univ_list <- lapply(univ_files, function(x)
+  read_csv(paste0("./data-raw/FQA_databases/", x), skip = 11) %>%
+    mutate(fqa_db = x))
+
+#bind together
+univ_fqa <- bind_rows(univ_list) %>%
+  clean_names() %>%
+  mutate(synonym = NA)
+
+#FOR NEW ENGLAND DBS
+
+#create list of file names
+ne_files <- list.files(path = here("data-raw", "FQA_databases", "not_from_universal_calc"),
+                         pattern = "*_2013.csv",
+                         full.names = F)
+
+#read them in and create new col with region
+ne_list <- lapply(ne_files, function(x)
+  readxl::read_xlsx(paste0("./data-raw/FQA_databases/not_from_universal_calc/", x)) %>%
+                    mutate(fqa_db = x))
+
+#bind together
+ne_compiled <- bind_rows(ne_list)
+
+#clean up col names
+ne_clean <- ne_compiled %>%
+  mutate(scientific_name = Taxon) %>%
+  mutate(synonym = NA) %>%
+  mutate(family = NA) %>%
+  mutate(acronym = PLANTSSymbol) %>%
+  mutate(native = NA) %>%
+  mutate(c = Score) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = NA) %>%
+  mutate(duration = NA) %>%
+  mutate(common_name = CommonName) %>%
+  select(scientific_name, synonym, family, acronym,
+         native, c, w, physiognomy, duration, common_name, fqa_db)
+
+#FLORIDA, MISSISSISSIPPI, MONTANA, WYOMING
+
+florida <- read_csv(here("data-raw",
+                         "FQA_databases",
+                         "not_from_universal_calc",
+                         "florida_2011.csv")) %>%
+  clean_names() %>%
+  filter(if_any(everything(), ~ !is.na(.)))
+
+florida_clean <- florida %>%
+  mutate(scientific_name = taxa_name) %>%
+  mutate(synonym = NA) %>%
+  mutate(family = NA) %>%
+  mutate(acronym = NA) %>%
+  mutate(native = nativity) %>%
+  mutate(c = c_of_c_score) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = NA) %>%
+  mutate(common_name = NA) %>%
+  mutate(fqa_db = "florida_2011") %>%
+  select(scientific_name, synonym, family, acronym, native,
+         c, w, physiognomy, duration, common_name, fqa_db)
+
+ms <- read_xlsx(here("data-raw",
+                     "FQA_databases",
+                     "not_from_universal_calc",
+                     "mississippi_north_central_wetlands_2005.xlsx")) %>%
+  clean_names()
+
+ms_clean <- ms %>%
+  mutate(scientific_name = species) %>%
+  mutate(synonym = NA) %>%
+  mutate(acronym = NA) %>%
+  mutate(native = origin) %>%
+  mutate(c = ave_cc) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = physiogynomy) %>%
+  mutate(duration = NA) %>%
+  mutate(common_name = common) %>%
+  mutate(fqa_db = "mississippi_north_central_wetlands_2005") %>%
+  select(scientific_name, synonym, family, acronym, native,
+         c, w, physiognomy, duration, common_name, fqa_db)
+
+montana <- read_xlsx(here("data-raw",
+                          "FQA_databases",
+                          "not_from_universal_calc",
+                          "montana_2017.csv")) %>%
+  clean_names()
+
+montana_clean <- montana %>%
+  mutate(scientific_name = scientific_name_mtnhp) %>%
+  mutate(synonym = synonym_s) %>%
+  mutate(family = family_name) %>%
+  mutate(acronym = NA) %>%
+  mutate(native = origin_in_montana) %>%
+  mutate(c = montana_c_value) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = NA) %>%
+  mutate(duration = NA) %>%
+  mutate(fqa_db = "montana_2017") %>%
+  select(scientific_name, synonym, family, acronym, native,
+         c, w, physiognomy, duration, common_name, fqa_db)
+
+wyoming <- read_xlsx(here("data-raw",
+                          "FQA_databases",
+                          "not_from_universal_calc",
+                          "wyoming_2017.csv"), skip = 1) %>%
+  clean_names()
+
+wyoming_clean <- wyoming %>%
+  mutate(family = minor_taxonomic_group) %>%
+  mutate(synonym = synonyms) %>%
+  mutate(acronym = NA) %>%
+  mutate(native = statewide_origin) %>%
+  mutate(c = wyoming_coefficient_of_conservatism) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = NA) %>%
+  mutate(duration = NA) %>%
+  mutate(fqa_db = "wyoming_2017") %>%
+  select(scientific_name, synonym, family, acronym, native, c, w, physiognomy, duration, common_name, fqa_db) %>%
+  slice(., 1:(n() - 1))
+
+#NOW CLEANING ALL TOGETHER
+
+#bind all together
+fqa_db_bind <- rbind(ne_clean,
+                florida_clean,
+                ms_clean,
+                montana_clean,
+                wyoming_clean,
+                univ_fqa) %>%
+  mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
+  mutate(scientific_name = toupper(scientific_name)) %>%
+  mutate(synonym = toupper(synonym)) %>%
+  mutate()
+
+#clean
+fqa_db <- fqa_db_bind %>%
+  mutate(native = case_when(
+    native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
+    ~ "native", T ~ native)) %>%
+  mutate(native = case_when(
+    native %in% c("Exotic", "I", "Likely Exotic", "Nonnative", "non-native")
+    ~ "exotic", T ~ native))
+
 
 #use this dataset  (not viewable to package user)
-usethis::use_data(michigan_2014_fqai, overwrite = TRUE, internal = TRUE)
+usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE)
 
 #-------------------------------------------------------------------------------
 
-## code to prepare `crooked_island_sitelist` dataset goes here
+## code to prepare `crooked_island` dataset goes here
 
 #read in the data, skipping misc info that is listed at the top of the csv file
 crooked_island_site <-
