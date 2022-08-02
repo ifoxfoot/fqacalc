@@ -39,12 +39,15 @@ db_names <- function() {
 
 view_db <- function(db) {
 
+  if( !db %in% list(db_names()))
+    stop("stop")
+
   #filter system data for correct db
-  db <- fqa_db %>%
+  df <- fqa_db %>%
     dplyr::filter(fqa_db == db)
 
   #return db
-  return(db)
+  return(df)
 
 }
 
@@ -84,7 +87,7 @@ accepted_entries <- function(x, key = "acronym", db) {
     stop(paste(deparse(substitute(x)), "must be a data frame."))
 
   #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+  if( !"acronym" %in% colnames(x) | !"scientific_name" %in% colnames(x))
     stop(paste({{x}},
                "must have a column named 'acronym' and/or 'scientific_name'."))
 

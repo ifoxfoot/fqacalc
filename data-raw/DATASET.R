@@ -53,8 +53,7 @@ ne_clean <- ne_compiled %>%
   select(scientific_name, synonym, family, acronym,
          native, c, w, physiognomy, duration, common_name, fqa_db)
 
-#FLORIDA, MISSISSISSIPPI, MONTANA, WYOMING
-
+#FLORIDA
 florida <- read_csv(here("data-raw",
                          "FQA_databases",
                          "not_from_universal_calc",
@@ -76,6 +75,25 @@ florida_clean <- florida %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+# FLORIDA_SOUTH
+florida_south <- read_csv(here("data-raw",
+                         "FQA_databases",
+                         "not_from_universal_calc",
+                         "florida_south_2009.csv")) %>%
+  clean_names()
+
+florida_south_clean <- florida_south %>%
+  mutate(synonym = NA) %>%
+  mutate(acronym = NA) %>%
+  mutate(native = NA) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = NA) %>%
+  mutate(duration = NA) %>%
+  mutate(fqa_db = "florida_south_20009") %>%
+  select(scientific_name, synonym, family, acronym, native,
+         c, w, physiognomy, duration, common_name, fqa_db)
+
+#MISSISSISSIPPI
 ms <- read_xlsx(here("data-raw",
                      "FQA_databases",
                      "not_from_universal_calc",
@@ -96,6 +114,7 @@ ms_clean <- ms %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+#MONTANA
 montana <- read_xlsx(here("data-raw",
                           "FQA_databases",
                           "not_from_universal_calc",
@@ -116,6 +135,7 @@ montana_clean <- montana %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+#WYOMING
 wyoming <- read_xlsx(here("data-raw",
                           "FQA_databases",
                           "not_from_universal_calc",
@@ -135,11 +155,14 @@ wyoming_clean <- wyoming %>%
   select(scientific_name, synonym, family, acronym, native, c, w, physiognomy, duration, common_name, fqa_db) %>%
   slice(., 1:(n() - 1))
 
+
+
 #NOW CLEANING ALL TOGETHER
 
 #bind all together
 fqa_db_bind <- rbind(ne_clean,
                 florida_clean,
+                florida_south_clean,
                 ms_clean,
                 montana_clean,
                 wyoming_clean,
