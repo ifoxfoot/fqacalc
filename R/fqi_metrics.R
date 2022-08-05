@@ -39,8 +39,6 @@ db_names <- function() {
 
 view_db <- function(db) {
 
-  if( !db %in% list(db_names()))
-    stop("stop")
 
   #filter system data for correct db
   df <- fqa_db %>%
@@ -78,9 +76,9 @@ accepted_entries <- function(x, key = "acronym", db) {
   if( missing(x) )
     stop("argument x is missing, with no default.")
 
-  #error if x does not exist
-  if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+  # #error if x does not exist
+  # if( !exists(deparse(substitute(x))) )
+  #   stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -245,7 +243,7 @@ native_species_richness <- function(x, key = "acronym", db) {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -328,7 +326,7 @@ total_mean_c <- function(x, key = "acronym", db) {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -410,7 +408,7 @@ native_mean_c <- function(x, key = "acronym", db) {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -493,7 +491,7 @@ total_FQI <- function(x, key = "acronym", db) {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -550,7 +548,7 @@ native_FQI <- function(x, key = "acronym", db) {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -608,7 +606,7 @@ adjusted_FQI <- function(x, key = "acronym", db) {
 
   #error if x does not exist
   if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
@@ -666,9 +664,9 @@ all_metrics <- function(x, key = "acronym", db) {
   if( missing(x) )
     stop("argument x is missing, with no default.")
 
-  #error if x does not exist
-  if( !exists(deparse(substitute(x))) )
-    stop(paste("argument", deparse(substitute(x)), "does not exist."))
+  # #error if x does not exist
+  # if( !exists(deparse(substitute(x))) )
+  #   stop(paste("argument ", deparse(substitute(x)), " does not exist."))
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
