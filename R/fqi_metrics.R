@@ -29,7 +29,7 @@ db_names <- function() {
 #' Look Up a Regional FQAI Database
 #'
 #' @param db A character string representing the name of the regional FQAI data
-#' base to retrieve. Generally the format is "place_yearpublished".
+#' base to retrieve. Generally, the format is "place_yearpublished".
 #'
 #' @return The regional FQAI data base.
 #' @export
@@ -39,6 +39,9 @@ db_names <- function() {
 
 view_db <- function(db) {
 
+  #error if db is not a legit db
+  if( !db %in% db_names() )
+    stop(paste(db," is not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #filter system data for correct db
   df <- fqa_db %>%
@@ -85,8 +88,8 @@ accepted_entries <- function(x, key = "acronym", db) {
     stop(paste(deparse(substitute(x)), "must be a data frame."))
 
   #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) | !"scientific_name" %in% colnames(x))
-    stop(paste({{x}},
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste(deparse(substitute(x)),
                "must have a column named 'acronym' and/or 'scientific_name'."))
 
   #error if key is not acronym or scientific name
@@ -97,9 +100,9 @@ accepted_entries <- function(x, key = "acronym", db) {
   if( !key %in% colnames(x) )
     stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
 
-  # #error if db is not a legit db
-  # if( !db %in% list(unique(fqa_db$fqa_db)) )
-  #   stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
+  #error if db is not a legit db
+  if( !db %in% unique(fqa_db$fqa_db) )
+    stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
@@ -109,7 +112,7 @@ accepted_entries <- function(x, key = "acronym", db) {
   unique_entries <- x %>%
     dplyr::distinct(!!as.name(key))
 
-  #join scores from Michigan FQAI to user's assessment
+  #join scores from FQAI to user's assessment
   unique_entries_joined <-
     dplyr::left_join(unique_entries %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
@@ -155,58 +158,58 @@ accepted_entries <- function(x, key = "acronym", db) {
 
 total_species_richness <- function(x, key = "acronym", db) {
 
-  #error if x argument is missing
-  if( missing(x) )
-    stop("argument x is missing, with no default.")
+  # #error if x argument is missing
+  # if( missing(x) )
+  #   stop("argument x is missing, with no default.")
+  #
+  # #error if x does not exist
+  # if( !exists(deparse(substitute(x))) )
+  #   stop(paste("argument ", deparse(substitute(x)), " does not exist."))
+  #
+  # #error if x is not a data frame
+  # if( !is.data.frame(x) )
+  #   stop(paste(deparse(substitute(x)), "must be a data frame."))
+  #
+  # #error if x does not have correct col names
+  # if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+  #   stop(paste({{x}},
+  #              "must have a column named 'acronym' and/or 'scientific_name'."))
+  #
+  # #error if key is not acronym or scientific name
+  # if( !key %in% c("acronym", "scientific_name") )
+  #   stop("key must be equal to 'acronym' or 'scientific_name'.")
+  #
+  # #error if key is not in col names of x
+  # if( !key %in% colnames(x) )
+  #   stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+  #
+  # #send message to user if site assessment contains duplicate entries
+  # if( sum(duplicated(x[,key])) > 0 )
+  #   message("Duplicate entries detected. Duplicates will only be counted once.")
+  #
+  # #select only unique entries
+  # unique_entries <- x %>%
+  #   dplyr::distinct(!!as.name(key))
+  #
+  # #join scores from Michigan FQAI to user's assessment
+  # unique_entries_joined <-
+  #   dplyr::left_join(unique_entries %>%
+  #                      dplyr::mutate(!!key := toupper(!!as.name(key))),
+  #                    fqa_db %>%
+  #                      dplyr::filter(fqa_db == db),
+  #                    by = key)
+  #
+  # #send message to user if site assessment contains plant not in FQAI database
+  # if( any(is.na(unique_entries_joined$c)) )
+  #   message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
+  #                 "not listed in database. It will be discarded."))
 
-  #error if x does not exist
-  if( !exists(deparse(substitute(x))) )
-    stop(paste("argument ", deparse(substitute(x)), " does not exist."))
-
-  #error if x is not a data frame
-  if( !is.data.frame(x) )
-    stop(paste(deparse(substitute(x)), "must be a data frame."))
-
-  #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
-    stop(paste({{x}},
-               "must have a column named 'acronym' and/or 'scientific_name'."))
-
-  #error if key is not acronym or scientific name
-  if( !key %in% c("acronym", "scientific_name") )
-    stop("key must be equal to 'acronym' or 'scientific_name'.")
-
-  #error if key is not in col names of x
-  if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
-
-  #send message to user if site assessment contains duplicate entries
-  if( sum(duplicated(x[,key])) > 0 )
-    message("Duplicate entries detected. Duplicates will only be counted once.")
-
-  #select only unique entries
-  unique_entries <- x %>%
-    dplyr::distinct(!!as.name(key))
-
-  #join scores from Michigan FQAI to user's assessment
-  unique_entries_joined <-
-    dplyr::left_join(unique_entries %>%
-                       dplyr::mutate(!!key := toupper(!!as.name(key))),
-                     fqa_db %>%
-                       dplyr::filter(fqa_db == db),
-                     by = key)
-
-  #send message to user if site assessment contains plant not in FQAI database
-  if( any(is.na(unique_entries_joined$c)) )
-    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
-                  "not listed in database. It will be discarded."))
-
-  #discard entries that have no c score, select native entries
-  unique_entries_matched <- unique_entries_joined %>%
-    dplyr::filter(!is.na(c))
+  # #discard entries that have no c score, select native entries
+  # unique_entries_matched <- unique_entries_joined %>%
+  #   dplyr::filter(!is.na(c))
 
   #count how many observations are unique and matched
-  species_richness <- nrow(unique_entries_matched)
+  species_richness <- nrow(accepted_entries(x, key, db))
 
   #return number of species
   return(species_richness)
