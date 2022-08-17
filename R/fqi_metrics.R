@@ -106,7 +106,7 @@ accepted_entries <- function(x, key = "acronym", db) {
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
-    message("Duplicate entries detected. Duplicates will only be counted once.")
+    warning("Duplicate entries detected. Duplicates will only be counted once.")
 
   #select only unique entries
   unique_entries <- x %>%
@@ -122,7 +122,7 @@ accepted_entries <- function(x, key = "acronym", db) {
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
-    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
+    warning(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
                   "not listed in database. It will be discarded."))
 
   #discard entries that have no c score, select native entries
