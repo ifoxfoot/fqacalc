@@ -89,7 +89,7 @@ florida_south_clean <- florida_south %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
-  mutate(fqa_db = "florida_south_20009") %>%
+  mutate(fqa_db = "florida_south_2009") %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
@@ -169,8 +169,7 @@ fqa_db_bind <- rbind(ne_clean,
                 univ_fqa) %>%
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
   mutate(scientific_name = toupper(scientific_name)) %>%
-  mutate(synonym = toupper(synonym)) %>%
-  mutate()
+  mutate(synonym = toupper(synonym))
 
 #clean
 fqa_db <- fqa_db_bind %>%
