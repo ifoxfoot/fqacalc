@@ -6,7 +6,10 @@ library(janitor)
 library(tidyverse)
 library(readxl)
 
+
+#-------------------------------------------------------------------------------
 #FOR UNIVERSAL FQA DBS
+
 
 #create list of file names
 univ_files <- list.files(path = here("data-raw", "FQA_databases"),
@@ -36,15 +39,23 @@ ne_list <- lapply(ne_files, function(x)
                     mutate(fqa_db = x))
 
 #bind together
-ne_compiled <- bind_rows(ne_list)
+ne_compiled <- bind_rows(ne_list) %>%
+  mutate(scientific_name = Taxon)
+
+#get northeastern_coastal nativity information
+northeastern_coastal <- univ_fqa %>%
+  filter(fqa_db == "northeastern_coastal_2018.csv") %>%
+  select(scientific_name, native)
+
+#bind it to ne data based on matching scientific name
+ne_native <- ne_compiled %>%
+  dplyr::left_join(northeastern_coastal, by = "scientific_name")
 
 #clean up col names
-ne_clean <- ne_compiled %>%
-  mutate(scientific_name = Taxon) %>%
+ne_clean <- ne_native %>%
   mutate(synonym = NA) %>%
   mutate(family = NA) %>%
   mutate(acronym = PLANTSSymbol) %>%
-  mutate(native = NA) %>%
   mutate(c = Score) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
@@ -53,7 +64,9 @@ ne_clean <- ne_compiled %>%
   select(scientific_name, synonym, family, acronym,
          native, c, w, physiognomy, duration, common_name, fqa_db)
 
+#-------------------------------------------------------------------------------
 #FLORIDA
+
 florida <- read_csv(here("data-raw",
                          "FQA_databases",
                          "not_from_universal_calc",
@@ -75,6 +88,7 @@ florida_clean <- florida %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+#-------------------------------------------------------------------------------
 # FLORIDA_SOUTH
 florida_south <- read_csv(here("data-raw",
                          "FQA_databases",
@@ -85,7 +99,6 @@ florida_south <- read_csv(here("data-raw",
 florida_south_clean <- florida_south %>%
   mutate(synonym = NA) %>%
   mutate(acronym = NA) %>%
-  mutate(native = NA) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
@@ -93,6 +106,7 @@ florida_south_clean <- florida_south %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+#-------------------------------------------------------------------------------
 #MISSISSISSIPPI
 ms <- read_xlsx(here("data-raw",
                      "FQA_databases",
@@ -114,6 +128,7 @@ ms_clean <- ms %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+#-------------------------------------------------------------------------------
 #MONTANA
 montana <- read_xlsx(here("data-raw",
                           "FQA_databases",
@@ -135,6 +150,7 @@ montana_clean <- montana %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+#-------------------------------------------------------------------------------
 #WYOMING
 wyoming <- read_xlsx(here("data-raw",
                           "FQA_databases",
@@ -156,7 +172,7 @@ wyoming_clean <- wyoming %>%
   slice(., 1:(n() - 1))
 
 
-
+#-------------------------------------------------------------------------------
 #NOW CLEANING ALL TOGETHER
 
 #bind all together
@@ -179,6 +195,10 @@ fqa_db <- fqa_db_bind %>%
   mutate(native = case_when(
     native %in% c("Exotic", "I", "Likely Exotic", "Nonnative", "non-native")
     ~ "exotic", T ~ native)) %>%
+  mutate(native = case_when(
+    !native %in% c("native", "exotic") ~ "undetermined", T ~ native)) %>%
+  mutate(native = case_when(
+    native == "undetermined" & c > 0 ~ "native", T ~ native)) %>%
   #fix c values later!!!
   mutate(c = as.numeric(c))
 
@@ -188,7 +208,7 @@ usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE, compress = "bzip2")
 
 #-------------------------------------------------------------------------------
 
-## code to prepare `crooked_island` dataset goes here
+## code to prepare `crooked_island` dataset
 
 #read in the data, skipping misc info that is listed at the top of the csv file
 crooked_island_site <-

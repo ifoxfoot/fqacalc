@@ -60,9 +60,11 @@ view_db <- function(db) {
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
-#'
+#' @param cover If TRUE, keep `cover` column in output. Note: if `cover = TRUE`,
+#' `x` must have a column named `cover`. This parameter is for use in cover-weighted
+#' metrics such as quadrat mean c, transect mean c, and cover-weighted FQI
 #' @return A data frame containing the 'key' column --either `acronym` or
-#' `scientific_name` -- as well as columns from the Michigan 2014 fqai database.
+#' `scientific_name` -- as well as columns from the relevant fqai database.
 #' These columns include `family`, `native`, `c` (which represents the C score),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
 #' @export
@@ -71,7 +73,7 @@ view_db <- function(db) {
 #' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-accepted_entries <- function(x, key = "acronym", db) {
+accepted_entries <- function(x, key = "acronym", db, cover = FALSE) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -98,13 +100,22 @@ accepted_entries <- function(x, key = "acronym", db) {
   if( !db %in% unique(fqa_db$fqa_db) )
     stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
 
+  #if cover is true, then there must be a column named cover in input df
+  if( cover & !"cover" %in% colnames(x))
+    stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
+
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
     message("Duplicate entries detected. Duplicates will only be counted once.")
 
-  #select only unique entries
-  unique_entries <- x %>%
-    dplyr::distinct(!!as.name(key))
+  #if cover parameter is true, select unique sci names and cover
+  if(cover)
+    {unique_entries <- x %>%
+      dplyr::distinct(!!as.name(key), cover)}
+   #if cover is false, select unique sci names
+   else
+    {unique_entries <- x %>%
+      dplyr::distinct(!!as.name(key))}
 
   #join scores from FQAI to user's assessment
   unique_entries_joined <-
@@ -112,7 +123,9 @@ accepted_entries <- function(x, key = "acronym", db) {
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
                        dplyr::filter(fqa_db == db),
-                     by = key)
+                     by = key) %>%
+    #convert cover to numeric
+    mutate(cover = as.numeric(cover))
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(unique_entries_joined$c)) )
