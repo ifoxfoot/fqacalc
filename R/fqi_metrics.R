@@ -273,12 +273,13 @@ all_metrics <- function(x, key = "acronym", db) {
 
   #create list of values
   values <- c(total_species_richness(x, key, db),
-            suppressMessages( native_species_richness(x, key, db)),
+            suppressMessages(native_species_richness(x, key, db)),
             suppressMessages(total_mean_c(x, key, db)),
             suppressMessages(native_mean_c(x, key, db)),
             suppressMessages(total_FQI(x, key, db)),
             suppressMessages(native_FQI(x, key, db)),
             suppressMessages(adjusted_FQI(x, key, db)))
+
 
   #bind metrics and values into data frame
   report <- data.frame(metrics, values)

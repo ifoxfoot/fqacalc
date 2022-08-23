@@ -73,7 +73,7 @@ view_db <- function(db) {
 #' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-accepted_entries <- function(x, key = "acronym", db, cover = FALSE) {
+accepted_entries <- function(x, key = "acronym", db, cover_weighted = FALSE, allow_duplicates = FALSE) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -90,7 +90,7 @@ accepted_entries <- function(x, key = "acronym", db, cover = FALSE) {
 
   #error if key is not acronym or scientific name
   if( !key %in% c("acronym", "scientific_name") )
-    stop("key must be equal to 'acronym' or 'scientific_name'.")
+    stop("'key' argument must be equal to 'acronym' or 'scientific_name'.")
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
@@ -101,41 +101,49 @@ accepted_entries <- function(x, key = "acronym", db, cover = FALSE) {
     stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #if cover is true, then there must be a column named cover in input df
-  if( cover & !"cover" %in% colnames(x))
+  if( cover_weighted & !("cover" %in% colnames(x)))
     stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
+
+  #if cover is not true, duplicate also cannot be true
+  if( !cover_weighted & allow_duplicates)
+    stop("If 'cover = FALSE', 'allow_duplicates' must also be FALSE")
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 )
     message("Duplicate entries detected. Duplicates will only be counted once.")
 
   #if cover parameter is true, select unique sci names and cover
-  if(cover)
-    {unique_entries <- x %>%
-      dplyr::distinct(!!as.name(key), cover)}
-   #if cover is false, select unique sci names
-   else
-    {unique_entries <- x %>%
-      dplyr::distinct(!!as.name(key))}
+  if( cover_weighted )
+    {cols <- x %>%
+      dplyr::select(!!as.name(key), cover) %>%
+      #convert cover to numeric
+      mutate(cover = as.numeric(x$cover))
+  } else( cols <- x %>%
+            dplyr::distinct(!!as.name(key)))
+
+  #if allow duplicates is false, do not allow duplicates
+  if( !allow_duplicates )
+    { cols <- cols %>%
+      dplyr::distinct()
+  }
 
   #join scores from FQAI to user's assessment
-  unique_entries_joined <-
-    dplyr::left_join(unique_entries %>%
+  entries_joined <-
+    dplyr::left_join(cols %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
                        dplyr::filter(fqa_db == db),
-                     by = key) %>%
-    #convert cover to numeric
-    mutate(cover = as.numeric(cover))
+                     by = key)
 
   #send message to user if site assessment contains plant not in FQAI database
-  if( any(is.na(unique_entries_joined$c)) )
-    message(paste("species", unique_entries_joined[is.na(unique_entries_joined$c), key],
+  if( any(is.na(entries_joined$c)) )
+    message(paste("species", entries_joined[is.na(unique_entries_joined$c), key],
                   "not listed in database. It will be discarded."))
 
   #discard entries that have no c score, select native entries
-  unique_entries_matched <- unique_entries_joined %>%
+  entries_matched <- entries_joined %>%
     dplyr::filter(!is.na(c))
 
-  return(unique_entries_matched)
+  return(entries_matched)
 
 }
