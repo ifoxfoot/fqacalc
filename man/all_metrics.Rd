@@ -2,7 +2,7 @@
 % Please edit documentation in R/fqi_metrics.R
 \name{all_metrics}
 \alias{all_metrics}
-\title{Calculate All FQA Metrics}
+\title{Print a Summary of Non-Weighted FQA Metrics}
 \usage{
 all_metrics(x, key = "acronym", db)
 }
@@ -20,8 +20,7 @@ Michigan FQAI database. If a value is not specified the default is \code{acronym
 A data frame
 }
 \description{
-\code{all_metrics()} calculates and prints Total Species Richness, Native Species Richness,
-Mean C, Native Mean C, Total FQI, Native FQI, and Adjusted FQI.
+\code{all_metrics()} calculates and prints a summary of non cover-weighted metrics
 }
 \examples{
 plant_list <- crooked_island

@@ -160,10 +160,9 @@ adjusted_FQI <- function(x, key = "acronym", db) {
 
 #-------------------------------------------------------------------------------
 
-#' Calculate All FQA Metrics
+#' Print a Summary of Non-Weighted FQA Metrics
 #'
-#' `all_metrics()` calculates and prints Total Species Richness, Native Species Richness,
-#' Mean C, Native Mean C, Total FQI, Native FQI, and Adjusted FQI.
+#' `all_metrics()` calculates and prints a summary of non cover-weighted metrics
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
