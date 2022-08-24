@@ -184,6 +184,10 @@ all_metrics <- function(x, key = "acronym", db) {
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
+            "Proportion of Species with < 1 C score",
+            "Proportion of Species with 1-3.9 C score",
+            "Proportion of Species with 4-6.9 C score",
+            "Proportion of Species with 7-10 C score",
             "Mean C",
             "Native Mean C",
             "Total FQI",
@@ -193,6 +197,10 @@ all_metrics <- function(x, key = "acronym", db) {
   #create list of values
   values <- c(species_richness(x, key, db, native = F),
             suppressMessages(species_richness(x, key, db, native = T)),
+            sum(accepted$c <= 1 )/length(accepted$c),
+            sum(accepted$c >= 1 & accepted$c < 4)/length(accepted$c),
+            sum(accepted$c >= 4 & accepted$c < 7)/length(accepted$c),
+            sum(accepted$c >= 7 & accepted$c <= 10)/length(accepted$c),
             suppressMessages(mean_c(x, key, db, native = F)),
             suppressMessages(mean_c(x, key, db, native = T)),
             suppressMessages(FQI(x, key, db, native = F)),

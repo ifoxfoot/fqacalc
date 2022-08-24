@@ -69,3 +69,54 @@ cover_FQI <- function(x, key = "acronym", db, native) {
   return(fqi)
 
 }
+
+#-------------------------------------------------------------------------------
+
+all_cover_metrics <- function(x, key = "acronym", db) {
+
+  accepted <- suppressMessages(accepted_entries(x, key, db, native = F))
+
+  #create list of all metrics that will be included in the output
+  metrics <- c("Total Species Richness",
+               "Native Species Richness",
+               "Proportion of Species with < 1 C score",
+               "Proportion of Species with 1-3.9 C score",
+               "Proportion of Species with 4-6.9 C score",
+               "Proportion of Species with 7-10 C score",
+               "Mean C",
+               "Native Mean C",
+               "Cover-Weighted Mean C",
+               "Cover-Weighted Native Mean C",
+               "Total FQI",
+               "Native FQI",
+               "Cover-Weighted FQI",
+               "Cover-Weighted Native FQI",
+               "Adjusted FQI"
+               )
+
+  #create list of values
+  values <- c(suppressMessages(species_richness(x, key, db, native = F)),
+              suppressMessages(species_richness(x, key, db, native = T)),
+              sum(accepted$c <= 1 )/length(accepted$c),
+              sum(accepted$c >= 1 & accepted$c < 4)/length(accepted$c),
+              sum(accepted$c >= 4 & accepted$c < 7)/length(accepted$c),
+              sum(accepted$c >= 7 & accepted$c <= 10)/length(accepted$c),
+              suppressMessages(mean_c(x, key, db, native = F)),
+              suppressMessages(mean_c(x, key, db, native = T)),
+              transect_mean_c(x, key, db, native = F),
+              suppressMessages(transect_mean_c(x, key, db, native = T)),
+              suppressMessages(FQI(x, key, db, native = F)),
+              suppressMessages(FQI(x, key, db, native = T)),
+              suppressMessages(cover_FQI(x, key, db, native = F)),
+              suppressMessages(cover_FQI(x, key, db, native = T)),
+              suppressMessages(adjusted_FQI(x, key, db))
+              )
+
+
+  #bind metrics and values into data frame
+  report <- data.frame(metrics, values)
+
+  #return the data frame
+  return(report)
+
+}
