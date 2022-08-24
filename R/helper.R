@@ -26,7 +26,12 @@ typo <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "typo"),
 fuzzy <- data.frame(acronym  = c("abeesc", "ABIBAL", "AMMBRE", "ANTELE"),
                     scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"))
 
-#cover test
+#quadrat test
 quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"),
                       cover = c(50, 4, 20, 30))
+
+#transect test
+transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                      cover = c(50, 4, 20, 30, 40, 7, 60),
+                      quad_id = c(1, 1, 1, 1, 2, 2, 2))

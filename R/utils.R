@@ -119,7 +119,7 @@ accepted_entries <- function(x, key = "acronym", db,
     stop("If 'cover = FALSE', 'allow_duplicates' must also be FALSE")
 
   #send message to user if site assessment contains duplicate entries
-  if( sum(duplicated(x[,key])) > 0 )
+  if( sum(duplicated(x[,key])) > 0 && !allow_duplicates)
     message("Duplicate entries detected. Duplicates will only be counted once.")
 
   #if cover parameter is true, select unique sci names and cover

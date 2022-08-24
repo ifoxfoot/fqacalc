@@ -44,12 +44,28 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
                               cover_weighted = T,
-                              allow_duplicates = T)
+                              allow_duplicates = T) %>%
+    dplyr::group_by(!!as.name(key)) %>%
+    dplyr::mutate(mean = mean(cover)) %>%
+    dplyr::distinct(!!as.name(key), mean, c)
 
   #calculate mean c score
-  mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)
+  mean_c <- sum(entries$c * entries$mean)/
+    sum(entries$mean)
 
   #return mean
   return(mean_c)
+
+}
+
+#-------------------------------------------------------------------------------
+
+cover_FQI <- function(x, key = "acronym", db, native) {
+
+  fqi <- transect_mean_c(x, key, db, native) *
+    suppressMessages(sqrt(species_richness(x, key, db, native)))
+
+  #return mean
+  return(fqi)
 
 }
