@@ -3,12 +3,14 @@
 
 # fqacalc
 
+## A Florisitic Quality Assessment Calculator for R
+
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package provides functions for calculating total species richness,
-native species richness, mean C, native mean C, FQI, native FQI, and
-adjusted FQI based on Michigan’s 2014 FQAI database.
+This package provides functions for calculating floristic quality
+metrics based on 47 regional FQAI databases that have been approved for
+use by the US Army Core of Engineers.
 
 ## Installation
 
@@ -38,7 +40,7 @@ head(crooked_island)
 #> 6              Calamagrostis epigeios  CALEPI    reedgrass
 
 #here is an example of all metrics wrapped into one
-all_metrics(crooked_island)
+all_metrics(crooked_island, db = "michigan_2014")
 #>                   metrics    values
 #> 1  Total Species Richness 35.000000
 #> 2 Native Species Richness 28.000000

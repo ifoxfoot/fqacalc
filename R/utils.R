@@ -60,9 +60,11 @@ view_db <- function(db) {
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
-#' @param cover If TRUE, keep `cover` column in output. Note: if `cover = TRUE`,
+#' @param cover_weighted If TRUE, keep `cover` column in output. Note: if `cover_weighted = TRUE`,
 #' `x` must have a column named `cover`. This parameter is for use in cover-weighted
 #' metrics such as quadrat mean c, transect mean c, and cover-weighted FQI
+#' @param allow_duplicates If TRUE, allow `x` to have duplicate rows. This is only
+#' recommended for calculating transect and frequency metrics
 #' @return A data frame containing the 'key' column --either `acronym` or
 #' `scientific_name` -- as well as columns from the relevant fqai database.
 #' These columns include `family`, `native`, `c` (which represents the C score),

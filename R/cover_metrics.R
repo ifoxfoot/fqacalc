@@ -22,7 +22,7 @@
 quadrat_mean_c <- function(x, key = "acronym", db) {
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, cover = T)
+  entries <- accepted_entries(x, key, db, cover_weighted = T)
 
   #calculate mean c score
   mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)
@@ -54,7 +54,7 @@ quadrat_mean_c <- function(x, key = "acronym", db) {
 native_quadrat_mean_c <- function(x, key = "acronym", db) {
 
   #get accepted native entries
-  entries <- accepted_entries(x, key, db, cover = T) %>%
+  entries <- accepted_entries(x, key, db, cover_weighted = T) %>%
     dplyr::filter(native == "native")
 
   #calculate mean c score
