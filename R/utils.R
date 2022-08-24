@@ -60,11 +60,13 @@ view_db <- function(db) {
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
-#' @param cover_weighted If TRUE, keep `cover` column in output. Note: if `cover_weighted = TRUE`,
-#' `x` must have a column named `cover`. This parameter is for use in cover-weighted
-#' metrics such as quadrat mean c, transect mean c, and cover-weighted FQI
-#' @param allow_duplicates If TRUE, allow `x` to have duplicate rows. This is only
-#' recommended for calculating transect and frequency metrics
+#' @param native Boolean (TRUE or FALSE). If TRUE, only include native species.
+#' @param cover_weighted Boolean (TRUE or FALSE). If TRUE, keep `cover` column in output.
+#' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
+#' is for use in cover-weighted metrics such as quadrat mean c, transect mean c, and
+#' cover-weighted FQI.
+#' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
+#' duplicate rows. This is only recommended for calculating transect and frequency metrics.
 #' @return A data frame containing the 'key' column --either `acronym` or
 #' `scientific_name` -- as well as columns from the relevant fqai database.
 #' These columns include `family`, `native`, `c` (which represents the C score),
@@ -75,7 +77,13 @@ view_db <- function(db) {
 #' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-accepted_entries <- function(x, key = "acronym", db, cover_weighted = FALSE, allow_duplicates = FALSE) {
+accepted_entries <- function(x, key = "acronym", db,
+                             native = c(TRUE, FALSE),
+                             cover_weighted = FALSE,
+                             allow_duplicates = FALSE) {
+
+  #declaring cover is null
+  cover <- NULL
 
   #error if x argument is missing
   if( missing(x) )
@@ -119,7 +127,7 @@ accepted_entries <- function(x, key = "acronym", db, cover_weighted = FALSE, all
     {cols <- x %>%
       dplyr::select(!!as.name(key), cover) %>%
       #convert cover to numeric
-      mutate(cover = as.numeric(x$cover))
+      dplyr::mutate(cover = as.numeric(x$cover))
   } else( cols <- x %>%
             dplyr::distinct(!!as.name(key)))
 
@@ -137,9 +145,14 @@ accepted_entries <- function(x, key = "acronym", db, cover_weighted = FALSE, all
                        dplyr::filter(fqa_db == db),
                      by = key)
 
+  if (native) {
+    entries_joined <- entries_joined %>%
+      dplyr::filter(native == "native")
+  }
+
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(entries_joined$c)) )
-    message(paste("species", entries_joined[is.na(unique_entries_joined$c), key],
+    message(paste("species", entries_joined[is.na(entries_joined$c), key],
                   "not listed in database. It will be discarded."))
 
   #discard entries that have no c score, select native entries

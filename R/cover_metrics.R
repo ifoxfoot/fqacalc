@@ -11,18 +11,23 @@
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
+#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
+#' native species.
 #'
 #' @return A non-negative integer
 #' @export
 #'
 #' @examples
-#' plant_list <- crooked_island
-#' quadrat_mean_c(x = plant_list, key = "acronym", db = "michigan_2014")
+#' quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+#' cover = c(50, 4, 20, 30))
+#'
+#' quadrat_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
+#' #4.923077
 
-quadrat_mean_c <- function(x, key = "acronym", db) {
+quadrat_mean_c <- function(x, key = "acronym", db, native) {
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, cover_weighted = T)
+  entries <- accepted_entries(x, key, db, native, cover_weighted = T)
 
   #calculate mean c score
   mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)
@@ -34,28 +39,12 @@ quadrat_mean_c <- function(x, key = "acronym", db) {
 
 #-------------------------------------------------------------------------------
 
-#' Calculate Quadrat-Level Cover-Weighted Mean C for Native Species
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`
-#' AND have a column named `cover`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
-#'
-#' @return A non-negative integer
-#' @export
-#'
-#' @examples
-#' plant_list <- crooked_island
-#' native_quadrat_mean_c(x = plant_list, key = "acronym", db = "michigan_2014")
+transect_mean_c <- function(x, key = "acronym", db, native) {
 
-native_quadrat_mean_c <- function(x, key = "acronym", db) {
-
-  #get accepted native entries
-  entries <- accepted_entries(x, key, db, cover_weighted = T) %>%
-    dplyr::filter(native == "native")
+  #get accepted entries
+  entries <- accepted_entries(x, key, db, native,
+                              cover_weighted = T,
+                              allow_duplicates = T)
 
   #calculate mean c score
   mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)
@@ -64,6 +53,3 @@ native_quadrat_mean_c <- function(x, key = "acronym", db) {
   return(mean_c)
 
 }
-
-#-------------------------------------------------------------------------------
-

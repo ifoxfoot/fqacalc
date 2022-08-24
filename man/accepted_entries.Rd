@@ -4,7 +4,14 @@
 \alias{accepted_entries}
 \title{Return Data Frame of Successfully Matched Plant Species}
 \usage{
-accepted_entries(x, key = "acronym", db, cover = FALSE)
+accepted_entries(
+  x,
+  key = "acronym",
+  db,
+  native = c(TRUE, FALSE),
+  cover_weighted = FALSE,
+  allow_duplicates = FALSE
+)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -15,10 +22,20 @@ Michigan FQAI database. If a value is not specified the default is \code{acronym
 \code{scientific_name} and \code{acronym} are the only acceptable values for key.}
 
 \item{db}{A character string representing the regional FQA database to use.}
+
+\item{native}{Boolean (TRUE or FALSE). If TRUE, only include native species.}
+
+\item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
+Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter
+is for use in cover-weighted metrics such as quadrat mean c, transect mean c, and
+cover-weighted FQI.}
+
+\item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
+duplicate rows. This is only recommended for calculating transect and frequency metrics.}
 }
 \value{
 A data frame containing the 'key' column --either \code{acronym} or
-\code{scientific_name} -- as well as columns from the Michigan 2014 fqai database.
+\code{scientific_name} -- as well as columns from the relevant fqai database.
 These columns include \code{family}, \code{native}, \code{c} (which represents the C score),
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }

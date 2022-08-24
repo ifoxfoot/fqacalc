@@ -1,14 +1,11 @@
 
 #this file contains functions for calculating simple fqa metrics (i.e. without transects or quadrats)
 
-#this prevents a note about native being an undefined global variable
-utils::globalVariables("native")
-
 #-------------------------------------------------------------------------------
 
 #' Calculate Number of Species
 #'
-#' `total_species_richness()` calculates the total number of species in the site
+#' `species_richness()` calculates the total number of species in the site
 #' assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame must
@@ -17,6 +14,8 @@ utils::globalVariables("native")
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
+#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
+#' native species.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -25,57 +24,29 @@ utils::globalVariables("native")
 #' @examples
 #'
 #' plant_list <- crooked_island
-#' total_species_richness(x = plant_list, key = "acronym", db = "michigan_2014")
+#'
+#' #number of species (native and exotic)
+#' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
+#'
+#' #number of native species
+#' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-total_species_richness <- function(x, key = "acronym", db) {
+species_richness <- function(x, key = "acronym", db, native) {
 
   #count how many observations are unique and matched
-  species_richness <- nrow(accepted_entries(x, key, db))
+  species_richness <- nrow(accepted_entries(x, key, db, native))
 
   #return number of species
   return(species_richness)
 
 }
 
-#-------------------------------------------------------------------------------
-
-#' Calculate Number of Native Species
-#'
-#' `native_species_richness()` calculates the total number of native species in the
-#' site assessment.
-#'
-#' @param x A data frame containing a list of plant species. This data frame must
-#' have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
-#'
-#' @return A non-negative integer
-#' @importFrom rlang :=
-#' @export
-#'
-#' @examples
-#' plant_list <- crooked_island
-#' native_species_richness(x = plant_list, key = "acronym", db = "michigan_2014")
-
-native_species_richness <- function(x, key = "acronym", db) {
-
-  #count how many observations are native, unique, and have c score
-  native_richness <- accepted_entries(x, key, db) %>%
-    dplyr::filter(native == "native") %>%
-    nrow()
-
-  #return number of species
-  return(native_richness)
-
-}
 
 #-------------------------------------------------------------------------------
 
 #' Calculate Mean C
 #'
-#'`total_mean_c()` calculates the mean conservation coefficient for all species in
+#'`mean_c()` calculates the mean conservation coefficient for all species in
 #'the site assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
@@ -84,6 +55,8 @@ native_species_richness <- function(x, key = "acronym", db) {
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
+#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
+#' native species.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -91,12 +64,17 @@ native_species_richness <- function(x, key = "acronym", db) {
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' total_mean_c(x = plant_list, key = "acronym", db = "michigan_2014")
+#'
+#' #mean c of all species (native and exotic)
+#' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
+#'
+#' #mean c of native species
+#' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-total_mean_c <- function(x, key = "acronym", db) {
+mean_c <- function(x, key = "acronym", db, native) {
 
   #calculate mean c score
-  mean_c <- mean(accepted_entries(x, key, db)$c)
+  mean_c <- mean(accepted_entries(x, key, db, native)$c)
 
   #print
   return(mean_c)
@@ -105,45 +83,9 @@ total_mean_c <- function(x, key = "acronym", db) {
 
 #-------------------------------------------------------------------------------
 
-#' Calculate Native Mean C
+#' Calculate FQI
 #'
-#' `native_mean_c()` calculates the mean conservation coefficient for all native
-#' species in the site assessment.
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
-#'
-#' @return A non-negative integer
-#' @importFrom rlang :=
-#' @export
-#'
-#' @examples
-#' plant_list <- crooked_island
-#' native_mean_c(x = plant_list, key = "acronym", db = "michigan_2014")
-
-native_mean_c <- function(x, key = "acronym", db) {
-
-  #get native accepted entries
-  native_accepted_entries <- accepted_entries(x, key, db) %>%
-    dplyr::filter(native == "native")
-
-  #calculate mean C
-  mean_c <- mean(native_accepted_entries$c)
-
-  #print
-  return(mean_c)
-
-}
-
-#-------------------------------------------------------------------------------
-
-#' Calculate Total FQI
-#'
-#' `total_FQI()` calculates the Floristic Quality Index (FQI) for the site using
+#' `FQI()` calculates the Floristic Quality Index (FQI) for the site using
 #' all species listed. FQI is found by multiplying the total mean C by the square
 #' root of the total species richness.
 #'
@@ -153,55 +95,32 @@ native_mean_c <- function(x, key = "acronym", db) {
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
 #' `scientific_name` and `acronym` are the only acceptable values for key.
 #' @param db A character string representing the regional FQA database to use.
+#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
+#' native species.
 #'
 #' @return A non-negative integer
 #' @export
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' total_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
+#'
+#' #FQI of all species (native and exotic)
+#' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
+#'
+#' #FQI of native species
+#' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-total_FQI <- function(x, key = "acronym", db) {
+FQI <- function(x, key = "acronym", db, native) {
 
   #calculate total fqi
-  fqi <- total_mean_c(x, key, db) * suppressMessages(sqrt(total_species_richness(x, key, db)))
+  fqi <- mean_c(x, key, db, native) *
+    suppressMessages(sqrt(species_richness(x, key, db, native)))
 
   #print
   return(fqi)
 
 }
 
-#-------------------------------------------------------------------------------
-
-#' Calculate Native FQI
-#'
-#' `native_FQI()` calculates the Floristic Quality Index (FQI) for the site using
-#' only native species. Native FQI is found by multiplying the native mean C by
-#' the square root of the native species richness.
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
-#'
-#' @return A non-negative integer
-#' @export
-#'
-#' @examples
-#' plant_list <- crooked_island
-#' native_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
-
-native_FQI <- function(x, key = "acronym", db) {
-
-  #calculate native fqi
-  fqi <- native_mean_c(x, key, db) * suppressMessages(sqrt(native_species_richness(x, key, db)))
-
-  #print
-  return(fqi)
-
-}
 
 #-------------------------------------------------------------------------------
 
@@ -229,9 +148,9 @@ native_FQI <- function(x, key = "acronym", db) {
 adjusted_FQI <- function(x, key = "acronym", db) {
 
   #calculate adjusted fqi
-  fqi <- 100 * (native_mean_c(x, key, db)/10) *
-    suppressMessages(
-      sqrt(native_species_richness(x, key, db)/total_species_richness(x, key, db))
+  fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = T))/10) *
+      sqrt(suppressMessages(species_richness(x, key, db, native = T))/
+             species_richness(x, key, db, native = F)
       )
 
   #print
@@ -272,12 +191,12 @@ all_metrics <- function(x, key = "acronym", db) {
             "Adjusted FQI")
 
   #create list of values
-  values <- c(total_species_richness(x, key, db),
-            suppressMessages(native_species_richness(x, key, db)),
-            suppressMessages(total_mean_c(x, key, db)),
-            suppressMessages(native_mean_c(x, key, db)),
-            suppressMessages(total_FQI(x, key, db)),
-            suppressMessages(native_FQI(x, key, db)),
+  values <- c(species_richness(x, key, db, native = F),
+            suppressMessages(species_richness(x, key, db, native = T)),
+            suppressMessages(mean_c(x, key, db, native = F)),
+            suppressMessages(mean_c(x, key, db, native = T)),
+            suppressMessages(FQI(x, key, db, native = F)),
+            suppressMessages(FQI(x, key, db, native = T)),
             suppressMessages(adjusted_FQI(x, key, db)))
 
 
