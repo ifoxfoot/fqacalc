@@ -1,4 +1,8 @@
 
+#this file contains fqi cover-weighted metrics
+
+#-------------------------------------------------------------------------------
+
 #' Calculate Quadrat-Level Cover-Weighted Mean C
 #'
 #' `quadrat_mean_c` calculates the sum of cover times c value per each species,
@@ -59,13 +63,17 @@ quadrat_mean_c <- function(x, key = "acronym", db, native) {
 #' @export
 #'
 #' @examples
-#' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+#' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
+#' "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' transect_mean_c(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
 transect_mean_c <- function(x, key = "acronym", db, native) {
+
+  #declaring cover is null
+  cover <- NULL
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
@@ -105,7 +113,8 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
 #' @export
 #'
 #' @examples
-#' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+#' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
+#' "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
@@ -123,7 +132,7 @@ cover_FQI <- function(x, key = "acronym", db, native) {
 
 #-------------------------------------------------------------------------------
 
-#' Print a Summary of Weighted FQA Metrics
+#' Print a Summary of Cover-Weighted FQA Metrics
 #'
 #' `all_cover_metrics()` calculates and prints a summary of both non cover-weighted
 #' metrics and cover-weighted metrics.
@@ -140,7 +149,8 @@ cover_FQI <- function(x, key = "acronym", db, native) {
 #' @export
 #'
 #' @examples
-#' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+#' transect <- data.frame(
+#' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'

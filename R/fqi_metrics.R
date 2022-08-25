@@ -1,6 +1,5 @@
 
-#this file contains functions for calculating simple fqa metrics (i.e. without transects or quadrats)
-
+#this file contains functions for calculating non-cover-weighted fqi metrics
 #-------------------------------------------------------------------------------
 
 #' Calculate Number of Species
@@ -180,6 +179,9 @@ adjusted_FQI <- function(x, key = "acronym", db) {
 
 all_metrics <- function(x, key = "acronym", db) {
 
+  #get list of accepted entries for calculating stats
+  accepted <- suppressMessages(accepted_entries(x, key, db, native = F))
+
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
@@ -215,5 +217,5 @@ all_metrics <- function(x, key = "acronym", db) {
 
 }
 
-#-------------------------------------------------------------------------------
+
 

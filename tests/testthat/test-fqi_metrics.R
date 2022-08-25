@@ -11,11 +11,11 @@ test_that("species_richness() calculates species richness in perfect setting", {
 #testing errors
 test_that("species_richness() calculates errors correctly", {
   expect_error(species_richness(), "x is missing")
-  expect_error(species_richness(character_string), "must be a data frame.")
-  expect_error(species_richness(numbers), "must be a data frame.")
-  expect_error(species_richness(bad_names), "must have a column named")
-  expect_error(species_richness(crooked_island, key = "bad_key"), "'key' argument must be equal to")
-  expect_error(species_richness(bad_names, key = "acronym"), "must have a column named")
+  expect_error(species_richness(character_string, db = "michigan_2014", native = F), "must be a data frame.")
+  expect_error(species_richness(numbers, db = "michigan_2014", native = F), "must be a data frame.")
+  expect_error(species_richness(bad_names, db = "michigan_2014", native = F), "must have a column named")
+  expect_error(species_richness(crooked_island, key = "bad_key", db = "michigan_2014", native = F), "'key' argument must be equal to")
+  expect_error(species_richness(bad_names, key = "acronym", db = "michigan_2014", native = F), "must have a column named")
 })
 
 #test duplicate behavior
@@ -56,11 +56,11 @@ test_that("mean_c() calculates species richness", {
 #testing errors
 test_that("mean_c() calculates errors correctly", {
   expect_error(mean_c(), "x is missing")
-  expect_error(mean_c(character_string), "must be a data frame.")
-  expect_error(mean_c(numbers), "must be a data frame.")
-  expect_error(mean_c(bad_names), "must have a column named")
-  expect_error(mean_c(crooked_island, key = "bad_key"), "'key' argument must be equal to")
-  expect_error(mean_c(bad_names, key = "acronym"), "must have a column named")
+  expect_error(mean_c(character_string, db = "michigan_2014", native = F), "must be a data frame.")
+  expect_error(mean_c(numbers, db = "michigan_2014", native = F), "must be a data frame.")
+  expect_error(mean_c(bad_names, db = "michigan_2014", native = F), "must have a column named")
+  expect_error(mean_c(crooked_island, key = "bad_key", db = "michigan_2014", native = F), "'key' argument must be equal to")
+  expect_error(mean_c(bad_names, key = "acronym", db = "michigan_2014", native = F), "must have a column named")
 })
 
 #test duplicate behavior
@@ -100,11 +100,11 @@ test_that("FQI() calculates correct FQI", {
 #testing errors
 test_that("FQI() calculates errors correctly", {
   expect_error(FQI(), "x is missing")
-  expect_error(FQI(character_string), "must be a data frame.")
-  expect_error(FQI(numbers), "must be a data frame.")
-  expect_error(FQI(bad_names), "must have a column named")
-  expect_error(FQI(crooked_island, key = "bad_key"), "'key' argument must be equal to")
-  expect_error(FQI(bad_names, key = "acronym"), "must have a column named")
+  expect_error(FQI(character_string, db = "michigan_2014", native = F), "must be a data frame.")
+  expect_error(FQI(numbers, db = "michigan_2014", native = F), "must be a data frame.")
+  expect_error(FQI(bad_names, db = "michigan_2014", native = F), "must have a column named")
+  expect_error(FQI(crooked_island, key = "bad_key", db = "michigan_2014", native = F), "'key' argument must be equal to")
+  expect_error(FQI(bad_names, key = "acronym", db = "michigan_2014", native = F), "must have a column named")
 })
 
 #test duplicate behavior
@@ -143,11 +143,11 @@ test_that("adjusted_FQI() calculates total species richness", {
 #testing errors
 test_that("adjusted_FQI() calculates errors correctly", {
   expect_error(adjusted_FQI(), "x is missing")
-  expect_error(adjusted_FQI(character_string), "must be a data frame.")
-  expect_error(adjusted_FQI(numbers), "must be a data frame.")
-  expect_error(adjusted_FQI(bad_names), "must have a column named")
-  expect_error(adjusted_FQI(crooked_island, key = "bad_key"), "'key' argument must be equal to")
-  expect_error(adjusted_FQI(bad_names, key = "acronym"), "must have a column named")
+  expect_error(adjusted_FQI(character_string, db = "michigan_2014"), "must be a data frame.")
+  expect_error(adjusted_FQI(numbers, db = "michigan_2014"), "must be a data frame.")
+  expect_error(adjusted_FQI(bad_names, db = "michigan_2014"), "must have a column named")
+  expect_error(adjusted_FQI(crooked_island, key = "bad_key", db = "michigan_2014"), "'key' argument must be equal to")
+  expect_error(adjusted_FQI(bad_names, key = "acronym", db = "michigan_2014"), "must have a column named")
 })
 
 #test duplicate behavior

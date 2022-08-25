@@ -89,6 +89,14 @@ accepted_entries <- function(x, key = "acronym", db,
   if( missing(x) )
     stop("argument x is missing, with no default.")
 
+  #error if db argument is missing
+  if( missing(db) )
+    stop("argument db is missing, with no default.")
+
+  #error if db argument is missing
+  if( missing(native) )
+    stop("argument native is missing, with no default.")
+
   #error if x is not a data frame
   if( !is.data.frame(x) )
     stop(paste(deparse(substitute(x)), "must be a data frame."))
@@ -118,6 +126,14 @@ accepted_entries <- function(x, key = "acronym", db,
   if( !cover_weighted & allow_duplicates)
     stop("If 'cover = FALSE', 'allow_duplicates' must also be FALSE")
 
+  #cover_weighted must be T or F
+  if( !is.logical(cover_weighted) )
+    stop("'cover_weighted' can only be set to TRUE or FALSE")
+
+  #allow__duplicates must be T or F
+  if( !is.logical(allow_duplicates) )
+    stop("'allow_duplicates' can only be set to TRUE or FALSE")
+
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 && !allow_duplicates)
     message("Duplicate entries detected. Duplicates will only be counted once.")
@@ -139,11 +155,17 @@ accepted_entries <- function(x, key = "acronym", db,
 
   #join scores from FQAI to user's assessment
   entries_joined <-
-    dplyr::left_join(cols %>%
+    dplyr::inner_join(cols %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
                        dplyr::filter(fqa_db == db),
                      by = key)
+
+  for ( i in x[, key] ) {
+  #send message to user if site assessment contains plant not in FQAI database
+  if( !toupper(i) %in% entries_joined[,key] )
+    message(paste("Species", toupper(i), "not listed in database. It will be discarded."))
+  }
 
   if (native) {
     entries_joined <- entries_joined %>%
@@ -153,12 +175,72 @@ accepted_entries <- function(x, key = "acronym", db,
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(entries_joined$c)) )
     message(paste("species", entries_joined[is.na(entries_joined$c), key],
-                  "not listed in database. It will be discarded."))
+                  "is recognized but has not been assigned a C score. It will be discarded."))
 
-  #discard entries that have no c score, select native entries
+  #discard entries that have no match
   entries_matched <- entries_joined %>%
-    dplyr::filter(!is.na(c))
+    dplyr::filter(!is.na(entries_joined$c))
 
   return(entries_matched)
+
+}
+
+#-------------------------------------------------------------------------------
+
+unassigned_plants <- function(x, key = "acronym", db) {
+
+  #error if x argument is missing
+  if( missing(x) )
+    stop("argument x is missing, with no default.")
+
+  #error if db argument is missing
+  if( missing(db) )
+    stop("argument db is missing, with no default.")
+
+  #error if x is not a data frame
+  if( !is.data.frame(x) )
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
+
+  #error if x does not have correct col names
+  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+    stop(paste(deparse(substitute(x)),
+               "must have a column named 'acronym' and/or 'scientific_name'."))
+
+  #error if key is not acronym or scientific name
+  if( !key %in% c("acronym", "scientific_name") )
+    stop("'key' argument must be equal to 'acronym' or 'scientific_name'.")
+
+  #error if key is not in col names of x
+  if( !key %in% colnames(x) )
+    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+
+  #error if db is not a legit db
+  if( !db %in% unique(fqa_db$fqa_db) )
+    stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
+
+  #get distinct values
+  cols <- x %>%
+    dplyr::distinct(!!as.name(key))
+
+ #join scores from FQAI to user's assessment
+ entries_joined <-
+   dplyr::inner_join(cols %>%
+                      dplyr::mutate(!!key := toupper(!!as.name(key))),
+                    fqa_db %>%
+                      dplyr::filter(fqa_db == db),
+                    by = key)
+
+ for ( i in x[, key] ) {
+   #send message to user if site assessment contains plant not in FQAI database
+   if( !toupper(i) %in% entries_joined[,key] )
+     message(paste("Species", toupper(i), "not listed in database. It will be discarded."))
+  }
+
+ #discard entries that have no match
+ entries_matched <- entries_joined %>%
+   dplyr::filter(is.na(entries_joined$c))
+
+ #return this for now
+ return(entries_matched)
 
 }

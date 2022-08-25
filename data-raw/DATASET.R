@@ -183,9 +183,15 @@ fqa_db_bind <- rbind(ne_clean,
                 montana_clean,
                 wyoming_clean,
                 univ_fqa) %>%
+  #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
+  #covert things to uppercase
   mutate(scientific_name = toupper(scientific_name)) %>%
   mutate(synonym = toupper(synonym))
+
+# #cleaning latin names
+# fqa_db_latin <- fqa_db_bind %>%
+#   mutate(synonym = str_remove_all(synonym, c("\\[INCLUDING] ", "\\[INCLUDES]", )))
 
 #clean
 fqa_db <- fqa_db_bind %>%

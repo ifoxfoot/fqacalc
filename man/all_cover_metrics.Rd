@@ -2,7 +2,7 @@
 % Please edit documentation in R/cover_metrics.R
 \name{all_cover_metrics}
 \alias{all_cover_metrics}
-\title{Print a Summary of Weighted FQA Metrics}
+\title{Print a Summary of Cover-Weighted FQA Metrics}
 \usage{
 all_cover_metrics(x, key = "acronym", db)
 }
@@ -25,7 +25,8 @@ A data frame
 metrics and cover-weighted metrics.
 }
 \examples{
-transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+transect <- data.frame(
+acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 

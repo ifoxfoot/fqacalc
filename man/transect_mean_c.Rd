@@ -29,7 +29,8 @@ divided by the sum of mean cover values for all species. The main difference bet
 \code{transect_mean_c} and \code{quadrat_mean_c} is that \code{transect_mean_c} accepts duplicate entries.
 }
 \examples{
-transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
+"ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
