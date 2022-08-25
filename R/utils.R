@@ -187,6 +187,25 @@ accepted_entries <- function(x, key = "acronym", db,
 
 #-------------------------------------------------------------------------------
 
+#' Return Data Frame of Successfully Matched Plant Species That Have No C Score
+#'
+#'@param x A data frame containing a list of plant species. This data frame
+#' must have one of the following columns: `scientific_name` or `acronym`.
+#' @param key A column name that will be used to join the input `x` with the 2014
+#' Michigan FQAI database. If a value is not specified the default is `acronym`.
+#' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param db A character string representing the regional FQA database to use.
+#'
+#' @return A data frame
+#' @export
+#'
+#' @examples
+#' no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM",
+#' "ACER GRANDIDENTATUM", "ACER PLATANOIDES"))
+#'
+#' unassigned_plants(no_c_test, key = "scientific_name", db = "montana_2017")
+#'
+
 unassigned_plants <- function(x, key = "acronym", db) {
 
   #error if x argument is missing
