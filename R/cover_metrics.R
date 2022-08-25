@@ -28,7 +28,7 @@
 #'
 #' quadrat_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
 
-quadrat_mean_c <- function(x, key = "acronym", db, native) {
+quadrat_mean_c <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native, cover_weighted = T)
@@ -70,7 +70,7 @@ quadrat_mean_c <- function(x, key = "acronym", db, native) {
 #'
 #' transect_mean_c(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
-transect_mean_c <- function(x, key = "acronym", db, native) {
+transect_mean_c <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
 
   #declaring cover is null
   cover <- NULL
@@ -120,7 +120,7 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
 #'
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
-cover_FQI <- function(x, key = "acronym", db, native) {
+cover_FQI <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
 
   fqi <- transect_mean_c(x, key, db, native) *
     suppressMessages(sqrt(species_richness(x, key, db, native)))
@@ -207,3 +207,23 @@ all_cover_metrics <- function(x, key = "acronym", db) {
 
 #-------------------------------------------------------------------------------
 
+relative_freq <- function(x, key = "acronym", db, native = c(TRUE, FALSE),
+                          species, family, physiog) {
+
+  entries <- accepted_entries(x, key, db, native, allow_duplicates = T)
+
+  return(entries)
+
+}
+
+#-------------------------------------------------------------------------------
+
+relative_cover <- function(){
+
+}
+
+#-------------------------------------------------------------------------------
+
+relative_importance <- function(){
+
+}

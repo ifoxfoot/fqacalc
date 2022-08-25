@@ -122,10 +122,6 @@ accepted_entries <- function(x, key = "acronym", db,
   if( cover_weighted & !("cover" %in% colnames(x)))
     stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
 
-  #if cover is not true, duplicate also cannot be true
-  if( !cover_weighted & allow_duplicates)
-    stop("If 'cover = FALSE', 'allow_duplicates' must also be FALSE")
-
   #cover_weighted must be T or F
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
@@ -189,7 +185,7 @@ accepted_entries <- function(x, key = "acronym", db,
 
 #' Return Data Frame of Successfully Matched Plant Species That Have No C Score
 #'
-#'@param x A data frame containing a list of plant species. This data frame
+#' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
 #' @param key A column name that will be used to join the input `x` with the 2014
 #' Michigan FQAI database. If a value is not specified the default is `acronym`.
