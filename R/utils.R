@@ -141,7 +141,7 @@ accepted_entries <- function(x, key = "acronym", db,
       #convert cover to numeric
       dplyr::mutate(cover = as.numeric(x$cover))
   } else( cols <- x %>%
-            dplyr::distinct(!!as.name(key)))
+            dplyr::select(!!as.name(key)))
 
   #if allow duplicates is false, do not allow duplicates
   if( !allow_duplicates )
@@ -154,7 +154,8 @@ accepted_entries <- function(x, key = "acronym", db,
     dplyr::inner_join(cols %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
-                       dplyr::filter(fqa_db == db),
+                       dplyr::filter(fqa_db == db) %>%
+                       dplyr::as_tibble(., rownames = "ID") ,
                      by = key)
 
   for ( i in x[, key] ) {
