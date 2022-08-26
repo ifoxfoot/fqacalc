@@ -231,12 +231,44 @@ relative_freq <- function(x, key = "acronym", db, native = c(TRUE, FALSE),
 
 #-------------------------------------------------------------------------------
 
-relative_cover <- function(){
+
+relative_cover <- function(x, key = "acronym", db, native = c(TRUE, FALSE),
+                           species = NULL, family = NULL, physiog = NULL){
+
+  optional_arg <- c(species, family, physiog)
+
+  if( length(optional_arg) > 1)
+    stop("Only one optional paremeter ('species', 'family', 'physiog') can be set")
+
+  if( length(optional_arg) == 0)
+    stop("One optional paremeter ('species', 'family', 'physiog') must be set")
+
+  name <- if(!is.null(species))  {as.name("scientific_name")}
+  else if(!is.null(family)) {as.name("family")} else {as.name("physiognomy")}
+
+  entries <- accepted_entries(x, key, db, native, allow_duplicates = T, cover_weighted = T) %>%
+    dplyr::group_by(!!name) %>%
+    dplyr::summarise(sum = sum(cover)) %>%
+    as.data.frame()
+
+  filtered <- entries %>% dplyr::filter(!!name == optional_arg)
+
+  r_cover <- 100*filtered$sum /sum(entries$sum)
+
+  return(r_cover)
 
 }
 
 #-------------------------------------------------------------------------------
 
-relative_importance <- function(){
+relative_importance <- function(x, key = "acronym", db, native = c(TRUE, FALSE),
+                                species = NULL, family = NULL, physiog = NULL){
+
+  avg = (relative_freq(x, key, db, native,
+                      species, family, physiog) +
+           relative_cover(x, key, db, native,
+                        species, family, physiog))/2
+
+  return(avg)
 
 }
