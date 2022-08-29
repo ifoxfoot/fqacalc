@@ -30,7 +30,7 @@
 #' #number of native species
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-species_richness <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
+species_richness <- function(x, key = "acronym", db, native) {
 
   #count how many observations are unique and matched
   species_richness <- nrow(accepted_entries(x, key, db, native))
@@ -70,7 +70,7 @@ species_richness <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
 #' #mean c of native species
 #' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-mean_c <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
+mean_c <- function(x, key = "acronym", db, native) {
 
   #calculate mean c score
   mean_c <- mean(accepted_entries(x, key, db, native)$c)
@@ -109,7 +109,7 @@ mean_c <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
 #' #FQI of native species
 #' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-FQI <- function(x, key = "acronym", db, native = c(TRUE, FALSE)) {
+FQI <- function(x, key = "acronym", db, native) {
 
   #calculate total fqi
   fqi <- mean_c(x, key, db, native) *
