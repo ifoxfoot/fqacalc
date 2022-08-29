@@ -51,6 +51,6 @@ acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE
 cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-relative_cover(transect, key = "acronym", db = "michigan_2014", native = F,
+relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 physiog = "tree")
 }

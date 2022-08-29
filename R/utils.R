@@ -159,7 +159,7 @@ accepted_entries <- function(x, key = "acronym", db,
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
                        dplyr::filter(fqa_db == db) %>%
-                       dplyr::as_tibble(., rownames = "ID") ,
+                       dplyr::as_tibble(rownames = "ID") ,
                      by = key)
 
   for ( i in x[, key] ) {

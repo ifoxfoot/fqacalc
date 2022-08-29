@@ -311,6 +311,9 @@ relative_cover <- function(x, key = "acronym", db, native,
   #store optional argument
   optional_arg <- c(species, family, physiog)
 
+  #declaring cover is null
+  cover <- NULL
+
   #no more than one optional argument can be set
   if( length(optional_arg) > 1)
     stop("Only one optional paremeter ('species', 'family', 'physiog') can be set")
