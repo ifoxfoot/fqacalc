@@ -237,7 +237,7 @@ all_cover_metrics <- function(x, key = "acronym", db) {
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_freq(transect, key = "acronym", db = "michigan_2014", native = F, physiog = "tree")
+#' relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, physiog = "tree")
 
 relative_freq <- function(x, key = "acronym", db, native,
                           species = NULL, family = NULL, physiog = NULL) {
@@ -302,7 +302,7 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_cover(transect, key = "acronym", db = "michigan_2014", native = F,
+#' relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 #' physiog = "tree")
 
 relative_cover <- function(x, key = "acronym", db, native,
@@ -372,7 +372,7 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_importance(transect, key = "acronym", db = "michigan_2014", native = F,
+#' relative_importance(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 #' physiog = "tree")
 
 relative_importance <- function(x, key = "acronym", db, native,

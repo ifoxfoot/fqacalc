@@ -123,6 +123,10 @@ accepted_entries <- function(x, key = "acronym", db,
     stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
 
   #cover_weighted must be T or F
+  if( !is.logical(native) )
+    stop("'native' can only be set to TRUE or FALSE")
+
+  #cover_weighted must be T or F
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
 
