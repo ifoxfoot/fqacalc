@@ -80,7 +80,7 @@ view_db <- function(db) {
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
+#' accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 accepted_entries <- function(x, key = "acronym", db,
                              native = c(TRUE, FALSE),

@@ -26,5 +26,5 @@ A data frame
 }
 \examples{
 plant_list <- crooked_island
-adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
+all_metrics(x = plant_list, key = "acronym", db = "michigan_2014")
 }
