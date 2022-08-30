@@ -17,25 +17,29 @@ accepted_entries(
 \item{x}{A data frame containing a list of plant species. This data frame
 must have one of the following columns: \code{scientific_name} or \code{acronym}.}
 
-\item{key}{A column name that will be used to join the input \code{x} with the 2014
-Michigan FQAI database. If a value is not specified the default is \code{acronym}.
-\code{scientific_name} and \code{acronym} are the only acceptable values for key.}
+\item{key}{A character string representing the column that will be used to join
+the input \code{x} with the regional FQA database. If a value is not specified the
+default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+values for key.}
 
-\item{db}{A character string representing the regional FQA database to use.}
+\item{db}{A character string representing the regional FQA database to use. See
+\code{db_names()} for a list of potential values.}
 
-\item{native}{Boolean (TRUE or FALSE). If TRUE, only include native species.}
+\item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
+native species.}
 
 \item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
 Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter
-is for use in cover-weighted metrics such as quadrat mean c, transect mean c, and
+is used to calculate cover-weighted metrics such as quadrat mean c, transect mean c, and
 cover-weighted FQI.}
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
-duplicate rows. This is only recommended for calculating transect and frequency metrics.}
+duplicate observations for the same species. This is only recommended for
+calculating transect and frequency metrics.}
 }
 \value{
-A data frame containing the 'key' column --either \code{acronym} or
-\code{scientific_name} -- as well as columns from the relevant fqai database.
+A data frame containing the 'key' column--either \code{acronym} or
+\code{scientific_name}--as well as columns from the relevant FQA database.
 These columns include \code{family}, \code{native}, \code{c} (which represents the C score),
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }
@@ -44,5 +48,5 @@ Return Data Frame of Successfully Matched Plant Species
 }
 \examples{
 plant_list <- crooked_island
-adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
+adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 }

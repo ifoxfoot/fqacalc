@@ -4,15 +4,17 @@
 
 #' Calculate Number of Species
 #'
-#' `species_richness()` calculates the total number of species in the site
+#' `species_richness` calculates the total number of species in the site
 #' assessment.
 #'
-#' @param x A data frame containing a list of plant species. This data frame must
-#' have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param x A data frame containing a list of plant species. This data frame
+#' must have one of the following columns: `scientific_name` or `acronym`.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #'
@@ -21,7 +23,6 @@
 #' @export
 #'
 #' @examples
-#'
 #' plant_list <- crooked_island
 #'
 #' #number of species (native and exotic)
@@ -45,15 +46,17 @@ species_richness <- function(x, key = "acronym", db, native) {
 
 #' Calculate Mean C
 #'
-#'`mean_c()` calculates the mean conservation coefficient for all species in
-#'the site assessment.
+#' `mean_c` calculates the mean conservation coefficient for all species in
+#' the site assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #'
@@ -84,16 +87,18 @@ mean_c <- function(x, key = "acronym", db, native) {
 
 #' Calculate FQI
 #'
-#' `FQI()` calculates the Floristic Quality Index (FQI) for the site using
-#' all species listed. FQI is found by multiplying the total mean C by the square
-#' root of the total species richness.
+#' `FQI` calculates the Floristic Quality Index (FQI) for the site. FQI is found
+#' by multiplying the mean C by the square root of the species richness. If `native = TRUE`,
+#' `FQI` will calculate the Native FQI.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #'
@@ -125,17 +130,19 @@ FQI <- function(x, key = "acronym", db, native) {
 
 #' Calculate Adjusted FQI
 #'
-#' `adjusted_FQI()` calculates the Adjusted Floristic Quality Index (FQI) for the
-#' site using all species. Adjusted FQI is found by multiplying 100 by the native
-#' mean C divided by ten and then multiplied by the square root of native species
-#' richness divided by the square root of total species richness.
+#' `adjusted_FQI` calculates the Adjusted Floristic Quality Index for the
+#' site. Adjusted FQI is found by multiplying 100 by the Native
+#' Mean C divided by 10 and then multiplied by the square root of Native Species
+#' Richness over Total Species Richness.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #'
 #' @return A non-negative integer
 #' @export
@@ -161,14 +168,16 @@ adjusted_FQI <- function(x, key = "acronym", db) {
 
 #' Print a Summary of Non-Weighted FQA Metrics
 #'
-#' `all_metrics()` calculates and prints a summary of non cover-weighted metrics
+#' `all_metrics` calculates and prints a summary of all non cover-weighted metrics
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #'
 #' @return A data frame
 #' @export

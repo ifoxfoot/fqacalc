@@ -2,19 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{view_db}
 \alias{view_db}
-\title{Call a Regional FQAI Database}
+\title{Call a Regional FQA Database}
 \usage{
 view_db(db)
 }
 \arguments{
-\item{db}{A character string representing the name of the regional FQAI data
-base to retrieve. Generally, the format is "place_year".}
+\item{db}{A character string representing the name of the regional FQA database
+to retrieve. Generally, the format is "place_year".}
 }
 \value{
-The regional FQAI data base.
+A data frame containing the regional FQA database.
 }
 \description{
-Call a Regional FQAI Database
+Call a Regional FQA Database
 }
 \examples{
 view_db("michigan_2014")

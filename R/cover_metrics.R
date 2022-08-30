@@ -5,17 +5,19 @@
 
 #' Calculate Quadrat-Level Cover-Weighted Mean C
 #'
-#' `quadrat_mean_c` calculates the sum of cover times c value per each species,
+#' `quadrat_mean_c` calculates the sum of cover times the C value per each species,
 #' divided by the sum of cover values for all species. The main difference between
 #' `transect_mean_c` and `quadrat_mean_c` is that `transect_mean_c` accepts duplicate entries.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym` as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #'
@@ -45,17 +47,19 @@ quadrat_mean_c <- function(x, key = "acronym", db, native) {
 
 #' Calculate Transect-Level Cover-Weighted Mean C
 #'
-#' `transect_mean_c` calculates the sum of species' mean cover times their c value,
+#' `transect_mean_c` calculates the sum of species' mean cover times their C score,
 #' divided by the sum of mean cover values for all species. The main difference between
 #' `transect_mean_c` and `quadrat_mean_c` is that `transect_mean_c` accepts duplicate entries.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`  as well
+#' must have one of the following columns: `scientific_name` or `acronym` as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #'
@@ -97,15 +101,17 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
 #' Calculate Cover-Weighted FQI
 #'
 #' `cover_FQI` calculates transect-level or quadrat-level (depending on if there
-#' are duplicates) multiplied by the square root of species richness.
+#' are duplicates) mean C multiplied by the square root of species richness.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym` as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #'
@@ -138,12 +144,14 @@ cover_FQI <- function(x, key = "acronym", db, native) {
 #' metrics and cover-weighted metrics.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`, as well
+#' must have one of the following columns: `scientific_name` or `acronym` as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #'
 #' @return A data frame
 #' @export
@@ -213,12 +221,14 @@ all_cover_metrics <- function(x, key = "acronym", db) {
 #' or physiognomic group, divided by the frequency of all observations.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`, as well
+#' must have one of the following columns: `scientific_name` or `acronym` as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #' @param species Optional. A character string equal to the Latin name of a species
@@ -226,7 +236,7 @@ all_cover_metrics <- function(x, key = "acronym", db) {
 #' @param family Optional. A character string equal to a taxonomic family to
 #' calculate the relative frequency of that family.
 #' @param physiog Optional. A character string equal to a physiognomic state (i.e.
-#' tree, shrub) to calculate the relative frequency of that family.
+#' tree, shrub) to calculate the relative frequency of that state.
 #'
 #' @return A non-negative integer
 #' @export
@@ -348,15 +358,17 @@ relative_cover <- function(x, key = "acronym", db, native,
 
 #' Calculate Relative Importance
 #'
-#' `relative_importance()` calculates the average of relative frequecy and relative cover.
+#' `relative_importance()` calculates the average of relative frequency and relative cover.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`, as well
+#' must have one of the following columns: `scientific_name` or `acronym` as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #' @param species Optional. A character string equal to the Latin name of a species
@@ -364,7 +376,7 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' @param family Optional. A character string equal to a taxonomic family to
 #' calculate the relative frequency of that family.
 #' @param physiog Optional. A character string equal to a physiognomic state (i.e.
-#' tree, shrub) to calculate the relative frequency of that family.
+#' tree, shrub) to calculate the relative frequency of that state.
 #'
 #' @return A non-negative integer
 #' @export

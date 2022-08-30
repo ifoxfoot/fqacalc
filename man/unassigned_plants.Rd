@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{unassigned_plants}
 \alias{unassigned_plants}
-\title{Return Data Frame of Successfully Matched Plant Species That Have No C Score}
+\title{Return Data Frame of Plant Species That Have No C Score}
 \usage{
 unassigned_plants(x, key = "acronym", db)
 }
@@ -10,17 +10,23 @@ unassigned_plants(x, key = "acronym", db)
 \item{x}{A data frame containing a list of plant species. This data frame
 must have one of the following columns: \code{scientific_name} or \code{acronym}.}
 
-\item{key}{A column name that will be used to join the input \code{x} with the 2014
-Michigan FQAI database. If a value is not specified the default is \code{acronym}.
-\code{scientific_name} and \code{acronym} are the only acceptable values for key.}
+\item{key}{A character string representing the column that will be used to join
+the input \code{x} with the regional FQA database. If a value is not specified the
+default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+values for key.}
 
-\item{db}{A character string representing the regional FQA database to use.}
+\item{db}{A character string representing the regional FQA database to use. See
+\code{db_names()} for a list of potential values.}
 }
 \value{
 A data frame
 }
 \description{
-Return Data Frame of Successfully Matched Plant Species That Have No C Score
+Some regional FQA lists contain species which have not been assigned a C score.
+This is usually because the plant is unfamiliar to the botanists who assigned
+the C scores or because there is little known about the plant. \code{unassigned_plants}
+returns a data frame of plants in \code{x} that can be matched to a regional FQA database
+but have no C score. These observations are discarded in other \code{fqacalc} functions.
 }
 \examples{
 no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM",

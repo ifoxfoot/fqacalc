@@ -11,11 +11,13 @@ quadrat_mean_c(x, key = "acronym", db, native)
 must have one of the following columns: \code{scientific_name} or \code{acronym} as well
 as a column named \code{cover} containing percent cover values per each observation.}
 
-\item{key}{A column name that will be used to join the input \code{x} with the 2014
-Michigan FQAI database. If a value is not specified the default is \code{acronym}.
-\code{scientific_name} and \code{acronym} are the only acceptable values for key.}
+\item{key}{A character string representing the column that will be used to join
+the input \code{x} with the regional FQA database. If a value is not specified the
+default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+values for key.}
 
-\item{db}{A character string representing the regional FQA database to use.}
+\item{db}{A character string representing the regional FQA database to use. See
+\code{db_names()} for a list of potential values.}
 
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
@@ -24,7 +26,7 @@ native species.}
 A non-negative integer
 }
 \description{
-\code{quadrat_mean_c} calculates the sum of cover times c value per each species,
+\code{quadrat_mean_c} calculates the sum of cover times the C value per each species,
 divided by the sum of cover values for all species. The main difference between
 \code{transect_mean_c} and \code{quadrat_mean_c} is that \code{transect_mean_c} accepts duplicate entries.
 }

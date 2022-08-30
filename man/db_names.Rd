@@ -2,16 +2,16 @@
 % Please edit documentation in R/utils.R
 \name{db_names}
 \alias{db_names}
-\title{Look Up the Names of Regional FQAI Databases}
+\title{Look Up the Names of Regional FQA Databases}
 \usage{
 db_names()
 }
 \value{
-A list of regional FQAI data base names. These are acceptable values
+A list of regional FQA database names. These are acceptable values
 for \code{db} in other \code{fqacalc} functions.
 }
 \description{
-Look Up the Names of Regional FQAI Databases
+Look Up the Names of Regional FQA Databases
 }
 \examples{
 db_names()

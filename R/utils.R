@@ -3,9 +3,9 @@
 
 #-------------------------------------------------------------------------------
 
-#' Look Up the Names of Regional FQAI Databases
+#' Look Up the Names of Regional FQA Databases
 #'
-#' @return A list of regional FQAI data base names. These are acceptable values
+#' @return A list of regional FQA database names. These are acceptable values
 #' for `db` in other `fqacalc` functions.
 #' @export
 #'
@@ -24,12 +24,12 @@ db_names <- function() {
 
 #-------------------------------------------------------------------------------
 
-#' Call a Regional FQAI Database
+#' Call a Regional FQA Database
 #'
-#' @param db A character string representing the name of the regional FQAI data
-#' base to retrieve. Generally, the format is "place_year".
+#' @param db A character string representing the name of the regional FQA database
+#' to retrieve. Generally, the format is "place_year".
 #'
-#' @return The regional FQAI data base.
+#' @return A data frame containing the regional FQA database.
 #' @export
 #'
 #' @examples
@@ -56,26 +56,31 @@ view_db <- function(db) {
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
-#' @param native Boolean (TRUE or FALSE). If TRUE, only include native species.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
+#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
+#' native species.
 #' @param cover_weighted Boolean (TRUE or FALSE). If TRUE, keep `cover` column in output.
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
-#' is for use in cover-weighted metrics such as quadrat mean c, transect mean c, and
+#' is used to calculate cover-weighted metrics such as quadrat mean c, transect mean c, and
 #' cover-weighted FQI.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
-#' duplicate rows. This is only recommended for calculating transect and frequency metrics.
-#' @return A data frame containing the 'key' column --either `acronym` or
-#' `scientific_name` -- as well as columns from the relevant fqai database.
+#' duplicate observations for the same species. This is only recommended for
+#' calculating transect and frequency metrics.
+#'
+#' @return A data frame containing the 'key' column--either `acronym` or
+#' `scientific_name`--as well as columns from the relevant FQA database.
 #' These columns include `family`, `native`, `c` (which represents the C score),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
 #' @export
 #'
 #' @examples
 #' plant_list <- crooked_island
-#' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
+#' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 accepted_entries <- function(x, key = "acronym", db,
                              native = c(TRUE, FALSE),
@@ -188,14 +193,22 @@ accepted_entries <- function(x, key = "acronym", db,
 
 #-------------------------------------------------------------------------------
 
-#' Return Data Frame of Successfully Matched Plant Species That Have No C Score
+#' Return Data Frame of Plant Species That Have No C Score
+#'
+#' Some regional FQA lists contain species which have not been assigned a C score.
+#' This is usually because the plant is unfamiliar to the botanists who assigned
+#' the C scores or because there is little known about the plant. `unassigned_plants`
+#' returns a data frame of plants in `x` that can be matched to a regional FQA database
+#' but have no C score. These observations are discarded in other `fqacalc` functions.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
 #'
 #' @return A data frame
 #' @export
@@ -251,7 +264,7 @@ unassigned_plants <- function(x, key = "acronym", db) {
                     by = key)
 
  for ( i in x[, key] ) {
-   #send message to user if site assessment contains plant not in FQAI database
+   #send message to user if site assessment contains plant not in FQA database
    if( !toupper(i) %in% entries_joined[,key] )
      message(paste("Species", toupper(i), "not listed in database. It will be discarded."))
   }

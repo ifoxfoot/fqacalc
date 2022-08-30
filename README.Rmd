@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package provides functions for calculating floristic quality metrics based on 47 regional FQAI databases that have been approved for use by the US Army Core of Engineers. 
+This package provides functions for calculating floristic quality metrics based on the 47 regional FQA databases which have been approved for use by the US Army Core of Engineers. 
 
 ## Installation
 
@@ -34,14 +34,13 @@ devtools::install_github("ifoxfoot/fqacalc")
 ## Example
 
 ```{r example}
+#load the package
 library(fqacalc)
 
-#the package comes with an example site assessment
-plants_of_crooked_island <- crooked_island
-
+#the package comes with an example site assessment from crooked island, MI
 head(crooked_island)
 
-#here is an example of all metrics wrapped into one
-all_metrics(crooked_island, db = "michigan_2014")
+#here is an example of all metrics wrapped into one function
+all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 ```
 
