@@ -37,3 +37,8 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABE
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #na c score
 no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM", "ACER GRANDIDENTATUM", "BOOP", "ACER PLATANOIDES"))
+
+#cover method test
+cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+                      scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"),
+                      cover = c(1, 2, 3, 4))

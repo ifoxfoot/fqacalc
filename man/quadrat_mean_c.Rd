@@ -4,7 +4,7 @@
 \alias{quadrat_mean_c}
 \title{Calculate Quadrat-Level Cover-Weighted Mean C}
 \usage{
-quadrat_mean_c(x, key = "acronym", db, native)
+quadrat_mean_c(x, key = "acronym", db, native, cover_metric = "percent_cover")
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -21,6 +21,12 @@ values for key.}
 
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
+
+\item{cover_metric}{a character string representing the cover method used. Acceptable
+cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"modified_braun-blanquet"}, \code{"plots2_braun-blanquet"}, \code{"doubinmire"},and
+\code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is recommended because
+it is the most accurate.}
 }
 \value{
 A non-negative integer

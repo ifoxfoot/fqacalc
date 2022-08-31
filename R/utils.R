@@ -68,6 +68,11 @@ view_db <- function(db) {
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
 #' is used to calculate cover-weighted metrics such as quadrat mean c, transect mean c, and
 #' cover-weighted FQI.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
 #' calculating transect and frequency metrics.
@@ -80,11 +85,13 @@ view_db <- function(db) {
 #'
 #' @examples
 #' plant_list <- crooked_island
+#'
 #' accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 accepted_entries <- function(x, key = "acronym", db,
                              native = c(TRUE, FALSE),
                              cover_weighted = FALSE,
+                             cover_metric = "percent_cover",
                              allow_duplicates = FALSE) {
 
   #declaring cover is null
@@ -135,6 +142,12 @@ accepted_entries <- function(x, key = "acronym", db,
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
 
+  #cover metric must be defined
+  if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
+                           "modified_braun-blanquet", "plots2_braun-blanquet", "doubinmire",
+                           "usfs_ecodata"))
+    stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
+
   #allow__duplicates must be T or F
   if( !is.logical(allow_duplicates) )
     stop("'allow_duplicates' can only be set to TRUE or FALSE")
@@ -147,8 +160,67 @@ accepted_entries <- function(x, key = "acronym", db,
   if( cover_weighted )
     {cols <- x %>%
       dplyr::select(!!as.name(key), cover) %>%
-      #convert cover to numeric
-      dplyr::mutate(cover = as.numeric(x$cover))
+      dplyr::mutate(cover = as.character(x$cover))
+
+    #if cover method is percent, just convert to numeric
+    if(cover_metric == "percent_cover") {
+      cols <- cols %>%
+        dplyr::mutate(cover = as.numeric(cols$cover))
+    }
+
+    #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
+    if(cover_metric == "usfs_ecodata") {
+      cols <- cols %>%
+        dplyr::mutate(cover = as.numeric(cols$cover))
+    }
+
+    #if cover method is carolina, transform to 10 classes
+    if(cover_metric == "carolina_veg_survey") {
+      cols <- cols %>%
+        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
+                                        cover == "2" ~ 0.5,
+                                        cover == "3" ~ 1.5,
+                                        cover == "4" ~ 3.5,
+                                        cover == "5" ~ 7.5,
+                                        cover == "6" ~ 17.5,
+                                        cover == "7" ~ 37.5,
+                                        cover == "8" ~ 62.5,
+                                        cover == "9" ~ 85,
+                                        cover == "10" ~ 97.5))
+    }
+
+    #if cover method is daubenmire, transform to six classes
+    if(cover_metric == "daubenmire") {
+      cols <- cols %>%
+        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
+                                        cover == "2" ~ 15,
+                                        cover == "3" ~ 37.5,
+                                        cover == "4" ~ 62.5,
+                                        cover == "5" ~ 85,
+                                        cover == "6" ~ 97.5))
+    }
+
+    #if cover method is braun-blanquet, transform to 5 classes
+    if(cover_metric == "braun-blanquet") {
+      cols <- cols %>%
+        dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
+                                        cover == "1" ~ 2.5,
+                                        cover == "2" ~ 15,
+                                        cover == "3" ~ 37.5,
+                                        cover == "4" ~ 62.5,
+                                        cover == "5" ~ 87.5))
+    }
+
+    # #if cover method is mod braun-blanquet, transform to 5 classes
+    # if(cover_metric == "modified_braun-blanquet") {
+    #   cols <- cols %>%
+    #     dplyr::mutate(cover = case_when(cover == "1" ~ 3,
+    #                                     cover == "2" ~ 15.5,
+    #                                     cover == "3" ~ 38,
+    #                                     cover == "4" ~ 63,
+    #                                     cover == "5" ~ 87.5))
+    # }
+
   } else( cols <- x %>%
             dplyr::select(!!as.name(key)))
 
@@ -163,8 +235,7 @@ accepted_entries <- function(x, key = "acronym", db,
     dplyr::inner_join(cols %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
-                       dplyr::filter(fqa_db == db) %>%
-                       dplyr::as_tibble(rownames = "ID") ,
+                       dplyr::filter(fqa_db == db),
                      by = key)
 
   for ( i in x[, key] ) {
@@ -183,9 +254,10 @@ accepted_entries <- function(x, key = "acronym", db,
     message(paste("species", entries_joined[is.na(entries_joined$c), key],
                   "is recognized but has not been assigned a C score. It will be discarded."))
 
-  #discard entries that have no match
+  #discard entries that have no match, ID column
   entries_matched <- entries_joined %>%
     dplyr::filter(!is.na(entries_joined$c))
+
 
   return(entries_matched)
 

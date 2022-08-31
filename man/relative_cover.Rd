@@ -11,7 +11,8 @@ relative_cover(
   native,
   species = NULL,
   family = NULL,
-  physiog = NULL
+  physiog = NULL,
+  cover_metric = "percent_cover"
 )
 }
 \arguments{
@@ -36,6 +37,12 @@ calculate the relative frequency of that family.}
 
 \item{physiog}{Optional. A character string equal to a physiognomic state (i.e.
 tree, shrub) to calculate the relative frequency of that family.}
+
+\item{cover_metric}{a character string representing the cover method used. Acceptable
+cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"modified_braun-blanquet"}, \code{"plots2_braun-blanquet"}, \code{"doubinmire"},and
+\code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is recommended because
+it is the most accurate.}
 }
 \value{
 A non-negative integer

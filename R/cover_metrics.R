@@ -20,6 +20,11 @@
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -30,10 +35,10 @@
 #'
 #' quadrat_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
 
-quadrat_mean_c <- function(x, key = "acronym", db, native) {
+quadrat_mean_c <- function(x, key = "acronym", db, native, cover_metric = "percent_cover") {
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, native, cover_weighted = T)
+  entries <- accepted_entries(x, key, db, native, cover_weighted = T, cover_metric)
 
   #calculate mean c score
   mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)
@@ -62,6 +67,11 @@ quadrat_mean_c <- function(x, key = "acronym", db, native) {
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -74,7 +84,7 @@ quadrat_mean_c <- function(x, key = "acronym", db, native) {
 #'
 #' transect_mean_c(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
-transect_mean_c <- function(x, key = "acronym", db, native) {
+transect_mean_c <- function(x, key = "acronym", db, native, cover_metric = "percent_cover") {
 
   #declaring cover is null
   cover <- NULL
@@ -82,7 +92,8 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
                               cover_weighted = T,
-                              allow_duplicates = T) %>%
+                              allow_duplicates = T,
+                              cover_metric) %>%
     dplyr::group_by(!!as.name(key)) %>%
     dplyr::mutate(mean = mean(cover)) %>%
     dplyr::distinct(!!as.name(key), mean, c)
@@ -114,6 +125,11 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -126,9 +142,9 @@ transect_mean_c <- function(x, key = "acronym", db, native) {
 #'
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
-cover_FQI <- function(x, key = "acronym", db, native) {
+cover_FQI <- function(x, key = "acronym", db, native, cover_metric = "percent_cover") {
 
-  fqi <- transect_mean_c(x, key, db, native) *
+  fqi <- transect_mean_c(x, key, db, native, cover_metric) *
     suppressMessages(sqrt(species_richness(x, key, db, native)))
 
   #return mean
@@ -152,6 +168,11 @@ cover_FQI <- function(x, key = "acronym", db, native) {
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #'
 #' @return A data frame
 #' @export
@@ -164,7 +185,7 @@ cover_FQI <- function(x, key = "acronym", db, native) {
 #'
 #' all_cover_metrics(x = transect, key = "acronym", db = "michigan_2014")
 
-all_cover_metrics <- function(x, key = "acronym", db) {
+all_cover_metrics <- function(x, key = "acronym", db, cover_metric = "percent_cover") {
 
   accepted <- suppressMessages(accepted_entries(x, key, db, native = F))
 
@@ -195,12 +216,12 @@ all_cover_metrics <- function(x, key = "acronym", db) {
               sum(accepted$c >= 7 & accepted$c <= 10)/length(accepted$c),
               suppressMessages(mean_c(x, key, db, native = F)),
               suppressMessages(mean_c(x, key, db, native = T)),
-              transect_mean_c(x, key, db, native = F),
-              suppressMessages(transect_mean_c(x, key, db, native = T)),
+              transect_mean_c(x, key, db, native = F, cover_metric),
+              suppressMessages(transect_mean_c(x, key, db, native = T, cover_metric)),
               suppressMessages(FQI(x, key, db, native = F)),
               suppressMessages(FQI(x, key, db, native = T)),
-              suppressMessages(cover_FQI(x, key, db, native = F)),
-              suppressMessages(cover_FQI(x, key, db, native = T)),
+              suppressMessages(cover_FQI(x, key, db, native = F, cover_metric)),
+              suppressMessages(cover_FQI(x, key, db, native = T, cover_metric)),
               suppressMessages(adjusted_FQI(x, key, db))
               )
 
@@ -302,6 +323,11 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' calculate the relative frequency of that family.
 #' @param physiog Optional. A character string equal to a physiognomic state (i.e.
 #' tree, shrub) to calculate the relative frequency of that family.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -316,7 +342,8 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' physiog = "tree")
 
 relative_cover <- function(x, key = "acronym", db, native,
-                           species = NULL, family = NULL, physiog = NULL){
+                           species = NULL, family = NULL, physiog = NULL,
+                           cover_metric = "percent_cover"){
 
   #store optional argument
   optional_arg <- c(species, family, physiog)
@@ -337,7 +364,10 @@ relative_cover <- function(x, key = "acronym", db, native,
   else if(!is.null(family)) {as.name("family")} else {as.name("physiognomy")}
 
   #bind to regional fqa list to get info about taxonomy, physiognomy
-  entries <- accepted_entries(x, key, db, native, allow_duplicates = T, cover_weighted = T) %>%
+  entries <- accepted_entries(x, key, db, native,
+                              allow_duplicates = T,
+                              cover_weighted = T,
+                              cover_metric) %>%
     dplyr::group_by(!!name) %>%
     #caclulate cover per group
     dplyr::summarise(sum = sum(cover)) %>%
@@ -377,6 +407,11 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' calculate the relative frequency of that family.
 #' @param physiog Optional. A character string equal to a physiognomic state (i.e.
 #' tree, shrub) to calculate the relative frequency of that state.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
+#' it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -391,13 +426,14 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' physiog = "tree")
 
 relative_importance <- function(x, key = "acronym", db, native,
-                                species = NULL, family = NULL, physiog = NULL){
+                                species = NULL, family = NULL, physiog = NULL,
+                                cover_metric = "percent_cover"){
 
   #get mean of relative freq and relative cover
   avg = (relative_freq(x, key, db, native,
                       species, family, physiog) +
            relative_cover(x, key, db, native,
-                        species, family, physiog))/2
+                        species, family, physiog, cover_metric))/2
 
   #return value
   return(avg)

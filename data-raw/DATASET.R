@@ -39,23 +39,16 @@ ne_list <- lapply(ne_files, function(x)
                     mutate(fqa_db = x))
 
 #bind together
-ne_compiled <- bind_rows(ne_list) %>%
-  mutate(scientific_name = Taxon)
+ne_compiled <- bind_rows(ne_list)
 
-#get northeastern_coastal nativity information
-northeastern_coastal <- univ_fqa %>%
-  filter(fqa_db == "northeastern_coastal_2018.csv") %>%
-  select(scientific_name, native)
-
-#bind it to ne data based on matching scientific name
-ne_native <- ne_compiled %>%
-  dplyr::left_join(northeastern_coastal, by = "scientific_name")
 
 #clean up col names
-ne_clean <- ne_native %>%
+ne_clean <- ne_compiled %>%
+  mutate(scientific_name = Taxon) %>%
   mutate(synonym = NA) %>%
   mutate(family = NA) %>%
   mutate(acronym = PLANTSSymbol) %>%
+  mutate(native = "undetermined") %>%
   mutate(c = Score) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
@@ -203,8 +196,8 @@ fqa_db <- fqa_db_bind %>%
     ~ "exotic", T ~ native)) %>%
   mutate(native = case_when(
     !native %in% c("native", "exotic") ~ "undetermined", T ~ native)) %>%
-  mutate(native = case_when(
-    native == "undetermined" & c > 0 ~ "native", T ~ native)) %>%
+  # mutate(native = case_when(
+  #   native == "undetermined" & c > 0 ~ "native", T ~ native)) %>%
   #fix c values later!!!
   mutate(c = as.numeric(c))
 

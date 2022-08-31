@@ -10,6 +10,7 @@ accepted_entries(
   db,
   native = c(TRUE, FALSE),
   cover_weighted = FALSE,
+  cover_metric = "percent_cover",
   allow_duplicates = FALSE
 )
 }
@@ -33,6 +34,12 @@ Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{c
 is used to calculate cover-weighted metrics such as quadrat mean c, transect mean c, and
 cover-weighted FQI.}
 
+\item{cover_metric}{a character string representing the cover method used. Acceptable
+cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"modified_braun-blanquet"}, \code{"plots2_braun-blanquet"}, \code{"doubinmire"},and
+\code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is recommended because
+it is the most accurate.}
+
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
 calculating transect and frequency metrics.}
@@ -48,5 +55,6 @@ Return Data Frame of Successfully Matched Plant Species
 }
 \examples{
 plant_list <- crooked_island
+
 accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 }
