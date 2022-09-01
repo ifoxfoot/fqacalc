@@ -31,11 +31,11 @@ test_that("species_richness() does not count duplicates", {
 #test unrecognized behavior
 test_that("species_richness() drops non-matching plants", {
   expect_equal(species_richness(typo, db = "michigan_2014", native = F), 3)
-  expect_message(species_richness(typo, db = "michigan_2014", native = F), "not listed in database")
+  expect_message(species_richness(typo, db = "michigan_2014", native = F), "TYPO not listed in database")
   expect_equal(species_richness(typo, key = "acronym", db = "michigan_2014", native = F), 3)
-  expect_message(species_richness(typo, key = "acronym", db = "michigan_2014", native = F), "not listed in database")
+  expect_message(species_richness(typo, key = "acronym", db = "michigan_2014", native = F), "TYPO not listed in database")
   expect_equal(species_richness(typo, key = "scientific_name", db = "michigan_2014", native = F), 3)
-  expect_message(species_richness(typo, key = "scientific_name", db = "michigan_2014", native = F), "not listed in database")
+  expect_message(species_richness(typo, key = "scientific_name", db = "michigan_2014", native = F), "TYPO not listed in database")
 })
 
 #testing fuzzy matching

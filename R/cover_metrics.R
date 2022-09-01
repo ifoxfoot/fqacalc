@@ -439,3 +439,27 @@ relative_importance <- function(x, key = "acronym", db, native,
   return(avg)
 
 }
+
+#-------------------------------------------------------------------------------
+#
+# species_summary <- function(x, key = "acronym", db,
+#                             cover_metric = "percent_cover"){
+#
+#   accepted <- accepted_entries(x, key, db, native = F,
+#                                cover_weighted = T,
+#                                cover_metric,
+#                                allow_duplicates = T)
+#
+#   df <- accepted %>%
+#     group_by(scientific_name) %>%
+#     summarise(#add c score
+#               frequency = n(),
+#               #relative_frequency = ,
+#               cover = sum(cover),
+#               #add relative cover
+#               #add relative importance
+#               )
+#
+#
+#   return(df)
+# }

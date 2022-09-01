@@ -85,7 +85,6 @@ view_db <- function(db) {
 #'
 #' @examples
 #' plant_list <- crooked_island
-#'
 #' accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 accepted_entries <- function(x, key = "acronym", db,
@@ -244,6 +243,7 @@ accepted_entries <- function(x, key = "acronym", db,
     message(paste("Species", toupper(i), "not listed in database. It will be discarded."))
   }
 
+  #if native = T, filter for only native species
   if (native) {
     entries_joined <- entries_joined %>%
       dplyr::filter(native == "native")
@@ -257,7 +257,6 @@ accepted_entries <- function(x, key = "acronym", db,
   #discard entries that have no match, ID column
   entries_matched <- entries_joined %>%
     dplyr::filter(!is.na(entries_joined$c))
-
 
   return(entries_matched)
 

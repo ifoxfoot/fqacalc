@@ -55,6 +55,5 @@ Return Data Frame of Successfully Matched Plant Species
 }
 \examples{
 plant_list <- crooked_island
-
 accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 }
