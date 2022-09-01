@@ -231,17 +231,22 @@ accepted_entries <- function(x, key = "acronym", db,
 
   #join scores from FQAI to user's assessment
   entries_joined <-
-    dplyr::inner_join(cols %>%
+    dplyr::left_join(cols %>%
                        dplyr::mutate(!!key := toupper(!!as.name(key))),
                      fqa_db %>%
-                       dplyr::filter(fqa_db == db),
+                       dplyr::filter(fqa_db == db) %>%
+                       #so i can tell if observation came from regional list
+                       dplyr::mutate(p = "p"),
                      by = key)
 
-  for ( i in x[, key] ) {
-  #send message to user if site assessment contains plant not in FQAI database
-  if( !toupper(i) %in% entries_joined[,key] )
-    message(paste("Species", toupper(i), "not listed in database. It will be discarded."))
-  }
+  #warning if species not present in regional list
+  if( any(is.na(entries_joined$p)) )
+       message(paste("Species", entries_joined[is.na(entries_joined$p), key],
+                     "not listed in database. It will be discarded."))
+
+  #now get rid of observations not in regional list
+  entries_joined <- entries_joined %>%
+    dplyr::filter(!is.na(entries_joined$p))
 
   #if native = T, filter for only native species
   if (native) {
