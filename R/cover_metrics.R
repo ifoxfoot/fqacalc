@@ -20,7 +20,7 @@
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
-#' @param cover_metric a character string representing the cover method used. Acceptable
+#' @param cover_metric A character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
 #' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
@@ -450,16 +450,9 @@ relative_importance <- function(x, key = "acronym", db, native,
 #                                cover_metric,
 #                                allow_duplicates = T)
 #
-#   df <- accepted %>%
-#     group_by(scientific_name) %>%
-#     summarise(#add c score
-#               frequency = n(),
-#               #relative_frequency = ,
-#               cover = sum(cover),
-#               #add relative cover
-#               #add relative importance
-#               )
-#
+#   for(i in unique(accepted$scientific_name)) {
+#     name(i)
+#   }
 #
 #   return(df)
 # }

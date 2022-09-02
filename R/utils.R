@@ -96,6 +96,9 @@ accepted_entries <- function(x, key = "acronym", db,
   #declaring cover is null
   cover <- NULL
 
+  #declaring p as null
+  p <- NULL
+
   #error if x argument is missing
   if( missing(x) )
     stop("argument x is missing, with no default.")
@@ -261,7 +264,8 @@ accepted_entries <- function(x, key = "acronym", db,
 
   #discard entries that have no match, ID column
   entries_matched <- entries_joined %>%
-    dplyr::filter(!is.na(entries_joined$c))
+    dplyr::filter(!is.na(entries_joined$c)) %>%
+    dplyr::select(-p)
 
   return(entries_matched)
 
@@ -353,3 +357,151 @@ unassigned_plants <- function(x, key = "acronym", db) {
  return(entries_matched)
 
 }
+
+#-------------------------------------------------------------------------------
+
+# test_entries <- function(x,
+#                          key = "acronym",
+#                          cover = NULL,
+#                          db,
+#                          native = c(TRUE, FALSE),
+#                          cover_metric = "percent_cover",
+#                          allow_duplicates = FALSE) {
+#
+#   #error if db argument is missing
+#   if( missing(db) )
+#     stop("argument db is missing, with no default.")
+#
+#   #error if db is not a legit db
+#   if( !db %in% unique(fqa_db$fqa_db) )
+#     stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
+#
+#   #native must be T or F
+#   if( !is.logical(native) )
+#     stop("'native' can only be set to TRUE or FALSE")
+#
+#   #cover metric must be defined
+#   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
+#                            "modified_braun-blanquet", "plots2_braun-blanquet", "doubinmire",
+#                            "usfs_ecodata"))
+#     stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
+#
+#   #allow__duplicates must be T or F
+#   if( !is.logical(allow_duplicates) )
+#     stop("'allow_duplicates' can only be set to TRUE or FALSE")
+#
+#   #send message to user if site assessment contains duplicate entries
+#   if( sum(duplicated(key) > 0 && !allow_duplicates) )
+#     message("Duplicate entries detected. Duplicates will only be counted once.")
+#
+#   #if cover parameter is true, select unique sci names and cover
+#   if( !is.null(cover) )
+#   { cols <- as.data.frame(cbind(x = x, cover = cover)) %>%
+#     rename({{key}} := x)
+#     dplyr::mutate(cover = as.character(cover))
+#
+#   #if cover method is percent, just convert to numeric
+#   if(cover_metric == "percent_cover") {
+#     cols <- cols %>%
+#       dplyr::mutate(cover = as.numeric(cols$cover))
+#   }
+#
+#   #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
+#   if(cover_metric == "usfs_ecodata") {
+#     cols <- cols %>%
+#       dplyr::mutate(cover = as.numeric(cols$cover))
+#   }
+#
+#   #if cover method is carolina, transform to 10 classes
+#   if(cover_metric == "carolina_veg_survey") {
+#     cols <- cols %>%
+#       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
+#                                              cover == "2" ~ 0.5,
+#                                              cover == "3" ~ 1.5,
+#                                              cover == "4" ~ 3.5,
+#                                              cover == "5" ~ 7.5,
+#                                              cover == "6" ~ 17.5,
+#                                              cover == "7" ~ 37.5,
+#                                              cover == "8" ~ 62.5,
+#                                              cover == "9" ~ 85,
+#                                              cover == "10" ~ 97.5))
+#   }
+#
+#   #if cover method is daubenmire, transform to six classes
+#   if(cover_metric == "daubenmire") {
+#     cols <- cols %>%
+#       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
+#                                              cover == "2" ~ 15,
+#                                              cover == "3" ~ 37.5,
+#                                              cover == "4" ~ 62.5,
+#                                              cover == "5" ~ 85,
+#                                              cover == "6" ~ 97.5))
+#   }
+#
+#   #if cover method is braun-blanquet, transform to 5 classes
+#   if(cover_metric == "braun-blanquet") {
+#     cols <- cols %>%
+#       dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
+#                                              cover == "1" ~ 2.5,
+#                                              cover == "2" ~ 15,
+#                                              cover == "3" ~ 37.5,
+#                                              cover == "4" ~ 62.5,
+#                                              cover == "5" ~ 87.5))
+#   }
+#
+#   # #if cover method is mod braun-blanquet, transform to 5 classes
+#   # if(cover_metric == "modified_braun-blanquet") {
+#   #   cols <- cols %>%
+#   #     dplyr::mutate(cover = case_when(cover == "1" ~ 3,
+#   #                                     cover == "2" ~ 15.5,
+#   #                                     cover == "3" ~ 38,
+#   #                                     cover == "4" ~ 63,
+#   #                                     cover == "5" ~ 87.5))
+#   # }
+#
+#   } else( cols <- as.data.frame(x)  %>%
+#             rename({{key}} := x))
+#
+#   #if allow duplicates is false, do not allow duplicates
+#   if( !allow_duplicates )
+#   { cols <- cols %>%
+#     dplyr::distinct()
+#   }
+#
+#   #join scores from FQAI to user's assessment
+#   entries_joined <-
+#     dplyr::left_join(cols %>%
+#                        dplyr::mutate(!!key := toupper(!!as.name(key))),
+#                      fqa_db %>%
+#                        dplyr::filter(fqa_db == db) %>%
+#                        #so i can tell if observation came from regional list
+#                        dplyr::mutate(p = "p"),
+#                      by = key)
+#
+#   #warning if species not present in regional list
+#   if( any(is.na(entries_joined$p)) )
+#     message(paste("Species", entries_joined[is.na(entries_joined$p), key],
+#                   "not listed in database. It will be discarded."))
+#
+#   #now get rid of observations not in regional list
+#   entries_joined <- entries_joined %>%
+#     dplyr::filter(!is.na(entries_joined$p))
+#
+#   #if native = T, filter for only native species
+#   if (native) {
+#     entries_joined <- entries_joined %>%
+#       dplyr::filter(native == "native")
+#   }
+#
+#   #send message to user if site assessment contains plant not in FQAI database
+#   if( any(is.na(entries_joined$c)) )
+#     message(paste("species", entries_joined[is.na(entries_joined$c), key],
+#                   "is recognized but has not been assigned a C score. It will be discarded."))
+#
+#   #discard entries that have no match, ID column
+#   entries_matched <- entries_joined %>%
+#     dplyr::filter(!is.na(entries_joined$c))
+#
+#   return(entries_matched)
+#
+# }
