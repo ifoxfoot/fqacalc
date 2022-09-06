@@ -70,7 +70,7 @@ view_db <- function(db) {
 #' cover-weighted FQI.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
@@ -146,7 +146,7 @@ accepted_entries <- function(x, key = "acronym", db,
 
   #cover metric must be defined
   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
-                           "modified_braun-blanquet", "plots2_braun-blanquet", "doubinmire",
+                           "modified_braun-blanquet", "plots2_braun-blanquet", "daubenmire",
                            "usfs_ecodata"))
     stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
 
@@ -382,7 +382,7 @@ unassigned_plants <- function(x, key = "acronym", db) {
 #
 #   #cover metric must be defined
 #   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
-#                            "modified_braun-blanquet", "plots2_braun-blanquet", "doubinmire",
+#                            "modified_braun-blanquet", "plots2_braun-blanquet", "daubenmire",
 #                            "usfs_ecodata"))
 #     stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
 #

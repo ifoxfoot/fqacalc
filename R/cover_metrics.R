@@ -22,7 +22,7 @@
 #' native species.
 #' @param cover_metric A character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #'
@@ -69,7 +69,7 @@ quadrat_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perce
 #' native species.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #'
@@ -127,7 +127,7 @@ transect_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perc
 #' native species.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #'
@@ -170,7 +170,7 @@ cover_FQI <- function(x, key = "acronym", db, native, cover_metric = "percent_co
 #' `db_names()` for a list of potential values.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #'
@@ -325,7 +325,7 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' tree, shrub) to calculate the relative frequency of that family.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #'
@@ -409,7 +409,7 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' tree, shrub) to calculate the relative frequency of that state.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`,and
+#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
 #' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
 #' it is the most accurate.
 #'
