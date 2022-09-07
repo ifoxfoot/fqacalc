@@ -22,8 +22,6 @@ You can install the development version of fqacalc from
 devtools::install_github("ifoxfoot/fqacalc")
 ```
 
-## Example
-
 ``` r
 #attach packages required for this tutorial
 library(fqacalc)
@@ -38,7 +36,7 @@ library(tidyverse)
 #> ✖ dplyr::lag()    masks stats::lag()
 ```
 
-### Package Data
+## Package Data
 
 `fqacalc` contains all 47 regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army Core
@@ -141,15 +139,15 @@ head(crooked_island)
 crooked_island <- crooked_island
 ```
 
-### Functions to see if your observations will be counted
+## Functions to see if your observations will be counted
 
 `fqacalc` also contains two functions that help the user understand how
 the data they input relates to the regional database:
 `accepted_entries()` and `unassigned_plants()`. `accepted_entries()` is
-a function that shows which observations in crooked_island were
+a function that shows which observations in the input data frame were
 successfully matched to a regional database. To demonstrate how these
 data viewing functions work I’m going to add a mistake to the
-`crooked_island` dataset.
+`crooked_island` data set.
 
 ``` r
 #introduce a typo
@@ -177,13 +175,13 @@ head(accepted_entries)
 #> 4                ARTEMISIA CAMPESTRIS    <NA>    Asteraceae  ARTCAM native  5
 #> 5              CALAMAGROSTIS EPIGEIOS    <NA>       Poaceae  CALEPI exotic  0
 #> 6              CALAMOVILFA LONGIFOLIA    <NA>       Poaceae  CALLON native 10
-#>    w physiognomy  duration     common_name        fqa_db p
-#> 1  5       grass perennial    marram grass michigan_2014 p
-#> 2 -3        forb perennial     white camas michigan_2014 p
-#> 3  5       shrub perennial       bearberry michigan_2014 p
-#> 4  5        forb  biennial        wormwood michigan_2014 p
-#> 5  3       grass perennial       reedgrass michigan_2014 p
-#> 6  5       grass perennial sand reed grass michigan_2014 p
+#>    w physiognomy  duration     common_name        fqa_db
+#> 1  5       grass perennial    marram grass michigan_2014
+#> 2 -3        forb perennial     white camas michigan_2014
+#> 3  5       shrub perennial       bearberry michigan_2014
+#> 4  5        forb  biennial        wormwood michigan_2014
+#> 5  3       grass perennial       reedgrass michigan_2014
+#> 6  5       grass perennial sand reed grass michigan_2014
 ```
 
 Now, when we use `accepted_entries()` to see which species were matched
@@ -219,7 +217,7 @@ unassigned_plants(no_c_plants, key = "scientific_name", db = "montana_2017")
 
 As you can see, two of these species have no C scores.
 
-### Unweighted FQI Metrics
+## Unweighted FQI Metrics
 
 `fqacalc` also contains a variety of functions that calculate Total
 Species Richness, Native Species Richness, Mean C, Native Mean C, Total
@@ -296,7 +294,7 @@ Also, all the functions are documented with help pages.
 ?all_metrics
 ```
 
-### Cover-Weighted Functions
+## Cover-Weighted Functions
 
 Cover-Weighted Functions calculate the same metrics but they are
 weighted by how abundant each species is. Therefore, the input data
@@ -374,7 +372,7 @@ all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
 #> 15                             Adjusted FQI 66.395281
 ```
 
-### Relative Functions
+## Relative Functions
 
 Relative functions calculate relative frequency, coverage, and
 importance for each category.

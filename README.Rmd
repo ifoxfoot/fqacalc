@@ -31,15 +31,13 @@ You can install the development version of fqacalc from [GitHub](https://github.
 devtools::install_github("ifoxfoot/fqacalc")
 ```
 
-## Example
-
 ```{r}
 #attach packages required for this tutorial
 library(fqacalc)
 library(tidyverse)
 ```
 
-### Package Data
+## Package Data
 
 `fqacalc` contains all 47 regional FQA databases that have been either fully approved for use or approved with reservations by the US Army Core of Engineers. By referencing these databases, the package knows what C score to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
 
@@ -69,9 +67,9 @@ head(crooked_island)
 crooked_island <- crooked_island
 ```
 
-### Functions to see if your observations will be counted
+## Functions to see if your observations will be counted
 
-`fqacalc` also contains two functions that help the user understand how the data they input relates to the regional database: `accepted_entries()` and `unassigned_plants()`. `accepted_entries()` is a function that shows which observations in crooked_island were successfully matched to a regional database. To demonstrate how these data viewing functions work I'm going to add a mistake to the `crooked_island` dataset.
+`fqacalc` also contains two functions that help the user understand how the data they input relates to the regional database: `accepted_entries()` and `unassigned_plants()`. `accepted_entries()` is a function that shows which observations in the input data frame were successfully matched to a regional database. To demonstrate how these data viewing functions work I'm going to add a mistake to the `crooked_island` data set.
 
 ```{r}
 #introduce a typo
@@ -113,7 +111,7 @@ unassigned_plants(no_c_plants, key = "scientific_name", db = "montana_2017")
 
 As you can see, two of these species have no C scores.
 
-### Unweighted FQI Metrics
+## Unweighted FQI Metrics
 
 `fqacalc` also contains a variety of functions that calculate Total Species Richness, Native Species Richness, Mean C, Native Mean C, Total FQI, Native FQI, and Adjusted FQI. All of these functions eliminate duplicate species, unmatched species, and species without a C score.
 
@@ -160,7 +158,7 @@ Also, all the functions are documented with help pages.
 ?all_metrics
 ```
 
-### Cover-Weighted Functions
+## Cover-Weighted Functions
 
 Cover-Weighted Functions calculate the same metrics but they are weighted by how abundant each species is. Therefore, the input data frame must have a column named `cover` containing cover values. Cover values can be continuous (i.e. percent cover) or classed (i.e. using the braun-blanquet method).
 
@@ -206,7 +204,7 @@ cover_FQI(transect, key = "acronym", db = "michigan_2014", native = F,
 all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
 ```
 
-### Relative Functions
+## Relative Functions
 
 Relative functions calculate relative frequency, coverage, and importance for each category.
 

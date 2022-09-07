@@ -11,7 +11,21 @@ view_db(db)
 to retrieve. Generally, the format is "place_year".}
 }
 \value{
-A data frame containing the regional FQA database.
+A data frame with 11 variables:
+\describe{
+\item{scientific_name}{Latin name}
+\item{synonym}{Alternate latin name(s)}
+\item{family}{Taxinomic family of species}
+\item{acronym}{A unique acronym for each species. Not always consistent between data bases}
+\item{native}{Nativity status. native, exotic, and undetermined are values}
+\item{c}{Coefficient of Conservation (C Score)}
+\item{w}{Wetland Indicator Rating}
+\item{physiognomy}{Structure or physical apperiance of plant}
+\item{duration}{Lifespan of plant}
+\item{common_name}{Common name(s) for plant}
+\item{fqa_db}{Regional FQAI database}
+...
+}
 }
 \description{
 Call a Regional FQA Database

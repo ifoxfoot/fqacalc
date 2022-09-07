@@ -29,8 +29,21 @@ db_names <- function() {
 #' @param db A character string representing the name of the regional FQA database
 #' to retrieve. Generally, the format is "place_year".
 #'
-#' @return A data frame containing the regional FQA database.
-#' @export
+#' @return A data frame with 11 variables:
+#' \describe{
+#'   \item{scientific_name}{Latin name}
+#'   \item{synonym}{Alternate latin name(s)}
+#'   \item{family}{Taxinomic family of species}
+#'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
+#'   \item{native}{Nativity status. native, exotic, and undetermined are values}
+#'   \item{c}{Coefficient of Conservation (C Score)}
+#'   \item{w}{Wetland Indicator Rating}
+#'   \item{physiognomy}{Structure or physical apperiance of plant}
+#'   \item{duration}{Lifespan of plant}
+#'   \item{common_name}{Common name(s) for plant}
+#'   \item{fqa_db}{Regional FQA database}
+#'   ...
+#' }
 #'
 #' @examples
 #' view_db("michigan_2014")
@@ -132,10 +145,6 @@ accepted_entries <- function(x, key = "acronym", db,
   if( !db %in% unique(fqa_db$fqa_db) )
     stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
 
-  #if cover is true, then there must be a column named cover in input df
-  if( cover_weighted & !("cover" %in% colnames(x)))
-    stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
-
   #cover_weighted must be T or F
   if( !is.logical(native) )
     stop("'native' can only be set to TRUE or FALSE")
@@ -143,6 +152,14 @@ accepted_entries <- function(x, key = "acronym", db,
   #cover_weighted must be T or F
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
+
+  #if cover is true, then there must be a column named cover in input df
+  if( cover_weighted & !("cover" %in% colnames(x)))
+    stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
+
+  #if cover is missing, write error
+  if( cover_weighted & any(is.na(x$cover)) )
+    stop(paste("Cover column cannot contain missing values"))
 
   #cover metric must be defined
   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
@@ -167,50 +184,50 @@ accepted_entries <- function(x, key = "acronym", db,
     #if cover method is percent, just convert to numeric
     if(cover_metric == "percent_cover") {
       cols <- cols %>%
-        dplyr::mutate(cover = as.numeric(cols$cover))
+        dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
     }
 
     #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
-        dplyr::mutate(cover = as.numeric(cols$cover))
+        dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
     }
 
     #if cover method is carolina, transform to 10 classes
     if(cover_metric == "carolina_veg_survey") {
       cols <- cols %>%
         dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
-                                        cover == "2" ~ 0.5,
-                                        cover == "3" ~ 1.5,
-                                        cover == "4" ~ 3.5,
-                                        cover == "5" ~ 7.5,
-                                        cover == "6" ~ 17.5,
-                                        cover == "7" ~ 37.5,
-                                        cover == "8" ~ 62.5,
-                                        cover == "9" ~ 85,
-                                        cover == "10" ~ 97.5))
+                                               cover == "2" ~ 0.5,
+                                               cover == "3" ~ 1.5,
+                                               cover == "4" ~ 3.5,
+                                               cover == "5" ~ 7.5,
+                                               cover == "6" ~ 17.5,
+                                               cover == "7" ~ 37.5,
+                                               cover == "8" ~ 62.5,
+                                               cover == "9" ~ 85,
+                                               cover == "10" ~ 97.5))
     }
 
     #if cover method is daubenmire, transform to six classes
     if(cover_metric == "daubenmire") {
       cols <- cols %>%
         dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
-                                        cover == "2" ~ 15,
-                                        cover == "3" ~ 37.5,
-                                        cover == "4" ~ 62.5,
-                                        cover == "5" ~ 85,
-                                        cover == "6" ~ 97.5))
+                                               cover == "2" ~ 15,
+                                               cover == "3" ~ 37.5,
+                                               cover == "4" ~ 62.5,
+                                               cover == "5" ~ 85,
+                                               cover == "6" ~ 97.5))
     }
 
     #if cover method is braun-blanquet, transform to 5 classes
     if(cover_metric == "braun-blanquet") {
       cols <- cols %>%
         dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
-                                        cover == "1" ~ 2.5,
-                                        cover == "2" ~ 15,
-                                        cover == "3" ~ 37.5,
-                                        cover == "4" ~ 62.5,
-                                        cover == "5" ~ 87.5))
+                                               cover == "1" ~ 2.5,
+                                               cover == "2" ~ 15,
+                                               cover == "3" ~ 37.5,
+                                               cover == "4" ~ 62.5,
+                                               cover == "5" ~ 87.5))
     }
 
     # #if cover method is mod braun-blanquet, transform to 5 classes
@@ -225,6 +242,11 @@ accepted_entries <- function(x, key = "acronym", db,
 
   } else( cols <- x %>%
             dplyr::select(!!as.name(key)))
+
+  #warning if NAs get introduced after converting cover metric
+  if( cover_weighted & any(is.na(cols$cover)) )
+    stop(paste("NAs were introduced during the conversion to the ",
+               cover_metric, "system."))
 
   #if allow duplicates is false, do not allow duplicates
   if( !allow_duplicates )

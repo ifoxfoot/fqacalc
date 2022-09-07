@@ -42,3 +42,4 @@ no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM", 
 cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"),
                       cover = c(1, 2, 3, 4))
+

@@ -24,7 +24,7 @@ native species.}
 
 \item{cover_metric}{A character string representing the cover method used. Acceptable
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
-\code{"modified_braun-blanquet"}, \code{"plots2_braun-blanquet"}, \code{"doubinmire"},and
+\code{"modified_braun-blanquet"}, \code{"plots2_braun-blanquet"}, \code{"daubenmire"},and
 \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is recommended because
 it is the most accurate.}
 }

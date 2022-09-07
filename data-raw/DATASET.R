@@ -183,8 +183,8 @@ fqa_db_bind <- rbind(ne_clean,
   mutate(synonym = toupper(synonym))
 
 # #cleaning latin names
-# fqa_db_latin <- fqa_db_bind %>%
-#   mutate(synonym = str_remove_all(synonym, c("\\[INCLUDING] ", "\\[INCLUDES]", )))
+fqa_db_latin <- fqa_db_bind %>%
+  mutate(synonym = str_remove_all(synonym, c("\\[INCLUDING] ", "\\[INCLUDES]")))
 
 #clean
 fqa_db <- fqa_db_bind %>%
