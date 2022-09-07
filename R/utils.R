@@ -5,8 +5,10 @@
 
 #' Look Up the Names of Regional FQA Databases
 #'
-#' @return A list of regional FQA database names. These are acceptable values
-#' for `db` in other `fqacalc` functions.
+#' @return A data frame of regional FQA database names. The column `name` contains
+#' the names of the databases. These are acceptable values for `db` in other `fqacalc`
+#' functions.The column `status` notes whether the database has been fully approved or
+#' approved with reservations by the US Army Core of Engineers.
 #' @export
 #'
 #' @examples
@@ -15,10 +17,20 @@
 db_names <- function() {
 
   #filter system data for db names
-  names <- unique(fqa_db$fqa_db)
+  df <- data.frame(name = c(unique(fqa_db$fqa_db))) %>%
+    dplyr::mutate(status = "Approved") %>%
+    #note approval status
+    dplyr::mutate(status = dplyr::case_when(name %in%
+      c("atlantic_coastal_pine_barrens_2018",
+      "connecticut_2013",
+      "deleware_2013",
+      "maine_2014",
+      "maine_new_brunswick_2018",
+      "vermont_2013")
+      ~ "Approved with reservations", T ~ status))
 
   #return names
-  return(names)
+  return(df)
 
 }
 
@@ -44,6 +56,7 @@ db_names <- function() {
 #'   \item{fqa_db}{Regional FQA database}
 #'   ...
 #' }
+#' @export
 #'
 #' @examples
 #' view_db("michigan_2014")
@@ -51,7 +64,7 @@ db_names <- function() {
 view_db <- function(db) {
 
   #error if db is not a legit db
-  if( !db %in% db_names() )
+  if( !db %in% db_names()$name )
     stop(paste(db," is not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #filter system data for correct db

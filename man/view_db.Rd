@@ -16,14 +16,14 @@ A data frame with 11 variables:
 \item{scientific_name}{Latin name}
 \item{synonym}{Alternate latin name(s)}
 \item{family}{Taxinomic family of species}
-\item{acronym}{A unique acronym for each species. Not always consistent between data bases}
+\item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
 \item{native}{Nativity status. native, exotic, and undetermined are values}
 \item{c}{Coefficient of Conservation (C Score)}
 \item{w}{Wetland Indicator Rating}
 \item{physiognomy}{Structure or physical apperiance of plant}
 \item{duration}{Lifespan of plant}
 \item{common_name}{Common name(s) for plant}
-\item{fqa_db}{Regional FQAI database}
+\item{fqa_db}{Regional FQA database}
 ...
 }
 }
