@@ -47,54 +47,14 @@ databases can be accessed using the `view_db()` function.
 
 ``` r
 #view a list of all 47 available databases
-db_names()
-#>  [1] "connecticut_2013"                                     
-#>  [2] "massachusetts_2013"                                   
-#>  [3] "new_york_2013"                                        
-#>  [4] "rhode_island_2013"                                    
-#>  [5] "vermont_2013"                                         
-#>  [6] "florida_2011"                                         
-#>  [7] "florida_south_20009"                                  
-#>  [8] "mississippi_north_central_wetlands_2005"              
-#>  [9] "montana_2017"                                         
-#> [10] "wyoming_2017"                                         
-#> [11] "appalachian_mtn_2013"                                 
-#> [12] "atlantic_coastal_pine_barrens_2018"                   
-#> [13] "chicago_region_2017"                                  
-#> [14] "coastal_plain_southeast_2013"                         
-#> [15] "colorado_2020"                                        
-#> [16] "deleware_2013"                                        
-#> [17] "eastern_great_lakes_hudson_lowlands_2018"             
-#> [18] "eastern_washington_columbia_basin_2013"               
-#> [19] "eastern_washington_mountains_2013"                    
-#> [20] "illinois_2020"                                        
-#> [21] "indiana_2019"                                         
-#> [22] "interior_plateau_2013"                                
-#> [23] "iowa_2001"                                            
-#> [24] "louisiana_coastal_prairie_2006"                       
-#> [25] "maine_2014"                                           
-#> [26] "maine_new_brunswick_2018"                             
-#> [27] "michigan_2014"                                        
-#> [28] "mid_atlantic_allegheny_plateau_glaciated_2012"        
-#> [29] "mid_atlantic_allegheny_plateau_nonglaciated_2012"     
-#> [30] "mid_atlantic_coastal_plain_2012"                      
-#> [31] "mid_atlantic_piedmont_2012"                           
-#> [32] "mid_atlantic_ridge_valley_2012"                       
-#> [33] "minnesota_wetlands_2007"                              
-#> [34] "missouri_2015"                                        
-#> [35] "nebraska_2003"                                        
-#> [36] "new_hampshire_2013"                                   
-#> [37] "new_jersey_2019"                                      
-#> [38] "new_mexico_middle_rio_grande_2019"                    
-#> [39] "northeastern_coastal_2018"                            
-#> [40] "northern_appalachian_atlantic_maritime_highlands_2018"
-#> [41] "pennsylvania_piedmont_2013"                           
-#> [42] "southern_coastal_plain_2013"                          
-#> [43] "texas_blackland_prairie_2019"                         
-#> [44] "west_virginia_2015"                                   
-#> [45] "western_washington_2013"                              
-#> [46] "wisconsin_wetland_northern_southcentral_2017"         
-#> [47] "wisconsin_wetland_southwestern_southeastern_2017"
+head(db_names())
+#>                 name                     status
+#> 1   connecticut_2013 Approved with reservations
+#> 2 massachusetts_2013                   Approved
+#> 3      new_york_2013                   Approved
+#> 4  rhode_island_2013                   Approved
+#> 5       vermont_2013 Approved with reservations
+#> 6       florida_2011                   Approved
 
 #store the Connecticut database as an object
 connecticut <- view_db("connecticut_2013")

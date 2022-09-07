@@ -43,7 +43,7 @@ library(tidyverse)
 
 ```{r}
 #view a list of all 47 available databases
-db_names()
+head(db_names())
 
 #store the Connecticut database as an object
 connecticut <- view_db("connecticut_2013")
