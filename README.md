@@ -9,7 +9,7 @@
 <!-- badges: end -->
 
 This package provides functions for calculating floristic quality
-metrics based on the 47 regional FQA databases that have been approved
+metrics based on the 48 regional FQA databases that have been approved
 for use by the US Army Core of Engineers.
 
 ## Installation
@@ -38,7 +38,7 @@ library(tidyverse)
 
 ## Package Data
 
-`fqacalc` contains all 47 regional FQA databases that have been either
+`fqacalc` contains all 48 regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army Core
 of Engineers. By referencing these databases, the package knows what C
 score to give each plant that the user inputs. Users can see a list of
@@ -46,7 +46,7 @@ regional databases using the `db_names()` function, and specific FQA
 databases can be accessed using the `view_db()` function.
 
 ``` r
-#view a list of all 47 available databases
+#view a list of all 48 available databases
 head(db_names())
 #>                 name                     status
 #> 1   connecticut_2013 Approved with reservations

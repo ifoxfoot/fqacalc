@@ -173,7 +173,7 @@ montana_clean <- montana %>%
 wyoming <- read_xlsx(here("data-raw",
                           "FQA_databases",
                           "not_from_universal_calc",
-                          "wyoming_2017.csv"), skip = 1) %>%
+                          "wyoming_wetlands_2017.csv"), skip = 1) %>%
   clean_names()
 
 wyoming_clean <- wyoming %>%
@@ -247,8 +247,8 @@ fqa_db_clean_cols <- fqa_db_bind %>%
 
 #cleaning latin names
 fqa_db_latin <- fqa_db_clean_cols %>%
-  mutate(synonym = str_remove_all(synonym, c("\\[INCLUDING] ", "\\[INCLUDES]"))) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "_", " ")) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, ",", " ")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "SYN. ", "; ")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "[{]", ";")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "=", ";")) %>%
@@ -350,8 +350,16 @@ fqa_db_latin <- fqa_db_clean_cols %>%
                                        "HYPERICUM X DISSIMULATUM",
                                      scientific_name == "BETULA XCAERULEA VAR. GRANDIS" ~
                                        "BETULA X CAERULEA VAR. GRANDIS",
+                                     scientific_name == "ELEOCHARIS ACICULARIS / WILL SUGGESTS REMOVING, MAY BE MORE MONTANE" ~
+                                       "ELEOCHARIS ACICULARIS",
+                                     scientific_name == "PHYTOLACCA AMERICANA VAR, AMERICANA" ~
+                                       "PHYTOLACCA AMERICANA VAR. AMERICANA",
+                                     scientific_name == "SALVINIA SPP." ~
+                                      " SALVINIA SP.",
                                      T ~ scientific_name))
 
+fqa_db_synonym <- fqa_db_latin %>%
+  mutate(synonym = str_remove_all(synonym, c("\\[INCLUDING] ", "\\[INCLUDES]")))
 
 #unique latin names
 unique <-

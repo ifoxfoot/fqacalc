@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Iris", "Foxfoot", , "ifoxfoot@gmail.com", role = c("aut", "cre"),
            )
-Description: This package provides functions for calculating total species richness, native species richness, mean C, native mean C, FQI, native FQI, and adjusted FQI based on Michigan's 2014 FQAI database.
+Description: This package provides functions for calculating FQI metrics based on USACE approved regional FQA lists.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
