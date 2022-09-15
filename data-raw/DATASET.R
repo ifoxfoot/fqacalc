@@ -56,7 +56,8 @@ ne_clean <- ne_compiled %>%
   mutate(duration = NA) %>%
   mutate(common_name = CommonName) %>%
   select(scientific_name, synonym, family, acronym,
-         native, c, w, physiognomy, duration, common_name, fqa_db)
+         native, c, w, physiognomy, duration, common_name, fqa_db) %>%
+  distinct()
 
 #-------------------------------------------------------------------------------
 #CHICAGO
@@ -242,20 +243,24 @@ fqa_db_clean_cols <- fqa_db_bind %>%
   #clean commmon name
   mutate(common_name = str_to_title(common_name)) %>%
   #clean c score
-  mutate(c = as.numeric(c))
+  mutate(c = as.numeric(c)) %>%
+  mutate(scientific_name = case_when(scientific_name == "BOTRYCHIUM SP. (NON-SOC)" ~
+                                       "BOTRYCHIUM SP. NON-SOC",
+                                     scientific_name == "BOTRYCHIUM SP. (SOC)" ~
+                                       "BOTRYCHIUM SP. SOC",
+                                     T ~ scientific_name))
 
 
 #cleaning latin names
 fqa_db_latin <- fqa_db_clean_cols %>%
+  #making separators consistent
   mutate(scientific_name = str_replace_all(scientific_name, "_", " ")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, ",", " ")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "SYN. ", "; ")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "[{]", ";")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "=", ";")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "[(]", ";")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "[\\[]", ";")) %>%
-  separate(scientific_name, c("scientific_name", "synonym1"), ";", extra = "merge") %>%
-  #making sure abreviations are consistent
+  #making sure abbreviations are consistent
   mutate(scientific_name = str_replace_all(scientific_name, " SUBSP. ", " SSP. ")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, " VAR ", " VAR. ")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, " V. ", " VAR. ")) %>%
@@ -266,6 +271,7 @@ fqa_db_latin <- fqa_db_clean_cols %>%
   mutate(scientific_name = case_when(!str_detect(scientific_name, pattern = " ") ~
                                        paste(scientific_name, "SP."),
                                      T ~ scientific_name)) %>%
+  #fixing odds and ends
   mutate(scientific_name = case_when(scientific_name == "APOCYNUM XFLORIBUNDUM" ~
                                        "APOCYNUM X FLORIBUNDUM",
                                      scientific_name == "BETULA XCAERULEA" ~
@@ -312,8 +318,8 @@ fqa_db_latin <- fqa_db_clean_cols %>%
                                        "ILEX X ATTENUATA",
                                      scientific_name == "DRYOPTERIS XBOOTTII" ~
                                        "DRYOPTERIS X BOOTTII",
-                                     scientific_name == "DICHANTHELIUM XSCOPARIOIDES" ~
-                                       "DICHANTHELIUM X SCOPARIOIDES",
+                                     scientific_name == "DICHANTHELIUM XSCOPARIOIDES; PANICUM SCOPARIOIDES; P. VILLOSISSIMUM VAR. SCOPARIOIDES" ~
+                                       "DICHANTHELIUM X SCOPARIOIDES; PANICUM SCOPARIOIDES; P. VILLOSISSIMUM VAR. SCOPARIOIDES",
                                      scientific_name == "KALANCHOE XHOUGHTONII" ~
                                        "KALANCHOE X HOUGHTONII",
                                      scientific_name == "ARABIS XDIVARICARPA" ~
@@ -356,18 +362,59 @@ fqa_db_latin <- fqa_db_clean_cols %>%
                                        "PHYTOLACCA AMERICANA VAR. AMERICANA",
                                      scientific_name == "SALVINIA SPP." ~
                                       " SALVINIA SP.",
-                                     T ~ scientific_name))
+                                     scientific_name == "CARDARIA DRABA, LEPIDIUM DRABA" ~
+                                       "CARDARIA DRABA; LEPIDIUM DRABA",
+                                     scientific_name == "TYPHA XGLAUCA" ~
+                                       "TYPHA X GLAUCA",
+                                     T ~ scientific_name)) %>%
+  #separating by semicolon
+  separate(scientific_name, c("scientific_name", "synonym1"), ";", extra = "merge")
 
-fqa_db_synonym <- fqa_db_latin %>%
-  mutate(synonym = str_remove_all(synonym, c("\\[INCLUDING] ", "\\[INCLUDES]")))
 
-#unique latin names
-unique <-
-  data.frame(unique(fqa_db_latin$scientific_name))
+#clean synonym1
+fqa_db_synonym1 <- fqa_db_latin %>%
+  #removing useless symbols
+  mutate(synonym1 = str_remove_all(synonym1, "[}]")) %>%
+  mutate(synonym1 = str_remove_all(synonym1, "[)]")) %>%
+  mutate(synonym1 = str_remove_all(synonym1, "\\.")) %>%
+  mutate(synonym1 = str_remove_all(synonym1, "^;")) %>%
+  mutate(synonym1 = str_replace_all(synonym1, ";", "; ")) %>%
+  #fixing white spaces
+  mutate(synonym1 = str_squish(synonym1)) %>%
+  mutate(synonym1 = str_trim(synonym1, side = "both"))
 
+fqa_db_synonym <- fqa_db_synonym1 %>%
+  #making sure abreviations are consistent
+  mutate(synonym = str_replace_all(synonym, " SUBSP. ", " SSP. ")) %>%
+  mutate(synonym = str_replace_all(synonym, " VAR ", " VAR. ")) %>%
+  mutate(synonym = str_replace_all(synonym, ",", ";")) %>%
+  mutate(synonym = str_remove_all(synonym, "[\\[]]")) %>%
+  #fixing white spaces
+  mutate(synonym = str_squish(synonym)) %>%
+  mutate(synonym = str_trim(synonym, side = "both")) %>%
+  mutate(synonym = case_when(!str_detect(synonym, pattern = " ") ~
+                               paste(synonym, "SP."),
+                             T ~ synonym))
+#unique latin
+#unique synonym
+unique_latin <- data.frame(unique(fqa_db_latin$scientific_name))
 
+#unique synonym
+unique_syn <- data.frame(unique(fqa_db_synonym$synonym))
+
+#unique synonym1
+unique_syn1 <- data.frame(unique(fqa_db_synonym1$synonym1))
+
+#sort data frame column alphabetically
+#fqa_db_synonym[order(df$fqa_db_synonym), ]
+
+#AT SOME POINT LOOK INTO DUP SCI NAMES
+test <- fqa_db_latin %>%
+  group_by(scientific_name, fqa_db) %>%
+  count() %>%
+  filter(n>1)
 #-------------------------------------------------------------------------------
-#saving dataset
+#saving dataset MAKE SURE IT IS CLEAN VERSION!!!
 
 #use this dataset  (not viewable to package user)
 usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE, compress = "bzip2")
