@@ -14,17 +14,16 @@
 #' as a column named `cover` containing percent cover values per each observation.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
-#' @param cover_metric A character string representing the cover method used. Acceptable
+#' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -35,7 +34,10 @@
 #'
 #' quadrat_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
 
-quadrat_mean_c <- function(x, key = "acronym", db, native, cover_metric = "percent_cover") {
+quadrat_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
+                           cover_metric = "percent_cover") {
+
+  cover <- NULL
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native, cover_weighted = T, cover_metric)
@@ -61,7 +63,7 @@ quadrat_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perce
 #' as a column named `cover` containing percent cover values per each observation.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -69,9 +71,8 @@ quadrat_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perce
 #' native species.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -84,9 +85,9 @@ quadrat_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perce
 #'
 #' transect_mean_c(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
-transect_mean_c <- function(x, key = "acronym", db, native, cover_metric = "percent_cover") {
+transect_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
+                           cover_metric = "percent_cover") {
 
-  #declaring cover is null
   cover <- NULL
 
   #get accepted entries
@@ -119,7 +120,7 @@ transect_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perc
 #' as a column named `cover` containing percent cover values per each observation.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -127,9 +128,8 @@ transect_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perc
 #' native species.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -142,7 +142,9 @@ transect_mean_c <- function(x, key = "acronym", db, native, cover_metric = "perc
 #'
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
-cover_FQI <- function(x, key = "acronym", db, native, cover_metric = "percent_cover") {
+cover_FQI <- function(x, key = "scientific_name", db, native = FALSE, cover_metric = "percent_cover") {
+
+  cover <- NULL
 
   fqi <- transect_mean_c(x, key, db, native, cover_metric) *
     suppressMessages(sqrt(species_richness(x, key, db, native)))
@@ -164,15 +166,14 @@ cover_FQI <- function(x, key = "acronym", db, native, cover_metric = "percent_co
 #' as a column named `cover` containing percent cover values per each observation.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #'
 #' @return A data frame
 #' @export
@@ -185,7 +186,8 @@ cover_FQI <- function(x, key = "acronym", db, native, cover_metric = "percent_co
 #'
 #' all_cover_metrics(x = transect, key = "acronym", db = "michigan_2014")
 
-all_cover_metrics <- function(x, key = "acronym", db, cover_metric = "percent_cover") {
+all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "percent_cover") {
+
 
   accepted <- suppressMessages(accepted_entries(x, key, db, native = F))
 
@@ -246,7 +248,7 @@ all_cover_metrics <- function(x, key = "acronym", db, cover_metric = "percent_co
 #' as a column named `cover` containing percent cover values per each observation.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -270,7 +272,7 @@ all_cover_metrics <- function(x, key = "acronym", db, cover_metric = "percent_co
 #'
 #' relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, physiog = "tree")
 
-relative_freq <- function(x, key = "acronym", db, native,
+relative_freq <- function(x, key = "scientific_name", db, native,
                           species = NULL, family = NULL, physiog = NULL) {
 
   #store optional argument
@@ -311,9 +313,10 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`, as well
 #' as a column named `cover` containing percent cover values per each observation.
-#' @param key A column name that will be used to join the input `x` with the 2014
-#' Michigan FQAI database. If a value is not specified the default is `acronym`.
-#' `scientific_name` and `acronym` are the only acceptable values for key.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
 #' @param db A character string representing the regional FQA database to use.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
@@ -325,9 +328,8 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' tree, shrub) to calculate the relative frequency of that family.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -341,7 +343,7 @@ relative_freq <- function(x, key = "acronym", db, native,
 #' relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 #' physiog = "tree")
 
-relative_cover <- function(x, key = "acronym", db, native,
+relative_cover <- function(x, key = "scientific_name", db, native,
                            species = NULL, family = NULL, physiog = NULL,
                            cover_metric = "percent_cover"){
 
@@ -395,7 +397,7 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' as a column named `cover` containing percent cover values per each observation.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -409,9 +411,8 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' tree, shrub) to calculate the relative frequency of that state.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #'
 #' @return A non-negative integer
 #' @export
@@ -425,7 +426,7 @@ relative_cover <- function(x, key = "acronym", db, native,
 #' relative_importance(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 #' physiog = "tree")
 
-relative_importance <- function(x, key = "acronym", db, native,
+relative_importance <- function(x, key = "scientific_name", db, native,
                                 species = NULL, family = NULL, physiog = NULL,
                                 cover_metric = "percent_cover"){
 

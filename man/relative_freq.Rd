@@ -6,7 +6,7 @@
 \usage{
 relative_freq(
   x,
-  key = "acronym",
+  key = "scientific_name",
   db,
   native,
   species = NULL,
@@ -21,7 +21,7 @@ as a column named \code{cover} containing percent cover values per each observat
 
 \item{key}{A character string representing the column that will be used to join
 the input \code{x} with the regional FQA database. If a value is not specified the
-default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
 values for key.}
 
 \item{db}{A character string representing the regional FQA database to use. See

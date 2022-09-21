@@ -4,7 +4,12 @@
 \alias{all_cover_metrics}
 \title{Print a Summary of Cover-Weighted FQA Metrics}
 \usage{
-all_cover_metrics(x, key = "acronym", db, cover_metric = "percent_cover")
+all_cover_metrics(
+  x,
+  key = "scientific_name",
+  db,
+  cover_metric = "percent_cover"
+)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -13,7 +18,7 @@ as a column named \code{cover} containing percent cover values per each observat
 
 \item{key}{A character string representing the column that will be used to join
 the input \code{x} with the regional FQA database. If a value is not specified the
-default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
 values for key.}
 
 \item{db}{A character string representing the regional FQA database to use. See
@@ -21,9 +26,8 @@ values for key.}
 
 \item{cover_metric}{a character string representing the cover method used. Acceptable
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
-\code{"modified_braun-blanquet"}, \code{"plots2_braun-blanquet"}, \code{"daubenmire"},and
-\code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is recommended because
-it is the most accurate.}
+\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
+recommended because it is the most accurate.}
 }
 \value{
 A data frame

@@ -84,7 +84,7 @@ view_db <- function(db) {
 #' must have one of the following columns: `scientific_name` or `acronym`.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -96,9 +96,8 @@ view_db <- function(db) {
 #' cover-weighted FQI.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"daubenmire"`,and
-#' `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because
-#' it is the most accurate.
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
 #' calculating transect and frequency metrics.
@@ -113,14 +112,15 @@ view_db <- function(db) {
 #' plant_list <- crooked_island
 #' accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
-accepted_entries <- function(x, key = "acronym", db,
+accepted_entries <- function(x, key = "scientific_name", db,
                              native = c(TRUE, FALSE),
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
                              allow_duplicates = FALSE) {
 
   #declaring cover is null
-  cover <- NULL
+  if(cover_weighted)
+    {cover <- NULL}
 
   #declaring p as null
   p <- NULL
@@ -139,12 +139,7 @@ accepted_entries <- function(x, key = "acronym", db,
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
-    stop(paste(deparse(substitute(x)), "must be a data frame."))
-
-  #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
-    stop(paste(deparse(substitute(x)),
-               "must have a column named 'acronym' and/or 'scientific_name'."))
+    stop(paste({{x}}, "must be a data frame."))
 
   #error if key is not acronym or scientific name
   if( !key %in% c("acronym", "scientific_name") )
@@ -171,12 +166,12 @@ accepted_entries <- function(x, key = "acronym", db,
     stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
 
   #if cover is missing, write error
-  if( cover_weighted & any(is.na(x$cover)) )
+  if( cover_weighted && any(is.na(x$cover)) )
     stop(paste("Cover column cannot contain missing values"))
 
   #cover metric must be defined
-  if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
-                           "modified_braun-blanquet", "plots2_braun-blanquet", "daubenmire",
+  if( !cover_metric %in% c("percent_cover", "carolina_veg_survey",
+                           "braun-blanquet","daubenmire",
                            "usfs_ecodata"))
     stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
 
@@ -191,7 +186,7 @@ accepted_entries <- function(x, key = "acronym", db,
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
     {cols <- x %>%
-      dplyr::select(!!as.name(key), cover) %>%
+      dplyr::select({{key}}, cover) %>%
       dplyr::mutate(cover = as.character(x$cover))
 
     #if cover method is percent, just convert to numeric
@@ -243,21 +238,12 @@ accepted_entries <- function(x, key = "acronym", db,
                                                cover == "5" ~ 87.5))
     }
 
-    # #if cover method is mod braun-blanquet, transform to 5 classes
-    # if(cover_metric == "modified_braun-blanquet") {
-    #   cols <- cols %>%
-    #     dplyr::mutate(cover = case_when(cover == "1" ~ 3,
-    #                                     cover == "2" ~ 15.5,
-    #                                     cover == "3" ~ 38,
-    #                                     cover == "4" ~ 63,
-    #                                     cover == "5" ~ 87.5))
-    # }
 
   } else( cols <- x %>%
-            dplyr::select(!!as.name(key)))
+            dplyr::select({{key}}))
 
   #warning if NAs get introduced after converting cover metric
-  if( cover_weighted & any(is.na(cols$cover)) )
+  if( cover_weighted && any(is.na(cols$cover)) )
     stop(paste("NAs were introduced during the conversion to the ",
                cover_metric, "system."))
 
@@ -270,7 +256,7 @@ accepted_entries <- function(x, key = "acronym", db,
   #join scores from FQAI to user's assessment
   entries_joined <-
     dplyr::left_join(cols %>%
-                       dplyr::mutate(!!key := toupper(!!as.name(key))),
+                       dplyr::mutate({{key}} := toupper(!!as.name(key))),
                      fqa_db %>%
                        dplyr::filter(fqa_db == db) %>%
                        #so i can tell if observation came from regional list
@@ -320,7 +306,7 @@ accepted_entries <- function(x, key = "acronym", db,
 #' must have one of the following columns: `scientific_name` or `acronym`.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -335,7 +321,7 @@ accepted_entries <- function(x, key = "acronym", db,
 #' unassigned_plants(no_c_test, key = "scientific_name", db = "montana_2017")
 #'
 
-unassigned_plants <- function(x, key = "acronym", db) {
+unassigned_plants <- function(x, key = "scientific_name", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -393,150 +379,4 @@ unassigned_plants <- function(x, key = "acronym", db) {
 
 }
 
-#-------------------------------------------------------------------------------
 
-# test_entries <- function(x,
-#                          key = "acronym",
-#                          cover = NULL,
-#                          db,
-#                          native = c(TRUE, FALSE),
-#                          cover_metric = "percent_cover",
-#                          allow_duplicates = FALSE) {
-#
-#   #error if db argument is missing
-#   if( missing(db) )
-#     stop("argument db is missing, with no default.")
-#
-#   #error if db is not a legit db
-#   if( !db %in% unique(fqa_db$fqa_db) )
-#     stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
-#
-#   #native must be T or F
-#   if( !is.logical(native) )
-#     stop("'native' can only be set to TRUE or FALSE")
-#
-#   #cover metric must be defined
-#   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey", "braun-blanquet",
-#                            "modified_braun-blanquet", "plots2_braun-blanquet", "daubenmire",
-#                            "usfs_ecodata"))
-#     stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
-#
-#   #allow__duplicates must be T or F
-#   if( !is.logical(allow_duplicates) )
-#     stop("'allow_duplicates' can only be set to TRUE or FALSE")
-#
-#   #send message to user if site assessment contains duplicate entries
-#   if( sum(duplicated(key) > 0 && !allow_duplicates) )
-#     message("Duplicate entries detected. Duplicates will only be counted once.")
-#
-#   #if cover parameter is true, select unique sci names and cover
-#   if( !is.null(cover) )
-#   { cols <- as.data.frame(cbind(x = x, cover = cover)) %>%
-#     rename({{key}} := x)
-#     dplyr::mutate(cover = as.character(cover))
-#
-#   #if cover method is percent, just convert to numeric
-#   if(cover_metric == "percent_cover") {
-#     cols <- cols %>%
-#       dplyr::mutate(cover = as.numeric(cols$cover))
-#   }
-#
-#   #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
-#   if(cover_metric == "usfs_ecodata") {
-#     cols <- cols %>%
-#       dplyr::mutate(cover = as.numeric(cols$cover))
-#   }
-#
-#   #if cover method is carolina, transform to 10 classes
-#   if(cover_metric == "carolina_veg_survey") {
-#     cols <- cols %>%
-#       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
-#                                              cover == "2" ~ 0.5,
-#                                              cover == "3" ~ 1.5,
-#                                              cover == "4" ~ 3.5,
-#                                              cover == "5" ~ 7.5,
-#                                              cover == "6" ~ 17.5,
-#                                              cover == "7" ~ 37.5,
-#                                              cover == "8" ~ 62.5,
-#                                              cover == "9" ~ 85,
-#                                              cover == "10" ~ 97.5))
-#   }
-#
-#   #if cover method is daubenmire, transform to six classes
-#   if(cover_metric == "daubenmire") {
-#     cols <- cols %>%
-#       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
-#                                              cover == "2" ~ 15,
-#                                              cover == "3" ~ 37.5,
-#                                              cover == "4" ~ 62.5,
-#                                              cover == "5" ~ 85,
-#                                              cover == "6" ~ 97.5))
-#   }
-#
-#   #if cover method is braun-blanquet, transform to 5 classes
-#   if(cover_metric == "braun-blanquet") {
-#     cols <- cols %>%
-#       dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
-#                                              cover == "1" ~ 2.5,
-#                                              cover == "2" ~ 15,
-#                                              cover == "3" ~ 37.5,
-#                                              cover == "4" ~ 62.5,
-#                                              cover == "5" ~ 87.5))
-#   }
-#
-#   # #if cover method is mod braun-blanquet, transform to 5 classes
-#   # if(cover_metric == "modified_braun-blanquet") {
-#   #   cols <- cols %>%
-#   #     dplyr::mutate(cover = case_when(cover == "1" ~ 3,
-#   #                                     cover == "2" ~ 15.5,
-#   #                                     cover == "3" ~ 38,
-#   #                                     cover == "4" ~ 63,
-#   #                                     cover == "5" ~ 87.5))
-#   # }
-#
-#   } else( cols <- as.data.frame(x)  %>%
-#             rename({{key}} := x))
-#
-#   #if allow duplicates is false, do not allow duplicates
-#   if( !allow_duplicates )
-#   { cols <- cols %>%
-#     dplyr::distinct()
-#   }
-#
-#   #join scores from FQAI to user's assessment
-#   entries_joined <-
-#     dplyr::left_join(cols %>%
-#                        dplyr::mutate(!!key := toupper(!!as.name(key))),
-#                      fqa_db %>%
-#                        dplyr::filter(fqa_db == db) %>%
-#                        #so i can tell if observation came from regional list
-#                        dplyr::mutate(p = "p"),
-#                      by = key)
-#
-#   #warning if species not present in regional list
-#   if( any(is.na(entries_joined$p)) )
-#     message(paste("Species", entries_joined[is.na(entries_joined$p), key],
-#                   "not listed in database. It will be discarded."))
-#
-#   #now get rid of observations not in regional list
-#   entries_joined <- entries_joined %>%
-#     dplyr::filter(!is.na(entries_joined$p))
-#
-#   #if native = T, filter for only native species
-#   if (native) {
-#     entries_joined <- entries_joined %>%
-#       dplyr::filter(native == "native")
-#   }
-#
-#   #send message to user if site assessment contains plant not in FQAI database
-#   if( any(is.na(entries_joined$c)) )
-#     message(paste("species", entries_joined[is.na(entries_joined$c), key],
-#                   "is recognized but has not been assigned a C score. It will be discarded."))
-#
-#   #discard entries that have no match, ID column
-#   entries_matched <- entries_joined %>%
-#     dplyr::filter(!is.na(entries_joined$c))
-#
-#   return(entries_matched)
-#
-# }
