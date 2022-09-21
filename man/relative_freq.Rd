@@ -8,7 +8,7 @@ relative_freq(
   x,
   key = "scientific_name",
   db,
-  native,
+  native = FALSE,
   species = NULL,
   family = NULL,
   physiog = NULL

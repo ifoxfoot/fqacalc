@@ -272,7 +272,7 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
 #'
 #' relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, physiog = "tree")
 
-relative_freq <- function(x, key = "scientific_name", db, native,
+relative_freq <- function(x, key = "scientific_name", db, native = FALSE,
                           species = NULL, family = NULL, physiog = NULL) {
 
   #store optional argument
@@ -343,7 +343,7 @@ relative_freq <- function(x, key = "scientific_name", db, native,
 #' relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 #' physiog = "tree")
 
-relative_cover <- function(x, key = "scientific_name", db, native,
+relative_cover <- function(x, key = "scientific_name", db, native = FALSE,
                            species = NULL, family = NULL, physiog = NULL,
                            cover_metric = "percent_cover"){
 
@@ -426,7 +426,7 @@ relative_cover <- function(x, key = "scientific_name", db, native,
 #' relative_importance(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 #' physiog = "tree")
 
-relative_importance <- function(x, key = "scientific_name", db, native,
+relative_importance <- function(x, key = "scientific_name", db, native = FALSE,
                                 species = NULL, family = NULL, physiog = NULL,
                                 cover_metric = "percent_cover"){
 

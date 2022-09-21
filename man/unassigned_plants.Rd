@@ -4,7 +4,7 @@
 \alias{unassigned_plants}
 \title{Return Data Frame of Plant Species That Have No C Score}
 \usage{
-unassigned_plants(x, key = "acronym", db)
+unassigned_plants(x, key = "scientific_name", db)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -12,7 +12,7 @@ must have one of the following columns: \code{scientific_name} or \code{acronym}
 
 \item{key}{A character string representing the column that will be used to join
 the input \code{x} with the regional FQA database. If a value is not specified the
-default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
 values for key.}
 
 \item{db}{A character string representing the regional FQA database to use. See
