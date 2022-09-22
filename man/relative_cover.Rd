@@ -8,10 +8,7 @@ relative_cover(
   x,
   key = "scientific_name",
   db,
-  native = FALSE,
-  species = NULL,
-  family = NULL,
-  physiog = NULL,
+  col = c("species", "family", "physiog"),
   cover_metric = "percent_cover"
 )
 }
@@ -27,17 +24,8 @@ values for key.}
 
 \item{db}{A character string representing the regional FQA database to use.}
 
-\item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-native species.}
-
-\item{species}{Optional. A character string equal to the Latin name of a species
-to calculate relative frequency of that species.}
-
-\item{family}{Optional. A character string equal to a taxonomic family to
-calculate the relative frequency of that family.}
-
-\item{physiog}{Optional. A character string equal to a physiognomic state (i.e.
-tree, shrub) to calculate the relative frequency of that family.}
+\item{col}{A character string representing the categorical variable to calculate
+the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).}
 
 \item{cover_metric}{a character string representing the cover method used. Acceptable
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
@@ -45,11 +33,11 @@ cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 recommended because it is the most accurate.}
 }
 \value{
-A non-negative integer
+A data frame with categorical variables set by the col argument and their relative cover.
 }
 \description{
 \code{relative_cover()} calculates the total cover per group of interest (species,
-taxonomic family, or physiognomic group) divided by the total cover for all
+taxonomic family, or physiognomic group) multiplied by 100 and divided by the total cover for all
 observations.
 }
 \examples{
@@ -59,5 +47,5 @@ cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
 relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
-physiog = "tree")
+col = "species")
 }

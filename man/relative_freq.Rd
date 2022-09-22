@@ -8,10 +8,7 @@ relative_freq(
   x,
   key = "scientific_name",
   db,
-  native = FALSE,
-  species = NULL,
-  family = NULL,
-  physiog = NULL
+  col = c("species", "family", "physiog")
 )
 }
 \arguments{
@@ -27,24 +24,15 @@ values for key.}
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
 
-\item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-native species.}
-
-\item{species}{Optional. A character string equal to the Latin name of a species
-to calculate relative frequency of that species.}
-
-\item{family}{Optional. A character string equal to a taxonomic family to
-calculate the relative frequency of that family.}
-
-\item{physiog}{Optional. A character string equal to a physiognomic state (i.e.
-tree, shrub) to calculate the relative frequency of that state.}
+\item{col}{A character string representing the categorical variable to calculate
+the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).}
 }
 \value{
-A non-negative integer
+A data frame with categorical variables set by the col argument and their relative frequency.
 }
 \description{
-\code{relative_freq()} calculates the frequency of a species, taxonomic family,
-or physiognomic group, divided by the frequency of all observations.
+\code{relative_freq()} calculates the frequency of one species, taxonomic family,
+or physiognomic group multiplied by 100, divided by the frequency of all observations.
 }
 \examples{
 transect <- data.frame(
@@ -52,5 +40,5 @@ acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE
 cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, physiog = "tree")
+relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, col = "physiog")
 }
