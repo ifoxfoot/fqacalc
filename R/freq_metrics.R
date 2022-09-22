@@ -29,7 +29,7 @@
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, col = "physiog")
+#' relative_freq(transect, key = "acronym", db = "michigan_2014", col = "physiog")
 
 relative_freq <- function(x, key = "scientific_name", db,
                           col = c("species", "family", "physiog")) {
@@ -89,8 +89,8 @@ relative_freq <- function(x, key = "scientific_name", db,
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
-#' col = "species")
+#' relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species")
+#'
 
 relative_cover <- function(x, key = "scientific_name", db,
                            col = c("species", "family", "physiog"),
@@ -194,8 +194,6 @@ relative_importance <- function(x, key = "scientific_name", db,
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
-#' @param col A character string representing the categorical variable to calculate
-#' the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
 #' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is

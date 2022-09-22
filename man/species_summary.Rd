@@ -23,9 +23,6 @@ values for key.}
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
 recommended because it is the most accurate.}
-
-\item{col}{A character string representing the categorical variable to calculate
-the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).}
 }
 \value{
 A data frame where each row is a species and each column is information about that species

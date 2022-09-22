@@ -45,5 +45,5 @@ divided by the sum of cover values for all species. The main difference between
 plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 cover = c(50, 4, 20, 30))
 
-plot_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
+plot_mean_c(x = plot, key = "acronym", db = "michigan_2014", native = FALSE)
 }

@@ -32,7 +32,7 @@
 #' plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 #' cover = c(50, 4, 20, 30))
 #'
-#' plot_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
+#' plot_mean_c(x = plot, key = "acronym", db = "michigan_2014", native = FALSE)
 
 plot_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
                            cover_metric = "percent_cover") {
@@ -236,4 +236,17 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
 
 }
 
+#-------------------------------------------------------------------------------
 
+# plot_summary <- function(x, key = "scientific_name", db, plot_id){
+#
+#  plot_sum <- x %>%
+#    dplyr::group_by(!!as.name(plot_id)) %>%
+#    dplyr::summarise(species_richness = species_richness(key, db, native = FALSE),
+#                     native_richness = species_richness(key, db, native = TRUE),
+#                     total_mean_c = mean_c(key = key, db = db, native = FALSE),
+#                     native_mean_c = mean_c(x = ., key = key, db = db, native = TRUE)) %>%
+#    as.data.frame()
+#
+#  return(plot_sum)
+# }
