@@ -1,13 +1,13 @@
 
-#this file contains fqi cover-weighted metrics
+#this file contains fqi cover-weighted metrics (quadrat_mean_c(), transect_mean_c(), cover_fqi(), all_cover_metrics())
 
 #-------------------------------------------------------------------------------
 
-#' Calculate Quadrat-Level Cover-Weighted Mean C
+#' Calculate Plot-Level Cover-Weighted Mean C
 #'
-#' `quadrat_mean_c` calculates the sum of cover times the C value per each species,
+#' `plot_mean_c` calculates the sum of cover times the C value per each species,
 #' divided by the sum of cover values for all species. The main difference between
-#' `transect_mean_c` and `quadrat_mean_c` is that `transect_mean_c` accepts duplicate entries.
+#' `transect_mean_c` and `plot_mean_c` is that `transect_mean_c` accepts duplicate entries.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym` as well
@@ -29,12 +29,12 @@
 #' @export
 #'
 #' @examples
-#' quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+#' plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 #' cover = c(50, 4, 20, 30))
 #'
-#' quadrat_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
+#' plot_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE)
 
-quadrat_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
+plot_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
                            cover_metric = "percent_cover") {
 
   cover <- NULL
@@ -56,7 +56,7 @@ quadrat_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 #'
 #' `transect_mean_c` calculates the sum of species' mean cover times their C score,
 #' divided by the sum of mean cover values for all species. The main difference between
-#' `transect_mean_c` and `quadrat_mean_c` is that `transect_mean_c` accepts duplicate entries.
+#' `transect_mean_c` and `plot_mean_c` is that `transect_mean_c` accepts duplicate entries.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym` as well
@@ -219,7 +219,7 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
               suppressMessages(mean_c(x, key, db, native = F)),
               suppressMessages(mean_c(x, key, db, native = T)),
               transect_mean_c(x, key, db, native = F, cover_metric),
-              suppressMessages(transect_mean_c(x, key, db, native = T, cover_metric)),
+              suppressMessages(plot_mean_c(x, key, db, native = T, cover_metric)),
               suppressMessages(FQI(x, key, db, native = F)),
               suppressMessages(FQI(x, key, db, native = T)),
               suppressMessages(cover_FQI(x, key, db, native = F, cover_metric)),
@@ -236,224 +236,4 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
 
 }
 
-#-------------------------------------------------------------------------------
 
-#' Calculate Relative Frequency
-#'
-#' `relative_freq()` calculates the frequency of a species, taxonomic family,
-#' or physiognomic group, divided by the frequency of all observations.
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param species Optional. A character string equal to the Latin name of a species
-#' to calculate relative frequency of that species.
-#' @param family Optional. A character string equal to a taxonomic family to
-#' calculate the relative frequency of that family.
-#' @param physiog Optional. A character string equal to a physiognomic state (i.e.
-#' tree, shrub) to calculate the relative frequency of that state.
-#'
-#' @return A non-negative integer
-#' @export
-#'
-#' @examples
-#' transect <- data.frame(
-#' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
-#' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
-#'
-#' relative_freq(transect, key = "acronym", db = "michigan_2014", native = FALSE, physiog = "tree")
-
-relative_freq <- function(x, key = "scientific_name", db, native = FALSE,
-                          species = NULL, family = NULL, physiog = NULL) {
-
-  #store optional argument
-  optional_arg <- c(species, family, physiog)
-
-  #no more than one optional argument can be set
-  if( length(optional_arg) > 1)
-    stop("Only one optional paremeter ('species', 'family', 'physiog') can be set")
-
-  #at least one optional argument must be set
-  if( length(optional_arg) == 0)
-    stop("One optional paremeter ('species', 'family', 'physiog') must be set")
-
-  #which argument is being called?
-  name <- if(!is.null(species))  {"scientific_name"}
-          else if(!is.null(family)) {"family"} else {"physiognomy"}
-
-  #join entries to database in order to get info on family, physiognomy
-  entries <- accepted_entries(x, key, db, native, allow_duplicates = TRUE)
-
-  #calculate relative frequency--fre/num observations, select right col
-  df <- 100*(table(entries[name])/nrow(entries))[[optional_arg]]
-
-  #return result
-  return(df)
-
-}
-
-#-------------------------------------------------------------------------------
-
-
-#' Calculate Relative Cover
-#'
-#' `relative_cover()` calculates the total cover per group of interest (species,
-#' taxonomic family, or physiognomic group) divided by the total cover for all
-#' observations.
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`, as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param species Optional. A character string equal to the Latin name of a species
-#' to calculate relative frequency of that species.
-#' @param family Optional. A character string equal to a taxonomic family to
-#' calculate the relative frequency of that family.
-#' @param physiog Optional. A character string equal to a physiognomic state (i.e.
-#' tree, shrub) to calculate the relative frequency of that family.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#'
-#' @return A non-negative integer
-#' @export
-#'
-#' @examples
-#' transect <- data.frame(
-#' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
-#' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
-#'
-#' relative_cover(transect, key = "acronym", db = "michigan_2014", native = FALSE,
-#' physiog = "tree")
-
-relative_cover <- function(x, key = "scientific_name", db, native = FALSE,
-                           species = NULL, family = NULL, physiog = NULL,
-                           cover_metric = "percent_cover"){
-
-  #store optional argument
-  optional_arg <- c(species, family, physiog)
-
-  #declaring cover is null
-  cover <- NULL
-
-  #no more than one optional argument can be set
-  if( length(optional_arg) > 1)
-    stop("Only one optional paremeter ('species', 'family', 'physiog') can be set")
-
-  #at least one optional argument must be set
-  if( length(optional_arg) == 0)
-    stop("One optional paremeter ('species', 'family', 'physiog') must be set")
-
-  #which argument is being called?
-  name <- if(!is.null(species))  {as.name("scientific_name")}
-  else if(!is.null(family)) {as.name("family")} else {as.name("physiognomy")}
-
-  #bind to regional fqa list to get info about taxonomy, physiognomy
-  entries <- accepted_entries(x, key, db, native,
-                              allow_duplicates = T,
-                              cover_weighted = T,
-                              cover_metric) %>%
-    dplyr::group_by(!!name) %>%
-    #caclulate cover per group
-    dplyr::summarise(sum = sum(cover)) %>%
-    as.data.frame()
-
-  #filter for when name is equal to argument
-  filtered <- entries %>% dplyr::filter(!!name == optional_arg)
-
-  #calculate cover per that group divided by total cover
-  r_cover <- 100*filtered$sum /sum(entries$sum)
-
-  #return the result
-  return(r_cover)
-
-}
-
-#-------------------------------------------------------------------------------
-
-#' Calculate Relative Importance
-#'
-#' `relative_importance()` calculates the average of relative frequency and relative cover.
-#'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param species Optional. A character string equal to the Latin name of a species
-#' to calculate relative frequency of that species.
-#' @param family Optional. A character string equal to a taxonomic family to
-#' calculate the relative frequency of that family.
-#' @param physiog Optional. A character string equal to a physiognomic state (i.e.
-#' tree, shrub) to calculate the relative frequency of that state.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#'
-#' @return A non-negative integer
-#' @export
-#'
-#' @examples
-#' transect <- data.frame(
-#' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
-#' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
-#'
-#' relative_importance(transect, key = "acronym", db = "michigan_2014", native = FALSE,
-#' physiog = "tree")
-
-relative_importance <- function(x, key = "scientific_name", db, native = FALSE,
-                                species = NULL, family = NULL, physiog = NULL,
-                                cover_metric = "percent_cover"){
-
-  #get mean of relative freq and relative cover
-  avg = (relative_freq(x, key, db, native,
-                      species, family, physiog) +
-           relative_cover(x, key, db, native,
-                        species, family, physiog, cover_metric))/2
-
-  #return value
-  return(avg)
-
-}
-
-#-------------------------------------------------------------------------------
-#
-# species_summary <- function(x, key = "acronym", db,
-#                             cover_metric = "percent_cover"){
-#
-#   accepted <- accepted_entries(x, key, db, native = F,
-#                                cover_weighted = T,
-#                                cover_metric,
-#                                allow_duplicates = T)
-#
-#   for(i in unique(accepted$scientific_name)) {
-#     name(i)
-#   }
-#
-#   return(df)
-# }

@@ -181,7 +181,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(x[,key])) > 0 && !allow_duplicates)
-    message("Duplicate entries detected. Duplicates will only be counted once.")
+    message("Duplicate entries detected. Duplicates will only be counted once. If cover_weighted = TRUE, cover values of duplicate species will be added together")
 
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
@@ -248,10 +248,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
                cover_metric, "system."))
 
   #if allow duplicates is false, do not allow duplicates
-  if( !allow_duplicates )
-    { cols <- cols %>%
-      dplyr::distinct()
-  }
+  if( !allow_duplicates ) {
+    if ( !cover_weighted ){cols <- cols %>% dplyr::distinct()}
+    #if allow dups is false but cover weight is true, add cover values for like species together
+    else(cols <- cols %>%
+           dplyr::group_by(!!as.name(key)) %>%
+           dplyr::summarise(cover = sum(cover)))
+    }
 
   #join scores from FQAI to user's assessment
   entries_joined <-
