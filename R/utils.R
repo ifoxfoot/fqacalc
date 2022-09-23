@@ -249,7 +249,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #if allow duplicates is false, do not allow duplicates
   if( !allow_duplicates ) {
-    if ( !cover_weighted ){cols <- cols %>% dplyr::distinct()}
+    if ( !cover_weighted ){ cols <- cols %>% dplyr::distinct() }
     #if allow dups is false but cover weight is true, add cover values for like species together
     else(cols <- cols %>%
            dplyr::group_by(!!as.name(key)) %>%

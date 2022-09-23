@@ -238,15 +238,70 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
 
 #-------------------------------------------------------------------------------
 
-# plot_summary <- function(x, key = "scientific_name", db, plot_id){
-#
-#  plot_sum <- x %>%
-#    dplyr::group_by(!!as.name(plot_id)) %>%
-#    dplyr::summarise(species_richness = species_richness(key, db, native = FALSE),
-#                     native_richness = species_richness(key, db, native = TRUE),
-#                     total_mean_c = mean_c(key = key, db = db, native = FALSE),
-#                     native_mean_c = mean_c(x = ., key = key, db = db, native = TRUE)) %>%
-#    as.data.frame()
-#
-#  return(plot_sum)
-# }
+#' Calculate Plot-level Summary Statistics
+#'
+#' Input a transect with one or more plots (designated with a unique plot ID) as a
+#' single data frame and  the output will be a data frame with plot-level species richness,
+#' native species richness, mean c, native mean c, FQI, native FQI, adjusted FQI,
+#' cover-weighted FQI, and native cover-weighted FQI.
+#'
+#' @param x A data frame containing a list of plant species. This data frame
+#' must have one of the following columns: `scientific_name` or `acronym` as well
+#' as a column named `cover` containing percent cover values per each observation.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
+#' @param plot_id A character string representing the column in `x` that contains plot
+#' identification values.
+#'
+#' @return A data frame where each row is a plot and columns contain FQI and
+#' cover-weighted FQI statistics.
+#' @export
+#'
+#' @examples
+#' transect <- transect <- data.frame(
+#' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(50, 4, 20, 30, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#'
+#' species_summary(transect, key = "acronym", db = "michigan_2014",
+#' cover_metric = "percent_cover, plot_id = "quad_id)
+
+
+plot_summary <- function(x, key = "scientific_name", db,
+                         cover_metric = "percent_cover", plot_id){
+
+ plot_sum <- x %>%
+   dplyr::group_by(!!as.name(plot_id)) %>%
+   dplyr::group_modify(~ .x %>%
+                         summarise(species_richness
+                                   = species_richness(.x, key, db, native = FALSE),
+                                   native_species_richness
+                                   = species_richness(.x, key, db, native = TRUE),
+                                   mean_c
+                                   = mean_c(.x, key, db, native = FALSE),
+                                   native_mean_c
+                                   = mean_c(.x, key, db, native = TRUE),
+                                   FQI
+                                   = FQI(.x, key, db, native = FALSE),
+                                   native_FQI
+                                   = FQI(.x, key, db, native = TRUE),
+                                   cover_FQI
+                                   = cover_FQI(.x, key, db, native = FALSE, cover_metric),
+                                   native_cover_FQI
+                                   = cover_FQI(.x, key, db, native = TRUE, cover_metric),
+                                   adjusted_FQI
+                                   = adjusted_FQI(.x, key, db)
+                                   ))
+
+ df <- as.data.frame(plot_sum)
+
+ return(df)
+}
