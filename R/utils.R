@@ -107,6 +107,7 @@ view_db <- function(db) {
 #' These columns include `family`, `native`, `c` (which represents the C score),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 #' plant_list <- crooked_island
@@ -117,13 +118,6 @@ accepted_entries <- function(x, key = "scientific_name", db,
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
                              allow_duplicates = FALSE) {
-
-  #declaring cover is null
-  if(cover_weighted)
-    {cover <- NULL}
-
-  #declaring p as null
-  p <- NULL
 
   #error if x argument is missing
   if( missing(x) )
@@ -186,7 +180,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
     {cols <- x %>%
-      dplyr::select({{key}}, cover) %>%
+      dplyr::select({{key}}, .data$cover) %>%
       dplyr::mutate(cover = as.character(x$cover))
 
     #if cover method is percent, just convert to numeric
@@ -204,38 +198,38 @@ accepted_entries <- function(x, key = "scientific_name", db,
     #if cover method is carolina, transform to 10 classes
     if(cover_metric == "carolina_veg_survey") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
-                                               cover == "2" ~ 0.5,
-                                               cover == "3" ~ 1.5,
-                                               cover == "4" ~ 3.5,
-                                               cover == "5" ~ 7.5,
-                                               cover == "6" ~ 17.5,
-                                               cover == "7" ~ 37.5,
-                                               cover == "8" ~ 62.5,
-                                               cover == "9" ~ 85,
-                                               cover == "10" ~ 97.5))
+        dplyr::mutate(cover = dplyr::case_when(.data$cover == "1" ~ 0.1,
+                                               .data$cover == "2" ~ 0.5,
+                                               .data$cover == "3" ~ 1.5,
+                                               .data$cover == "4" ~ 3.5,
+                                               .data$cover == "5" ~ 7.5,
+                                               .data$cover == "6" ~ 17.5,
+                                               .data$cover == "7" ~ 37.5,
+                                               .data$cover == "8" ~ 62.5,
+                                               .data$cover == "9" ~ 85,
+                                               .data$cover == "10" ~ 97.5))
     }
 
     #if cover method is daubenmire, transform to six classes
     if(cover_metric == "daubenmire") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
-                                               cover == "2" ~ 15,
-                                               cover == "3" ~ 37.5,
-                                               cover == "4" ~ 62.5,
-                                               cover == "5" ~ 85,
-                                               cover == "6" ~ 97.5))
+        dplyr::mutate(cover = dplyr::case_when(.data$cover == "1" ~ 2.5,
+                                               .data$cover == "2" ~ 15,
+                                               .data$cover == "3" ~ 37.5,
+                                               .data$cover == "4" ~ 62.5,
+                                               .data$cover == "5" ~ 85,
+                                               .data$cover == "6" ~ 97.5))
     }
 
     #if cover method is braun-blanquet, transform to 5 classes
     if(cover_metric == "braun-blanquet") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
-                                               cover == "1" ~ 2.5,
-                                               cover == "2" ~ 15,
-                                               cover == "3" ~ 37.5,
-                                               cover == "4" ~ 62.5,
-                                               cover == "5" ~ 87.5))
+        dplyr::mutate(cover = dplyr::case_when(.data$cover == "+" ~ 0.1,
+                                               .data$cover == "1" ~ 2.5,
+                                               .data$cover == "2" ~ 15,
+                                               .data$cover == "3" ~ 37.5,
+                                               .data$cover == "4" ~ 62.5,
+                                               .data$cover == "5" ~ 87.5))
     }
 
 
@@ -253,7 +247,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
     #if allow dups is false but cover weight is true, add cover values for like species together
     else(cols <- cols %>%
            dplyr::group_by(!!as.name(key)) %>%
-           dplyr::summarise(cover = sum(cover)))
+           dplyr::summarise(cover = sum(.data$cover)))
     }
 
   #join scores from FQAI to user's assessment
@@ -289,7 +283,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #discard entries that have no match, ID column
   entries_matched <- entries_joined %>%
     dplyr::filter(!is.na(entries_joined$c)) %>%
-    dplyr::select(-p)
+    dplyr::select(-.data$p)
 
   return(entries_matched)
 

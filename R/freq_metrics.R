@@ -47,9 +47,9 @@ relative_freq <- function(x, key = "scientific_name", db,
   entries <- accepted_entries(x, key, db, native = FALSE, allow_duplicates = TRUE)
 
   #calculate relative frequency--fre/num observations, select right col
-  df <- data.frame(100*(table(entries[name])/nrow(entries))) %>%
-    dplyr::rename({{name}} := Var1) %>%
-    dplyr::rename(rel_freq = Freq)
+  df <- data.frame(100*(table(entries[name])/nrow(entries)))
+
+  colnames(df) <- c({{name}}, "rel_freq")
 
   #return result
   return(df)
@@ -82,6 +82,7 @@ relative_freq <- function(x, key = "scientific_name", db,
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative cover.
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 #' transect <- data.frame(
@@ -96,8 +97,8 @@ relative_cover <- function(x, key = "scientific_name", db,
                            col = c("species", "family", "physiog"),
                            cover_metric = "percent_cover"){
 
-  #declaring cover is null
-  cover <- NULL
+  #declaring rel_cov is null
+  rel_cov <- NULL
 
   #col argument must be right
   if( !col %in% c("species", "family", "physiog"))
@@ -114,7 +115,7 @@ relative_cover <- function(x, key = "scientific_name", db,
                               cover_metric) %>%
     dplyr::group_by(!!as.name(name)) %>%
     #caclulate cover per group
-    dplyr::summarise(sum = sum(cover)) %>%
+    dplyr::summarise(sum = sum(.data$cover)) %>%
     as.data.frame() %>%
     dplyr::mutate(rel_cov = 100*sum/sum(sum)) %>%
     dplyr::select(!!as.name(name), rel_cov)
@@ -148,6 +149,7 @@ relative_cover <- function(x, key = "scientific_name", db,
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative importance.
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 #' transect <- data.frame(
@@ -161,6 +163,9 @@ relative_importance <- function(x, key = "scientific_name", db,
                                 col = c("species", "family", "physiog"),
                                 cover_metric = "percent_cover"){
 
+  #declaring var names as null
+  rel_import <- NULL
+
   #which column is being called?
   name <- if(col == "species")  {"scientific_name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
@@ -169,7 +174,7 @@ relative_importance <- function(x, key = "scientific_name", db,
   avg = merge(
     relative_freq(x, key, db, col),
     relative_cover(x, key, db, col, cover_metric)) %>%
-    dplyr::mutate(rel_import = (rel_freq + rel_cov)/2) %>%
+    dplyr::mutate(rel_import = (.data$rel_freq + .data$rel_cov)/2) %>%
     dplyr::select(!!as.name(name), rel_import)
 
   #return value
@@ -202,6 +207,7 @@ relative_importance <- function(x, key = "scientific_name", db,
 #' @return A data frame where each row is a species and each column is information about that species
 #' based on the input data frame.
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 #' transect <- data.frame(
@@ -221,14 +227,14 @@ species_summary <- function(x, key = "scientific_name", db,
                                allow_duplicates = T)
 
   c_score <- accepted %>%
-    dplyr::select(scientific_name, acronym, native, c, w) %>%
+    dplyr::select(.data$scientific_name, .data$acronym, .data$native, .data$c, .data$w) %>%
     dplyr::distinct()
 
   #getting freq and coverage
   group <- accepted %>%
     dplyr::group_by(!!as.name(key)) %>%
     dplyr::summarise(frequency = dplyr::n(),
-                     coverage = sum(cover))
+                     coverage = sum(.data$cover))
 
   #relative frequency
   rel_freq <- relative_freq(x, key, db, col = "species")

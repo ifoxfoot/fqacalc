@@ -27,6 +27,7 @@
 #'
 #' @return A non-negative integer
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 #' plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
@@ -37,7 +38,6 @@
 plot_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
                            cover_metric = "percent_cover") {
 
-  cover <- NULL
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native, cover_weighted = T, cover_metric)
@@ -76,6 +76,7 @@ plot_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 #'
 #' @return A non-negative integer
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 #' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
@@ -88,7 +89,6 @@ plot_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 transect_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
                            cover_metric = "percent_cover") {
 
-  cover <- NULL
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
@@ -96,7 +96,7 @@ transect_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
                               allow_duplicates = T,
                               cover_metric) %>%
     dplyr::group_by(!!as.name(key)) %>%
-    dplyr::mutate(mean = mean(cover)) %>%
+    dplyr::mutate(mean = mean(.data$cover)) %>%
     dplyr::distinct(!!as.name(key), mean, c)
 
   #calculate mean c score
@@ -143,8 +143,6 @@ transect_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
 
 cover_FQI <- function(x, key = "scientific_name", db, native = FALSE, cover_metric = "percent_cover") {
-
-  cover <- NULL
 
   fqi <- transect_mean_c(x, key, db, native, cover_metric) *
     suppressMessages(sqrt(species_richness(x, key, db, native)))
@@ -271,8 +269,8 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' species_summary(transect, key = "acronym", db = "michigan_2014",
-#' cover_metric = "percent_cover, plot_id = "quad_id)
+#' plot_summary(transect, key = "acronym", db = "michigan_2014",
+#' cover_metric = "percent_cover", plot_id = "quad_id")
 
 
 plot_summary <- function(x, key = "scientific_name", db,
@@ -281,7 +279,7 @@ plot_summary <- function(x, key = "scientific_name", db,
  plot_sum <- x %>%
    dplyr::group_by(!!as.name(plot_id)) %>%
    dplyr::group_modify(~ .x %>%
-                         summarise(species_richness
+                         dplyr::summarise(species_richness
                                    = species_richness(.x, key, db, native = FALSE),
                                    native_species_richness
                                    = species_richness(.x, key, db, native = TRUE),

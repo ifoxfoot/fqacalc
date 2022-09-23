@@ -49,6 +49,6 @@ acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE
 cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-species_summary(transect, key = "acronym", db = "michigan_2014",
-cover_metric = "percent_cover, plot_id = "quad_id)
+plot_summary(transect, key = "acronym", db = "michigan_2014",
+cover_metric = "percent_cover", plot_id = "quad_id")
 }
