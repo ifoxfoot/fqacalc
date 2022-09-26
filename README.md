@@ -9,8 +9,8 @@
 <!-- badges: end -->
 
 This package provides functions for calculating floristic quality
-metrics based on the 48 regional FQA databases that have been approved
-for use by the US Army Core of Engineers.
+metrics based on 51 regional FQA databases that have been approved for
+use by the US Army Core of Engineers.
 
 ## Installation
 
@@ -29,7 +29,7 @@ library(tidyverse)
 #> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
 #> ✔ ggplot2 3.3.5      ✔ purrr   0.3.4 
 #> ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-#> ✔ tidyr   1.2.0      ✔ stringr 1.4.1 
+#> ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
 #> ✔ readr   2.1.2      ✔ forcats 0.5.1 
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
@@ -38,7 +38,7 @@ library(tidyverse)
 
 ## Package Data
 
-`fqacalc` contains all 48 regional FQA databases that have been either
+`fqacalc` contains all 51 regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army Core
 of Engineers. By referencing these databases, the package knows what C
 score to give each plant that the user inputs. Users can see a list of
@@ -46,7 +46,7 @@ regional databases using the `db_names()` function, and specific FQA
 databases can be accessed using the `view_db()` function.
 
 ``` r
-#view a list of all 48 available databases
+#view a list of all 51 available databases
 head(db_names())
 #>                 name                     status
 #> 1   connecticut_2013 Approved with reservations
@@ -75,7 +75,7 @@ head(connecticut)
 ```
 
 `fqacalc` also comes with a real site assessment from Crooked Island,
-Michigan, downloaded from [Universal FQA
+Michigan, downloaded from the [Universal FQA
 Calculator](https://universalfqa.org/).
 
 The data is called `crooked_island` and is used to demonstrate how the
@@ -186,8 +186,8 @@ duplicate species, unmatched species, and species without a C score.
 
 #### Function Arguments
 
-All of the metric functions have the same arguments. (two don’t have the
-native argument)
+All of the metric functions have the same arguments. (and two don’t have
+the native argument)
 
 -   **x**: A data frame containing a list of plant species. This data
     frame *must* have one of the following columns: `scientific_name` or
@@ -195,7 +195,7 @@ native argument)
 
 -   **key**: A character string representing the column that will be
     used to join the input `x` with the regional FQA database. If a
-    value is not specified the default is `"acronym"`.
+    value is not specified the default is `"scientific_name"`.
     `"scientific_name"` and `"acronym"` are the only acceptable values
     for key.
 
@@ -254,18 +254,32 @@ Also, all the functions are documented with help pages.
 ?all_metrics
 ```
 
+## Wetness metric
+
+`fqacalc` has one wetness metric, which calculates the mean wetness
+coefficient per site. Wetness coefficient is based off of the USFWS
+Wetland Indicator Status. Negative wetness coefficients indicate a
+stronger affinity for wetlands, while postive wetland coefficients
+indicate an affinity for uplands.
+
+``` r
+#mean wetness
+mean_w(crooked_island, key = "acronym", db = "michigan_2014")
+#> [1] 0.7142857
+```
+
 ## Cover-Weighted Functions
 
 Cover-Weighted Functions calculate the same metrics but they are
 weighted by how abundant each species is. Therefore, the input data
-frame must have a column named `cover` containing cover values. Cover
-values can be continuous (i.e. percent cover) or classed (i.e. using the
-braun-blanquet method).
+frame must also have a column named `cover` containing cover values.
+Cover values can be continuous (i.e. percent cover) or classed
+(i.e. using the braun-blanquet method).
 
 Cover-Weighted Functions come in two flavors: transect functions and
-quadrat functions. quadrat functions don’t allow duplicate species
+plot functions. Plot functions don’t allow duplicate species
 observations but transect functions (which are designed to calculate
-metrics for a series of quadrats along a transect) do allow species
+metrics for a series of plots along a transect) do allow species
 duplication.
 
 #### Function Arguments
@@ -274,16 +288,15 @@ Cover-Weighted Functions have one additional argument:
 
 -   **cover_metric** A character string representing the cover method
     used. Acceptable cover methods are: `"percent_cover"`,
-    `"carolina_veg_survey"`, `"braun-blanquet"`,
-    `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`,
-    `"doubinmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the
-    default and is recommended because it is the most accurate.
+    `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
+    `"usfs_ecodata"`. `"percent_cover"` is the default and is
+    recommended because it is the most accurate.
 
 #### Functions
 
 ``` r
 #first I'll make a hypothetical plot with cover values
-quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       scientific_name = c("Abelmoschus esculentus", 
                       "Abies balsamea", "Ammophila breviligulata", 
                       "Anticlea elegans; zigadenus glaucus"),
@@ -296,7 +309,7 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
 #quadrat mean c (no duplicates allowed!)
-quadrat_mean_c(quadrat, key = "acronym", db = "michigan_2014", 
+plot_mean_c(plot, key = "acronym", db = "michigan_2014", 
                native = F, cover_metric = "percent_cover")
 #> [1] 4.923077
 
@@ -310,8 +323,6 @@ cover_FQI(transect, key = "acronym", db = "michigan_2014", native = F,
           cover_metric = "percent_cover")
 #> [1] 11.89212
 
-#note to self: should we be able to control duplicates in this function??
-
 #cover summary function
 all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
 #>                                     metrics    values
@@ -324,7 +335,7 @@ all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
 #> 7                                    Mean C  5.750000
 #> 8                             Native Mean C  7.666667
 #> 9                     Cover-Weighted Mean C  5.946058
-#> 10             Cover-Weighted Native Mean C  9.490066
+#> 10             Cover-Weighted Native Mean C  9.363636
 #> 11                                Total FQI 11.500000
 #> 12                               Native FQI 13.279056
 #> 13                       Cover-Weighted FQI 11.892116
@@ -332,42 +343,96 @@ all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
 #> 15                             Adjusted FQI 66.395281
 ```
 
+There is also a plot summary function that summarizes plots along a
+transect. Data is input as a single data frame containing species per
+plot. This data frame must also have a column representing the plot the
+species was observed in. This column is then passed to an additional
+argument
+
+-   **plot_id** A character string representing the name of the column
+    in `x` that indicates which plot the species was observed in.
+
+``` r
+#print transect to view structure of data
+transect
+#>   acronym cover quad_id
+#> 1  ABEESC    50       1
+#> 2  ABIBAL     4       1
+#> 3  AMMBRE    20       1
+#> 4  ANTELE    30       1
+#> 5  ABEESC    40       2
+#> 6  ABIBAL     7       2
+#> 7  AMMBRE    60       2
+
+#plot summary of a transect
+plot_summary(x = transect, key = "acronym", db = "michigan_2014", 
+             cover_metric = "percent_cover", 
+             plot_id = "quad_id")
+#>   quad_id species_richness native_species_richness   mean_c native_mean_c
+#> 1       1                4                       3 5.750000      7.666667
+#> 2       2                3                       2 4.333333      6.500000
+#>         FQI native_FQI cover_FQI native_cover_FQI adjusted_FQI
+#> 1 11.500000  13.279056  9.846154         16.42241     66.39528
+#> 2  7.505553   9.192388 10.052370         13.10786     53.07228
+```
+
 ## Relative Functions
 
 Relative functions calculate relative frequency, coverage, and
-importance for each category.
+importance for each category.There is also a species summary function
+that produces a summary of each species’ relative metrics in the data
+frame.
 
-Relative functions have some additional arguments which tell the
+Relative functions have one additional argument which tells the
 functions what to calculate the relative value of:
 
--   **species** Optional. A character string equal to the Latin name of
-    a species to calculate relative value of that species.
+-   **col** A character string equal to ‘species’, ‘family’, or
+    ‘physiog’.
 
--   **family** Optional. A character string equal to a taxonomic family
-    to calculate the relative value of that family.
-
--   **physiog** Optional. A character string equal to a physiognomic
-    state (i.e. tree, shrub) to calculate the relative value of that
-    state.
-
-Allthough the arguments are optional, the user has to choose at least
-one!
+Relative functions do not have a native argument.
 
 ``` r
 #say I want to calculate the relative value of a tree
 
 #relative frequency
 relative_freq(transect, key = "acronym", db = "michigan_2014", 
-              native = FALSE, physiog = "tree")
-#> [1] 28.57143
+              col = "physiog")
+#>   physiognomy rel_freq
+#> 1        forb 42.85714
+#> 2       grass 28.57143
+#> 3        tree 28.57143
 
 #relative cover
-relative_cover(transect, key = "acronym", db = "michigan_2014",
-               native = FALSE, physiog = "tree")
-#> [1] 5.21327
+relative_cover(transect, key = "acronym", db = "michigan_2014", 
+               col = "family", cover_metric = "percent_cover")
+#>          family  rel_cov
+#> 1     Malvaceae 42.65403
+#> 2 Melanthiaceae 14.21801
+#> 3      Pinaceae  5.21327
+#> 4       Poaceae 37.91469
 
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
-                    native = FALSE, physiog = "tree")
-#> [1] 16.89235
+                    col = "species", cover_metric = "percent_cover")
+#>                       scientific_name rel_import
+#> 1              ABELMOSCHUS ESCULENTUS   35.61273
+#> 2                      ABIES BALSAMEA   16.89235
+#> 3             AMMOPHILA BREVILIGULATA   33.24306
+#> 4 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS   14.25186
+
+#species summary
+species_summary(transect, key = "acronym", db = "michigan_2014", 
+                cover_metric = "percent_cover")
+#>                       scientific_name acronym native  c  w frequency coverage
+#> 1              ABELMOSCHUS ESCULENTUS  ABEESC exotic  0  5         2       90
+#> 2                      ABIES BALSAMEA  ABIBAL native  3  0         2       11
+#> 3             AMMOPHILA BREVILIGULATA  AMMBRE native 10  5         2       80
+#> 4 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS  ANTELE native 10 -3         1       30
+#>   rel_freq  rel_cov rel_import
+#> 1 28.57143 42.65403   35.61273
+#> 2 28.57143  5.21327   16.89235
+#> 3 28.57143 37.91469   33.24306
+#> 4 14.28571 14.21801   14.25186
 ```
+
+## The End

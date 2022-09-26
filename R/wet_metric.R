@@ -3,8 +3,8 @@
 #'
 #'`mean_w` calculates the mean wetness coefficient for all species in
 #' the site assessment. The wetness coefficient is based on USFWS Wetland Indicator
-#' Status. Lower wetness coefficients indicate a stronger affinity for wetlands, while
-#' higher wetland coefficients indicate an affinity for upland.
+#' Status. Negative wetness coefficients indicate a stronger affinity for wetlands, while
+#' positive wetland coefficients indicate an affinity for upland.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.

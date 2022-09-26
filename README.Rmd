@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package provides functions for calculating floristic quality metrics based on the 48 regional FQA databases that have been approved for use by the US Army Core of Engineers. 
+This package provides functions for calculating floristic quality metrics based on 51 regional FQA databases that have been approved for use by the US Army Core of Engineers. 
 
 ## Installation
 
@@ -39,10 +39,10 @@ library(tidyverse)
 
 ## Package Data
 
-`fqacalc` contains all 48 regional FQA databases that have been either fully approved for use or approved with reservations by the US Army Core of Engineers. By referencing these databases, the package knows what C score to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
+`fqacalc` contains all 51 regional FQA databases that have been either fully approved for use or approved with reservations by the US Army Core of Engineers. By referencing these databases, the package knows what C score to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
 
 ```{r}
-#view a list of all 48 available databases
+#view a list of all 51 available databases
 head(db_names())
 
 #store the Connecticut database as an object
@@ -52,7 +52,7 @@ connecticut <- view_db("connecticut_2013")
 head(connecticut)
 ```
 
-`fqacalc` also comes with a real site assessment from Crooked Island, Michigan, downloaded from [Universal FQA Calculator](https://universalfqa.org/). 
+`fqacalc` also comes with a real site assessment from Crooked Island, Michigan, downloaded from the [Universal FQA Calculator](https://universalfqa.org/). 
 
 The data is called `crooked_island` and is used to demonstrate how the package works.
 
@@ -117,11 +117,11 @@ As you can see, two of these species have no C scores.
 
 #### Function Arguments
 
-All of the metric functions have the same arguments. (two don't have the native argument)
+All of the metric functions have the same arguments. (and two don't have the native argument)
 
 * **x**: A data frame containing a list of plant species. This data frame *must* have one of the following columns: `scientific_name` or `acronym`. This is something I hope to improve upon.
 
-* **key**: A character string representing the column that will be used to join the input `x` with the regional FQA database. If a value is not specified the default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable values for key.
+* **key**: A character string representing the column that will be used to join the input `x` with the regional FQA database. If a value is not specified the default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable values for key.
 
 * **db**: A character string representing the regional FQA database to use. See `db_names()` for a list of potential values.
 
@@ -158,23 +158,33 @@ Also, all the functions are documented with help pages.
 ?all_metrics
 ```
 
+## Wetness metric
+
+`fqacalc` has one wetness metric, which calculates the mean wetness coefficient per site. Wetness coefficient is based off of the USFWS Wetland Indicator Status. Negative wetness coefficients indicate a stronger affinity for wetlands, while postive wetland coefficients indicate an affinity for uplands. 
+
+```{r}
+#mean wetness
+mean_w(crooked_island, key = "acronym", db = "michigan_2014")
+```
+
+
 ## Cover-Weighted Functions
 
-Cover-Weighted Functions calculate the same metrics but they are weighted by how abundant each species is. Therefore, the input data frame must have a column named `cover` containing cover values. Cover values can be continuous (i.e. percent cover) or classed (i.e. using the braun-blanquet method).
+Cover-Weighted Functions calculate the same metrics but they are weighted by how abundant each species is. Therefore, the input data frame must also have a column named `cover` containing cover values. Cover values can be continuous (i.e. percent cover) or classed (i.e. using the braun-blanquet method).
 
-Cover-Weighted Functions come in two flavors: transect functions and quadrat functions. quadrat functions don't allow duplicate species observations but transect functions (which are designed to calculate metrics for a series of quadrats along a transect) do allow species duplication. 
+Cover-Weighted Functions come in two flavors: transect functions and plot functions. Plot functions don't allow duplicate species observations but transect functions (which are designed to calculate metrics for a series of plots along a transect) do allow species duplication. 
 
 #### Function Arguments
 
 Cover-Weighted Functions have one additional argument: 
 
-* **cover_metric** A character string representing the cover method used. Acceptable cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`, `"modified_braun-blanquet"`, `"plots2_braun-blanquet"`, `"doubinmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because it is the most accurate.
+* **cover_metric** A character string representing the cover method used. Acceptable cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because it is the most accurate.
 
 #### Functions
 
 ```{r}
 #first I'll make a hypothetical plot with cover values
-quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       scientific_name = c("Abelmoschus esculentus", 
                       "Abies balsamea", "Ammophila breviligulata", 
                       "Anticlea elegans; zigadenus glaucus"),
@@ -187,7 +197,7 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
 #quadrat mean c (no duplicates allowed!)
-quadrat_mean_c(quadrat, key = "acronym", db = "michigan_2014", 
+plot_mean_c(plot, key = "acronym", db = "michigan_2014", 
                native = F, cover_metric = "percent_cover")
 
 #transect mean c (duplicates allowed)
@@ -198,39 +208,53 @@ transect_mean_c(transect, key = "acronym", db = "michigan_2014",
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = F, 
           cover_metric = "percent_cover")
 
-#note to self: should we be able to control duplicates in this function??
-
 #cover summary function
 all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
 ```
 
+There is also a plot summary function that summarizes plots along a transect. Data is input as a single data frame containing species per plot. This data frame must also have a column representing the plot the species was observed in. This column is then passed to an additional argument
+
+* **plot_id** A character string representing the name of the column in `x` that indicates which plot the species was observed in.
+
+```{r}
+#print transect to view structure of data
+transect
+
+#plot summary of a transect
+plot_summary(x = transect, key = "acronym", db = "michigan_2014", 
+             cover_metric = "percent_cover", 
+             plot_id = "quad_id")
+```
+
+
 ## Relative Functions
 
-Relative functions calculate relative frequency, coverage, and importance for each category.
+Relative functions calculate relative frequency, coverage, and importance for each category.There is also a species summary function that produces a summary of each species' relative metrics in the data frame.
 
-Relative functions have some additional arguments which tell the functions what to calculate the relative value of: 
+Relative functions have one additional argument which tells the functions what to calculate the relative value of: 
 
-* **species** Optional. A character string equal to the Latin name of a species
-to calculate relative value of that species.
+* **col** A character string equal to 'species', 'family', or 'physiog'. 
 
-* **family** Optional. A character string equal to a taxonomic family to calculate the relative value of that family.
-
-* **physiog** Optional. A character string equal to a physiognomic state (i.e. tree, shrub) to calculate the relative value of that state.
-
-Allthough the arguments are optional, the user has to choose at least one!
+Relative functions do not have a native argument.
 
 ```{r}
 #say I want to calculate the relative value of a tree
 
 #relative frequency
 relative_freq(transect, key = "acronym", db = "michigan_2014", 
-              native = FALSE, physiog = "tree")
+              col = "physiog")
 
 #relative cover
-relative_cover(transect, key = "acronym", db = "michigan_2014",
-               native = FALSE, physiog = "tree")
+relative_cover(transect, key = "acronym", db = "michigan_2014", 
+               col = "family", cover_metric = "percent_cover")
 
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
-                    native = FALSE, physiog = "tree")
+                    col = "species", cover_metric = "percent_cover")
+
+#species summary
+species_summary(transect, key = "acronym", db = "michigan_2014", 
+                cover_metric = "percent_cover")
 ```
+
+## The End
