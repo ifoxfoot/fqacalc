@@ -31,7 +31,7 @@ native species.}
 
 \item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
 Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter
-is used to calculate cover-weighted metrics such as quadrat mean c, transect mean c, and
+is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
 cover-weighted FQI.}
 
 \item{cover_metric}{a character string representing the cover method used. Acceptable

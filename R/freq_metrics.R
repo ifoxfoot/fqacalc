@@ -44,7 +44,9 @@ relative_freq <- function(x, key = "scientific_name", db,
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #join entries to database in order to get info on family, physiognomy
-  entries <- accepted_entries(x, key, db, native = FALSE, allow_duplicates = TRUE)
+  entries <- accepted_entries(x, key, db, native = FALSE, allow_duplicates = TRUE,
+                              cover_weighted = F,
+                              cover_metric = "percent_cover")
 
   #calculate relative frequency--fre/num observations, select right col
   df <- data.frame(100*(table(entries[name])/nrow(entries)))

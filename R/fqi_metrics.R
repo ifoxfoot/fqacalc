@@ -34,7 +34,10 @@
 species_richness <- function(x, key = "acronym", db, native = FALSE) {
 
   #count how many observations are unique and matched
-  species_richness <- nrow(accepted_entries(x, key, db, native))
+  species_richness <- nrow(accepted_entries(x, key, db, native,
+                                            cover_weighted = F,
+                                            cover_metric = "percent_cover",
+                                            allow_duplicates = F))
 
   #return number of species
   return(species_richness)
@@ -76,7 +79,10 @@ species_richness <- function(x, key = "acronym", db, native = FALSE) {
 mean_c <- function(x, key = "acronym", db, native = FALSE) {
 
   #calculate mean c score
-  mean_c <- mean(accepted_entries(x, key, db, native)$c)
+  mean_c <- mean(accepted_entries(x, key, db, native,
+                                  cover_weighted = F,
+                                  cover_metric = "percent_cover",
+                                  allow_duplicates = F)$c)
 
   #print
   return(mean_c)
@@ -189,7 +195,10 @@ adjusted_FQI <- function(x, key = "acronym", db) {
 all_metrics <- function(x, key = "acronym", db) {
 
   #get list of accepted entries for calculating stats
-  accepted <- suppressMessages(accepted_entries(x, key, db, native = F))
+  accepted <- suppressMessages(accepted_entries(x, key, db, native = F,
+                                                cover_weighted = F,
+                                                cover_metric = "percent_cover",
+                                                allow_duplicates = F))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",

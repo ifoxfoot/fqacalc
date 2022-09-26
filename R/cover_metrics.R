@@ -40,7 +40,8 @@ plot_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, native, cover_weighted = T, cover_metric)
+  entries <- accepted_entries(x, key, db, native,
+                              cover_weighted = T, cover_metric, allow_duplicates = F)
 
   #calculate mean c score
   mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)
@@ -187,7 +188,10 @@ cover_FQI <- function(x, key = "scientific_name", db, native = FALSE, cover_metr
 all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "percent_cover") {
 
 
-  accepted <- suppressMessages(accepted_entries(x, key, db, native = F))
+  accepted <- suppressMessages(accepted_entries(x, key, db, native = F,
+                                                cover_weighted = F,
+                                                cover_metric = "percent_cover",
+                                                allow_duplicates = F))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",

@@ -92,7 +92,7 @@ view_db <- function(db) {
 #' native species.
 #' @param cover_weighted Boolean (TRUE or FALSE). If TRUE, keep `cover` column in output.
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
-#' is used to calculate cover-weighted metrics such as quadrat mean c, transect mean c, and
+#' is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
 #' cover-weighted FQI.
 #' @param cover_metric a character string representing the cover method used. Acceptable
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
