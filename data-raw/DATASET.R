@@ -409,7 +409,7 @@ unique_syn1 <- data.frame(unique(fqa_db_synonym1$synonym1))
 #fqa_db_synonym[order(df$fqa_db_synonym), ]
 
 #AT SOME POINT LOOK INTO DUP SCI NAMES
-test <- fqa_db_latin %>%
+test <- fqa_db_synonym %>%
   group_by(scientific_name, fqa_db) %>%
   count() %>%
   filter(n>1)

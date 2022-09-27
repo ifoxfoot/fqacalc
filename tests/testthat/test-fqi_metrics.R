@@ -48,7 +48,7 @@ test_that("species_richness() kind of fuzzy matches", {
 #-------------------------------------------------------------------------------
 #testing mean_c()
 
-test_that("mean_c() calculates species richness", {
+test_that("mean_c() calculates mean c", {
   expect_equal(mean_c(crooked_island, db = "michigan_2014", native = F), 5.3714286)
   expect_equal(mean_c(crooked_island, db = "michigan_2014", native = T), 6.7142857)
 })
@@ -136,7 +136,7 @@ test_that("FQI() kind of fuzzy matches", {
 #-------------------------------------------------------------------------------
 #testing adjusted_FQI()
 
-test_that("adjusted_FQI() calculates total species richness", {
+test_that("adjusted_FQI() calculates adjusted FQI", {
   expect_equal(adjusted_FQI(crooked_island, db = "michigan_2014"), 60.054397)
 })
 
@@ -177,3 +177,33 @@ test_that("adjusted_FQI() kind of fuzzy matches", {
 })
 
 
+#-------------------------------------------------------------------------------
+#testing all_metrics()
+
+test_that("all_metrics() calculates total species richness", {
+  expect_equal(all_metrics(x = crooked_island, key = "acronym", db = "michigan_2014"),
+
+               data.frame(metrics = c("Total Species Richness",
+                                      "Native Species Richness",
+                                      "Proportion of Species with < 1 C score",
+                                      "Proportion of Species with 1-3.9 C score",
+                                      "Proportion of Species with 4-6.9 C score",
+                                      "Proportion of Species with 7-10 C score",
+                                      "Mean C",
+                                      "Native Mean C",
+                                      "Total FQI",
+                                      "Native FQI",
+                                      "Adjusted FQI"),
+                          values = c(35,
+                                     28,
+                                     0.20,
+                                     0.08571429,
+                                     0.34285714,
+                                     0.37142857,
+                                     5.37142857,
+                                     6.71428571,
+                                     31.77779998,
+                                     35.52866046,
+                                     60.05439711
+                                     )))
+})

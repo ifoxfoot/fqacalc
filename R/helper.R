@@ -43,3 +43,6 @@ cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"),
                       cover = c(1, 2, 3, 4))
 
+#na in cover test
+na_intro_cover <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+                       cover = c(50, "A", 20, 30))

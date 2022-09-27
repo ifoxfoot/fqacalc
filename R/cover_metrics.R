@@ -280,6 +280,9 @@ all_cover_metrics <- function(x, key = "scientific_name", db, cover_metric = "pe
 plot_summary <- function(x, key = "scientific_name", db,
                          cover_metric = "percent_cover", plot_id){
 
+  if( !plot_id %in% colnames(x) )
+    stop(paste("'plot_id' must be the name of a column in", deparse(substitute(x)), "."))
+
  plot_sum <- x %>%
    dplyr::group_by(!!as.name(plot_id)) %>%
    dplyr::group_modify(~ .x %>%

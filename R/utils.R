@@ -133,7 +133,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #error if x is not a data frame
   if( !is.data.frame(x) )
-    stop(paste({{x}}, "must be a data frame."))
+    stop(paste(deparse(substitute(x)), "must be a data frame."))
 
   #error if key is not acronym or scientific name
   if( !key %in% c("acronym", "scientific_name") )
@@ -141,11 +141,11 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
+    stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #error if db is not a legit db
   if( !db %in% unique(fqa_db$fqa_db) )
-    stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
+    stop(paste(db, "not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #cover_weighted must be T or F
   if( !is.logical(native) )
@@ -161,7 +161,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #if cover is missing, write error
   if( cover_weighted && any(is.na(x$cover)) )
-    stop(paste("Cover column cannot contain missing values"))
+    stop(paste("Cover column cannot contain missing values."))
 
   #cover metric must be defined
   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey",
@@ -277,7 +277,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(entries_joined$c)) )
-    message(paste("species", entries_joined[is.na(entries_joined$c), key],
+    message(paste("Species", entries_joined[is.na(entries_joined$c), key],
                   "is recognized but has not been assigned a C score. It will be discarded."))
 
   #discard entries that have no match, ID column
