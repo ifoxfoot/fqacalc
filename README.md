@@ -3,14 +3,14 @@
 
 # fqacalc
 
-## A Florisitic Quality Assessment Calculator for R
+## A Floristic Quality Assessment Calculator for R
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 This package provides functions for calculating floristic quality
 metrics based on 51 regional FQA databases that have been approved for
-use by the US Army Core of Engineers.
+use by the US Army Corps of Engineers.
 
 ## Installation
 
@@ -39,11 +39,11 @@ library(tidyverse)
 ## Package Data
 
 `fqacalc` contains all 51 regional FQA databases that have been either
-fully approved for use or approved with reservations by the US Army Core
-of Engineers. By referencing these databases, the package knows what C
-score to give each plant that the user inputs. Users can see a list of
-regional databases using the `db_names()` function, and specific FQA
-databases can be accessed using the `view_db()` function.
+fully approved for use or approved with reservations by the US Army
+Corps of Engineers. By referencing these databases, the package knows
+what C score to give each plant that the user inputs. Users can see a
+list of regional databases using the `db_names()` function, and specific
+FQA databases can be accessed using the `view_db()` function.
 
 ``` r
 #view a list of all 51 available databases
@@ -150,7 +150,7 @@ species typo being discarded and we can also see that the accepted
 entries dataset we created only has 34 entries.
 
 In some cases plants from the user list can be matched to the regional
-database, but the plant is not associated with any C score! This is
+database, but the plant is not associated with any C score. This is
 usually because not enough is known about that plant. Plants that are
 matched but have no C score will be excluded from FQI metric
 calculation. `unassigned_plants()` is a function that shows the user
@@ -259,7 +259,7 @@ Also, all the functions are documented with help pages.
 `fqacalc` has one wetness metric, which calculates the mean wetness
 coefficient per site. Wetness coefficient is based off of the USFWS
 Wetland Indicator Status. Negative wetness coefficients indicate a
-stronger affinity for wetlands, while postive wetland coefficients
+stronger affinity for wetlands, while positive wetland coefficients
 indicate an affinity for uplands.
 
 ``` r

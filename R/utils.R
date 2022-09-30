@@ -8,7 +8,7 @@
 #' @return A data frame of regional FQA database names. The column `name` contains
 #' the names of the databases. These are acceptable values for `db` in other `fqacalc`
 #' functions.The column `status` notes whether the database has been fully approved or
-#' approved with reservations by the US Army Core of Engineers.
+#' approved with reservations by the US Army Corps of Engineers.
 #' @export
 #'
 #' @examples

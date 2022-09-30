@@ -25,7 +25,7 @@ test_that("accepted_entries() throws error if key is not in df", {
 
 test_that("accepted_entries() throws error if db is not recognized", {
   expect_error(accepted_entries(crooked_island, key = "acronym", db = "michigan", native = F),
-               "michigan not recognized. Run 'db_names()' for a list of acceptable db values.")
+               "michigan not recognized.")
 })
 
 test_that("accepted_entries() throws error if logical agruments aren't logical", {
@@ -46,7 +46,7 @@ test_that("accepted_entries() throws error if cover is not a column in x", {
 })
 
 test_that("accepted_entries() throws error if cover is not a column in x", {
-  expect_error(accepted_entries(crooked_island %>% mutate(cover = NA), key = "acronym", db = "michigan_2014", native = F, cover_weighted = T),
+  expect_error(accepted_entries(crooked_island %>% dplyr::mutate(cover = NA), key = "acronym", db = "michigan_2014", native = F, cover_weighted = T),
                "Cover column cannot contain missing values.")
 })
 
