@@ -10,7 +10,7 @@ db_names()
 A data frame of regional FQA database names. The column \code{name} contains
 the names of the databases. These are acceptable values for \code{db} in other \code{fqacalc}
 functions.The column \code{status} notes whether the database has been fully approved or
-approved with reservations by the US Army Core of Engineers.
+approved with reservations by the US Army Corps of Engineers.
 }
 \description{
 Look Up the Names of Regional FQA Databases
