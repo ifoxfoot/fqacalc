@@ -4,7 +4,7 @@
 
 test_that("relative_freq() works in perfect setting", {
   expect_equal(relative_freq(transect, key = "acronym", db = "michigan_2014", col = "physiog"),
-               data.frame(physiognomy = as.factor(c("forb", "grass", "tree")),
+               data.frame(physiognomy = c("forb", "grass", "tree"),
                           rel_freq = c(42.857143, 28.571429, 28.571429)))
 })
 
@@ -22,7 +22,7 @@ test_that("relative_cover() works in perfect setting", {
 
 test_that("relative_importance() works in perfect setting", {
   expect_equal(relative_importance(transect, key = "acronym", db = "michigan_2014", col = "family"),
-               data.frame(family = as.factor(c("Malvaceae", "Melanthiaceae", "Pinaceae", "Poaceae")),
+               data.frame(family = c("Malvaceae", "Melanthiaceae", "Pinaceae", "Poaceae"),
                           rel_import = c(35.6127285, 14.2518619, 16.8923494, 33.2430603)))
 })
 

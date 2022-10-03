@@ -51,6 +51,10 @@ relative_freq <- function(x, key = "scientific_name", db,
   #calculate relative frequency--fre/num observations, select right col
   df <- data.frame(100*(table(entries[name])/nrow(entries)))
 
+  #convert name column to character
+  df[,1] <- as.character(df[,1])
+
+  #replace col names
   colnames(df) <- c({{name}}, "rel_freq")
 
   #return result
