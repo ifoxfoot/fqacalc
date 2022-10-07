@@ -31,6 +31,7 @@ test_that("all_cover_metrics() works in perfect setting", {
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
+                                      "Exotic Species Richness",
                                       "Proportion of Species with < 1 C score",
                                       "Proportion of Species with 1-3.9 C score",
                                       "Proportion of Species with 4-6.9 C score",
@@ -43,9 +44,12 @@ test_that("all_cover_metrics() works in perfect setting", {
                                       "Native FQI",
                                       "Cover-Weighted FQI",
                                       "Cover-Weighted Native FQI",
-                                      "Adjusted FQI"),
+                                      "Adjusted FQI",
+                                      "Mean Wetness",
+                                      "Native Mean Wetness"),
                           values = c(4,
                                      3,
+                                     1,
                                      0.25,
                                      0.25,
                                      0,
@@ -58,7 +62,9 @@ test_that("all_cover_metrics() works in perfect setting", {
                                      13.279056,
                                      11.892116,
                                      16.437277,
-                                     66.395281
+                                     66.395281,
+                                     1.75,
+                                     0.6666667
                           )))
 })
 

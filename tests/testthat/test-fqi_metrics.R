@@ -185,6 +185,7 @@ test_that("all_metrics() calculates total species richness", {
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
+                                      "Exotic Species Richness",
                                       "Proportion of Species with < 1 C score",
                                       "Proportion of Species with 1-3.9 C score",
                                       "Proportion of Species with 4-6.9 C score",
@@ -193,9 +194,12 @@ test_that("all_metrics() calculates total species richness", {
                                       "Native Mean C",
                                       "Total FQI",
                                       "Native FQI",
-                                      "Adjusted FQI"),
+                                      "Adjusted FQI",
+                                      "Mean Wetness",
+                                      "Native Mean Wetness"),
                           values = c(35,
                                      28,
+                                     7,
                                      0.20,
                                      0.08571429,
                                      0.34285714,
@@ -204,6 +208,8 @@ test_that("all_metrics() calculates total species richness", {
                                      6.71428571,
                                      31.77779998,
                                      35.52866046,
-                                     60.05439711
+                                     60.05439711,
+                                     0.71428571,
+                                     0.85714286
                                      )))
 })

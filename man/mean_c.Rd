@@ -4,7 +4,7 @@
 \alias{mean_c}
 \title{Calculate Mean C}
 \usage{
-mean_c(x, key = "acronym", db, native = FALSE)
+mean_c(x, key = "scientific_name", db, native = FALSE)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame

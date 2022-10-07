@@ -31,7 +31,7 @@
 #' #number of native species
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-species_richness <- function(x, key = "acronym", db, native = FALSE) {
+species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #count how many observations are unique and matched
   species_richness <- nrow(accepted_entries(x, key, db, native,
@@ -76,7 +76,7 @@ species_richness <- function(x, key = "acronym", db, native = FALSE) {
 #' #mean c of native species
 #' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-mean_c <- function(x, key = "acronym", db, native = FALSE) {
+mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #calculate mean c score
   mean_c <- mean(accepted_entries(x, key, db, native,
@@ -120,7 +120,7 @@ mean_c <- function(x, key = "acronym", db, native = FALSE) {
 #' #FQI of native species
 #' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-FQI <- function(x, key = "acronym", db, native = FALSE) {
+FQI <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #calculate total fqi
   fqi <- mean_c(x, key, db, native) *
@@ -157,7 +157,7 @@ FQI <- function(x, key = "acronym", db, native = FALSE) {
 #' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-adjusted_FQI <- function(x, key = "acronym", db) {
+adjusted_FQI <- function(x, key = "scientific_name", db) {
 
   #calculate adjusted fqi
   fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = T))/10) *
@@ -192,7 +192,7 @@ adjusted_FQI <- function(x, key = "acronym", db) {
 #' plant_list <- crooked_island
 #' all_metrics(x = plant_list, key = "acronym", db = "michigan_2014")
 
-all_metrics <- function(x, key = "acronym", db) {
+all_metrics <- function(x, key = "scientific_name", db) {
 
   #get list of accepted entries for calculating stats
   accepted <- suppressMessages(accepted_entries(x, key, db, native = F,
@@ -203,6 +203,7 @@ all_metrics <- function(x, key = "acronym", db) {
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
+            "Exotic Species Richness",
             "Proportion of Species with < 1 C score",
             "Proportion of Species with 1-3.9 C score",
             "Proportion of Species with 4-6.9 C score",
@@ -211,11 +212,14 @@ all_metrics <- function(x, key = "acronym", db) {
             "Native Mean C",
             "Total FQI",
             "Native FQI",
-            "Adjusted FQI")
+            "Adjusted FQI",
+            "Mean Wetness",
+            "Native Mean Wetness")
 
   #create list of values
   values <- c(species_richness(x, key, db, native = F),
             suppressMessages(species_richness(x, key, db, native = T)),
+            nrow(dplyr::filter(accepted, .data$native == "exotic")),
             sum(accepted$c <= 1 )/length(accepted$c),
             sum(accepted$c >= 1 & accepted$c < 4)/length(accepted$c),
             sum(accepted$c >= 4 & accepted$c < 7)/length(accepted$c),
@@ -224,7 +228,9 @@ all_metrics <- function(x, key = "acronym", db) {
             suppressMessages(mean_c(x, key, db, native = T)),
             suppressMessages(FQI(x, key, db, native = F)),
             suppressMessages(FQI(x, key, db, native = T)),
-            suppressMessages(adjusted_FQI(x, key, db)))
+            suppressMessages(adjusted_FQI(x, key, db)),
+            suppressMessages(mean_w(x, key, db, native = FALSE)),
+            suppressMessages(mean_w(x, key, db, native = TRUE)))
 
 
   #bind metrics and values into data frame

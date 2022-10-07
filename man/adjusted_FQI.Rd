@@ -4,7 +4,7 @@
 \alias{adjusted_FQI}
 \title{Calculate Adjusted FQI}
 \usage{
-adjusted_FQI(x, key = "acronym", db)
+adjusted_FQI(x, key = "scientific_name", db)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame

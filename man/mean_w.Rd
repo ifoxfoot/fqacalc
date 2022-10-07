@@ -4,7 +4,7 @@
 \alias{mean_w}
 \title{Calculate the Mean Wetness Coefficient}
 \usage{
-mean_w(x, key = "acronym", db, native = FALSE)
+mean_w(x, key = "scientific_name", db, native = FALSE)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame

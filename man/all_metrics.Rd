@@ -4,7 +4,7 @@
 \alias{all_metrics}
 \title{Print a Summary of Non-Weighted FQA Metrics}
 \usage{
-all_metrics(x, key = "acronym", db)
+all_metrics(x, key = "scientific_name", db)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
