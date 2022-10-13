@@ -262,3 +262,69 @@ species_summary <- function(x, key = "scientific_name", db,
   return(df)
 
 }
+
+#-------------------------------------------------------------------------------
+
+#' Create a cover-Weighted Summary of Physiognomic Groups
+#'
+#' @param x A data frame containing a list of plant species. This data frame
+#' must have one of the following columns: `scientific_name` or `acronym` as well
+#' as a column named `cover` containing percent cover values per each observation.
+#' @param key A character string representing the column that will be used to join
+#' the input `x` with the regional FQA database. If a value is not specified the
+#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' values for key.
+#' @param db A character string representing the regional FQA database to use. See
+#' `db_names()` for a list of potential values.
+#' @param cover_metric a character string representing the cover method used. Acceptable
+#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
+#' recommended because it is the most accurate.
+#'
+#' @return A data frame where each row is a physiognomic group and each column is a metric about that species
+#' based on the input data frame.
+#' @export
+#' @importFrom rlang .data
+#'
+#' @examples
+#' transect <- data.frame(
+#' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(50, 4, 20, 30, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#'
+#' physiog_summary(transect, key = "acronym", db = "michigan_2014")
+
+physiog_summary <- function(x, key = "scientific_name", db,
+                            cover_metric = "percent_cover"){
+
+  #get accepted entries
+  accepted <- accepted_entries(x, key, db, native = FALSE,
+                               cover_weighted = T,
+                               cover_metric,
+                               allow_duplicates = T)
+
+  #getting freq and coverage
+  group <- accepted %>%
+    dplyr::group_by(.data$physiognomy) %>%
+    dplyr::summarise(frequency = dplyr::n(),
+                     coverage = sum(.data$cover))
+
+  #relative frequency
+  rel_freq <- relative_freq(x, key, db, col = "physiog")
+
+  #relative cover
+  rel_cov <- relative_cover(x, key, db, col = "physiog", cover_metric)
+
+  #relative importance
+  rel_import <- relative_importance(x, key, db, col = "physiog", cover_metric)
+
+
+  #merge together
+  df <- merge(group, rel_freq) %>%
+    merge(rel_cov) %>%
+    merge(rel_import)
+
+
+  return(df)
+
+}
