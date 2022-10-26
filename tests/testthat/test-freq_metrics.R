@@ -58,19 +58,14 @@ test_that("species_summary() works in perfect setting", {
 #testing physiog_summary()
 
 test_that("physiog_summary() works in perfect setting", {
-  expect_equal(pysiog_summary(transect, key = "acronym", db = "michigan_2014"),
+  expect_equal(physiog_summary(transect, key = "acronym", db = "michigan_2014"),
 
-               data.frame(scientific_name = c("ABELMOSCHUS ESCULENTUS",
-                                              "ABIES BALSAMEA",
-                                              "AMMOPHILA BREVILIGULATA",
-                                              "ANTICLEA ELEGANS; ZIGADENUS GLAUCUS"),
-                          acronym = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                          native = c("exotic", "native", "native", "native"),
-                          c = c(0, 3, 10, 10),
-                          w = c(5, 0, 5, -3),
-                          frequency = c(2,2,2,1),
-                          coverage = c(90, 11, 80, 30),
-                          rel_freq = c(28.5714286, 28.5714286, 28.5714286, 14.2857143),
-                          rel_cov = c(42.6540284, 5.2132701, 37.9146919, 14.2180095),
-                          rel_import = c(35.6127285, 16.8923494, 33.2430603, 14.2518619)))
+               data.frame(physiognomy = c("forb",
+                                          "grass",
+                                          "tree"),
+                          frequency = c(3,2,2),
+                          coverage = c(120, 80, 11),
+                          rel_freq = c(42.85714286, 28.5714286, 28.5714286),
+                          rel_cov = c(56.87203791, 37.91469194, 5.21327014),
+                          rel_import = c(49.86459,  33.2430603, 16.8923494)))
 })
