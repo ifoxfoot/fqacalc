@@ -68,7 +68,7 @@ test_that("accepted_entries() throws error if nas are introduced to cover", {
 
 test_that("accepted_entries() throws a message if cover_metric isn't right", {
   expect_message(accepted_entries(duplicate, key = "acronym", db = "michigan_2014", native = F),
-               "Duplicate entries detected. Duplicates will only be counted once. If cover_weighted = TRUE, cover values of duplicate species will be added together")
+               "Duplicate entries detected. Duplicates will only be counted once.")
 })
 
 test_that("accepted_entries() throws a message if species not recognized", {

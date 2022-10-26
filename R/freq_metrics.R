@@ -45,7 +45,7 @@ relative_freq <- function(x, key = "scientific_name", db,
 
   #join entries to database in order to get info on family, physiognomy
   entries <- accepted_entries(x, key, db, native = FALSE, allow_duplicates = TRUE,
-                              cover_weighted = F,
+                              cover_weighted = FALSE,
                               cover_metric = "percent_cover")
 
   #calculate relative frequency--fre/num observations, select right col
@@ -177,7 +177,7 @@ relative_importance <- function(x, key = "scientific_name", db,
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #get mean of relative freq and relative cover
-  avg = merge(
+  avg <- merge(
     relative_freq(x, key, db, col),
     relative_cover(x, key, db, col, cover_metric)) %>%
     dplyr::mutate(rel_import = (.data$rel_freq + .data$rel_cov)/2) %>%
@@ -228,9 +228,9 @@ species_summary <- function(x, key = "scientific_name", db,
 
   #get accepted entries
   accepted <- accepted_entries(x, key, db, native = FALSE,
-                               cover_weighted = T,
+                               cover_weighted = TRUE,
                                cover_metric,
-                               allow_duplicates = T)
+                               allow_duplicates = TRUE)
 
   c_score <- accepted %>%
     dplyr::select(.data$scientific_name, .data$acronym, .data$native, .data$c, .data$w) %>%
@@ -299,9 +299,9 @@ physiog_summary <- function(x, key = "scientific_name", db,
 
   #get accepted entries
   accepted <- accepted_entries(x, key, db, native = FALSE,
-                               cover_weighted = T,
+                               cover_weighted = TRUE,
                                cover_metric,
-                               allow_duplicates = T)
+                               allow_duplicates = TRUE)
 
   #getting freq and coverage
   group <- accepted %>%

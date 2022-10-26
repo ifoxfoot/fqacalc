@@ -45,12 +45,12 @@ db_names <- function() {
 #' \describe{
 #'   \item{scientific_name}{Latin name}
 #'   \item{synonym}{Alternate latin name(s)}
-#'   \item{family}{Taxinomic family of species}
+#'   \item{family}{Taxonomic family of species}
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
 #'   \item{native}{Nativity status. native, exotic, and undetermined are values}
 #'   \item{c}{Coefficient of Conservation (C Score)}
 #'   \item{w}{Wetland Indicator Rating}
-#'   \item{physiognomy}{Structure or physical apperiance of plant}
+#'   \item{physiognomy}{Structure or physical appearance of plant}
 #'   \item{duration}{Lifespan of plant}
 #'   \item{common_name}{Common name(s) for plant}
 #'   \item{fqa_db}{Regional FQA database}
@@ -147,11 +147,11 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !db %in% unique(fqa_db$fqa_db) )
     stop(paste(db, "not recognized. Run 'db_names()' for a list of acceptable db values."))
 
-  #cover_weighted must be T or F
+  #cover_weighted must be TRUE or FALSE
   if( !is.logical(native) )
     stop("'native' can only be set to TRUE or FALSE")
 
-  #cover_weighted must be T or F
+  #cover_weighted must be TRUE or FALSE
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
 
@@ -174,8 +174,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
     stop("'allow_duplicates' can only be set to TRUE or FALSE")
 
   #send message to user if site assessment contains duplicate entries
-  if( sum(duplicated(x[,key])) > 0 && !allow_duplicates)
-    message("Duplicate entries detected. Duplicates will only be counted once. If cover_weighted = TRUE, cover values of duplicate species will be added together")
+  if( sum(duplicated(x[,key])) > 0 && !allow_duplicates){
+    if(cover_weighted == TRUE){
+      message("Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.")}
+    else{
+      message("Duplicate entries detected. Duplicates will only be counted once.")}
+  }
 
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
@@ -283,10 +287,10 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #discard entries that have no match, ID column
   entries_matched <- entries_joined %>%
     dplyr::filter(!is.na(entries_joined$c)) %>%
-    dplyr::select(-.data$p)
+    dplyr::select(-.data$p) %>%
+    as.data.frame()
 
   return(entries_matched)
-
 }
 
 #-------------------------------------------------------------------------------

@@ -33,9 +33,9 @@ mean_w <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #calculate mean c score
   mean_w <- mean(accepted_entries(x, key, db, native,
-                                  cover_weighted = F,
+                                  cover_weighted = FALSE,
                                   cover_metric = "percent_cover",
-                                  allow_duplicates = F)$w)
+                                  allow_duplicates = FALSE)$w)
 
   #print
   return(mean_w)

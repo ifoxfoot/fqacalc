@@ -1,17 +1,12 @@
 #-------------------------------------------------------------------------------
 #testing plot_mean_c()
 
-test_that("plot_mean_c() works in perfect setting", {
-  expect_equal(plot_mean_c(x = quadrat, key = "acronym", db = "michigan_2014", native = FALSE),
+test_that("cover_mean_c() works in perfect setting", {
+  expect_equal(cover_mean_c(x = quadrat, key = "acronym", db = "michigan_2014",
+                            native = FALSE, allow_duplicates = FALSE),
                4.92307692)
-})
-
-
-#-------------------------------------------------------------------------------
-#testing transect_mean_c()
-
-test_that("transect_mean_c() works in perfect setting", {
-  expect_equal(transect_mean_c(x = transect, key = "acronym", db = "michigan_2014", native = FALSE),
+  expect_equal(cover_mean_c(x = transect, key = "acronym", db = "michigan_2014",
+                            native = FALSE, allow_duplicates = TRUE),
                5.94605809)
 })
 
@@ -19,7 +14,8 @@ test_that("transect_mean_c() works in perfect setting", {
 #testing cover_FQI()
 
 test_that("cover_FQI() works in perfect setting", {
-  expect_equal(cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE),
+  expect_equal(cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE,
+                         allow_duplicates = TRUE),
                11.8921162)
 })
 
@@ -27,7 +23,7 @@ test_that("cover_FQI() works in perfect setting", {
 #testing all_cover_metrics()
 
 test_that("all_cover_metrics() works in perfect setting", {
-  expect_equal(all_cover_metrics(x = transect, key = "acronym", db = "michigan_2014"),
+  expect_equal(transect_summary(x = transect, key = "acronym", db = "michigan_2014"),
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
@@ -55,11 +51,11 @@ test_that("all_cover_metrics() works in perfect setting", {
                                      0,
                                      0.5,
                                      5.75,
-                                     7.666667,
-                                     5.946058,
-                                     9.363636,
+                                     7.66666667,
+                                     5.94605809,
+                                     9.49006623,
                                      11.5,
-                                     13.279056,
+                                     13.27905619,
                                      11.892116,
                                      16.437277,
                                      66.395281,
@@ -71,7 +67,7 @@ test_that("all_cover_metrics() works in perfect setting", {
 #-------------------------------------------------------------------------------
 #testing plot_summary()
 
-test_that("plot_summary() works in perfect setting", {
+test_that("plot_summary() works", {
   expect_equal(plot_summary(transect, key = "acronym", db = "michigan_2014",
                             cover_metric = "percent_cover", plot_id = "quad_id"),
 
@@ -80,10 +76,14 @@ test_that("plot_summary() works in perfect setting", {
                           native_species_richness = c(3,2),
                           mean_c = c(5.750000, 4.3333333),
                           native_mean_c = c(7.6666667, 6.5),
+                          cover_mean_c = c(4.92307692, 5.80373832),
                           FQI = c(11.5, 7.5055535),
                           native_FQI = c(13.2790562, 9.1923882),
                           cover_FQI = c(9.8461538, 10.0523696 ),
                           native_cover_FQI = c(16.42240766, 13.10786003),
                           adjusted_FQI = c(66.3952810, 53.0722778)))
+  expect_error(plot_summary(transect, key = "acronym", db = "michigan_2014",
+                            cover_metric = "percent_cover", plot_id = "quad_idd"),
+               "'plot_id' must be the name of a column in transect.")
 })
 

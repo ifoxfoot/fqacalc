@@ -9,7 +9,8 @@ cover_FQI(
   key = "scientific_name",
   db,
   native = FALSE,
-  cover_metric = "percent_cover"
+  cover_metric = "percent_cover",
+  allow_duplicates
 )
 }
 \arguments{
@@ -32,13 +33,20 @@ native species.}
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
 recommended because it is the most accurate.}
+
+\item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of
+the same species. If FALSE, do not allow species duplication. Setting \code{allow_duplicates}
+to TRUE is best for calculating metrics for multiple plots/quadrats which potentially
+contain the same species. Setting \code{allow_duplicates} to FALSE is best for calculating
+metrics for a single plot/quadrat, where each species is entered once along with its
+total cover value.}
 }
 \value{
 A non-negative integer
 }
 \description{
-\code{cover_FQI} calculates transect-level or quadrat-level (depending on if there
-are duplicates) mean C multiplied by the square root of species richness.
+\code{cover_FQI()} calculates cover-weighted mean C multiplied by the square root
+of species richness.
 }
 \examples{
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
@@ -46,5 +54,6 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
 cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-cover_FQI(x = transect, key = "acronym", db = "michigan_2014", native = FALSE)
+cover_FQI(x = transect, key = "acronym", db = "michigan_2014",
+native = FALSE, allow_duplicates = TRUE)
 }
