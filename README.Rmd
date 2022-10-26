@@ -34,7 +34,8 @@ devtools::install_github("ifoxfoot/fqacalc")
 ```{r}
 #attach packages required for this tutorial
 library(fqacalc)
-library(tidyverse)
+library(dplyr)
+library(stringr)
 ```
 
 ## Package Data
@@ -158,27 +159,18 @@ Also, all the functions are documented with help pages.
 ?all_metrics
 ```
 
-## Wetness metric
-
-`fqacalc` has one wetness metric, which calculates the mean wetness coefficient per site. Wetness coefficient is based off of the USFWS Wetland Indicator Status. Negative wetness coefficients indicate a stronger affinity for wetlands, while positive wetland coefficients indicate an affinity for uplands. 
-
-```{r}
-#mean wetness
-mean_w(crooked_island, key = "acronym", db = "michigan_2014")
-```
-
-
 ## Cover-Weighted Functions
 
-Cover-Weighted Functions calculate the same metrics but they are weighted by how abundant each species is. Therefore, the input data frame must also have a column named `cover` containing cover values. Cover values can be continuous (i.e. percent cover) or classed (i.e. using the braun-blanquet method).
+Cover-Weighted Functions calculate the same metrics but they are weighted by how abundant each species is. Therefore, the input data frame must also have a column named `cover` containing cover values. Cover values can be continuous (i.e. percent cover) or classed (i.e. using the Braun-Blanquet method).
 
-Cover-Weighted Functions come in two flavors: transect functions and plot functions. Plot functions don't allow duplicate species observations but transect functions (which are designed to calculate metrics for a series of plots along a transect) do allow species duplication. 
+Cover-Weighted Functions come in two flavors: those that allow duplicate entries and those that don't. Not allowing duplicate species observations work best for calculating plot-level metrics, where each species is counted once along with its total cover value. Allowing duplicates work best for transect-level metrics, where repeated plots along a transect may contain the same species. As a note, if `allow_duplicates == TRUE` in a cover-weighted function, any duplicates species be counted once and their cover values will be added together.
 
 #### Function Arguments
 
-Cover-Weighted Functions have one additional argument: 
+Cover-Weighted Functions have two additional arguments: 
 
 * **cover_metric** A character string representing the cover method used. Acceptable cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because it is the most accurate.
+* **allow_duplicates** Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of the same species. If FALSE, do not allow species duplication. Setting `allow_duplicates` to TRUE is best for calculating metrics for multiple plots/quadrats which potentially contain the same species. Setting `allow_duplicates` to FALSE is best for calculating metrics for a single plot/quadrat, where each species is entered once along with its total cover value.
 
 #### Functions
 
@@ -196,20 +188,23 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
                       cover = c(50, 4, 20, 30, 40, 7, 60),
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-#quadrat mean c (no duplicates allowed!)
-plot_mean_c(plot, key = "acronym", db = "michigan_2014", 
-               native = F, cover_metric = "percent_cover")
+#cover mean c (no duplicates allowed!)
+cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
+               native = FALSE, cover_metric = "percent_cover", 
+             allow_duplicates = FALSE)
 
 #transect mean c (duplicates allowed)
-transect_mean_c(transect, key = "acronym", db = "michigan_2014", 
-               native = F, cover_metric = "percent_cover")
+cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
+               native = FALSE, cover_metric = "percent_cover",
+               allow_duplicates = TRUE)
 
-#cover-weighted FQI
-cover_FQI(transect, key = "acronym", db = "michigan_2014", native = F, 
-          cover_metric = "percent_cover")
+#cover-weighted FQI (again, you can choose to allow duplicates or not)
+cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
+          cover_metric = "percent_cover",
+          allow_duplicates = TRUE)
 
-#cover summary function
-all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
+#transect summary function (allows duplicates)
+transect_summary(transect, key = "acronym", db = "michigan_2014")
 ```
 
 There is also a plot summary function that summarizes plots along a transect. Data is input as a single data frame containing species per plot. This data frame must also have a column representing the plot the species was observed in. This column is then passed to an additional argument
@@ -220,16 +215,15 @@ There is also a plot summary function that summarizes plots along a transect. Da
 #print transect to view structure of data
 transect
 
-#plot summary of a transect
+#plot summary of a transect (dplicates are not allowed)
 plot_summary(x = transect, key = "acronym", db = "michigan_2014", 
              cover_metric = "percent_cover", 
              plot_id = "quad_id")
 ```
 
-
 ## Relative Functions
 
-Relative functions calculate relative frequency, coverage, and importance for each category.There is also a species summary function that produces a summary of each species' relative metrics in the data frame.
+Relative functions calculate relative frequency, coverage, and importance for each category.There is also a species summary function that produces a summary of each species' relative metrics in the data frame. Relative functions always allow duplicate species observations.
 
 Relative functions have one additional argument which tells the functions what to calculate the relative value of: 
 
@@ -255,6 +249,19 @@ relative_importance(transect, key = "acronym", db = "michigan_2014",
 #species summary
 species_summary(transect, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
+
+#physiognomy summary
+physiog_summary(transect, key = "acronym", db = "michigan_2014", 
+                cover_metric = "percent_cover")
+```
+
+## Wetness metric
+
+`fqacalc` has one wetness metric, which calculates the mean wetness coefficient per site. Wetness coefficient is based off of the USFWS Wetland Indicator Status. Negative wetness coefficients indicate a stronger affinity for wetlands, while positive wetland coefficients indicate an affinity for uplands.
+
+```{r}
+#mean wetness
+mean_w(crooked_island, key = "acronym", db = "michigan_2014")
 ```
 
 ## The End

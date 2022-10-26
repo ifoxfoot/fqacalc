@@ -25,15 +25,16 @@ devtools::install_github("ifoxfoot/fqacalc")
 ``` r
 #attach packages required for this tutorial
 library(fqacalc)
-library(tidyverse)
-#> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-#> ✔ ggplot2 3.3.5      ✔ purrr   0.3.4 
-#> ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-#> ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-#> ✔ readr   2.1.2      ✔ forcats 0.5.1 
-#> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+library(stringr)
 ```
 
 ## Package Data
@@ -237,15 +238,18 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 #>                                     metrics      values
 #> 1                    Total Species Richness 35.00000000
 #> 2                   Native Species Richness 28.00000000
-#> 3    Proportion of Species with < 1 C score  0.20000000
-#> 4  Proportion of Species with 1-3.9 C score  0.08571429
-#> 5  Proportion of Species with 4-6.9 C score  0.34285714
-#> 6   Proportion of Species with 7-10 C score  0.37142857
-#> 7                                    Mean C  5.37142857
-#> 8                             Native Mean C  6.71428571
-#> 9                                 Total FQI 31.77779998
-#> 10                               Native FQI 35.52866046
-#> 11                             Adjusted FQI 60.05439711
+#> 3                   Exotic Species Richness  7.00000000
+#> 4    Proportion of Species with < 1 C score  0.20000000
+#> 5  Proportion of Species with 1-3.9 C score  0.08571429
+#> 6  Proportion of Species with 4-6.9 C score  0.34285714
+#> 7   Proportion of Species with 7-10 C score  0.37142857
+#> 8                                    Mean C  5.37142857
+#> 9                             Native Mean C  6.71428571
+#> 10                                Total FQI 31.77779998
+#> 11                               Native FQI 35.52866046
+#> 12                             Adjusted FQI 60.05439711
+#> 13                             Mean Wetness  0.71428571
+#> 14                      Native Mean Wetness  0.85714286
 ```
 
 Also, all the functions are documented with help pages.
@@ -254,43 +258,39 @@ Also, all the functions are documented with help pages.
 ?all_metrics
 ```
 
-## Wetness metric
-
-`fqacalc` has one wetness metric, which calculates the mean wetness
-coefficient per site. Wetness coefficient is based off of the USFWS
-Wetland Indicator Status. Negative wetness coefficients indicate a
-stronger affinity for wetlands, while positive wetland coefficients
-indicate an affinity for uplands.
-
-``` r
-#mean wetness
-mean_w(crooked_island, key = "acronym", db = "michigan_2014")
-#> [1] 0.7142857
-```
-
 ## Cover-Weighted Functions
 
 Cover-Weighted Functions calculate the same metrics but they are
 weighted by how abundant each species is. Therefore, the input data
 frame must also have a column named `cover` containing cover values.
 Cover values can be continuous (i.e. percent cover) or classed
-(i.e. using the braun-blanquet method).
+(i.e. using the Braun-Blanquet method).
 
-Cover-Weighted Functions come in two flavors: transect functions and
-plot functions. Plot functions don’t allow duplicate species
-observations but transect functions (which are designed to calculate
-metrics for a series of plots along a transect) do allow species
-duplication.
+Cover-Weighted Functions come in two flavors: those that allow duplicate
+entries and those that don’t. Not allowing duplicate species
+observations work best for calculating plot-level metrics, where each
+species is counted once along with its total cover value. Allowing
+duplicates work best for transect-level metrics, where repeated plots
+along a transect may contain the same species. As a note, if
+`allow_duplicates == TRUE` in a cover-weighted function, any duplicates
+species be counted once and their cover values will be added together.
 
 #### Function Arguments
 
-Cover-Weighted Functions have one additional argument:
+Cover-Weighted Functions have two additional arguments:
 
 -   **cover_metric** A character string representing the cover method
     used. Acceptable cover methods are: `"percent_cover"`,
     `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
     `"usfs_ecodata"`. `"percent_cover"` is the default and is
     recommended because it is the most accurate.
+-   **allow_duplicates** Boolean (TRUE or FALSE). If TRUE, allow
+    duplicate entries of the same species. If FALSE, do not allow
+    species duplication. Setting `allow_duplicates` to TRUE is best for
+    calculating metrics for multiple plots/quadrats which potentially
+    contain the same species. Setting `allow_duplicates` to FALSE is
+    best for calculating metrics for a single plot/quadrat, where each
+    species is entered once along with its total cover value.
 
 #### Functions
 
@@ -308,39 +308,45 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
                       cover = c(50, 4, 20, 30, 40, 7, 60),
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-#quadrat mean c (no duplicates allowed!)
-plot_mean_c(plot, key = "acronym", db = "michigan_2014", 
-               native = F, cover_metric = "percent_cover")
+#cover mean c (no duplicates allowed!)
+cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
+               native = FALSE, cover_metric = "percent_cover", 
+             allow_duplicates = FALSE)
 #> [1] 4.923077
 
 #transect mean c (duplicates allowed)
-transect_mean_c(transect, key = "acronym", db = "michigan_2014", 
-               native = F, cover_metric = "percent_cover")
+cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
+               native = FALSE, cover_metric = "percent_cover",
+               allow_duplicates = TRUE)
 #> [1] 5.946058
 
-#cover-weighted FQI
-cover_FQI(transect, key = "acronym", db = "michigan_2014", native = F, 
-          cover_metric = "percent_cover")
+#cover-weighted FQI (again, you can choose to allow duplicates or not)
+cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
+          cover_metric = "percent_cover",
+          allow_duplicates = TRUE)
 #> [1] 11.89212
 
-#cover summary function
-all_cover_metrics(transect, key = "acronym", db = "michigan_2014")
-#>                                     metrics    values
-#> 1                    Total Species Richness  4.000000
-#> 2                   Native Species Richness  3.000000
-#> 3    Proportion of Species with < 1 C score  0.250000
-#> 4  Proportion of Species with 1-3.9 C score  0.250000
-#> 5  Proportion of Species with 4-6.9 C score  0.000000
-#> 6   Proportion of Species with 7-10 C score  0.500000
-#> 7                                    Mean C  5.750000
-#> 8                             Native Mean C  7.666667
-#> 9                     Cover-Weighted Mean C  5.946058
-#> 10             Cover-Weighted Native Mean C  9.363636
-#> 11                                Total FQI 11.500000
-#> 12                               Native FQI 13.279056
-#> 13                       Cover-Weighted FQI 11.892116
-#> 14                Cover-Weighted Native FQI 16.437277
-#> 15                             Adjusted FQI 66.395281
+#transect summary function (allows duplicates)
+transect_summary(transect, key = "acronym", db = "michigan_2014")
+#>                                     metrics     values
+#> 1                    Total Species Richness  4.0000000
+#> 2                   Native Species Richness  3.0000000
+#> 3                   Exotic Species Richness  1.0000000
+#> 4    Proportion of Species with < 1 C score  0.2500000
+#> 5  Proportion of Species with 1-3.9 C score  0.2500000
+#> 6  Proportion of Species with 4-6.9 C score  0.0000000
+#> 7   Proportion of Species with 7-10 C score  0.5000000
+#> 8                                    Mean C  5.7500000
+#> 9                             Native Mean C  7.6666667
+#> 10                    Cover-Weighted Mean C  5.9460581
+#> 11             Cover-Weighted Native Mean C  9.4900662
+#> 12                                Total FQI 11.5000000
+#> 13                               Native FQI 13.2790562
+#> 14                       Cover-Weighted FQI 11.8921162
+#> 15                Cover-Weighted Native FQI 16.4372769
+#> 16                             Adjusted FQI 66.3952810
+#> 17                             Mean Wetness  1.7500000
+#> 18                      Native Mean Wetness  0.6666667
 ```
 
 There is also a plot summary function that summarizes plots along a
@@ -364,16 +370,16 @@ transect
 #> 6  ABIBAL     7       2
 #> 7  AMMBRE    60       2
 
-#plot summary of a transect
+#plot summary of a transect (dplicates are not allowed)
 plot_summary(x = transect, key = "acronym", db = "michigan_2014", 
              cover_metric = "percent_cover", 
              plot_id = "quad_id")
 #>   quad_id species_richness native_species_richness   mean_c native_mean_c
 #> 1       1                4                       3 5.750000      7.666667
 #> 2       2                3                       2 4.333333      6.500000
-#>         FQI native_FQI cover_FQI native_cover_FQI adjusted_FQI
-#> 1 11.500000  13.279056  9.846154         16.42241     66.39528
-#> 2  7.505553   9.192388 10.052370         13.10786     53.07228
+#>   cover_mean_c       FQI native_FQI cover_FQI native_cover_FQI adjusted_FQI
+#> 1     4.923077 11.500000  13.279056  9.846154         16.42241     66.39528
+#> 2     5.803738  7.505553   9.192388 10.052370         13.10786     53.07228
 ```
 
 ## Relative Functions
@@ -381,7 +387,7 @@ plot_summary(x = transect, key = "acronym", db = "michigan_2014",
 Relative functions calculate relative frequency, coverage, and
 importance for each category.There is also a species summary function
 that produces a summary of each species’ relative metrics in the data
-frame.
+frame. Relative functions always allow duplicate species observations.
 
 Relative functions have one additional argument which tells the
 functions what to calculate the relative value of:
@@ -433,6 +439,28 @@ species_summary(transect, key = "acronym", db = "michigan_2014",
 #> 2 28.57143  5.21327   16.89235
 #> 3 28.57143 37.91469   33.24306
 #> 4 14.28571 14.21801   14.25186
+
+#physiognomy summary
+physiog_summary(transect, key = "acronym", db = "michigan_2014", 
+                cover_metric = "percent_cover")
+#>   physiognomy frequency coverage rel_freq  rel_cov rel_import
+#> 1        forb         3      120 42.85714 56.87204   49.86459
+#> 2       grass         2       80 28.57143 37.91469   33.24306
+#> 3        tree         2       11 28.57143  5.21327   16.89235
+```
+
+## Wetness metric
+
+`fqacalc` has one wetness metric, which calculates the mean wetness
+coefficient per site. Wetness coefficient is based off of the USFWS
+Wetland Indicator Status. Negative wetness coefficients indicate a
+stronger affinity for wetlands, while positive wetland coefficients
+indicate an affinity for uplands.
+
+``` r
+#mean wetness
+mean_w(crooked_island, key = "acronym", db = "michigan_2014")
+#> [1] 0.7142857
 ```
 
 ## The End
