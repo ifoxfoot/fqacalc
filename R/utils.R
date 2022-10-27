@@ -270,8 +270,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
                      "not listed in database. It will be discarded."))
 
   #now get rid of observations not in regional list
-  entries_joined <- entries_joined %>%
-    dplyr::filter(!is.na(entries_joined$p))
+  entries_joined <- entries_joined[!is.na(entries_joined$p),] %>%
+    dplyr::select(-.data$p)
 
   #if native = T, filter for only native species
   if (native) {
@@ -285,10 +285,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
                   "is recognized but has not been assigned a C score. It will be discarded."))
 
   #discard entries that have no match, ID column
-  entries_matched <- entries_joined %>%
-    dplyr::filter(!is.na(entries_joined$c)) %>%
-    dplyr::select(-.data$p) %>%
-    as.data.frame()
+  entries_matched <- as.data.frame(entries_joined[!is.na(entries_joined$c),])
 
   return(entries_matched)
 }

@@ -58,6 +58,7 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
       dplyr::mutate(mean = mean(.data$cover)) %>%
       dplyr::distinct(!!as.name(key), mean, c)
 
+
     #calculate mean c score
     mean_c <- sum(entries$c * entries$mean)/
       sum(entries$mean)
@@ -256,36 +257,35 @@ plot_summary <- function(x, key = "scientific_name", db,
   if( !plot_id %in% colnames(x) )
     stop(paste("'plot_id' must be the name of a column in", deparse(substitute(x)), "."))
 
- plot_sum <- x %>%
-   dplyr::group_by(!!as.name(plot_id)) %>%
-   dplyr::group_modify(~ .x %>%
-                         dplyr::summarise(
-                           species_richness
-                                   = species_richness(.x, key, db, native = FALSE),
-                            native_species_richness
-                                   = species_richness(.x, key, db, native = TRUE),
-                            mean_c
-                                   = mean_c(.x, key, db, native = FALSE),
-                            native_mean_c
-                                   = mean_c(.x, key, db, native = TRUE),
-                            cover_mean_c
-                                  = cover_mean_c(.x, key, db, native = FALSE, cover_metric,
-                                                 allow_duplicates = FALSE),
-                            FQI
-                                   = FQI(.x, key, db, native = FALSE),
-                            native_FQI
-                                   = FQI(.x, key, db, native = TRUE),
-                            cover_FQI
-                                   = cover_FQI(.x, key, db, native = FALSE, cover_metric,
-                                               allow_duplicates = FALSE),
-                            native_cover_FQI
-                                   = cover_FQI(.x, key, db, native = TRUE, cover_metric,
-                                               allow_duplicates = FALSE),
-                            adjusted_FQI
-                                   = adjusted_FQI(.x, key, db)
-                                   ))
+  plot_sum <- x %>%
+    dplyr::group_by(!!as.name(plot_id)) %>%
+    dplyr::summarise(
+      species_richness
+      = species_richness(cur_data(), key, db, native = FALSE),
+      native_species_richness
+      = species_richness(cur_data(), key, db, native = TRUE),
+      mean_c
+      = mean_c(cur_data(), key, db, native = FALSE),
+      native_mean_c
+      = mean_c(cur_data(), key, db, native = TRUE),
+      cover_mean_c
+      = cover_mean_c(cur_data(), key, db, native = FALSE, cover_metric,
+                     allow_duplicates = FALSE),
+      FQI
+      = FQI(cur_data(), key, db, native = FALSE),
+      native_FQI
+      = FQI(cur_data(), key, db, native = TRUE),
+      cover_FQI
+      = cover_FQI(cur_data(), key, db, native = FALSE, cover_metric,
+                  allow_duplicates = FALSE),
+      native_cover_FQI
+      = cover_FQI(cur_data(), key, db, native = TRUE, cover_metric,
+                  allow_duplicates = FALSE),
+      adjusted_FQI
+      = adjusted_FQI(cur_data(), key, db)
+    )
 
- df <- as.data.frame(plot_sum)
+  df <- as.data.frame(plot_sum)
 
- return(df)
+  return(df)
 }
