@@ -49,7 +49,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 
 #' Calculate Mean C
 #'
-#' `mean_c` calculates the mean conservation coefficient for all species in
+#' `mean_c` calculates the mean Coefficient of Conservatism for all species in
 #' the site assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
