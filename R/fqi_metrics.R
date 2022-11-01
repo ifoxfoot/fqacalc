@@ -25,7 +25,7 @@
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #number of species (native and non-native)
+#' #number of species (native and exotic)
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #number of native species
@@ -49,7 +49,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 
 #' Calculate Mean C
 #'
-#' `mean_c` calculates the mean Coefficient of Conservatism for all species in
+#' `mean_c` calculates the mean conservation coefficient for all species in
 #' the site assessment.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
@@ -70,7 +70,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #mean c of all species (native and non-native)
+#' #mean c of all species (native and exotic)
 #' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #mean c of native species
@@ -78,7 +78,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 
 mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 
-  #calculate mean c value
+  #calculate mean C Value
   mean_c <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = F,
                                   cover_metric = "percent_cover",
@@ -114,7 +114,7 @@ mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #FQI of all species (native and non-native)
+#' #FQI of all species (native and exotic)
 #' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #FQI of native species
@@ -203,7 +203,7 @@ all_metrics <- function(x, key = "scientific_name", db) {
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
-            "Non-native Species Richness",
+            "Exotic Species Richness",
             "Proportion of Species with < 1 C Value",
             "Proportion of Species with 1-3.9 C Value",
             "Proportion of Species with 4-6.9 C Value",

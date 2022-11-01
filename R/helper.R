@@ -35,7 +35,7 @@ quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
                       cover = c(50, 4, 20, 30, 40, 7, 60),
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
-#na c value
+#na C Value
 no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM", "ACER GRANDIDENTATUM", "BOOP", "ACER PLATANOIDES"))
 
 #cover method test
