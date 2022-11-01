@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Iris", "Foxfoot", , "ifoxfoot@gmail.com", role = c("aut", "cre"),
            )
-Description: This package provides functions for calculating FQI metrics based on USACE approved regional FQA lists.
+Description: This package provides functions for calculating Floristic Quality Assessment (FQA) metrics using 51 regional FQA databases that have been approved for use by the US Army Corps of Engineers. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

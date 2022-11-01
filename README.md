@@ -8,9 +8,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package provides functions for calculating floristic quality
-metrics based on 51 regional FQA databases that have been approved for
-use by the US Army Corps of Engineers.
+This package provides functions for calculating Floristic Quality
+Assessment (FQA) metrics based on 51 regional FQA databases that have
+been approved for use by the US Army Corps of Engineers.
 
 ## Installation
 
