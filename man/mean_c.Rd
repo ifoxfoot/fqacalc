@@ -31,7 +31,7 @@ the site assessment.
 \examples{
 plant_list <- crooked_island
 
-#mean c of all species (native and exotic)
+#mean c of all species (native and non-native)
 mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #mean c of native species

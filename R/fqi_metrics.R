@@ -25,7 +25,7 @@
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #number of species (native and exotic)
+#' #number of species (native and non-native)
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #number of native species
@@ -70,7 +70,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #mean c of all species (native and exotic)
+#' #mean c of all species (native and non-native)
 #' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #mean c of native species
@@ -114,7 +114,7 @@ mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #FQI of all species (native and exotic)
+#' #FQI of all species (native and non-native)
 #' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #FQI of native species
@@ -203,7 +203,7 @@ all_metrics <- function(x, key = "scientific_name", db) {
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
-            "Exotic Species Richness",
+            "Non-native Species Richness",
             "Proportion of Species with < 1 C Value",
             "Proportion of Species with 1-3.9 C Value",
             "Proportion of Species with 4-6.9 C Value",

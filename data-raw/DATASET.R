@@ -96,7 +96,7 @@ florida_clean <- florida %>%
   mutate(family = NA) %>%
   mutate(acronym = NA) %>%
   mutate(native = nativity) %>%
-  mutate(c = c_of_c_score) %>%
+  mutate(c = c_of_c_value) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(common_name = NA) %>%
@@ -216,8 +216,8 @@ fqa_db_clean_cols <- fqa_db_bind %>%
     native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
     ~ "native", T ~ native)) %>%
   mutate(native = case_when(
-    native %in% c("Exotic", "I", "Likely Exotic", "Nonnative", "non-native")
-    ~ "exotic", T ~ native)) %>%
+    native %in% c("Exotic", "exotiv", "I", "Likely Exotic", "Nonnative")
+    ~ "non-native", T ~ native)) %>%
   mutate(native = case_when(
     !native %in% c("native", "exotic") ~ "undetermined", T ~ native)) %>%
   #clean duration

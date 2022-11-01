@@ -27,7 +27,7 @@ test_that("all_cover_metrics() works in perfect setting", {
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
-                                      "Exotic Species Richness",
+                                      "Non-native Species Richness",
                                       "Proportion of Species with < 1 C Value",
                                       "Proportion of Species with 1-3.9 C Value",
                                       "Proportion of Species with 4-6.9 C Value",

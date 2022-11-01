@@ -32,7 +32,7 @@ by multiplying the mean C by the square root of the species richness. If \code{n
 \examples{
 plant_list <- crooked_island
 
-#FQI of all species (native and exotic)
+#FQI of all species (native and non-native)
 FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #FQI of native species

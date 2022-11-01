@@ -158,7 +158,7 @@ calculation. `unassigned_plants()` is a function that shows the user
 which plants are dropped because they have not been assigned a C Value.
 
 ``` r
-#To see unassigned_plants in action we're going to montana! 
+#To see unassigned_plants in action we're going to Montana! 
 
 #first I'll create a df of plants to input
 no_c_plants<- data.frame(scientific_name = c("ABRONIA FRAGRANS", 
@@ -239,10 +239,10 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 #> 1                    Total Species Richness 35.00000000
 #> 2                   Native Species Richness 28.00000000
 #> 3                   Exotic Species Richness  7.00000000
-#> 4    Proportion of Species with < 1 C Value  0.20000000
-#> 5  Proportion of Species with 1-3.9 C Value  0.08571429
-#> 6  Proportion of Species with 4-6.9 C Value  0.34285714
-#> 7   Proportion of Species with 7-10 C Value  0.37142857
+#> 4    Proportion of Species with < 1 C score  0.20000000
+#> 5  Proportion of Species with 1-3.9 C score  0.08571429
+#> 6  Proportion of Species with 4-6.9 C score  0.34285714
+#> 7   Proportion of Species with 7-10 C score  0.37142857
 #> 8                                    Mean C  5.37142857
 #> 9                             Native Mean C  6.71428571
 #> 10                                Total FQI 31.77779998
@@ -332,10 +332,10 @@ transect_summary(transect, key = "acronym", db = "michigan_2014")
 #> 1                    Total Species Richness  4.0000000
 #> 2                   Native Species Richness  3.0000000
 #> 3                   Exotic Species Richness  1.0000000
-#> 4    Proportion of Species with < 1 C Value  0.2500000
-#> 5  Proportion of Species with 1-3.9 C Value  0.2500000
-#> 6  Proportion of Species with 4-6.9 C Value  0.0000000
-#> 7   Proportion of Species with 7-10 C Value  0.5000000
+#> 4    Proportion of Species with < 1 C score  0.2500000
+#> 5  Proportion of Species with 1-3.9 C score  0.2500000
+#> 6  Proportion of Species with 4-6.9 C score  0.0000000
+#> 7   Proportion of Species with 7-10 C score  0.5000000
 #> 8                                    Mean C  5.7500000
 #> 9                             Native Mean C  7.6666667
 #> 10                    Cover-Weighted Mean C  5.9460581

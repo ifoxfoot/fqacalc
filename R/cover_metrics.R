@@ -164,7 +164,7 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
                "Native Species Richness",
-               "Exotic Species Richness",
+               "Non-native Species Richness",
                "Proportion of Species with < 1 C Value",
                "Proportion of Species with 1-3.9 C Value",
                "Proportion of Species with 4-6.9 C Value",

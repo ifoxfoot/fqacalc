@@ -97,7 +97,7 @@ Now, when we use `accepted_entries()` to see which species were matched to the r
 In some cases plants from the user list can be matched to the regional database, but the plant is not associated with any C Value. This is usually because not enough is known about that plant. Plants that are matched but have no C Value will be excluded from FQI metric calculation. `unassigned_plants()` is a function that shows the user which plants are dropped because they have not been assigned a C Value.
 
 ```{r}
-#To see unassigned_plants in action we're going to montana! 
+#To see unassigned_plants in action we're going to Montana! 
 
 #first I'll create a df of plants to input
 no_c_plants<- data.frame(scientific_name = c("ABRONIA FRAGRANS", 
