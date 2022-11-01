@@ -31,7 +31,7 @@
 
 mean_w <- function(x, key = "scientific_name", db, native = FALSE) {
 
-  #calculate mean c score
+  #calculate mean W vlaue
   mean_w <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = FALSE,
                                   cover_metric = "percent_cover",

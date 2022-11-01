@@ -42,7 +42,7 @@ library(stringr)
 `fqacalc` contains all 51 regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army
 Corps of Engineers. By referencing these databases, the package knows
-what C score to give each plant that the user inputs. Users can see a
+what C Value to give each plant that the user inputs. Users can see a
 list of regional databases using the `db_names()` function, and specific
 FQA databases can be accessed using the `view_db()` function.
 
@@ -130,19 +130,19 @@ accepted_entries <- accepted_entries(#this is the data
 #view accepted entries
 head(accepted_entries)
 #>                       scientific_name synonym        family acronym native  c
-#> 1             AMMOPHILA BREVILIGULATA    <NA>       Poaceae  AMMBRE native 10
-#> 2 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS    <NA> Melanthiaceae  ANTELE native 10
-#> 3             ARCTOSTAPHYLOS UVA-URSI    <NA>     Ericaceae  ARCUVA native  8
-#> 4                ARTEMISIA CAMPESTRIS    <NA>    Asteraceae  ARTCAM native  5
-#> 5              CALAMAGROSTIS EPIGEIOS    <NA>       Poaceae  CALEPI exotic  0
-#> 6              CALAMOVILFA LONGIFOLIA    <NA>       Poaceae  CALLON native 10
+#> 2             AMMOPHILA BREVILIGULATA    <NA>       Poaceae  AMMBRE native 10
+#> 3 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS    <NA> Melanthiaceae  ANTELE native 10
+#> 4             ARCTOSTAPHYLOS UVA-URSI    <NA>     Ericaceae  ARCUVA native  8
+#> 5                ARTEMISIA CAMPESTRIS    <NA>    Asteraceae  ARTCAM native  5
+#> 6              CALAMAGROSTIS EPIGEIOS    <NA>       Poaceae  CALEPI exotic  0
+#> 7              CALAMOVILFA LONGIFOLIA    <NA>       Poaceae  CALLON native 10
 #>    w physiognomy  duration     common_name        fqa_db
-#> 1  5       grass perennial    marram grass michigan_2014
-#> 2 -3        forb perennial     white camas michigan_2014
-#> 3  5       shrub perennial       bearberry michigan_2014
-#> 4  5        forb  biennial        wormwood michigan_2014
-#> 5  3       grass perennial       reedgrass michigan_2014
-#> 6  5       grass perennial sand reed grass michigan_2014
+#> 2  5       grass perennial    marram grass michigan_2014
+#> 3 -3        forb perennial     white camas michigan_2014
+#> 4  5       shrub perennial       bearberry michigan_2014
+#> 5  5        forb  biennial        wormwood michigan_2014
+#> 6  3       grass perennial       reedgrass michigan_2014
+#> 7  5       grass perennial sand reed grass michigan_2014
 ```
 
 Now, when we use `accepted_entries()` to see which species were matched
@@ -151,11 +151,11 @@ species typo being discarded and we can also see that the accepted
 entries dataset we created only has 34 entries.
 
 In some cases plants from the user list can be matched to the regional
-database, but the plant is not associated with any C score. This is
+database, but the plant is not associated with any C Value. This is
 usually because not enough is known about that plant. Plants that are
-matched but have no C score will be excluded from FQI metric
+matched but have no C Value will be excluded from FQI metric
 calculation. `unassigned_plants()` is a function that shows the user
-which plants are dropped because they have not been assigned a C score.
+which plants are dropped because they have not been assigned a C Value.
 
 ``` r
 #To see unassigned_plants in action we're going to montana! 
@@ -176,14 +176,14 @@ unassigned_plants(no_c_plants, key = "scientific_name", db = "montana_2017")
 #> 2        <NA>     <NA>              Bigtooth Maple montana_2017
 ```
 
-As you can see, two of these species have no C scores.
+As you can see, two of these species have no C Values.
 
 ## Unweighted FQI Metrics
 
 `fqacalc` also contains a variety of functions that calculate Total
 Species Richness, Native Species Richness, Mean C, Native Mean C, Total
 FQI, Native FQI, and Adjusted FQI. All of these functions eliminate
-duplicate species, unmatched species, and species without a C score.
+duplicate species, unmatched species, and species without a C Value.
 
 #### Function Arguments
 
@@ -239,10 +239,10 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 #> 1                    Total Species Richness 35.00000000
 #> 2                   Native Species Richness 28.00000000
 #> 3                   Exotic Species Richness  7.00000000
-#> 4    Proportion of Species with < 1 C score  0.20000000
-#> 5  Proportion of Species with 1-3.9 C score  0.08571429
-#> 6  Proportion of Species with 4-6.9 C score  0.34285714
-#> 7   Proportion of Species with 7-10 C score  0.37142857
+#> 4    Proportion of Species with < 1 C Value  0.20000000
+#> 5  Proportion of Species with 1-3.9 C Value  0.08571429
+#> 6  Proportion of Species with 4-6.9 C Value  0.34285714
+#> 7   Proportion of Species with 7-10 C Value  0.37142857
 #> 8                                    Mean C  5.37142857
 #> 9                             Native Mean C  6.71428571
 #> 10                                Total FQI 31.77779998
@@ -332,10 +332,10 @@ transect_summary(transect, key = "acronym", db = "michigan_2014")
 #> 1                    Total Species Richness  4.0000000
 #> 2                   Native Species Richness  3.0000000
 #> 3                   Exotic Species Richness  1.0000000
-#> 4    Proportion of Species with < 1 C score  0.2500000
-#> 5  Proportion of Species with 1-3.9 C score  0.2500000
-#> 6  Proportion of Species with 4-6.9 C score  0.0000000
-#> 7   Proportion of Species with 7-10 C score  0.5000000
+#> 4    Proportion of Species with < 1 C Value  0.2500000
+#> 5  Proportion of Species with 1-3.9 C Value  0.2500000
+#> 6  Proportion of Species with 4-6.9 C Value  0.0000000
+#> 7   Proportion of Species with 7-10 C Value  0.5000000
 #> 8                                    Mean C  5.7500000
 #> 9                             Native Mean C  7.6666667
 #> 10                    Cover-Weighted Mean C  5.9460581

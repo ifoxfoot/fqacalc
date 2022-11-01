@@ -78,7 +78,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 
 mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 
-  #calculate mean c score
+  #calculate mean c value
   mean_c <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = F,
                                   cover_metric = "percent_cover",
@@ -204,10 +204,10 @@ all_metrics <- function(x, key = "scientific_name", db) {
   metrics <- c("Total Species Richness",
             "Native Species Richness",
             "Exotic Species Richness",
-            "Proportion of Species with < 1 C score",
-            "Proportion of Species with 1-3.9 C score",
-            "Proportion of Species with 4-6.9 C score",
-            "Proportion of Species with 7-10 C score",
+            "Proportion of Species with < 1 C Value",
+            "Proportion of Species with 1-3.9 C Value",
+            "Proportion of Species with 4-6.9 C Value",
+            "Proportion of Species with 7-10 C Value",
             "Mean C",
             "Native Mean C",
             "Total FQI",

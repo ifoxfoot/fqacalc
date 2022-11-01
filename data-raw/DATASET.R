@@ -242,7 +242,7 @@ fqa_db_clean_cols <- fqa_db_bind %>%
                             T ~ family)) %>%
   #clean commmon name
   mutate(common_name = str_to_title(common_name)) %>%
-  #clean c score
+  #clean C Value
   mutate(c = as.numeric(c)) %>%
   mutate(scientific_name = case_when(scientific_name == "BOTRYCHIUM SP. (NON-SOC)" ~
                                        "BOTRYCHIUM SP. NON-SOC",

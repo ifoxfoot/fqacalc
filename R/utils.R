@@ -48,7 +48,7 @@ db_names <- function() {
 #'   \item{family}{Taxonomic family of species}
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
 #'   \item{native}{Nativity status. native, exotic, and undetermined are values}
-#'   \item{c}{Coefficient of Conservation (C Score)}
+#'   \item{c}{Coefficient of Conservation (C Value)}
 #'   \item{w}{Wetland Indicator Rating}
 #'   \item{physiognomy}{Structure or physical appearance of plant}
 #'   \item{duration}{Lifespan of plant}
@@ -104,7 +104,7 @@ view_db <- function(db) {
 #'
 #' @return A data frame containing the 'key' column--either `acronym` or
 #' `scientific_name`--as well as columns from the relevant FQA database.
-#' These columns include `family`, `native`, `c` (which represents the C score),
+#' These columns include `family`, `native`, `c` (which represents the C Value),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
 #' @export
 #' @importFrom rlang .data
@@ -284,7 +284,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(entries_joined$c)) )
     message(paste("Species", entries_joined[is.na(entries_joined$c), key],
-                  "is recognized but has not been assigned a C score. It will be discarded."))
+                  "is recognized but has not been assigned a C Value. It will be discarded."))
 
   #discard entries that have no match, ID column
   entries_matched <- as.data.frame(entries_joined[!is.na(entries_joined$c),])
@@ -294,13 +294,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
 #-------------------------------------------------------------------------------
 
-#' Return Data Frame of Plant Species That Have No C Score
+#' Return Data Frame of Plant Species That Have No C Value
 #'
-#' Some regional FQA lists contain species which have not been assigned a C score.
+#' Some regional FQA lists contain species which have not been assigned a C Value.
 #' This is usually because the plant is unfamiliar to the botanists who assigned
-#' the C scores or because there is little known about the plant. `unassigned_plants`
+#' the C Values or because there is little known about the plant. `unassigned_plants`
 #' returns a data frame of plants in `x` that can be matched to a regional FQA database
-#' but have no C score. These observations are discarded in other `fqacalc` functions.
+#' but have no C Value. These observations are discarded in other `fqacalc` functions.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.

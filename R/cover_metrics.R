@@ -48,7 +48,7 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
   entries <- accepted_entries(x, key, db, native,
                               cover_weighted = T, cover_metric, allow_duplicates)
 
-  #calculate mean c score
+  #calculate mean c value without dups
   if(allow_duplicates == FALSE){
     mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)}
 
@@ -59,7 +59,7 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
       dplyr::distinct(!!as.name(key), mean, c)
 
 
-    #calculate mean c score
+    #calculate mean c value
     mean_c <- sum(entries$c * entries$mean)/
       sum(entries$mean)
   }
@@ -165,10 +165,10 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
   metrics <- c("Total Species Richness",
                "Native Species Richness",
                "Exotic Species Richness",
-               "Proportion of Species with < 1 C score",
-               "Proportion of Species with 1-3.9 C score",
-               "Proportion of Species with 4-6.9 C score",
-               "Proportion of Species with 7-10 C score",
+               "Proportion of Species with < 1 C Value",
+               "Proportion of Species with 1-3.9 C Value",
+               "Proportion of Species with 4-6.9 C Value",
+               "Proportion of Species with 7-10 C Value",
                "Mean C",
                "Native Mean C",
                "Cover-Weighted Mean C",

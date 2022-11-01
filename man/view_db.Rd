@@ -18,7 +18,7 @@ A data frame with 11 variables:
 \item{family}{Taxonomic family of species}
 \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
 \item{native}{Nativity status. native, exotic, and undetermined are values}
-\item{c}{Coefficient of Conservation (C Score)}
+\item{c}{Coefficient of Conservation (C Value)}
 \item{w}{Wetland Indicator Rating}
 \item{physiognomy}{Structure or physical appearance of plant}
 \item{duration}{Lifespan of plant}

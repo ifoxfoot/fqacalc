@@ -46,7 +46,7 @@ calculating transect and frequency metrics.}
 \value{
 A data frame containing the 'key' column--either \code{acronym} or
 \code{scientific_name}--as well as columns from the relevant FQA database.
-These columns include \code{family}, \code{native}, \code{c} (which represents the C score),
+These columns include \code{family}, \code{native}, \code{c} (which represents the C Value),
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }
 \description{
