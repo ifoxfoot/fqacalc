@@ -196,7 +196,9 @@ accepted_entries <- function(x, key = "scientific_name", db,
     #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
-        dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
+        dplyr::mutate(cover = dplyr::case_when(.data$cover == "1" ~ 0.5,
+                                               T ~ suppressWarnings(as.numeric(cols$cover))
+                        ))
     }
 
     #if cover method is carolina, transform to 10 classes
