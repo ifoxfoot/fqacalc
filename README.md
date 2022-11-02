@@ -14,7 +14,7 @@ been approved for use by the US Army Corps of Engineers.
 
 ## Installation
 
-You can install the development version of fqacalc from
+You can install the development version of `fqacalc` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -42,9 +42,10 @@ library(dplyr)
 `fqacalc` contains all 51 regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army
 Corps of Engineers. By referencing these databases, the package knows
-what C Value to give each plant that the user inputs. Users can see a
-list of regional databases using the `db_names()` function, and specific
-FQA databases can be accessed using the `view_db()` function.
+what Coefficient of Conservatism (or C Value) to give each plant that
+the user inputs. Users can see a list of regional databases using the
+`db_names()` function, and specific FQA databases can be accessed using
+the `view_db()` function.
 
 ``` r
 #view a list of all 51 available databases
@@ -147,7 +148,7 @@ head(accepted_entries)
 
 Now, when we use `accepted_entries()` to see which species were matched
 to the regional dataset, we can see that we got a message about the
-species typo being discarded and we can also see that the accepted
+species ‘typo’ being discarded and we can also see that the accepted
 entries dataset we created only has 34 entries.
 
 In some cases plants from the user list can be matched to the regional
@@ -183,7 +184,8 @@ As you can see, two of these species have no C Values.
 `fqacalc` also contains a variety of functions that calculate Total
 Species Richness, Native Species Richness, Mean C, Native Mean C, Total
 FQI, Native FQI, and Adjusted FQI. All of these functions eliminate
-duplicate species, unmatched species, and species without a C Value.
+duplicate species, species that cannot be found in the regional
+database, and species without a C Value.
 
 #### Function Arguments
 
@@ -192,7 +194,7 @@ the native argument)
 
 -   **x**: A data frame containing a list of plant species. This data
     frame *must* have one of the following columns: `scientific_name` or
-    `acronym`. This is something I hope to improve upon.
+    `acronym`.
 
 -   **key**: A character string representing the column that will be
     used to join the input `x` with the regional FQA database. If a
@@ -272,8 +274,9 @@ observations work best for calculating plot-level metrics, where each
 species is counted once along with its total cover value. Allowing
 duplicates work best for transect-level metrics, where repeated plots
 along a transect may contain the same species. As a note, if
-`allow_duplicates == TRUE` in a cover-weighted function, any duplicates
-species be counted once and their cover values will be added together.
+`allow_duplicates = FALSE` in a cover-weighted function, any duplicates
+species will be counted once and their cover values will be added
+together.
 
 #### Function Arguments
 
@@ -452,7 +455,7 @@ physiog_summary(transect, key = "acronym", db = "michigan_2014",
 ## Wetness metric
 
 `fqacalc` has one wetness metric, which calculates the mean wetness
-coefficient per site. Wetness coefficient is based off of the USFWS
+coefficient per site. The wetness coefficient is based off of the USFWS
 Wetland Indicator Status. Negative wetness coefficients indicate a
 stronger affinity for wetlands, while positive wetland coefficients
 indicate an affinity for uplands.
