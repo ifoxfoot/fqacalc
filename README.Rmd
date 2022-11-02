@@ -34,8 +34,8 @@ devtools::install_github("ifoxfoot/fqacalc")
 ```{r}
 #attach packages required for this tutorial
 library(fqacalc)
-library(dplyr)
 library(stringr)
+library(dplyr)
 ```
 
 ## Package Data

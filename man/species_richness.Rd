@@ -31,7 +31,7 @@ assessment.
 \examples{
 plant_list <- crooked_island
 
-#number of species (native and non-native)
+#number of species (native and exotic)
 species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #number of native species

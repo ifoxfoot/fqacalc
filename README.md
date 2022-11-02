@@ -25,6 +25,7 @@ devtools::install_github("ifoxfoot/fqacalc")
 ``` r
 #attach packages required for this tutorial
 library(fqacalc)
+library(stringr)
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -34,7 +35,6 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-library(stringr)
 ```
 
 ## Package Data
@@ -235,21 +235,21 @@ format.
 
 ``` r
 all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
-#>                                     metrics      values
-#> 1                    Total Species Richness 35.00000000
-#> 2                   Native Species Richness 28.00000000
-#> 3                   Exotic Species Richness  7.00000000
-#> 4    Proportion of Species with < 1 C score  0.20000000
-#> 5  Proportion of Species with 1-3.9 C score  0.08571429
-#> 6  Proportion of Species with 4-6.9 C score  0.34285714
-#> 7   Proportion of Species with 7-10 C score  0.37142857
-#> 8                                    Mean C  5.37142857
-#> 9                             Native Mean C  6.71428571
-#> 10                                Total FQI 31.77779998
-#> 11                               Native FQI 35.52866046
-#> 12                             Adjusted FQI 60.05439711
-#> 13                             Mean Wetness  0.71428571
-#> 14                      Native Mean Wetness  0.85714286
+#>                           metrics     values
+#> 1          Total Species Richness 35.0000000
+#> 2         Native Species Richness 28.0000000
+#> 3     Non-native Species Richness  7.0000000
+#> 4     % of Species with 0 C Value 20.0000000
+#> 5   % of Species with 1-3 C Value  8.5714286
+#> 6   % of Species with 4-6 C Value 34.2857143
+#> 7  % of Species with 7-10 C Value 37.1428571
+#> 8                          Mean C  5.3714286
+#> 9                   Native Mean C  6.7142857
+#> 10                      Total FQI 31.7778000
+#> 11                     Native FQI 35.5286605
+#> 12                   Adjusted FQI 60.0543971
+#> 13                   Mean Wetness  0.7142857
+#> 14            Native Mean Wetness  0.8571429
 ```
 
 Also, all the functions are documented with help pages.
@@ -328,25 +328,25 @@ cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE,
 
 #transect summary function (allows duplicates)
 transect_summary(transect, key = "acronym", db = "michigan_2014")
-#>                                     metrics     values
-#> 1                    Total Species Richness  4.0000000
-#> 2                   Native Species Richness  3.0000000
-#> 3                   Exotic Species Richness  1.0000000
-#> 4    Proportion of Species with < 1 C score  0.2500000
-#> 5  Proportion of Species with 1-3.9 C score  0.2500000
-#> 6  Proportion of Species with 4-6.9 C score  0.0000000
-#> 7   Proportion of Species with 7-10 C score  0.5000000
-#> 8                                    Mean C  5.7500000
-#> 9                             Native Mean C  7.6666667
-#> 10                    Cover-Weighted Mean C  5.9460581
-#> 11             Cover-Weighted Native Mean C  9.4900662
-#> 12                                Total FQI 11.5000000
-#> 13                               Native FQI 13.2790562
-#> 14                       Cover-Weighted FQI 11.8921162
-#> 15                Cover-Weighted Native FQI 16.4372769
-#> 16                             Adjusted FQI 66.3952810
-#> 17                             Mean Wetness  1.7500000
-#> 18                      Native Mean Wetness  0.6666667
+#>                           metrics     values
+#> 1          Total Species Richness  4.0000000
+#> 2         Native Species Richness  3.0000000
+#> 3     Non-native Species Richness  1.0000000
+#> 4     % of Species with 0 C Value 25.0000000
+#> 5   % of Species with 1-3 C Value 25.0000000
+#> 6   % of Species with 4-6 C Value  0.0000000
+#> 7  % of Species with 7-10 C Value 50.0000000
+#> 8                          Mean C  5.7500000
+#> 9                   Native Mean C  7.6666667
+#> 10          Cover-Weighted Mean C  5.9460581
+#> 11   Cover-Weighted Native Mean C  9.4900662
+#> 12                      Total FQI 11.5000000
+#> 13                     Native FQI 13.2790562
+#> 14             Cover-Weighted FQI 11.8921162
+#> 15      Cover-Weighted Native FQI 16.4372769
+#> 16                   Adjusted FQI 66.3952810
+#> 17                   Mean Wetness  1.7500000
+#> 18            Native Mean Wetness  0.6666667
 ```
 
 There is also a plot summary function that summarizes plots along a
