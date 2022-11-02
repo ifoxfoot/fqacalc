@@ -101,6 +101,9 @@ view_db <- function(db) {
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
 #' calculating transect and frequency metrics.
+#' @param include_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
+#' been assigned C Values.
 #'
 #' @return A data frame containing the 'key' column--either `acronym` or
 #' `scientific_name`--as well as columns from the relevant FQA database.
@@ -117,7 +120,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
                              native = c(TRUE, FALSE),
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
-                             allow_duplicates = FALSE) {
+                             allow_duplicates = FALSE,
+                             include_no_c = FALSE) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -147,9 +151,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !db %in% unique(fqa_db$fqa_db) )
     stop(paste(db, "not recognized. Run 'db_names()' for a list of acceptable db values."))
 
-  #cover_weighted must be TRUE or FALSE
+  #native must be TRUE or FALSE
   if( !is.logical(native) )
     stop("'native' can only be set to TRUE or FALSE")
+
+  #include_no_c must be TRUE or FALSE
+  if( !is.logical(include_no_c) )
+    stop("'include_no_c' can only be set to TRUE or FALSE")
 
   #cover_weighted must be TRUE or FALSE
   if( !is.logical(cover_weighted) )
@@ -197,7 +205,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
         dplyr::mutate(cover = dplyr::case_when(.data$cover == "1" ~ 0.5,
-                                               T ~ suppressWarnings(as.numeric(cols$cover))
+                                               TRUE ~ suppressWarnings(as.numeric(cols$cover))
                         ))
     }
 
@@ -271,9 +279,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
        message(paste("Species", entries_joined[is.na(entries_joined$p), key],
                      "not listed in database. It will be discarded."))
 
-  #now get rid of observations not in regional list
-  entries_joined <- entries_joined[!is.na(entries_joined$p),] %>%
-    dplyr::select(-.data$p)
+  if(include_no_c) {
+    #now get rid of observations not in regional list
+    entries_joined <- entries_joined[!is.na(entries_joined$p),] %>%
+      dplyr::select(-.data$p) }
+  else{entries_joined <- entries_joined %>%
+    dplyr::select(-.data$p) }
 
   #if native = T, filter for only native species
   if (native) {

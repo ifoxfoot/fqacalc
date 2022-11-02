@@ -116,8 +116,8 @@ relative_cover <- function(x, key = "scientific_name", db,
 
   #bind to regional fqa list to get info about taxonomy, physiognomy
   entries <- accepted_entries(x, key, db, native = FALSE,
-                              allow_duplicates = T,
-                              cover_weighted = T,
+                              allow_duplicates = TRUE,
+                              cover_weighted = TRUE,
                               cover_metric) %>%
     dplyr::group_by(!!as.name(name)) %>%
     #caclulate cover per group

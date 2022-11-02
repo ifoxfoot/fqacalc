@@ -35,9 +35,9 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #count how many observations are unique and matched
   species_richness <- nrow(accepted_entries(x, key, db, native,
-                                            cover_weighted = F,
+                                            cover_weighted = FALSE,
                                             cover_metric = "percent_cover",
-                                            allow_duplicates = F))
+                                            allow_duplicates = FALSE))
 
   #return number of species
   return(species_richness)
@@ -80,9 +80,9 @@ mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #calculate mean C Value
   mean_c <- mean(accepted_entries(x, key, db, native,
-                                  cover_weighted = F,
+                                  cover_weighted = FALSE,
                                   cover_metric = "percent_cover",
-                                  allow_duplicates = F)$c)
+                                  allow_duplicates = FALSE)$c)
 
   #print
   return(mean_c)
@@ -160,9 +160,9 @@ FQI <- function(x, key = "scientific_name", db, native = FALSE) {
 adjusted_FQI <- function(x, key = "scientific_name", db) {
 
   #calculate adjusted fqi
-  fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = T))/10) *
-      sqrt(suppressMessages(species_richness(x, key, db, native = T))/
-             species_richness(x, key, db, native = F)
+  fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = TRUE))/10) *
+      sqrt(suppressMessages(species_richness(x, key, db, native = TRUE))/
+             species_richness(x, key, db, native = FALSE)
       )
 
   #print
@@ -217,17 +217,17 @@ all_metrics <- function(x, key = "scientific_name", db) {
             "Native Mean Wetness")
 
   #create list of values
-  values <- c(species_richness(x, key, db, native = F),
-            suppressMessages(species_richness(x, key, db, native = T)),
+  values <- c(species_richness(x, key, db, native = FALSE),
+            suppressMessages(species_richness(x, key, db, native = TRUE)),
             nrow(dplyr::filter(accepted, .data$native == "exotic")),
             (sum(accepted$c <= 1 )/length(accepted$c))*100,
             (sum(accepted$c >= 1 & accepted$c < 4)/length(accepted$c))*100,
             (sum(accepted$c >= 4 & accepted$c < 7)/length(accepted$c))*100,
             (sum(accepted$c >= 7 & accepted$c <= 10)/length(accepted$c))*100,
-            suppressMessages(mean_c(x, key, db, native = F)),
-            suppressMessages(mean_c(x, key, db, native = T)),
-            suppressMessages(FQI(x, key, db, native = F)),
-            suppressMessages(FQI(x, key, db, native = T)),
+            suppressMessages(mean_c(x, key, db, native = FALSE)),
+            suppressMessages(mean_c(x, key, db, native = TRUE)),
+            suppressMessages(FQI(x, key, db, native = FALSE)),
+            suppressMessages(FQI(x, key, db, native = TRUE)),
             suppressMessages(adjusted_FQI(x, key, db)),
             suppressMessages(mean_w(x, key, db, native = FALSE)),
             suppressMessages(mean_w(x, key, db, native = TRUE)))
