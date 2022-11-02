@@ -27,7 +27,7 @@ db_names <- function() {
       "maine_2014",
       "maine_new_brunswick_2018",
       "vermont_2013")
-      ~ "Approved with reservations", T ~ status))
+      ~ "Approved with reservations", TRUE ~ status))
 
   #return names
   return(df)

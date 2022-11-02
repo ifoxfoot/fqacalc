@@ -11,7 +11,8 @@ accepted_entries(
   native = c(TRUE, FALSE),
   cover_weighted = FALSE,
   cover_metric = "percent_cover",
-  allow_duplicates = FALSE
+  allow_duplicates = FALSE,
+  include_no_c = FALSE
 )
 }
 \arguments{
@@ -42,6 +43,10 @@ recommended because it is the most accurate.}
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
 calculating transect and frequency metrics.}
+
+\item{include_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A data frame containing the 'key' column--either \code{acronym} or

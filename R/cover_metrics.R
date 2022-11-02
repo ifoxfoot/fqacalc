@@ -46,7 +46,7 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
-                              cover_weighted = T, cover_metric, allow_duplicates)
+                              cover_weighted = TRUE, cover_metric, allow_duplicates)
 
   #calculate mean C Value
   if(allow_duplicates == FALSE){

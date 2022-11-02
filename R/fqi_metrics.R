@@ -195,10 +195,10 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 all_metrics <- function(x, key = "scientific_name", db) {
 
   #get list of accepted entries for calculating stats
-  accepted <- suppressMessages(accepted_entries(x, key, db, native = F,
-                                                cover_weighted = F,
+  accepted <- suppressMessages(accepted_entries(x, key, db, native = FALSE,
+                                                cover_weighted = FALSE,
                                                 cover_metric = "percent_cover",
-                                                allow_duplicates = F))
+                                                allow_duplicates = FALSE))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
