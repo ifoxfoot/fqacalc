@@ -22,12 +22,13 @@ test_that("cover_FQI() works in perfect setting", {
 #-------------------------------------------------------------------------------
 #testing all_cover_metrics()
 
-test_that("all_cover_metrics() works in perfect setting", {
+test_that("transect_summary() works in perfect setting", {
   expect_equal(transect_summary(x = transect, key = "acronym", db = "michigan_2014"),
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
                                       "Non-native Species Richness",
+                                      "% of Species with no C Value",
                                       "% of Species with 0 C Value",
                                       "% of Species with 1-3 C Value",
                                       "% of Species with 4-6 C Value",
@@ -46,6 +47,7 @@ test_that("all_cover_metrics() works in perfect setting", {
                           values = c(4,
                                      3,
                                      1,
+                                     0,
                                      25.0,
                                      25.0,
                                      0.0,

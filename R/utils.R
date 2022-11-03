@@ -101,7 +101,7 @@ view_db <- function(db) {
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
 #' calculating transect and frequency metrics.
-#' @param include_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
 #'
@@ -121,7 +121,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
                              allow_duplicates = FALSE,
-                             include_no_c = FALSE) {
+                             allow_no_c = FALSE) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -156,8 +156,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
     stop("'native' can only be set to TRUE or FALSE")
 
   #include_no_c must be TRUE or FALSE
-  if( !is.logical(include_no_c) )
-    stop("'include_no_c' can only be set to TRUE or FALSE")
+  if( !is.logical(allow_no_c) )
+    stop("'allow_no_c' can only be set to TRUE or FALSE")
 
   #cover_weighted must be TRUE or FALSE
   if( !is.logical(cover_weighted) )
@@ -279,12 +279,9 @@ accepted_entries <- function(x, key = "scientific_name", db,
        message(paste("Species", entries_joined[is.na(entries_joined$p), key],
                      "not listed in database. It will be discarded."))
 
-  if(include_no_c) {
-    #now get rid of observations not in regional list
-    entries_joined <- entries_joined[!is.na(entries_joined$p),] %>%
-      dplyr::select(-.data$p) }
-  else{entries_joined <- entries_joined %>%
-    dplyr::select(-.data$p) }
+  #now get rid of observations not in regional list
+  entries_joined <- entries_joined[!is.na(entries_joined$p),] %>%
+    dplyr::select(-.data$p)
 
   #if native = T, filter for only native species
   if (native) {
@@ -295,12 +292,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(entries_joined$c)) )
     message(paste("Species", entries_joined[is.na(entries_joined$c), key],
-                  "is recognized but has not been assigned a C Value. It will be discarded."))
+                  "is recognized but has not been assigned a C Value. It can optionally be included in species richness but will not be included in any FQI metrics. "))
 
-  #discard entries that have no match, ID column
-  entries_matched <- as.data.frame(entries_joined[!is.na(entries_joined$c),])
+  #if allow no c is false, get rid of observations with no c value
+  if( !allow_no_c ) {
+    entries_joined <- entries_joined[!is.na(entries_joined$c),]  }
 
-  return(entries_matched)
+  return(entries_joined)
 }
 
 #-------------------------------------------------------------------------------

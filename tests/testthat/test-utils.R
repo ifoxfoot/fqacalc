@@ -78,6 +78,6 @@ test_that("accepted_entries() throws a message if species not recognized", {
 
 test_that("accepted_entries() throws a messafe if species does not have C Value", {
   expect_message(accepted_entries(no_c_test, key = "scientific_name", db = "montana_2017", native = F),
-                 "Species ABRONIA FRAGRANS is recognized but has not been assigned a C Value. It will be discarded.")
+                 "Species ABRONIA FRAGRANS is recognized but has not been assigned a C Value.")
 })
 

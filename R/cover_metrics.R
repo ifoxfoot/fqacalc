@@ -141,6 +141,10 @@ cover_FQI <- function(x, key = "scientific_name", db, native = FALSE,
 #' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
 #' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
 #' recommended because it is the most accurate.
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' regional database but have not been assigned a C Values to be counted in species
+#' richness and native species richness. If FALSE, omit species that have not
+#' been assigned C Values.
 #'
 #' @return A data frame
 #' @export
@@ -153,18 +157,21 @@ cover_FQI <- function(x, key = "scientific_name", db, native = FALSE,
 #'
 #' transect_summary(x = transect, key = "acronym", db = "michigan_2014")
 
-transect_summary <- function(x, key = "scientific_name", db, cover_metric = "percent_cover") {
+transect_summary <- function(x, key = "scientific_name", db, cover_metric = "percent_cover",
+                             allow_no_c = TRUE) {
 
 
   accepted <- suppressMessages(accepted_entries(x, key, db, native = FALSE,
                                                 cover_weighted = FALSE,
                                                 cover_metric = "percent_cover",
-                                                allow_duplicates = FALSE))
+                                                allow_duplicates = FALSE,
+                                                allow_no_c))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
                "Native Species Richness",
                "Non-native Species Richness",
+               "% of Species with no C Value",
                "% of Species with 0 C Value",
                "% of Species with 1-3 C Value",
                "% of Species with 4-6 C Value",
@@ -183,9 +190,10 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
                )
 
   #create list of values
-  values <- c(suppressMessages(species_richness(x, key, db, native = FALSE)),
-              suppressMessages(species_richness(x, key, db, native = TRUE)),
+  values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
+              suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
               nrow(dplyr::filter(accepted, .data$native == "exotic")),
+              (sum(is.na(accepted$c))/length(accepted$c))*100,
               (sum(accepted$c <= 1 )/length(accepted$c))*100,
               (sum(accepted$c >= 1 & accepted$c < 4)/length(accepted$c))*100,
               (sum(accepted$c >= 4 & accepted$c < 7)/length(accepted$c))*100,
@@ -236,6 +244,10 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
 #' recommended because it is the most accurate.
 #' @param plot_id A character string representing the column in `x` that contains plot
 #' identification values.
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' regional database but have not been assigned a C Values to be counted in species
+#' richness and native species richness. If FALSE, omit species that have not
+#' been assigned C Values.
 #'
 #' @return A data frame where each row is a plot and columns contain FQI and
 #' cover-weighted FQI statistics.
@@ -252,7 +264,8 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
 
 
 plot_summary <- function(x, key = "scientific_name", db,
-                         cover_metric = "percent_cover", plot_id){
+                         cover_metric = "percent_cover", plot_id,
+                         allow_no_c = TRUE){
 
   if( !plot_id %in% colnames(x) )
     stop(paste("'plot_id' must be the name of a column in", deparse(substitute(x)), "."))
@@ -261,9 +274,9 @@ plot_summary <- function(x, key = "scientific_name", db,
     dplyr::group_by(!!as.name(plot_id)) %>%
     dplyr::summarise(
       species_richness
-      = species_richness(dplyr::cur_data(), key, db, native = FALSE),
+      = species_richness(dplyr::cur_data(), key, db, native = FALSE, allow_no_c),
       native_species_richness
-      = species_richness(dplyr::cur_data(), key, db, native = TRUE),
+      = species_richness(dplyr::cur_data(), key, db, native = TRUE, allow_no_c),
       mean_c
       = mean_c(dplyr::cur_data(), key, db, native = FALSE),
       native_mean_c

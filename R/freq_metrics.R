@@ -318,7 +318,6 @@ physiog_summary <- function(x, key = "scientific_name", db,
   #relative importance
   rel_import <- relative_importance(x, key, db, col = "physiog", cover_metric)
 
-
   #merge together
   df <- merge(group, rel_freq) %>%
     merge(rel_cov) %>%

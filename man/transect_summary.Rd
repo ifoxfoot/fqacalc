@@ -8,7 +8,8 @@ transect_summary(
   x,
   key = "scientific_name",
   db,
-  cover_metric = "percent_cover"
+  cover_metric = "percent_cover",
+  allow_no_c = TRUE
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ values for key.}
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
 recommended because it is the most accurate.}
+
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+regional database but have not been assigned a C Values to be counted in species
+richness and native species richness. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A data frame

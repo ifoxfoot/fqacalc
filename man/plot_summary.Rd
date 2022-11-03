@@ -9,7 +9,8 @@ plot_summary(
   key = "scientific_name",
   db,
   cover_metric = "percent_cover",
-  plot_id
+  plot_id,
+  allow_no_c = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,11 @@ recommended because it is the most accurate.}
 
 \item{plot_id}{A character string representing the column in \code{x} that contains plot
 identification values.}
+
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+regional database but have not been assigned a C Values to be counted in species
+richness and native species richness. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A data frame where each row is a plot and columns contain FQI and

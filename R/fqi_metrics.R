@@ -17,6 +17,9 @@
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
+#' been assigned C Values.
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -31,10 +34,10 @@
 #' #number of native species
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-species_richness <- function(x, key = "scientific_name", db, native = FALSE) {
+species_richness <- function(x, key = "scientific_name", db, native = FALSE, allow_no_c = TRUE) {
 
   #count how many observations are unique and matched
-  species_richness <- nrow(accepted_entries(x, key, db, native,
+  species_richness <- nrow(accepted_entries(x, key, db, native, allow_no_c,
                                             cover_weighted = FALSE,
                                             cover_metric = "percent_cover",
                                             allow_duplicates = FALSE))
@@ -82,7 +85,8 @@ mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
   mean_c <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = FALSE,
                                   cover_metric = "percent_cover",
-                                  allow_duplicates = FALSE)$c)
+                                  allow_duplicates = FALSE,
+                                  allow_no_c = FALSE)$c)
 
   #print
   return(mean_c)
@@ -124,7 +128,7 @@ FQI <- function(x, key = "scientific_name", db, native = FALSE) {
 
   #calculate total fqi
   fqi <- mean_c(x, key, db, native) *
-    suppressMessages(sqrt(species_richness(x, key, db, native)))
+    suppressMessages(sqrt(species_richness(x, key, db, native, allow_no_c = FALSE)))
 
   #print
   return(fqi)
@@ -161,8 +165,8 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 
   #calculate adjusted fqi
   fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = TRUE))/10) *
-      sqrt(suppressMessages(species_richness(x, key, db, native = TRUE))/
-             species_richness(x, key, db, native = FALSE)
+      sqrt(suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c = FALSE))/
+             species_richness(x, key, db, native = FALSE, allow_no_c = FALSE)
       )
 
   #print
@@ -184,6 +188,10 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' regional database but have not been assigned a C Values to be counted in species
+#' richness and native species richness. If FALSE, omit species that have not
+#' been assigned C Values.
 #'
 #' @return A data frame
 #' @export
@@ -192,18 +200,20 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 #' plant_list <- crooked_island
 #' all_metrics(x = plant_list, key = "acronym", db = "michigan_2014")
 
-all_metrics <- function(x, key = "scientific_name", db) {
+all_metrics <- function(x, key = "scientific_name", db, allow_no_c = TRUE) {
 
   #get list of accepted entries for calculating stats
   accepted <- suppressMessages(accepted_entries(x, key, db, native = FALSE,
                                                 cover_weighted = FALSE,
                                                 cover_metric = "percent_cover",
-                                                allow_duplicates = FALSE))
+                                                allow_duplicates = FALSE,
+                                                allow_no_c))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
             "Non-native Species Richness",
+            "% of Species with no C Value",
             "% of Species with 0 C Value",
             "% of Species with 1-3 C Value",
             "% of Species with 4-6 C Value",
@@ -217,9 +227,10 @@ all_metrics <- function(x, key = "scientific_name", db) {
             "Native Mean Wetness")
 
   #create list of values
-  values <- c(species_richness(x, key, db, native = FALSE),
-            suppressMessages(species_richness(x, key, db, native = TRUE)),
+  values <- c(species_richness(x, key, db, native = FALSE, allow_no_c),
+            suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
             nrow(dplyr::filter(accepted, .data$native == "exotic")),
+            (sum(is.na(accepted$c))/length(accepted$c))*100,
             (sum(accepted$c <= 1 )/length(accepted$c))*100,
             (sum(accepted$c >= 1 & accepted$c < 4)/length(accepted$c))*100,
             (sum(accepted$c >= 4 & accepted$c < 7)/length(accepted$c))*100,
