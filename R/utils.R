@@ -1,5 +1,5 @@
 
-#this file contains `db_names()`, `view_db()`, and `accepted_entries()`
+#this file contains `db_names()`, `view_db()`, `accepted_entries()`, and `unassigned plants()`
 
 #-------------------------------------------------------------------------------
 

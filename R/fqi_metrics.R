@@ -1,5 +1,7 @@
 
 #this file contains functions for calculating non-cover-weighted fqi metrics
+#species_richness(), mean_c(), fqi(), adjusted_fqi(), and all_metrics()
+
 #-------------------------------------------------------------------------------
 
 #' Calculate Number of Species

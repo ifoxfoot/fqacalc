@@ -1,5 +1,6 @@
 
-#this file contains frequency  metrics (relative_freq(), relative_cover(), relative_importance(), species_summary())
+#this file contains frequency  metrics
+#relative_freq(), relative_cover(), relative_importance(), species_summary() and physiog_summary()
 
 #-------------------------------------------------------------------------------
 

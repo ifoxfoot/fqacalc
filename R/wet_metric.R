@@ -1,4 +1,8 @@
 
+#this file contains `mean_w()`
+
+#-------------------------------------------------------------------------------
+
 #' Calculate the Mean Wetness Coefficient
 #'
 #'`mean_w` calculates the mean wetness coefficient for all species in
