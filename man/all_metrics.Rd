@@ -18,7 +18,7 @@ values for key.}
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
 
-\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 regional database but have not been assigned a C Values to be counted in species
 richness and native species richness. If FALSE, omit species that have not
 been assigned C Values.}

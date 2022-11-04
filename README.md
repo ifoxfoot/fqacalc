@@ -154,9 +154,14 @@ entries dataset we created only has 34 entries.
 In some cases plants from the user list can be matched to the regional
 database, but the plant is not associated with any C Value. This is
 usually because not enough is known about that plant. Plants that are
-matched but have no C Value will be excluded from FQI metric
-calculation. `unassigned_plants()` is a function that shows the user
-which plants are dropped because they have not been assigned a C Value.
+matched but have no C Value will be excluded from FQI metric calculation
+byt they can *optionally* be included in other metrics like species
+richness, relative cover, relative frequency, relative importance, and
+mean wetness, as well as any summarizing functions containing these
+metrics. This option is denoted with the `allow_no_c` argument.
+
+`unassigned_plants()` is a function that shows the user which plants
+have not been assigned a C Value.
 
 ``` r
 #To see unassigned_plants in action we're going to Montana! 
@@ -207,6 +212,12 @@ the native argument)
 
 -   **native**: native Boolean (TRUE or FALSE). If TRUE, calculate
     metrics using only native species.
+
+Additionally, `species_richness()` and `all_metrics()` have an argument
+called `allow_no_c`. If `allow_no_c = TRUE` than species that are in the
+regional FQAI but don’t have C Values will be included. If `allow_no_c`
+is FALSE, then these species will be omitted. This argument is also
+found in `mean_w()` and all the relative functions.
 
 #### Functions
 

@@ -207,8 +207,8 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
               suppressMessages(cover_FQI(x, key, db, native = FALSE, cover_metric, allow_duplicates = TRUE)),
               suppressMessages(cover_FQI(x, key, db, native = TRUE, cover_metric, allow_duplicates = TRUE)),
               suppressMessages(adjusted_FQI(x, key, db)),
-              suppressMessages(mean_w(x, key, db, native = FALSE)),
-              suppressMessages(mean_w(x, key, db, native = TRUE))
+              suppressMessages(mean_w(x, key, db, native = FALSE, allow_no_c)),
+              suppressMessages(mean_w(x, key, db, native = TRUE, allow_no_c))
               )
 
 
@@ -277,6 +277,8 @@ plot_summary <- function(x, key = "scientific_name", db,
       = species_richness(dplyr::cur_data(), key, db, native = FALSE, allow_no_c),
       native_species_richness
       = species_richness(dplyr::cur_data(), key, db, native = TRUE, allow_no_c),
+      mean_wetness
+      = mean_w(dplyr::cur_data(), key, db, native = FALSE, allow_no_c),
       mean_c
       = mean_c(dplyr::cur_data(), key, db, native = FALSE),
       native_mean_c

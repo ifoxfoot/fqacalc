@@ -17,7 +17,7 @@
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
 #'
@@ -188,7 +188,7 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values to be counted in species
 #' richness and native species richness. If FALSE, omit species that have not
 #' been assigned C Values.
@@ -240,8 +240,8 @@ all_metrics <- function(x, key = "scientific_name", db, allow_no_c = TRUE) {
             suppressMessages(FQI(x, key, db, native = FALSE)),
             suppressMessages(FQI(x, key, db, native = TRUE)),
             suppressMessages(adjusted_FQI(x, key, db)),
-            suppressMessages(mean_w(x, key, db, native = FALSE)),
-            suppressMessages(mean_w(x, key, db, native = TRUE)))
+            suppressMessages(mean_w(x, key, db, native = FALSE, allow_no_c)),
+            suppressMessages(mean_w(x, key, db, native = TRUE, allow_no_c)))
 
 
   #bind metrics and values into data frame

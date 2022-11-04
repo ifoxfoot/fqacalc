@@ -16,6 +16,9 @@
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
+#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
+#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
+#' been assigned C Values.
 #'
 #' @return A non-negative integer
 #' @export
@@ -29,13 +32,14 @@
 #' #mean wetness of native species
 #' mean_w(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-mean_w <- function(x, key = "scientific_name", db, native = FALSE) {
+mean_w <- function(x, key = "scientific_name", db, native = FALSE, allow_no_c = TRUE) {
 
   #calculate mean W vlaue
   mean_w <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = FALSE,
                                   cover_metric = "percent_cover",
-                                  allow_duplicates = FALSE)$w)
+                                  allow_duplicates = FALSE,
+                                  allow_no_c)$w)
 
   #print
   return(mean_w)

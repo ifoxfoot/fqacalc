@@ -76,6 +76,7 @@ test_that("plot_summary() works", {
                data.frame(quad_id = c(1,2),
                           species_richness = c(4,3),
                           native_species_richness = c(3,2),
+                          mean_wetness = c(1.75, 3.33333333),
                           mean_c = c(5.750000, 4.3333333),
                           native_mean_c = c(7.6666667, 6.5),
                           cover_mean_c = c(4.92307692, 5.80373832),

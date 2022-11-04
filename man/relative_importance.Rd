@@ -9,7 +9,8 @@ relative_importance(
   key = "scientific_name",
   db,
   col = c("species", "family", "physiog"),
-  cover_metric = "percent_cover"
+  cover_metric = "percent_cover",
+  allow_no_c = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,10 @@ the relative frequency of. Can be set to "species", "family" or "physiog" (for p
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
 recommended because it is the most accurate.}
+
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A data frame with categorical variables set by the col argument and their relative importance.

@@ -4,7 +4,7 @@
 \alias{mean_w}
 \title{Calculate the Mean Wetness Coefficient}
 \usage{
-mean_w(x, key = "scientific_name", db, native = FALSE)
+mean_w(x, key = "scientific_name", db, native = FALSE, allow_no_c = TRUE)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -20,6 +20,10 @@ values for key.}
 
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
+
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A non-negative integer

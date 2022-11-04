@@ -8,7 +8,8 @@ relative_freq(
   x,
   key = "scientific_name",
   db,
-  col = c("species", "family", "physiog")
+  col = c("species", "family", "physiog"),
+  allow_no_c = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,10 @@ values for key.}
 
 \item{col}{A character string representing the categorical variable to calculate
 the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).}
+
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A data frame with categorical variables set by the col argument and their relative frequency.

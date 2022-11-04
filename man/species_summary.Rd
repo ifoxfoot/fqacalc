@@ -4,7 +4,13 @@
 \alias{species_summary}
 \title{Create A Cover-Weighted Summary of Species}
 \usage{
-species_summary(x, key = "scientific_name", db, cover_metric = "percent_cover")
+species_summary(
+  x,
+  key = "scientific_name",
+  db,
+  cover_metric = "percent_cover",
+  allow_no_c = TRUE
+)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
@@ -23,6 +29,10 @@ values for key.}
 cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
 recommended because it is the most accurate.}
+
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
+been assigned C Values.}
 }
 \value{
 A data frame where each row is a species and each column is information about that species
