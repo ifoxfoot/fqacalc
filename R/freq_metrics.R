@@ -38,6 +38,8 @@
 relative_freq <- function(x, key = "scientific_name", db,
                           col = c("species", "family", "physiog"), allow_no_c = TRUE) {
 
+  #declaring rel_freq as null so I can use as a veriable name
+  rel_freq <- NULL
 
   #col argument must be right
   if( !col %in% c("species", "family", "physiog"))
@@ -53,14 +55,9 @@ relative_freq <- function(x, key = "scientific_name", db,
                               cover_metric = "percent_cover",
                               allow_no_c)
 
-  #calculate relative frequency--fre/num observations, select right col
-  df <- data.frame(100*(table(entries[name])/nrow(entries)))
-
-  #convert name column to character
-  df[,1] <- as.character(df[,1])
-
-  #replace col names
-  colnames(df) <- c({{name}}, "rel_freq")
+  #calculate relative frequency--fre/num observations
+  df <- data.frame(dplyr::count(entries, !!as.name(name), name = "rel_freq")) %>%
+    dplyr::mutate(rel_freq = 100*rel_freq/nrow(entries))
 
   #return result
   return(df)

@@ -42,7 +42,6 @@ ne_list <- lapply(ne_files, function(x)
 #bind together
 ne_compiled <- bind_rows(ne_list)
 
-
 #clean up col names
 ne_clean <- ne_compiled %>%
   mutate(scientific_name = Taxon) %>%
@@ -209,17 +208,17 @@ fqa_db_bind <- rbind(ne_clean,
   mutate(scientific_name = toupper(scientific_name)) %>%
   mutate(synonym = toupper(synonym))
 
-#clean up cols (other than latin name)
+#clean up cols (other than Latin name)
 fqa_db_clean_cols <- fqa_db_bind %>%
   #clean nativity
   mutate(native = case_when(
     native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
     ~ "native", T ~ native)) %>%
   mutate(native = case_when(
-    native %in% c("Exotic", "exotiv", "I", "Likely Exotic", "Nonnative")
+    native %in% c("Exotic", "exotic", "I", "Likely Exotic", "Nonnative")
     ~ "non-native", T ~ native)) %>%
   mutate(native = case_when(
-    !native %in% c("native", "exotic") ~ "undetermined", T ~ native)) %>%
+    !native %in% c("native", "non-native") ~ "undetermined", T ~ native)) %>%
   #clean duration
   mutate(duration = str_to_title(duration)) %>%
   #clean physiognomy
