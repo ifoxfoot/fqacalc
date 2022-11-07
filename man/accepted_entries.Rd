@@ -12,7 +12,8 @@ accepted_entries(
   cover_weighted = FALSE,
   cover_metric = "percent_cover",
   allow_duplicates = FALSE,
-  allow_no_c = FALSE
+  allow_no_c = FALSE,
+  allow_non_veg = FALSE
 )
 }
 \arguments{
@@ -47,6 +48,9 @@ calculating transect and frequency metrics.}
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
 been assigned C Values.}
+
+\item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+ground and un-vegetated water.}
 }
 \value{
 A data frame containing the 'key' column--either \code{acronym} or

@@ -46,3 +46,8 @@ cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 #na in cover test
 na_intro_cover <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                        cover = c(50, "A", 20, 30))
+
+#transect unveg test
+transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+                       cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+                       quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))

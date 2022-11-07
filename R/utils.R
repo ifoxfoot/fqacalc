@@ -104,6 +104,8 @@ view_db <- function(db) {
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #'
 #' @return A data frame containing the 'key' column--either `acronym` or
 #' `scientific_name`--as well as columns from the relevant FQA database.
@@ -121,7 +123,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
                              allow_duplicates = FALSE,
-                             allow_no_c = FALSE) {
+                             allow_no_c = FALSE,
+                             allow_non_veg = FALSE) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -155,8 +158,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !is.logical(native) )
     stop("'native' can only be set to TRUE or FALSE")
 
-  #include_no_c must be TRUE or FALSE
+  #allow_no_c must be TRUE or FALSE
   if( !is.logical(allow_no_c) )
+    stop("'allow_no_c' can only be set to TRUE or FALSE")
+
+  #allow_non_veg must be TRUE or FALSE
+  if( !is.logical(allow_non_veg) )
     stop("'allow_no_c' can only be set to TRUE or FALSE")
 
   #cover_weighted must be TRUE or FALSE
@@ -262,16 +269,37 @@ accepted_entries <- function(x, key = "scientific_name", db,
     else(cols <- cols %>%
            dplyr::group_by(!!as.name(key)) %>%
            dplyr::summarise(cover = sum(.data$cover)))
-    }
+  }
+
+  regional_fqai <- fqa_db %>%
+    dplyr::filter(fqa_db == db) %>%
+    #so i can tell if observation came from regional list
+    dplyr::mutate(p = "p")
+
+  if (allow_non_veg) {
+    regional_fqai <- rbind(
+      #create df with water and ground
+      data.frame(scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
+                 synonym = c(NA, NA),
+                 family = c(NA, NA),
+                 acronym = c("GROUND", "WATER"),
+                 native = c(NA, NA),
+                 c = c(0, 0),
+                 w = c(0, 0),
+                 physiognomy = c(NA, NA),
+                 duration = c(NA, NA),
+                 common_name = c(NA, NA),
+                 fqa_db = c({{db}}, {{db}}),
+                 p = c("p", "p")),
+      #bind to regional fqai
+      regional_fqai)
+  }
 
   #join scores from FQAI to user's assessment
   entries_joined <-
     dplyr::left_join(cols %>%
                        dplyr::mutate({{key}} := toupper(!!as.name(key))),
-                     fqa_db %>%
-                       dplyr::filter(fqa_db == db) %>%
-                       #so i can tell if observation came from regional list
-                       dplyr::mutate(p = "p"),
+                     regional_fqai,
                      by = key)
 
   #warning if species not present in regional list

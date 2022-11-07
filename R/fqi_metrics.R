@@ -49,7 +49,6 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE, all
 
 }
 
-
 #-------------------------------------------------------------------------------
 
 #' Calculate Mean C
@@ -136,7 +135,6 @@ FQI <- function(x, key = "scientific_name", db, native = FALSE) {
   return(fqi)
 
 }
-
 
 #-------------------------------------------------------------------------------
 
