@@ -9,7 +9,8 @@ physiog_summary(
   key = "scientific_name",
   db,
   cover_metric = "percent_cover",
-  allow_no_c = TRUE
+  allow_no_c = TRUE,
+  allow_non_veg = TRUE
 )
 }
 \arguments{
@@ -33,6 +34,9 @@ recommended because it is the most accurate.}
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
 been assigned C Values.}
+
+\item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+ground and un-vegetated water.}
 }
 \value{
 A data frame where each row is a physiognomic group and each column is a metric about that species

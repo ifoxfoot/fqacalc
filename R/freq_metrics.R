@@ -23,6 +23,8 @@
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative frequency.
 #' @export
@@ -36,7 +38,9 @@
 #' relative_freq(transect, key = "acronym", db = "michigan_2014", col = "physiog")
 
 relative_freq <- function(x, key = "scientific_name", db,
-                          col = c("species", "family", "physiog"), allow_no_c = TRUE) {
+                          col = c("species", "family", "physiog"),
+                          allow_no_c = TRUE,
+                          allow_non_veg = TRUE) {
 
   #declaring rel_freq as null so I can use as a veriable name
   rel_freq <- NULL
@@ -53,7 +57,8 @@ relative_freq <- function(x, key = "scientific_name", db,
   entries <- accepted_entries(x, key, db, native = FALSE, allow_duplicates = TRUE,
                               cover_weighted = FALSE,
                               cover_metric = "percent_cover",
-                              allow_no_c)
+                              allow_no_c,
+                              allow_non_veg)
 
   #calculate relative frequency--fre/num observations
   df <- data.frame(dplyr::count(entries, !!as.name(name), name = "rel_freq")) %>%
@@ -90,6 +95,8 @@ relative_freq <- function(x, key = "scientific_name", db,
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative cover.
 #' @export
@@ -106,7 +113,8 @@ relative_freq <- function(x, key = "scientific_name", db,
 
 relative_cover <- function(x, key = "scientific_name", db,
                            col = c("species", "family", "physiog"),
-                           cover_metric = "percent_cover", allow_no_c = TRUE){
+                           cover_metric = "percent_cover", allow_no_c = TRUE,
+                           allow_non_veg = TRUE){
 
   #declaring rel_cov is null
   rel_cov <- NULL
@@ -124,7 +132,8 @@ relative_cover <- function(x, key = "scientific_name", db,
                               allow_duplicates = TRUE,
                               cover_weighted = TRUE,
                               cover_metric,
-                              allow_no_c) %>%
+                              allow_no_c,
+                              allow_non_veg) %>%
     dplyr::group_by(!!as.name(name)) %>%
     #caclulate cover per group
     dplyr::summarise(sum = sum(.data$cover)) %>%
@@ -161,6 +170,8 @@ relative_cover <- function(x, key = "scientific_name", db,
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative importance.
 #' @export
@@ -176,7 +187,8 @@ relative_cover <- function(x, key = "scientific_name", db,
 
 relative_importance <- function(x, key = "scientific_name", db,
                                 col = c("species", "family", "physiog"),
-                                cover_metric = "percent_cover", allow_no_c = TRUE){
+                                cover_metric = "percent_cover", allow_no_c = TRUE,
+                                allow_non_veg = TRUE){
 
   #declaring var names as null
   rel_import <- NULL
@@ -187,8 +199,8 @@ relative_importance <- function(x, key = "scientific_name", db,
 
   #get mean of relative freq and relative cover
   avg <- merge(
-    relative_freq(x, key, db, col, allow_no_c),
-    relative_cover(x, key, db, col, cover_metric, allow_no_c)) %>%
+    relative_freq(x, key, db, col, allow_no_c, allow_non_veg),
+    relative_cover(x, key, db, col, cover_metric, allow_no_c, allow_non_veg)) %>%
     dplyr::mutate(rel_import = (.data$rel_freq + .data$rel_cov)/2) %>%
     dplyr::select(!!as.name(name), rel_import)
 
@@ -221,6 +233,8 @@ relative_importance <- function(x, key = "scientific_name", db,
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #'
 #' @return A data frame where each row is a species and each column is information about that species
 #' based on the input data frame.
@@ -236,14 +250,17 @@ relative_importance <- function(x, key = "scientific_name", db,
 #'species_summary(transect, key = "acronym", db = "michigan_2014")
 
 species_summary <- function(x, key = "scientific_name", db,
-                            cover_metric = "percent_cover", allow_no_c = TRUE){
+                            cover_metric = "percent_cover",
+                            allow_no_c = TRUE,
+                            allow_non_veg = TRUE){
 
   #get accepted entries
   accepted <- accepted_entries(x, key, db, native = FALSE,
                                cover_weighted = TRUE,
                                cover_metric,
                                allow_duplicates = TRUE,
-                               allow_no_c)
+                               allow_no_c,
+                               allow_non_veg)
 
   c_score <- accepted %>%
     dplyr::select(.data$scientific_name, .data$acronym, .data$native, .data$c, .data$w) %>%
@@ -256,13 +273,13 @@ species_summary <- function(x, key = "scientific_name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  rel_freq <- relative_freq(x, key, db, col = "species", allow_no_c)
+  rel_freq <- relative_freq(x, key, db, col = "species", allow_no_c, allow_non_veg)
 
   #relative cover
-  rel_cov <- relative_cover(x, key, db, col = "species", cover_metric, allow_no_c)
+  rel_cov <- relative_cover(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
 
   #relative importance
-  rel_import <- relative_importance(x, key, db, col = "species", cover_metric, allow_no_c)
+  rel_import <- relative_importance(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
 
 
   #merge together
@@ -296,6 +313,8 @@ species_summary <- function(x, key = "scientific_name", db,
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #'
 #' @return A data frame where each row is a physiognomic group and each column is a metric about that species
 #' based on the input data frame.
@@ -312,14 +331,16 @@ species_summary <- function(x, key = "scientific_name", db,
 
 physiog_summary <- function(x, key = "scientific_name", db,
                             cover_metric = "percent_cover",
-                            allow_no_c = TRUE){
+                            allow_no_c = TRUE,
+                            allow_non_veg = TRUE){
 
   #get accepted entries
   accepted <- accepted_entries(x, key, db, native = FALSE,
                                cover_weighted = TRUE,
                                cover_metric,
                                allow_duplicates = TRUE,
-                               allow_no_c)
+                               allow_no_c,
+                               allow_non_veg)
 
   #getting freq and coverage
   group <- accepted %>%
@@ -328,13 +349,13 @@ physiog_summary <- function(x, key = "scientific_name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  rel_freq <- relative_freq(x, key, db, col = "physiog", allow_no_c)
+  rel_freq <- relative_freq(x, key, db, col = "physiog", allow_no_c, allow_non_veg)
 
   #relative cover
-  rel_cov <- relative_cover(x, key, db, col = "physiog", cover_metric, allow_no_c)
+  rel_cov <- relative_cover(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
 
   #relative importance
-  rel_import <- relative_importance(x, key, db, col = "physiog", cover_metric, allow_no_c)
+  rel_import <- relative_importance(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
 
   #merge together
   df <- merge(group, rel_freq) %>%

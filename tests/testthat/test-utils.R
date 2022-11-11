@@ -47,7 +47,7 @@ test_that("accepted_entries() throws error if cover is not a column in x", {
 
 test_that("accepted_entries() throws error if cover is not a column in x", {
   expect_error(accepted_entries(crooked_island %>% dplyr::mutate(cover = NA), key = "acronym", db = "michigan_2014", native = F, cover_weighted = T),
-               "Cover column cannot contain missing values.")
+               "'cover' column cannot contain missing values.")
 })
 
 test_that("accepted_entries() throws error if cover_metric isn't right", {
@@ -57,10 +57,10 @@ test_that("accepted_entries() throws error if cover_metric isn't right", {
 })
 
 
-test_that("accepted_entries() throws error if nas are introduced to cover", {
-  expect_error(accepted_entries(na_intro_cover, key = "acronym", db = "michigan_2014", native = F,
+test_that("accepted_entries() throws warning if nas are introduced to cover", {
+  expect_warning(accepted_entries(na_intro_cover, key = "acronym", db = "michigan_2014", native = F,
                                    cover_weighted = TRUE, cover_metric = "braun-blanquet"),
-                 "NAs were introduced during the conversion to the  braun-blanquet system.")
+                 "NAs were introduced during the conversion to the braun-blanquet system. Species with NA cover values will be removed.")
 })
 
 #-------------------------------------------------------------------------------

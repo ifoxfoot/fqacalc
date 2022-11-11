@@ -164,7 +164,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #allow_non_veg must be TRUE or FALSE
   if( !is.logical(allow_non_veg) )
-    stop("'allow_no_c' can only be set to TRUE or FALSE")
+    stop("'allow_non_veg' can only be set to TRUE or FALSE")
 
   #cover_weighted must be TRUE or FALSE
   if( !is.logical(cover_weighted) )
@@ -176,7 +176,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #if cover is missing, write error
   if( cover_weighted && any(is.na(x$cover)) )
-    stop(paste("Cover column cannot contain missing values."))
+    stop(paste("'cover' column cannot contain missing values."))
 
   #cover metric must be defined
   if( !cover_metric %in% c("percent_cover", "carolina_veg_survey",
@@ -189,7 +189,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
     stop("'allow_duplicates' can only be set to TRUE or FALSE")
 
   #send message to user if site assessment contains duplicate entries
-  if( sum(duplicated(x[,key])) > 0 && !allow_duplicates){
+  if( sum(duplicated(x[,key])) > 0 & !allow_duplicates){
     if(cover_weighted == TRUE){
       message("Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.")}
     else{
@@ -258,9 +258,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
             dplyr::select({{key}}))
 
   #warning if NAs get introduced after converting cover metric
-  if( cover_weighted && any(is.na(cols$cover)) )
-    stop(paste("NAs were introduced during the conversion to the ",
-               cover_metric, "system."))
+  if( cover_weighted && any(is.na(cols$cover)) ) {
+    warning(paste("NAs were introduced during the conversion to the",
+               cover_metric, "system. Species with NA cover values will be removed."))
+    #remove NAs from cover col
+    cols <- cols %>%
+      dplyr::filter(!is.na(cols$cover))
+  }
 
   #if allow duplicates is false, do not allow duplicates
   if( !allow_duplicates ) {
@@ -281,13 +285,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
       #create df with water and ground
       data.frame(scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  synonym = c(NA, NA),
-                 family = c(NA, NA),
+                 family = c("Unvegetated Ground", "Unvegetated Water"),
                  acronym = c("GROUND", "WATER"),
                  native = c(NA, NA),
                  c = c(0, 0),
                  w = c(0, 0),
-                 physiognomy = c(NA, NA),
-                 duration = c(NA, NA),
+                 physiognomy = c("Unvegetated Ground", "Unvegetated Water"),
+                 duration = c("Unvegetated Ground", "Unvegetated Water"),
                  common_name = c(NA, NA),
                  fqa_db = c({{db}}, {{db}}),
                  p = c("p", "p")),
