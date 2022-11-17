@@ -10,7 +10,6 @@ library(readxl)
 #-------------------------------------------------------------------------------
 #FOR UNIVERSAL FQA DBS
 
-
 #create list of file names
 univ_files <- list.files(path = here("data-raw", "FQA_databases"),
                          pattern = "*.csv",
@@ -23,10 +22,51 @@ univ_list <- lapply(univ_files, function(x)
 
 #bind together
 univ_fqa <- bind_rows(univ_list) %>%
+  #clean names
   clean_names() %>%
-  mutate(synonym = NA) %>%
+  #fix corrupt question mark
   mutate(scientific_name = str_replace_all(scientific_name, "[?]", " X "))
 
+univ_clean <- univ_fqa %>%
+  #separate plants by first ";" into sci name and syn
+  separate(scientific_name, c("scientific_name", "synonym"), ";", extra = "merge") %>%
+  #remove leading/trailing white spaces
+  mutate(scientific_name = str_squish(scientific_name)) %>%
+  mutate(scientific_name = str_trim(scientific_name, side = "both")) %>%
+  mutate(synonym = str_squish(synonym)) %>%
+  mutate(synonym = str_trim(synonym, side = "both")) %>%
+  #replace empty cells with NA
+  mutate(synonym = na_if(synonym, "")) %>%
+  mutate(synonym = na_if(synonym, ".")) %>%
+  #get rid of syn starting with ".;"
+  mutate(synonym = str_remove(synonym, "^.;")) %>%
+  #replace fist character of syn col with upper case
+  mutate(synonym = str_replace(synonym, "^\\w{1}", toupper))
+
+# #replace initials with latin name
+#   mutate(
+#     synonym = if_else(
+#       str_extract(synonym, "^\\w") == str_extract(scientific_name, "^\\w"),
+#       str_replace(
+#         synonym,
+#         "^\\w\\.",
+#         str_extract(scientific_name, "^\\w+")
+#       ),
+#       synonym
+#     ),
+#     synonym = if_else(
+#       str_extract(synonym, "(?<=\\s)\\w") == str_extract(scientific_name, "(?<=\\s)\\w"),
+#       str_replace(
+#         synonym,
+#         "\\w\\.$",
+#         str_extract(scientific_name, "\\w+$")
+#       ),
+#       synonym))
+
+unique_latin <- as.data.frame(unique(univ_clean$scientific_name))
+
+unique_syn<- as.data.frame(unique(univ_clean$synonym))
+#-------------------------------------------------------------------------------
 #FOR NEW ENGLAND DBS
 
 #create list of file names
@@ -44,22 +84,26 @@ ne_compiled <- bind_rows(ne_list)
 
 #clean up col names
 ne_clean <- ne_compiled %>%
-  mutate(scientific_name = Taxon) %>%
+  mutate(scientific_name = TaxaBotanist) %>%
   mutate(synonym = NA) %>%
   mutate(family = NA) %>%
   mutate(acronym = PLANTSSymbol) %>%
   mutate(native = "undetermined") %>%
-  mutate(c = Score) %>%
+  mutate(c = as.numeric(Score)) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
   mutate(common_name = CommonName) %>%
   select(scientific_name, synonym, family, acronym,
          native, c, w, physiognomy, duration, common_name, fqa_db) %>%
-  distinct()
+  #make sure to delete dups. if there are dups with different c scores, pick lowest score
+  distinct() %>%
+  group_by(fqa_db, scientific_name, acronym) %>%
+  slice_min(n = 1, order_by = c)
 
 #-------------------------------------------------------------------------------
 #CHICAGO
+
 chicago <- read_csv(here("data-raw",
                          "FQA_databases",
                          "not_from_universal_calc",
@@ -80,6 +124,14 @@ chicago_clean <- chicago %>%
          c, w, physiognomy, duration, common_name, fqa_db)
 
 #-------------------------------------------------------------------------------
+#COLORADO
+colorado <- read_xlsx(here("data-raw",
+                         "FQA_databases",
+                         "not_from_universal_calc",
+                         "colorado_2020.xlsx")) %>%
+  clean_names()
+
+#-------------------------------------------------------------------------------
 #FLORIDA
 
 florida <- read_csv(here("data-raw",
@@ -95,7 +147,7 @@ florida_clean <- florida %>%
   mutate(family = NA) %>%
   mutate(acronym = NA) %>%
   mutate(native = nativity) %>%
-  mutate(c = c_of_c_value) %>%
+  mutate(c = as.numeric(c_of_c_value)) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(common_name = NA) %>%
@@ -105,6 +157,7 @@ florida_clean <- florida %>%
 
 #-------------------------------------------------------------------------------
 # FLORIDA_SOUTH
+
 florida_south <- read_csv(here("data-raw",
                          "FQA_databases",
                          "not_from_universal_calc",
@@ -114,6 +167,7 @@ florida_south <- read_csv(here("data-raw",
 florida_south_clean <- florida_south %>%
   mutate(synonym = NA) %>%
   mutate(acronym = NA) %>%
+  mutate(c = as.numeric(c)) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
@@ -123,6 +177,7 @@ florida_south_clean <- florida_south %>%
 
 #-------------------------------------------------------------------------------
 #MISSISSISSIPPI
+
 ms <- read_xlsx(here("data-raw",
                      "FQA_databases",
                      "not_from_universal_calc",
@@ -148,6 +203,7 @@ ms_clean <- ms %>%
 
 #-------------------------------------------------------------------------------
 #MONTANA
+
 montana <- read_xlsx(here("data-raw",
                           "FQA_databases",
                           "not_from_universal_calc",
@@ -160,7 +216,7 @@ montana_clean <- montana %>%
   mutate(family = family_name) %>%
   mutate(acronym = NA) %>%
   mutate(native = origin_in_montana) %>%
-  mutate(c = montana_c_value) %>%
+  mutate(c = as.numeric(montana_c_value)) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
@@ -169,7 +225,28 @@ montana_clean <- montana %>%
          c, w, physiognomy, duration, common_name, fqa_db)
 
 #-------------------------------------------------------------------------------
+#OHIO
+
+ohio <- read_xlsx(here("data-raw",
+                       "FQA_databases",
+                       "not_from_universal_calc",
+                       "ohio_2014.xlsx")) %>%
+  clean_names()
+
+ohio_clean <- ohio %>%
+  mutate(synonym = syn) %>%
+  mutate(native = oh_status) %>%
+  mutate(c = cofc) %>%
+  mutate(w = wet) %>%
+  mutate(physiognomy = form) %>%
+  mutate(duration = habit) %>%
+  mutate(fqa_db = "ohio_2014") %>%
+  select(scientific_name, synonym, family, acronym, native, c, w,
+         physiognomy, duration, common_name, fqa_db)
+
+#-------------------------------------------------------------------------------
 #WYOMING
+
 wyoming <- read_xlsx(here("data-raw",
                           "FQA_databases",
                           "not_from_universal_calc",
@@ -189,19 +266,20 @@ wyoming_clean <- wyoming %>%
   select(scientific_name, synonym, family, acronym, native, c, w, physiognomy, duration, common_name, fqa_db) %>%
   slice(., 1:(n() - 1))
 
-
 #-------------------------------------------------------------------------------
 #NOW CLEANING ALL TOGETHER
 
 #bind all together
 fqa_db_bind <- rbind(ne_clean,
                      chicago_clean,
-                florida_clean,
-                florida_south_clean,
-                ms_clean,
-                montana_clean,
-                wyoming_clean,
-                univ_fqa) %>%
+                     #colorado_clean,
+                     florida_clean,
+                     florida_south_clean,
+                     ms_clean,
+                     montana_clean,
+                     #ohio_clean,
+                     wyoming_clean,
+                     univ_fqa) %>%
   #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
   #covert things to uppercase
@@ -215,10 +293,10 @@ fqa_db_clean_cols <- fqa_db_bind %>%
     native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
     ~ "native", T ~ native)) %>%
   mutate(native = case_when(
-    native %in% c("Exotic", "exotic", "I", "Likely Exotic", "Nonnative")
+    native %in% c("Adventive", "Exotic", "exotic", "I", "Likely Exotic", "Nonnative")
     ~ "non-native", T ~ native)) %>%
-  mutate(native = case_when(
-    !native %in% c("native", "non-native") ~ "undetermined", T ~ native)) %>%
+  # mutate(native = case_when(
+  #   !native %in% c("native", "non-native") ~ "undetermined", T ~ native)) %>%
   #clean duration
   mutate(duration = str_to_title(duration)) %>%
   #clean physiognomy
@@ -383,7 +461,7 @@ fqa_db_synonym1 <- fqa_db_latin %>%
   mutate(synonym1 = str_trim(synonym1, side = "both"))
 
 fqa_db_synonym <- fqa_db_synonym1 %>%
-  #making sure abreviations are consistent
+  #making sure abbreviations are consistent
   mutate(synonym = str_replace_all(synonym, " SUBSP. ", " SSP. ")) %>%
   mutate(synonym = str_replace_all(synonym, " VAR ", " VAR. ")) %>%
   mutate(synonym = str_replace_all(synonym, ",", ";")) %>%
@@ -408,10 +486,11 @@ unique_syn1 <- data.frame(unique(fqa_db_synonym1$synonym1))
 #fqa_db_synonym[order(df$fqa_db_synonym), ]
 
 #AT SOME POINT LOOK INTO DUP SCI NAMES
-test <- fqa_db_synonym %>%
+test <- fqa_db_clean_cols %>%
   group_by(scientific_name, fqa_db) %>%
   count() %>%
   filter(n>1)
+
 #-------------------------------------------------------------------------------
 #saving dataset MAKE SURE IT IS CLEAN VERSION!!!
 
@@ -425,10 +504,6 @@ usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE, compress = "bzip2")
 #read in the data, skipping misc info that is listed at the top of the csv file
 crooked_island_site <-
   read.csv("~/Desktop/michigan2014/data-raw/crooked_island_open_dunes_FQA.csv", skip = 63)
-
-#load the janitor package for cleaning names
-library(janitor)
-library(tidyverse)
 
 #clean the names, select relevant cols
 crooked_island <- clean_names(crooked_island_site) %>%
