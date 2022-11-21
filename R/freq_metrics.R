@@ -263,7 +263,7 @@ species_summary <- function(x, key = "scientific_name", db,
                                allow_non_veg)
 
   c_score <- accepted %>%
-    dplyr::select(.data$scientific_name, .data$acronym, .data$native, .data$c, .data$w) %>%
+    dplyr::select("scientific_name", "acronym", "native", "c", "w") %>%
     dplyr::distinct()
 
   #getting freq and coverage
