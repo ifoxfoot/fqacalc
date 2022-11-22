@@ -106,6 +106,8 @@ view_db <- function(db) {
 #' been assigned C Values.
 #' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
 #' ground and un-vegetated water.
+#' @param plot_id (optional) A character string representing the column in `x` that contains plot
+#' identification values.
 #'
 #' @return A data frame containing the 'key' column--either `acronym` or
 #' `scientific_name`--as well as columns from the relevant FQA database.
@@ -123,7 +125,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
                              cover_metric = "percent_cover",
                              allow_duplicates = FALSE,
                              allow_no_c = FALSE,
-                             allow_non_veg = FALSE) {
+                             allow_non_veg = FALSE,
+                             plot_id = NULL) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -183,6 +186,10 @@ accepted_entries <- function(x, key = "scientific_name", db,
                            "usfs_ecodata"))
     stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
 
+  #plot_id argument must be NULL or a column name in input data frame x
+  if( !is.null(plot_id) && !(plot_id %in% colnames(x)) )
+    stop(paste("'plot_id' must be the name of a column in", deparse(substitute(x)), "."))
+
   #allow__duplicates must be T or F
   if( !is.logical(allow_duplicates) )
     stop("'allow_duplicates' can only be set to TRUE or FALSE")
@@ -198,7 +205,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
     {cols <- x %>%
-      dplyr::select({{key}}, "cover") %>%
+      dplyr::select({{plot_id}}, {{key}}, "cover") %>%
       dplyr::mutate(cover = as.character(x$cover))
 
     #if cover method is percent, just convert to numeric
@@ -254,7 +261,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
 
   } else( cols <- x %>%
-            dplyr::select({{key}}))
+            dplyr::select({{plot_id}}, {{key}}) )
 
   #warning if NAs get introduced after converting cover metric
   if( cover_weighted && any(is.na(cols$cover)) ) {

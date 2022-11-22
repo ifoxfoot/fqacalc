@@ -10,7 +10,8 @@ plot_summary(
   db,
   cover_metric = "percent_cover",
   plot_id,
-  allow_no_c = TRUE
+  allow_no_c = TRUE,
+  allow_non_veg = TRUE
 )
 }
 \arguments{

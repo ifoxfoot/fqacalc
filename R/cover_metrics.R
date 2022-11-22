@@ -58,7 +58,6 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
       dplyr::mutate(mean = mean(.data$cover)) %>%
       dplyr::distinct(!!as.name(key), mean, c)
 
-
     #calculate mean C Value
     mean_c <- sum(entries$c * entries$mean)/
       sum(entries$mean)
@@ -265,42 +264,90 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
 
 plot_summary <- function(x, key = "scientific_name", db,
                          cover_metric = "percent_cover", plot_id,
-                         allow_no_c = TRUE){
+                         allow_no_c = TRUE, allow_non_veg = TRUE){
 
-  if( !plot_id %in% colnames(x) )
+  #plot_id argument must be a column name in input data frame x
+  if( is.null(plot_id) )
     stop(paste("'plot_id' must be the name of a column in", deparse(substitute(x)), "."))
 
-  plot_sum <- x %>%
+
+  #get accepted species
+  accepted <- accepted_entries(x, key, db,
+                               native = FALSE,
+                               cover_weighted = TRUE,
+                               cover_metric,
+                               allow_duplicates = TRUE,
+                               allow_no_c,
+                               allow_non_veg,
+                               plot_id)
+
+  #message if there are duplicates in same plot
+  if( any(duplicated(select(accepted, {{key}}, {{plot_id}}))) )
+    message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
+
+  #remove duplicates in the same plot
+  accepted <- accepted %>%
+    dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
+    dplyr::mutate(cover = sum(.data$cover)) %>%
+    dplyr::distinct() %>%
+    dplyr::ungroup()
+
+  #get ground columns
+  ground <- accepted %>%
+    filter(acronym %in% c("GROUND")) %>%
+    rename(ground_cover = cover) %>%
+    select(ground_cover, plot_id)
+
+  #get water columns
+  water <- accepted %>%
+    filter(acronym %in% c("WATER")) %>%
+    rename(water_cover = cover) %>%
+    select(water_cover, plot_id)
+
+  #group by plot ID and calc metrics
+  plot_sum <- accepted %>%
     dplyr::group_by(!!as.name(plot_id)) %>%
     dplyr::summarise(
+
       species_richness
-      = species_richness(dplyr::cur_data(), key, db, native = FALSE, allow_no_c),
+      = suppressMessages(species_richness(dplyr::cur_data(), key, db, native = FALSE, allow_no_c)),
+
       native_species_richness
-      = species_richness(dplyr::cur_data(), key, db, native = TRUE, allow_no_c),
+      = suppressMessages(species_richness(dplyr::cur_data(), key, db, native = TRUE, allow_no_c)),
+
       mean_wetness
-      = mean_w(dplyr::cur_data(), key, db, native = FALSE, allow_no_c),
+      = suppressMessages(mean_w(dplyr::cur_data(), key, db, native = FALSE, allow_no_c)),
+
       mean_c
-      = mean_c(dplyr::cur_data(), key, db, native = FALSE),
+      = suppressMessages(mean_c(dplyr::cur_data(), key, db, native = FALSE)),
+
       native_mean_c
-      = mean_c(dplyr::cur_data(), key, db, native = TRUE),
+      = suppressMessages(mean_c(dplyr::cur_data(), key, db, native = TRUE)),
+
       cover_mean_c
-      = cover_mean_c(dplyr::cur_data(), key, db, native = FALSE, cover_metric,
-                     allow_duplicates = FALSE),
+      = suppressMessages(cover_mean_c(dplyr::cur_data(), key, db, native = FALSE, cover_metric,
+                     allow_duplicates = FALSE)),
+
       FQI
-      = FQI(dplyr::cur_data(), key, db, native = FALSE),
+      = suppressMessages(FQI(dplyr::cur_data(), key, db, native = FALSE)),
+
       native_FQI
-      = FQI(dplyr::cur_data(), key, db, native = TRUE),
+      = suppressMessages(FQI(dplyr::cur_data(), key, db, native = TRUE)),
+
       cover_FQI
-      = cover_FQI(dplyr::cur_data(), key, db, native = FALSE, cover_metric,
-                  allow_duplicates = FALSE),
+      = suppressMessages(cover_FQI(dplyr::cur_data(), key, db, native = FALSE, cover_metric,
+                  allow_duplicates = FALSE)),
+
       native_cover_FQI
-      = cover_FQI(dplyr::cur_data(), key, db, native = TRUE, cover_metric,
-                  allow_duplicates = FALSE),
+      = suppressMessages(cover_FQI(dplyr::cur_data(), key, db, native = TRUE, cover_metric,
+                  allow_duplicates = FALSE)),
+
       adjusted_FQI
-      = adjusted_FQI(dplyr::cur_data(), key, db)
+      = suppressMessages(adjusted_FQI(dplyr::cur_data(), key, db))
     )
 
-  df <- as.data.frame(plot_sum)
+  df <- as.data.frame(left_join(plot_sum, ground, by = plot_id)) %>%
+    left_join(water, by = plot_id)
 
   return(df)
 }

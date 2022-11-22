@@ -13,7 +13,8 @@ accepted_entries(
   cover_metric = "percent_cover",
   allow_duplicates = FALSE,
   allow_no_c = FALSE,
-  allow_non_veg = FALSE
+  allow_non_veg = FALSE,
+  plot_id = NULL
 )
 }
 \arguments{
@@ -51,6 +52,9 @@ been assigned C Values.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
 ground and un-vegetated water.}
+
+\item{plot_id}{(optional) A character string representing the column in \code{x} that contains plot
+identification values.}
 }
 \value{
 A data frame containing the 'key' column--either \code{acronym} or
