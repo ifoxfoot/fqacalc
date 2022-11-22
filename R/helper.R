@@ -51,3 +51,8 @@ na_intro_cover <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
                        cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
                        quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+
+#transects with duplicates in same plot and with non-veg components
+transect_dup <- data.frame(acronym  = c("GROUND", "GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+                           cover = c(60, 40, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+                           quad_id = c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))

@@ -69,7 +69,7 @@ test_that("transect_summary() works in perfect setting", {
 #-------------------------------------------------------------------------------
 #testing plot_summary()
 
-test_that("plot_summary() works", {
+test_that("plot_summary() works without bare ground", {
   expect_equal(plot_summary(transect, key = "acronym", db = "michigan_2014",
                             cover_metric = "percent_cover", plot_id = "quad_id"),
 
@@ -84,9 +84,37 @@ test_that("plot_summary() works", {
                           native_FQI = c(13.2790562, 9.1923882),
                           cover_FQI = c(9.8461538, 10.0523696 ),
                           native_cover_FQI = c(16.42240766, 13.10786003),
-                          adjusted_FQI = c(66.3952810, 53.0722778)))
+                          adjusted_FQI = c(66.3952810, 53.0722778),
+                          ground_cover = c(NA_real_, NA_real_),
+                          water_cover = c(NA_real_, NA_real_)))
+
   expect_error(plot_summary(transect, key = "acronym", db = "michigan_2014",
                             cover_metric = "percent_cover", plot_id = "quad_idd"),
-               "'plot_id' must be the name of a column in transect.")
+               "'plot_id' must be the name of a column in x .")
 })
+
+test_that("plot_summary() works with bare ground, water, and duplicates in same plot", {
+  expect_equal(plot_summary(transect_dup, key = "acronym", db = "michigan_2014",
+                            cover_metric = "percent_cover", plot_id = "quad_id"),
+
+               data.frame(quad_id = c(1,2),
+                          species_richness = c(4,3),
+                          native_species_richness = c(3,2),
+                          mean_wetness = c(1.75, 3.33333333),
+                          mean_c = c(5.750000, 4.3333333),
+                          native_mean_c = c(7.6666667, 6.5),
+                          cover_mean_c = c(4.92307692, 5.80373832),
+                          FQI = c(11.5, 7.5055535),
+                          native_FQI = c(13.2790562, 9.1923882),
+                          cover_FQI = c(9.8461538, 10.0523696 ),
+                          native_cover_FQI = c(16.42240766, 13.10786003),
+                          adjusted_FQI = c(66.3952810, 53.0722778),
+                          ground_cover = c(100, 20),
+                          water_cover = c(NA_real_, 20)))
+
+  expect_message(plot_summary(transect_dup, key = "acronym", db = "michigan_2014",
+                            cover_metric = "percent_cover", plot_id = "quad_id"),
+               "Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
+})
+
 
