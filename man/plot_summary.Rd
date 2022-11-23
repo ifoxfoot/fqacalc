@@ -39,6 +39,9 @@ identification values.}
 regional database but have not been assigned a C Values to be counted in species
 richness and native species richness. If FALSE, omit species that have not
 been assigned C Values.}
+
+\item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+ground and un-vegetated water.}
 }
 \value{
 A data frame where each row is a plot and columns contain FQI and

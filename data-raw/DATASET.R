@@ -25,9 +25,12 @@ univ_fqa <- bind_rows(univ_list) %>%
   #clean names
   clean_names() %>%
   #fix corrupt question mark
-  mutate(scientific_name = str_replace_all(scientific_name, "[?]", " X "))
+  mutate(scientific_name = str_replace_all(scientific_name, "[?]", " X ")) %>%
+  #replace subsp., spp. with ssp.
+  mutate(scientific_name = str_replace_all(scientific_name, " subsp.", " ssp.")) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, " spp.", " ssp."))
 
-univ_clean <- univ_fqa %>%
+univ_syn_sep <- univ_fqa %>%
   #separate plants by first ";" into sci name and syn
   separate(scientific_name, c("scientific_name", "synonym"), ";", extra = "merge") %>%
   #remove leading/trailing white spaces
@@ -42,6 +45,9 @@ univ_clean <- univ_fqa %>%
   mutate(synonym = str_remove(synonym, "^.;")) %>%
   #replace fist character of syn col with upper case
   mutate(synonym = str_replace(synonym, "^\\w{1}", toupper))
+
+library(splitstackshape)
+dat <- cSplit(univ_syn_sep, 'synonym', ';')
 
 # #replace initials with latin name
 #   mutate(
@@ -65,7 +71,7 @@ univ_clean <- univ_fqa %>%
 
 unique_latin <- as.data.frame(unique(univ_clean$scientific_name))
 
-unique_syn<- as.data.frame(unique(univ_clean$synonym))
+unique_syn<- as.data.frame(unique(dat$synonym_2))
 #-------------------------------------------------------------------------------
 #FOR NEW ENGLAND DBS
 

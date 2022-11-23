@@ -202,6 +202,20 @@ accepted_entries <- function(x, key = "scientific_name", db,
       message("Duplicate entries detected. Duplicates will only be counted once.")}
   }
 
+  #message if there are duplicates in same plot
+  if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(x, {{key}}, {{plot_id}}))) )
+    message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
+
+  #remove duplicates in the same plot
+  if( !is.null(plot_id) && allow_duplicates ){
+    if(cover_weighted ) {
+      x <- x %>%
+        dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
+        dplyr::mutate(cover = sum(.data$cover)) %>%
+        dplyr::distinct() %>%
+        dplyr::ungroup()}
+    else {x <- dplyr::distinct(x, !!as.name(key), !!as.name(plot_id), .keep_all = TRUE)}}
+
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
     {cols <- x %>%

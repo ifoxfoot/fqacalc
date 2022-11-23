@@ -243,6 +243,8 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
 #' recommended because it is the most accurate.
 #' @param plot_id A character string representing the column in `x` that contains plot
 #' identification values.
+#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
+#' ground and un-vegetated water.
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 #' regional database but have not been assigned a C Values to be counted in species
 #' richness and native species richness. If FALSE, omit species that have not
@@ -270,7 +272,6 @@ plot_summary <- function(x, key = "scientific_name", db,
   if( is.null(plot_id) )
     stop(paste0("'plot_id' must be the name of a column in ", deparse(substitute(x)), " ."))
 
-
   #get accepted species
   accepted <- accepted_entries(x, key, db,
                                native = FALSE,
@@ -281,28 +282,17 @@ plot_summary <- function(x, key = "scientific_name", db,
                                allow_non_veg,
                                plot_id)
 
-  #message if there are duplicates in same plot
-  if( any(duplicated(select(accepted, {{key}}, {{plot_id}}))) )
-    message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
-
-  #remove duplicates in the same plot
-  accepted <- accepted %>%
-    dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
-    dplyr::mutate(cover = sum(.data$cover)) %>%
-    dplyr::distinct() %>%
-    dplyr::ungroup()
-
   #get ground columns
   ground <- accepted %>%
-    filter(acronym %in% c("GROUND")) %>%
-    rename(ground_cover = cover) %>%
-    select(ground_cover, plot_id)
+    dplyr::filter(!!as.name(key) %in% c("GROUND", "UNVEGETATED GROUND")) %>%
+    dplyr::rename(ground_cover = .data$cover) %>%
+    dplyr::select("ground_cover", !!as.name(plot_id))
 
   #get water columns
   water <- accepted %>%
-    filter(acronym %in% c("WATER")) %>%
-    rename(water_cover = cover) %>%
-    select(water_cover, plot_id)
+    dplyr::filter(!!as.name(key) %in% c("WATER", "UNVEGETATED WATER")) %>%
+    dplyr::rename(water_cover = .data$cover) %>%
+    dplyr::select("water_cover", !!as.name(plot_id))
 
   #group by plot ID and calc metrics
   plot_sum <- accepted %>%
@@ -346,8 +336,8 @@ plot_summary <- function(x, key = "scientific_name", db,
       = suppressMessages(adjusted_FQI(dplyr::cur_data(), key, db))
     )
 
-  df <- as.data.frame(left_join(plot_sum, ground, by = plot_id)) %>%
-    left_join(water, by = plot_id)
+  df <- as.data.frame(dplyr::left_join(plot_sum, ground, by = plot_id)) %>%
+    dplyr::left_join(water, by = plot_id)
 
   return(df)
 }
