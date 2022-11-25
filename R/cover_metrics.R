@@ -285,13 +285,13 @@ plot_summary <- function(x, key = "scientific_name", db,
   #get ground columns
   ground <- accepted %>%
     dplyr::filter(!!as.name(key) %in% c("GROUND", "UNVEGETATED GROUND")) %>%
-    dplyr::rename(ground_cover = .data$cover) %>%
+    dplyr::rename(ground_cover = "cover") %>%
     dplyr::select("ground_cover", !!as.name(plot_id))
 
   #get water columns
   water <- accepted %>%
     dplyr::filter(!!as.name(key) %in% c("WATER", "UNVEGETATED WATER")) %>%
-    dplyr::rename(water_cover = .data$cover) %>%
+    dplyr::rename(water_cover = "cover") %>%
     dplyr::select("water_cover", !!as.name(plot_id))
 
   #group by plot ID and calc metrics

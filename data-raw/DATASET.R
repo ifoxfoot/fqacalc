@@ -5,6 +5,7 @@ library(here)
 library(janitor)
 library(tidyverse)
 library(readxl)
+library(splitstackshape)
 
 
 #-------------------------------------------------------------------------------
@@ -24,11 +25,19 @@ univ_list <- lapply(univ_files, function(x)
 univ_fqa <- bind_rows(univ_list) %>%
   #clean names
   clean_names() %>%
-  #fix corrupt question mark
-  mutate(scientific_name = str_replace_all(scientific_name, "[?]", " X ")) %>%
   #replace subsp., spp. with ssp.
   mutate(scientific_name = str_replace_all(scientific_name, " subsp.", " ssp.")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, " spp.", " ssp."))
+  mutate(scientific_name = str_replace_all(scientific_name, " spp.", " ssp.")) %>%
+  #fixing up var
+  mutate(scientific_name = str_replace_all(scientific_name, " var ", " var. ")) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, " v. ", " var. ")) %>%
+  #replace corrupt x
+  mutate(scientific_name = str_replace_all(scientific_name, "�", "x ")) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, "_", " x ")) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, "[?]", " X ")) %>%
+  #making separators consistent
+  mutate(scientific_name = str_replace_all(scientific_name, "\\(=", ";")) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, "[\\[]", ";"))
 
 univ_syn_sep <- univ_fqa %>%
   #separate plants by first ";" into sci name and syn
@@ -42,36 +51,81 @@ univ_syn_sep <- univ_fqa %>%
   mutate(synonym = na_if(synonym, "")) %>%
   mutate(synonym = na_if(synonym, ".")) %>%
   #get rid of syn starting with ".;"
-  mutate(synonym = str_remove(synonym, "^.;")) %>%
-  #replace fist character of syn col with upper case
-  mutate(synonym = str_replace(synonym, "^\\w{1}", toupper))
+  mutate(synonym = str_remove(synonym, "^.;"))
 
-library(splitstackshape)
-dat <- cSplit(univ_syn_sep, 'synonym', ';')
+#split synonym into many columns
+syn_split <- cSplit(univ_syn_sep, 'synonym', ';')
 
-# #replace initials with latin name
-#   mutate(
-#     synonym = if_else(
-#       str_extract(synonym, "^\\w") == str_extract(scientific_name, "^\\w"),
-#       str_replace(
-#         synonym,
-#         "^\\w\\.",
-#         str_extract(scientific_name, "^\\w+")
-#       ),
-#       synonym
-#     ),
-#     synonym = if_else(
-#       str_extract(synonym, "(?<=\\s)\\w") == str_extract(scientific_name, "(?<=\\s)\\w"),
-#       str_replace(
-#         synonym,
-#         "\\w\\.$",
-#         str_extract(scientific_name, "\\w+$")
-#       ),
-#       synonym))
+#list of syn columns
+syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6")
 
-unique_latin <- as.data.frame(unique(univ_clean$scientific_name))
+#replace fist character of syn cols with upper case
+syn_upper <- syn_split %>%
+  mutate(across(.cols = syn_cols, .fns = ~ str_replace(., "^\\w{1}", toupper)))
 
-unique_syn<- as.data.frame(unique(dat$synonym_2))
+#replace initials with full names from column before
+syn_initials <- syn_upper %>%
+    mutate(
+    synonym_1 = if_else(
+      str_extract(synonym_1, "^\\w") == str_extract(scientific_name, "^\\w"),
+      str_replace(synonym_1, "^\\w\\.", str_extract(scientific_name, "^\\w+")),
+      synonym_1),
+    synonym_1 = if_else(
+      str_extract(synonym_1, "(?<=\\s)\\w") == str_extract(scientific_name, "(?<=\\s)\\w"),
+      str_replace(synonym_1, "\\w\\.$", str_extract(scientific_name, "\\w+$")),
+      synonym_1)) %>%
+  mutate(
+    synonym_2 = if_else(
+      str_extract(synonym_2, "^\\w") == str_extract(synonym_1, "^\\w"),
+      str_replace(synonym_2, "^\\w\\.", str_extract(synonym_1, "^\\w+")),
+      synonym_2),
+    synonym_2 = if_else(
+      str_extract(synonym_2, "(?<=\\s)\\w") == str_extract(synonym_1, "(?<=\\s)\\w"),
+      str_replace(synonym_2, "\\w\\.$", str_extract(synonym_1, "\\w+$")),
+      synonym_2)) %>%
+  mutate(
+    synonym_3 = if_else(
+      str_extract(synonym_3, "^\\w") == str_extract(synonym_2, "^\\w"),
+      str_replace(synonym_3, "^\\w\\.", str_extract(synonym_2, "^\\w+")),
+      synonym_3),
+    synonym_3 = if_else(
+      str_extract(synonym_3, "(?<=\\s)\\w") == str_extract(synonym_2, "(?<=\\s)\\w"),
+      str_replace(synonym_3, "\\w\\.$", str_extract(synonym_2, "\\w+$")),
+      synonym_3)) %>%
+  mutate(
+    synonym_4 = if_else(
+      str_extract(synonym_4, "^\\w") == str_extract(synonym_3, "^\\w"),
+      str_replace(synonym_4, "^\\w\\.", str_extract(synonym_3, "^\\w+")),
+      synonym_4),
+    synonym_4 = if_else(
+      str_extract(synonym_4, "(?<=\\s)\\w") == str_extract(synonym_3, "(?<=\\s)\\w"),
+      str_replace(synonym_4, "\\w\\.$", str_extract(synonym_3, "\\w+$")),
+      synonym_4)) %>%
+  mutate(
+    synonym_5 = if_else(
+      str_extract(synonym_5, "^\\w") == str_extract(synonym_4, "^\\w"),
+      str_replace(synonym_5, "^\\w\\.", str_extract(synonym_4, "^\\w+")),
+      synonym_5),
+    synonym_5 = if_else(
+      str_extract(synonym_5, "(?<=\\s)\\w") == str_extract(synonym_4, "(?<=\\s)\\w"),
+      str_replace(synonym_5, "\\w\\.$", str_extract(synonym_4, "\\w+$")),
+      synonym_5))
+
+#use row number as unique ID
+syn_row_name <- syn_initials %>%
+  mutate(ID = as.numeric(row.names.default(.)))
+
+#pivot longer
+syn_pivot <- syn_row_name %>%
+  pivot_longer(cols = c("scientific_name", syn_cols),
+               names_to = "name_origin",
+               values_to = "name") %>%
+  filter(!is.na(name))
+
+#keep only distinct rows (rows with diff IDs not distinct)
+syn_distinct <- syn_pivot %>%
+  distinct(ID, name, .keep_all = TRUE)
+
 #-------------------------------------------------------------------------------
 #FOR NEW ENGLAND DBS
 
@@ -137,6 +191,21 @@ colorado <- read_xlsx(here("data-raw",
                          "colorado_2020.xlsx")) %>%
   clean_names()
 
+colorado_clean <- colorado %>%
+  mutate(scientific_name = fqa_sci_name_no_authority) %>%
+  mutate(synonym = NA) %>%
+  mutate(family = fqa_family) %>%
+  mutate(acronym = fqa_usda_symbol) %>%
+  mutate(native = fqa_native_status) %>%
+  mutate(c = fqa_c_value2020_numeric) %>%
+  mutate(w = NA) %>%
+  mutate(physiognomy = usda_growth_habit_simple) %>%
+  mutate(duration = usda_duration) %>%
+  mutate(common_name = NA) %>%
+  mutate(fqa_db = "colorado_20201") %>%
+  select(scientific_name, synonym, family, acronym, native,
+         c, w, physiognomy, duration, common_name, fqa_db)
+
 #-------------------------------------------------------------------------------
 #FLORIDA
 
@@ -161,6 +230,7 @@ florida_clean <- florida %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
+
 #-------------------------------------------------------------------------------
 # FLORIDA_SOUTH
 
@@ -179,7 +249,8 @@ florida_south_clean <- florida_south %>%
   mutate(duration = NA) %>%
   mutate(fqa_db = "florida_south_2009") %>%
   select(scientific_name, synonym, family, acronym, native,
-         c, w, physiognomy, duration, common_name, fqa_db)
+         c, w, physiognomy, duration, common_name, fqa_db) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, "subsp.", "ssp."))
 
 #-------------------------------------------------------------------------------
 #MISSISSISSIPPI
@@ -256,11 +327,11 @@ ohio_clean <- ohio %>%
 wyoming <- read_xlsx(here("data-raw",
                           "FQA_databases",
                           "not_from_universal_calc",
-                          "wyoming_wetlands_2017.csv"), skip = 1) %>%
+                          "wyoming_2017.xlsx"), skip = 1) %>%
   clean_names()
 
-wyoming_clean <- wyoming %>%
-  mutate(family = minor_taxonomic_group) %>%
+wyoming_cols <- wyoming %>%
+  mutate(family = family_scientific_name) %>%
   mutate(synonym = synonyms) %>%
   mutate(acronym = NA) %>%
   mutate(native = statewide_origin) %>%
@@ -271,7 +342,6 @@ wyoming_clean <- wyoming %>%
   mutate(fqa_db = "wyoming_2017") %>%
   select(scientific_name, synonym, family, acronym, native, c, w, physiognomy, duration, common_name, fqa_db) %>%
   slice(., 1:(n() - 1))
-
 #-------------------------------------------------------------------------------
 #NOW CLEANING ALL TOGETHER
 

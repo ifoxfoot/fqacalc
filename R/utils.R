@@ -206,16 +206,6 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(x, {{key}}, {{plot_id}}))) )
     message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
 
-  #remove duplicates in the same plot
-  if( !is.null(plot_id) && allow_duplicates ){
-    if(cover_weighted ) {
-      x <- x %>%
-        dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
-        dplyr::mutate(cover = sum(.data$cover)) %>%
-        dplyr::distinct() %>%
-        dplyr::ungroup()}
-    else {x <- dplyr::distinct(x, !!as.name(key), !!as.name(plot_id), .keep_all = TRUE)}}
-
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
     {cols <- x %>%
@@ -295,6 +285,16 @@ accepted_entries <- function(x, key = "scientific_name", db,
            dplyr::summarise(cover = sum(.data$cover)))
   }
 
+  #remove duplicates in the same plot
+  if( !is.null(plot_id) && allow_duplicates ){
+    if( cover_weighted ) {
+      cols <- cols %>%
+        dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
+        dplyr::mutate(cover = sum(.data$cover)) %>%
+        dplyr::distinct() %>%
+        dplyr::ungroup()}
+    else {cols <- dplyr::distinct(cols, !!as.name(key), !!as.name(plot_id), .keep_all = TRUE)}}
+
   regional_fqai <- fqa_db %>%
     dplyr::filter(fqa_db == db) %>%
     #so i can tell if observation came from regional list
@@ -350,7 +350,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !allow_no_c ) {
     entries_joined <- entries_joined[!is.na(entries_joined$c),]  }
 
-  return(entries_joined)
+  return(as.data.frame(entries_joined))
 }
 
 #-------------------------------------------------------------------------------
