@@ -56,3 +56,10 @@ transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE"
 transect_dup <- data.frame(acronym  = c("GROUND", "GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
                            cover = c(60, 40, 50, 4, 20, 30, 20, 20, 40, 7, 60),
                            quad_id = c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+
+
+#cover method test
+cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER"),
+                         scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus", "Ammophila breviligulata"),
+                         cover = c(1, 2, 3, 4, 3),
+                         quad_id = c(1, 1, 2, 2, 2))

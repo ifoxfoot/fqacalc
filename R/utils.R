@@ -212,12 +212,6 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::select({{plot_id}}, {{key}}, "cover") %>%
       dplyr::mutate(cover = as.character(x$cover))
 
-    #if cover method is percent, just convert to numeric
-    if(cover_metric == "percent_cover") {
-      cols <- cols %>%
-        dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
-    }
-
     #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
@@ -263,9 +257,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
                                                "cover" == "5" ~ 87.5))
     }
 
+    cols <- cols %>%
+      dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
 
-  } else( cols <- x %>%
+  } else ( cols <- x %>%
             dplyr::select({{plot_id}}, {{key}}) )
+
 
   #warning if NAs get introduced after converting cover metric
   if( cover_weighted && any(is.na(cols$cover)) ) {
