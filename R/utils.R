@@ -281,7 +281,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
     #if allow dups is false but cover weight is true, add cover values for like species together
     else(cols <- cols %>%
            dplyr::group_by(!!as.name(key)) %>%
-           dplyr::summarise(cover = sum(.data$cover)))
+           dplyr::summarise(cover = sum(as.numeric(.data$cover))))
   }
 
   #remove duplicates in the same plot
@@ -289,7 +289,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
     if( cover_weighted ) {
       cols <- cols %>%
         dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
-        dplyr::mutate(cover = sum(.data$cover)) %>%
+        dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
         dplyr::distinct() %>%
         dplyr::ungroup()}
     else {cols <- dplyr::distinct(cols, !!as.name(key), !!as.name(plot_id), .keep_all = TRUE)}}
