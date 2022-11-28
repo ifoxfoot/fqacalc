@@ -9,7 +9,7 @@
 <!-- badges: end -->
 
 This package provides functions for calculating Floristic Quality
-Assessment (FQA) metrics based on 51 regional FQA databases that have
+Assessment (FQA) metrics based on 52 regional FQA databases that have
 been approved for use by the US Army Corps of Engineers.
 
 ## Installation
@@ -39,7 +39,7 @@ library(dplyr)
 
 ## Package Data
 
-`fqacalc` contains all 51 regional FQA databases that have been either
+`fqacalc` contains all 52 regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army
 Corps of Engineers. By referencing these databases, the package knows
 what Coefficient of Conservatism (or C Value) to give each plant that
@@ -103,13 +103,12 @@ crooked_island <- crooked_island
 
 ## Functions to see if your observations will be counted
 
-`fqacalc` also contains two functions that help the user understand how
-the data they input relates to the regional database:
-`accepted_entries()` and `unassigned_plants()`. `accepted_entries()` is
-a function that shows which observations in the input data frame were
-successfully matched to a regional database. To demonstrate how these
-data viewing functions work I’m going to add a mistake to the
-`crooked_island` data set.
+`fqacalc` contains two functions that help the user understand how the
+data they input relates to the regional database: `accepted_entries()`
+and `unassigned_plants()`. `accepted_entries()` is a function that shows
+which observations in the input data frame were successfully matched to
+a regional database. To demonstrate how these data viewing functions
+work I’m going to add a mistake to the `crooked_island` data set.
 
 ``` r
 #introduce a typo
@@ -151,11 +150,11 @@ to the regional dataset, we can see that we got a message about the
 species ‘typo’ being discarded and we can also see that the accepted
 entries dataset we created only has 34 entries.
 
-In some cases plants from the user list can be matched to the regional
+In some cases, plants from the user list can be matched to the regional
 database, but the plant is not associated with any C Value. This is
 usually because not enough is known about that plant. Plants that are
 matched but have no C Value will be excluded from FQI metric calculation
-byt they can *optionally* be included in other metrics like species
+but they can *optionally* be included in other metrics like species
 richness, relative cover, relative frequency, relative importance, and
 mean wetness, as well as any summarizing functions containing these
 metrics. This option is denoted with the `allow_no_c` argument.
@@ -252,17 +251,18 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 #> 1          Total Species Richness 35.0000000
 #> 2         Native Species Richness 28.0000000
 #> 3     Non-native Species Richness  7.0000000
-#> 4     % of Species with 0 C Value 20.0000000
-#> 5   % of Species with 1-3 C Value  8.5714286
-#> 6   % of Species with 4-6 C Value 34.2857143
-#> 7  % of Species with 7-10 C Value 37.1428571
-#> 8                          Mean C  5.3714286
-#> 9                   Native Mean C  6.7142857
-#> 10                      Total FQI 31.7778000
-#> 11                     Native FQI 35.5286605
-#> 12                   Adjusted FQI 60.0543971
-#> 13                   Mean Wetness  0.7142857
-#> 14            Native Mean Wetness  0.8571429
+#> 4    % of Species with no C Value  0.0000000
+#> 5     % of Species with 0 C Value 20.0000000
+#> 6   % of Species with 1-3 C Value  8.5714286
+#> 7   % of Species with 4-6 C Value 34.2857143
+#> 8  % of Species with 7-10 C Value 37.1428571
+#> 9                          Mean C  5.3714286
+#> 10                  Native Mean C  6.7142857
+#> 11                      Total FQI 31.7778000
+#> 12                     Native FQI 35.5286605
+#> 13                   Adjusted FQI 60.0543971
+#> 14                   Mean Wetness  0.7142857
+#> 15            Native Mean Wetness  0.8571429
 ```
 
 Also, all the functions are documented with help pages.
@@ -281,7 +281,7 @@ Cover values can be continuous (i.e. percent cover) or classed
 
 Cover-Weighted Functions come in two flavors: those that allow duplicate
 entries and those that don’t. Not allowing duplicate species
-observations work best for calculating plot-level metrics, where each
+observations works best for calculating plot-level metrics, where each
 species is counted once along with its total cover value. Allowing
 duplicates work best for transect-level metrics, where repeated plots
 along a transect may contain the same species. As a note, if
@@ -289,21 +289,25 @@ along a transect may contain the same species. As a note, if
 species will be counted once and their cover values will be added
 together.
 
+Even if you allow duplicate species, if you indicate a plot id column
+using the `plot_id` argument, duplicate species in the same plots will
+be counted once and their cover values will be added together.
+
 #### Function Arguments
 
-Cover-Weighted Functions have two additional arguments:
+Cover-Weighted Functions have a few additional arguments:
 
--   **cover_metric** A character string representing the cover method
+-   **cover_metric**: A character string representing the cover method
     used. Acceptable cover methods are: `"percent_cover"`,
     `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
     `"usfs_ecodata"`. `"percent_cover"` is the default and is
     recommended because it is the most accurate.
--   **allow_duplicates** Boolean (TRUE or FALSE). If TRUE, allow
+-   **allow_duplicates**: Boolean (TRUE or FALSE). If TRUE, allow
     duplicate entries of the same species. If FALSE, do not allow
     species duplication. Setting `allow_duplicates` to TRUE is best for
-    calculating metrics for multiple plots/quadrats which potentially
+    calculating metrics for multiple plots/quadrants which potentially
     contain the same species. Setting `allow_duplicates` to FALSE is
-    best for calculating metrics for a single plot/quadrat, where each
+    best for calculating metrics for a single plot/quadrant, where each
     species is entered once along with its total cover value.
 
 #### Functions
@@ -346,21 +350,22 @@ transect_summary(transect, key = "acronym", db = "michigan_2014")
 #> 1          Total Species Richness  4.0000000
 #> 2         Native Species Richness  3.0000000
 #> 3     Non-native Species Richness  1.0000000
-#> 4     % of Species with 0 C Value 25.0000000
-#> 5   % of Species with 1-3 C Value 25.0000000
-#> 6   % of Species with 4-6 C Value  0.0000000
-#> 7  % of Species with 7-10 C Value 50.0000000
-#> 8                          Mean C  5.7500000
-#> 9                   Native Mean C  7.6666667
-#> 10          Cover-Weighted Mean C  5.9460581
-#> 11   Cover-Weighted Native Mean C  9.4900662
-#> 12                      Total FQI 11.5000000
-#> 13                     Native FQI 13.2790562
-#> 14             Cover-Weighted FQI 11.8921162
-#> 15      Cover-Weighted Native FQI 16.4372769
-#> 16                   Adjusted FQI 66.3952810
-#> 17                   Mean Wetness  1.7500000
-#> 18            Native Mean Wetness  0.6666667
+#> 4    % of Species with no C Value  0.0000000
+#> 5     % of Species with 0 C Value 25.0000000
+#> 6   % of Species with 1-3 C Value 25.0000000
+#> 7   % of Species with 4-6 C Value  0.0000000
+#> 8  % of Species with 7-10 C Value 50.0000000
+#> 9                          Mean C  5.7500000
+#> 10                  Native Mean C  7.6666667
+#> 11          Cover-Weighted Mean C  5.9460581
+#> 12   Cover-Weighted Native Mean C  9.4900662
+#> 13                      Total FQI 11.5000000
+#> 14                     Native FQI 13.2790562
+#> 15             Cover-Weighted FQI 11.8921162
+#> 16      Cover-Weighted Native FQI 16.4372769
+#> 17                   Adjusted FQI 66.3952810
+#> 18                   Mean Wetness  1.7500000
+#> 19            Native Mean Wetness  0.6666667
 ```
 
 There is also a plot summary function that summarizes plots along a
@@ -369,39 +374,49 @@ plot. This data frame must also have a column representing the plot the
 species was observed in. This column is then passed to an additional
 argument
 
--   **plot_id** A character string representing the name of the column
+-   **plot_id**: A character string representing the name of the column
     in `x` that indicates which plot the species was observed in.
+
+Because it is sometimes useful to calculate the total amount of bare
+ground or un-vegetated water in a plot, the user can also choose to
+include bare ground or water. To get this feature to work, the user must
+set another argument:
+
+-   **allow_non_veg**: Boolean (TRUE or FALSE). If TRUE, allow input to
+    contain un-vegetated ground and un-vegetated water.
+
+If `allow_non_veg` is true, the user can include species “UNVEGETATED
+GROUND” or “UNVEGETATED WATER” along with their plant species. They can
+also use acronyms “GROUND” or “WATER”.
 
 ``` r
 #print transect to view structure of data
-transect
-#>   acronym cover quad_id
-#> 1  ABEESC    50       1
-#> 2  ABIBAL     4       1
-#> 3  AMMBRE    20       1
-#> 4  ANTELE    30       1
-#> 5  ABEESC    40       2
-#> 6  ABIBAL     7       2
-#> 7  AMMBRE    60       2
+transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+                       cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+                       quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 #plot summary of a transect (dplicates are not allowed)
-plot_summary(x = transect, key = "acronym", db = "michigan_2014", 
+plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
              cover_metric = "percent_cover", 
              plot_id = "quad_id")
-#>   quad_id species_richness native_species_richness   mean_c native_mean_c
-#> 1       1                4                       3 5.750000      7.666667
-#> 2       2                3                       2 4.333333      6.500000
-#>   cover_mean_c       FQI native_FQI cover_FQI native_cover_FQI adjusted_FQI
-#> 1     4.923077 11.500000  13.279056  9.846154         16.42241     66.39528
-#> 2     5.803738  7.505553   9.192388 10.052370         13.10786     53.07228
+#>   quad_id species_richness native_species_richness mean_wetness   mean_c
+#> 1       1                4                       3     1.750000 5.750000
+#> 2       2                3                       2     3.333333 4.333333
+#>   native_mean_c cover_mean_c       FQI native_FQI cover_FQI native_cover_FQI
+#> 1      7.666667     4.923077 11.500000  13.279056  9.846154         16.42241
+#> 2      6.500000     5.803738  7.505553   9.192388 10.052370         13.10786
+#>   adjusted_FQI ground_cover water_cover
+#> 1     66.39528           60          NA
+#> 2     53.07228           20          20
 ```
 
 ## Relative Functions
 
 Relative functions calculate relative frequency, coverage, and
-importance for each category.There is also a species summary function
+importance for each category. There is also a species summary function
 that produces a summary of each species’ relative metrics in the data
 frame. Relative functions always allow duplicate species observations.
+They also allow ground and water to be included.
 
 Relative functions have one additional argument which tells the
 functions what to calculate the relative value of:
