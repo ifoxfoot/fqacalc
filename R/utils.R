@@ -212,10 +212,16 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::select({{plot_id}}, {{key}}, "cover") %>%
       dplyr::mutate(cover = as.character(x$cover))
 
+    #if cover method is percent, just convert to numeric
+    if(cover_metric == "percent_cover") {
+      cols <- cols %>%
+        dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
+    }
+
     #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when("cover" == "1" ~ 0.5,
+        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.5,
                                                TRUE ~ suppressWarnings(as.numeric(cols$cover))
                         ))
     }
@@ -223,46 +229,42 @@ accepted_entries <- function(x, key = "scientific_name", db,
     #if cover method is carolina, transform to 10 classes
     if(cover_metric == "carolina_veg_survey") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when("cover" == "1" ~ 0.1,
-                                               "cover" == "2" ~ 0.5,
-                                               "cover" == "3" ~ 1.5,
-                                               "cover" == "4" ~ 3.5,
-                                               "cover" == "5" ~ 7.5,
-                                               "cover" == "6" ~ 17.5,
-                                               "cover" == "7" ~ 37.5,
-                                               "cover" == "8" ~ 62.5,
-                                               "cover" == "9" ~ 85,
-                                               "cover" == "10" ~ 97.5))
+        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
+                                               cover == "2" ~ 0.5,
+                                               cover == "3" ~ 1.5,
+                                               cover == "4" ~ 3.5,
+                                               cover == "5" ~ 7.5,
+                                               cover == "6" ~ 17.5,
+                                               cover == "7" ~ 37.5,
+                                               cover == "8" ~ 62.5,
+                                               cover == "9" ~ 85,
+                                               cover == "10" ~ 97.5))
     }
 
     #if cover method is daubenmire, transform to six classes
     if(cover_metric == "daubenmire") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when("cover" == "1" ~ 2.5,
-                                               "cover" == "2" ~ 15,
-                                               "cover" == "3" ~ 37.5,
-                                               "cover" == "4" ~ 62.5,
-                                               "cover" == "5" ~ 85,
-                                               "cover" == "6" ~ 97.5))
+        dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
+                                               cover == "2" ~ 15,
+                                               cover == "3" ~ 37.5,
+                                               cover == "4" ~ 62.5,
+                                               cover == "5" ~ 85,
+                                               cover == "6" ~ 97.5))
     }
 
     #if cover method is braun-blanquet, transform to 5 classes
     if(cover_metric == "braun-blanquet") {
       cols <- cols %>%
-        dplyr::mutate(cover = dplyr::case_when("cover" == "+" ~ 0.1,
-                                               "cover" == "1" ~ 2.5,
-                                               "cover" == "2" ~ 15,
-                                               "cover" == "3" ~ 37.5,
-                                               "cover" == "4" ~ 62.5,
-                                               "cover" == "5" ~ 87.5))
+        dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
+                                               cover == "1" ~ 2.5,
+                                               cover == "2" ~ 15,
+                                               cover == "3" ~ 37.5,
+                                               cover == "4" ~ 62.5,
+                                               cover == "5" ~ 87.5))
     }
 
-    cols <- cols %>%
-      dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
-
-  } else ( cols <- x %>%
+  } else( cols <- x %>%
             dplyr::select({{plot_id}}, {{key}}) )
-
 
   #warning if NAs get introduced after converting cover metric
   if( cover_weighted && any(is.na(cols$cover)) ) {
