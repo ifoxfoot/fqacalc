@@ -1,5 +1,5 @@
 
-#this file contains fqi cover-weighted metrics (quadrat_mean_c(), transect_mean_c(), cover_fqi(), all_cover_metrics())
+#this file contains fqi cover-weighted metrics cover_mean_c(), cover_fqi(), transect_summary(), and plot_summary()
 
 #-------------------------------------------------------------------------------
 

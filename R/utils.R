@@ -273,7 +273,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
                                                cover == "5" ~ 87.5))
     }
 
-  } else( cols <- x %>%
+  } else ( cols <- x %>%
             dplyr::select({{plot_id}}, {{key}}) )
 
   #warning if NAs get introduced after converting cover metric
