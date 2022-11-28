@@ -13,7 +13,8 @@ functions.The column \code{status} notes whether the database has been fully app
 approved with reservations by the US Army Corps of Engineers.
 }
 \description{
-Look Up the Names of Regional FQA Databases
+Create a data frame containing the names of regional FQA data bases contained in
+this package as well as their certification status.
 }
 \examples{
 db_names()

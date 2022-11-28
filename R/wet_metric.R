@@ -10,19 +10,7 @@
 #' Status. Negative wetness coefficients indicate a stronger affinity for wetlands, while
 #' positive wetland coefficients indicate an affinity for upland.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @export

@@ -9,22 +9,9 @@
 #' `relative_freq()` calculates the frequency of one species, taxonomic family,
 #' or physiognomic group multiplied by 100, divided by the frequency of all observations.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
+#' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
 #' the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
-#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative frequency.
 #' @export
@@ -78,25 +65,10 @@ relative_freq <- function(x, key = "scientific_name", db,
 #' taxonomic family, or physiognomic group) multiplied by 100 and divided by the total cover for all
 #' observations.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`, as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use.
+#' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
 #' the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
-#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
+#'
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative cover.
 #' @export
@@ -152,26 +124,9 @@ relative_cover <- function(x, key = "scientific_name", db,
 #'
 #' `relative_importance()` calculates the average of relative frequency and relative cover.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
+#' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
 #' the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
-#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative importance.
 #' @export
@@ -217,24 +172,7 @@ relative_importance <- function(x, key = "scientific_name", db,
 #' `species_summary()` produces a table summarizing species' frequency, total cover,
 #' relative frequency, relative cover, and relative importance.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
-#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
+#' @inheritParams accepted_entries
 #'
 #' @return A data frame where each row is a species and each column is information about that species
 #' based on the input data frame.
@@ -297,24 +235,7 @@ species_summary <- function(x, key = "scientific_name", db,
 
 #' Create a cover-Weighted Summary of Physiognomic Groups
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
-#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
+#' @inheritParams accepted_entries
 #'
 #' @return A data frame where each row is a physiognomic group and each column is a metric about that species
 #' based on the input data frame.

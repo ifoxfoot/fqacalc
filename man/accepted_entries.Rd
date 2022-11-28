@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{accepted_entries}
 \alias{accepted_entries}
-\title{Return Data Frame of Successfully Matched Plant Species}
+\title{Return A Data Frame of Plant Species That Successfully Match to the Regional FQA Database}
 \usage{
 accepted_entries(
   x,
@@ -22,9 +22,9 @@ accepted_entries(
 must have one of the following columns: \code{scientific_name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
-the input \code{x} with the regional FQA database. If a value is not specified the
+the input data frame \code{x} with the regional FQA database. If a value is not specified, the
 default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
-values for key.}
+values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
@@ -57,13 +57,16 @@ ground and un-vegetated water.}
 identification values.}
 }
 \value{
-A data frame containing the 'key' column--either \code{acronym} or
+A data frame containing the \code{key} column--either \code{acronym} or
 \code{scientific_name}--as well as columns from the relevant FQA database.
 These columns include \code{family}, \code{native}, \code{c} (which represents the C Value),
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }
 \description{
-Return Data Frame of Successfully Matched Plant Species
+\code{accepted_entries} takes a data frame of user-entered plant species and returns a
+data frame of plant species that are successfully matched to the regional FQA database.
+\code{accepted_entries} is a utility function that is used all other metric-calculating
+functions in this package.
 }
 \examples{
 plant_list <- crooked_island

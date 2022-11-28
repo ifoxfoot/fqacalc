@@ -28,7 +28,7 @@ A data frame with 11 variables:
 }
 }
 \description{
-Call a Regional FQA Database
+Create a data frame containing an entire regional FQA database.
 }
 \examples{
 view_db("michigan_2014")

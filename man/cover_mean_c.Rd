@@ -15,13 +15,12 @@ cover_mean_c(
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name} or \code{acronym} as well
-as a column named \code{cover} containing percent cover values per each observation.}
+must have one of the following columns: \code{scientific_name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
-the input \code{x} with the regional FQA database. If a value is not specified the
+the input data frame \code{x} with the regional FQA database. If a value is not specified, the
 default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
-values for key.}
+values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
@@ -34,12 +33,9 @@ cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
 recommended because it is the most accurate.}
 
-\item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of
-the same species. If FALSE, do not allow species duplication. Setting \code{allow_duplicates}
-to TRUE is best for calculating metrics for multiple plots/quadrats which potentially
-contain the same species. Setting \code{allow_duplicates} to FALSE is best for calculating
-metrics for a single plot/quadrat, where each species is entered once along with its
-total cover value.}
+\item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
+duplicate observations for the same species. This is only recommended for
+calculating transect and frequency metrics.}
 }
 \value{
 A non-negative integer

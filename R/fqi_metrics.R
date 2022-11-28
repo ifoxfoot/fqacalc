@@ -9,19 +9,7 @@
 #' `species_richness` calculates the total number of species in the site
 #' assessment.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -56,16 +44,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE, all
 #' `mean_c` calculates the mean conservation coefficient for all species in
 #' the site assessment.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @importFrom rlang :=
@@ -102,16 +81,7 @@ mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 #' by multiplying the mean C by the square root of the species richness. If `native = TRUE`,
 #' `FQI` will calculate the Native FQI.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @export
@@ -145,14 +115,7 @@ FQI <- function(x, key = "scientific_name", db, native = FALSE) {
 #' Mean C divided by 10 and then multiplied by the square root of Native Species
 #' Richness over Total Species Richness.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @export

@@ -5,6 +5,9 @@
 
 #' Look Up the Names of Regional FQA Databases
 #'
+#' Create a data frame containing the names of regional FQA data bases contained in
+#' this package as well as their certification status.
+#'
 #' @return A data frame of regional FQA database names. The column `name` contains
 #' the names of the databases. These are acceptable values for `db` in other `fqacalc`
 #' functions.The column `status` notes whether the database has been fully approved or
@@ -37,6 +40,8 @@ db_names <- function() {
 #-------------------------------------------------------------------------------
 
 #' Call a Regional FQA Database
+#'
+#' Create a data frame containing an entire regional FQA database.
 #'
 #' @param db A character string representing the name of the regional FQA database
 #' to retrieve. Generally, the format is "place_year".
@@ -78,14 +83,19 @@ view_db <- function(db) {
 
 #-------------------------------------------------------------------------------
 
-#' Return Data Frame of Successfully Matched Plant Species
+#' Return A Data Frame of Plant Species That Successfully Match to the Regional FQA Database
+#'
+#' `accepted_entries` takes a data frame of user-entered plant species and returns a
+#' data frame of plant species that are successfully matched to the regional FQA database.
+#' `accepted_entries` is a utility function that is used all other metric-calculating
+#' functions in this package.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `scientific_name` or `acronym`.
 #' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
+#' the input data frame `x` with the regional FQA database. If a value is not specified, the
 #' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
+#' values for `key`.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
@@ -109,7 +119,7 @@ view_db <- function(db) {
 #' @param plot_id (optional) A character string representing the column in `x` that contains plot
 #' identification values.
 #'
-#' @return A data frame containing the 'key' column--either `acronym` or
+#' @return A data frame containing the `key` column--either `acronym` or
 #' `scientific_name`--as well as columns from the relevant FQA database.
 #' These columns include `family`, `native`, `c` (which represents the C Value),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`

@@ -14,13 +14,12 @@ transect_summary(
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name} or \code{acronym} as well
-as a column named \code{cover} containing percent cover values per each observation.}
+must have one of the following columns: \code{scientific_name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
-the input \code{x} with the regional FQA database. If a value is not specified the
+the input data frame \code{x} with the regional FQA database. If a value is not specified, the
 default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
-values for key.}
+values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
@@ -31,8 +30,7 @@ cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 recommended because it is the most accurate.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
-regional database but have not been assigned a C Values to be counted in species
-richness and native species richness. If FALSE, omit species that have not
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
 been assigned C Values.}
 }
 \value{

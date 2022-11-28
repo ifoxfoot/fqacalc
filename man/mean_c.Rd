@@ -11,9 +11,9 @@ mean_c(x, key = "scientific_name", db, native = FALSE)
 must have one of the following columns: \code{scientific_name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
-the input \code{x} with the regional FQA database. If a value is not specified the
-default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
-values for key.}
+the input data frame \code{x} with the regional FQA database. If a value is not specified, the
+default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}

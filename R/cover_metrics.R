@@ -8,27 +8,7 @@
 #' `cover_mean_c()` calculates the sum of cover times the C value per each species,
 #' divided by the sum of cover values for all species.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of
-#' the same species. If FALSE, do not allow species duplication. Setting `allow_duplicates`
-#' to TRUE is best for calculating metrics for multiple plots/quadrats which potentially
-#' contain the same species. Setting `allow_duplicates` to FALSE is best for calculating
-#' metrics for a single plot/quadrat, where each species is entered once along with its
-#' total cover value.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @export
@@ -75,27 +55,7 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 #' `cover_FQI()` calculates cover-weighted mean C multiplied by the square root
 #' of species richness.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
-#' native species.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of
-#' the same species. If FALSE, do not allow species duplication. Setting `allow_duplicates`
-#' to TRUE is best for calculating metrics for multiple plots/quadrats which potentially
-#' contain the same species. Setting `allow_duplicates` to FALSE is best for calculating
-#' metrics for a single plot/quadrat, where each species is entered once along with its
-#' total cover value.
+#' @inheritParams accepted_entries
 #'
 #' @return A non-negative integer
 #' @export
@@ -127,23 +87,7 @@ cover_FQI <- function(x, key = "scientific_name", db, native = FALSE,
 #' `transect_summary()` calculates and prints a summary of both non cover-weighted
 #' metrics and cover-weighted metrics.Cover-weighted metrics allow duplicate entries.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
-#' regional database but have not been assigned a C Values to be counted in species
-#' richness and native species richness. If FALSE, omit species that have not
-#' been assigned C Values.
+#' @inheritParams accepted_entries
 #'
 #' @return A data frame
 #' @export
@@ -228,27 +172,7 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
 #' native species richness, mean c, native mean c, FQI, native FQI, adjusted FQI,
 #' cover-weighted FQI, and native cover-weighted FQI.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym` as well
-#' as a column named `cover` containing percent cover values per each observation.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
-#' @param plot_id A character string representing the column in `x` that contains plot
-#' identification values.
-#' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
-#' regional database but have not been assigned a C Values to be counted in species
-#' richness and native species richness. If FALSE, omit species that have not
-#' been assigned C Values.
+#' @inheritParams accepted_entries
 #'
 #' @return A data frame where each row is a plot and columns contain FQI and
 #' cover-weighted FQI statistics.
