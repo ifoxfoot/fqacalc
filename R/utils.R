@@ -138,6 +138,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
                              allow_non_veg = FALSE,
                              plot_id = NULL) {
 
+  #ERRORS
+
   #error if x argument is missing
   if( missing(x) )
     stop("argument x is missing, with no default.")
@@ -182,6 +184,10 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
 
+  #allow_duplicates must be T or F
+  if( !is.logical(allow_duplicates) )
+    stop("'allow_duplicates' can only be set to TRUE or FALSE")
+
   #if cover is true, then there must be a column named cover in input df
   if( cover_weighted & !("cover" %in% colnames(x)))
     stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
@@ -198,23 +204,9 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #plot_id argument must be NULL or a column name in input data frame x
   if( !is.null(plot_id) && !(plot_id %in% colnames(x)) )
-    stop(paste("'plot_id' must be the name of a column in", deparse(substitute(x)), "."))
+    stop(paste0("'plot_id' must be the name of a column in ", deparse(substitute(x)), " ."))
 
-  #allow__duplicates must be T or F
-  if( !is.logical(allow_duplicates) )
-    stop("'allow_duplicates' can only be set to TRUE or FALSE")
-
-  #send message to user if site assessment contains duplicate entries
-  if( sum(duplicated(x[,key])) > 0 & !allow_duplicates){
-    if(cover_weighted == TRUE){
-      message("Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.")}
-    else{
-      message("Duplicate entries detected. Duplicates will only be counted once.")}
-  }
-
-  #message if there are duplicates in same plot
-  if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(x, {{key}}, {{plot_id}}))) )
-    message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
+  #CONVERTING COVER CLASSES
 
   #if cover parameter is true, select unique sci names and cover
   if( cover_weighted )
@@ -232,8 +224,17 @@ accepted_entries <- function(x, key = "scientific_name", db,
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
         dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.5,
-                                               TRUE ~ suppressWarnings(as.numeric(cols$cover))
-                        ))
+                                               cover == "3" ~ 3,
+                                               cover == "10" ~ 10,
+                                               cover == "20" ~ 20,
+                                               cover == "30" ~ 30,
+                                               cover == "40" ~ 40,
+                                               cover == "50" ~ 50,
+                                               cover == "60" ~ 60,
+                                               cover == "70" ~ 70,
+                                               cover == "80" ~ 80,
+                                               cover == "90" ~ 90,
+                                               cover == "98" ~ 98))
     }
 
     #if cover method is carolina, transform to 10 classes
@@ -285,6 +286,16 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::filter(!is.na(cols$cover))
   }
 
+  #TREATING DUPLICATES
+
+  #send message to user if site assessment contains duplicate entries
+  if( sum(duplicated(cols[,key])) > 0 & !allow_duplicates){
+    if(cover_weighted == TRUE){
+      message("Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.")}
+    else{
+      message("Duplicate entries detected. Duplicates will only be counted once.")}
+  }
+
   #if allow duplicates is false, do not allow duplicates
   if( !allow_duplicates ) {
     if ( !cover_weighted ){ cols <- cols %>% dplyr::distinct() }
@@ -293,6 +304,10 @@ accepted_entries <- function(x, key = "scientific_name", db,
            dplyr::group_by(!!as.name(key)) %>%
            dplyr::summarise(cover = sum(as.numeric(.data$cover))))
   }
+
+  #message if there are duplicates in same plot
+  if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(cols, {{key}}, {{plot_id}}))) )
+    message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
 
   #remove duplicates in the same plot
   if( !is.null(plot_id) && allow_duplicates ){
@@ -303,6 +318,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
         dplyr::distinct() %>%
         dplyr::ungroup()}
     else {cols <- dplyr::distinct(cols, !!as.name(key), !!as.name(plot_id), .keep_all = TRUE)}}
+
+  #PREPARING REGIONAL LIST FOR JOINING
 
   regional_fqai <- fqa_db %>%
     dplyr::filter(fqa_db == db) %>%
@@ -328,6 +345,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
       regional_fqai)
   }
 
+  #JOINING DATA ENTERED TO REGIONAL LIST
+
   #join scores from FQAI to user's assessment
   entries_joined <-
     dplyr::left_join(cols %>%
@@ -341,14 +360,9 @@ accepted_entries <- function(x, key = "scientific_name", db,
                      "not listed in database. It will be discarded."))
 
   #now get rid of observations not in regional list
-  entries_joined <- entries_joined[!is.na(entries_joined$p),] %>%
+  entries_joined <- entries_joined %>%
+    dplyr::filter(!is.na(.data$p)) %>%
     dplyr::select(-"p")
-
-  #if native = T, filter for only native species
-  if (native) {
-    entries_joined <- entries_joined %>%
-      dplyr::filter(native == "native")
-  }
 
   #send message to user if site assessment contains plant not in FQAI database
   if( any(is.na(entries_joined$c)) )
@@ -357,7 +371,14 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #if allow no c is false, get rid of observations with no c value
   if( !allow_no_c ) {
-    entries_joined <- entries_joined[!is.na(entries_joined$c),]  }
+    entries_joined <- entries_joined %>%
+      dplyr::filter(!is.na(c)) }
+
+  #if native = T, filter for only native species
+  if (native) {
+    entries_joined <- entries_joined %>%
+      dplyr::filter(native == "native")
+  }
 
   return(as.data.frame(entries_joined))
 }

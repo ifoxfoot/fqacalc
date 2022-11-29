@@ -26,11 +26,6 @@ typo <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "typo"),
 fuzzy <- data.frame(acronym  = c("abeesc", "ABIBAL", "AMMBRE", "ANTELE"),
                     scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"))
 
-#quadrat test
-quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                      scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"),
-                      cover = c(50, 4, 20, 30))
-
 #transect test
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
                       cover = c(50, 4, 20, 30, 40, 7, 60),
@@ -47,14 +42,40 @@ cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 na_intro_cover <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                        cover = c(50, "A", 20, 30))
 
-#transect unveg test
-transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
-                       cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-                       quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
-
 #transects with duplicates in same plot and with non-veg components
 transect_dup <- data.frame(acronym  = c("GROUND", "GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
                            cover = c(60, 40, 50, 4, 20, 30, 20, 20, 40, 7, 60),
                            quad_id = c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
+#quadrant test
+quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
+                      scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"),
+                      cover = c(50, 4, 20, 30))
 
+accepted_perfect <- data.frame(acronym  = c("ABEESC", "ABIBAL"),
+                       cover = c(60, 50),
+                       quad_id = c(1, 1))
+
+accepted_dup <- data.frame(acronym  = c("ABEESC", "ABIBAL", "ABIBAL"),
+                               cover = c(60, 50, 50),
+                               quad_id = c(1, 2, 2))
+
+accepted_non_veg <- data.frame(acronym  = c("ABEESC", "GROUND", "WATER"),
+                           cover = c(60, 50, 1),
+                           quad_id = c(1, 2, 2))
+
+accepted_no_c <- data.frame(scientific_name  = c("ABRONIA FRAGRANS", "ACER GLABRUM"))
+
+accepted_br <-  data.frame(acronym  = c("ABEESC", "ABIBAL", "ABIBAL"),
+                             cover = c(5, "+", 50),
+                             quad_id = c(1, 2, 2))
+
+accepted_br_dup <-  data.frame(acronym  = c("ABEESC", "ABIBAL", "ABIBAL"),
+                           cover = c(5, "+", 3),
+                           quad_id = c(1, 2, 2))
+
+accepted_cover_method <-  data.frame(acronym  = c("ABEESC", "ABIBAL"),
+                               cover = c(1, 3))
+
+accepted_bad_cov_val <-  data.frame(acronym  = c("ABEESC", "ABIBAL"),
+                                     cover = c(25, 3))
