@@ -6,6 +6,7 @@ library(janitor)
 library(tidyverse)
 library(readxl)
 library(splitstackshape)
+library(naniar)
 
 
 #-------------------------------------------------------------------------------
@@ -125,6 +126,92 @@ syn_pivot <- syn_row_name %>%
 #keep only distinct rows (rows with diff IDs not distinct)
 syn_distinct <- syn_pivot %>%
   distinct(ID, name, .keep_all = TRUE)
+
+#if the plant is a synonym, us NA for acronym (to avoid repeating acronyms)
+syn_dist_acronyms <- syn_distinct %>%
+  mutate(acronym = case_when(str_detect(name_origin, "synonym_") ~ NA_character_,
+                             T ~ acronym))
+
+#-------------------------------------------------------------------------------
+#SOUTH EASTERN DBS
+
+#read in data
+southeastern <- read_xlsx(here("data-raw", "FQA_databases", "not_from_universal_calc",
+                               "southeastern_wetland_database_2014.xlsx")) %>%
+  clean_names()
+
+#clean whole thing
+southeastern_clean <- southeastern %>%
+  mutate(acronym = case_when(main_vs_syn == "Syn" ~ usda_synonym_symbol,
+                             T ~ usda_accepted_symbol)) %>%
+  mutate(name_origin = case_when(main_vs_syn == "Syn" ~ "synonym",
+                                 main_vs_syn == "MAIN" ~ "Main")) %>%
+  rename(scientific_name = usda_scientific_name) %>%
+  mutate(family = NA) %>%
+  rename(native = native_status) %>%
+  rename(physiognomy = growth_habit) %>%
+  rename(common_name = usda_common_name)
+
+#southern_coastal
+southern_coastal_plain <- southeastern_clean %>%
+  select(scientific_name, name_origin, family, acronym,
+         ave_c_value_southern_coastal_plain, physiognomy,
+         duration, common_name) %>%
+  mutate(fqa_db = "southeastern_southern_coastal_plain_2014") %>%
+  rename(c = ave_c_value_southern_coastal_plain) %>%
+  filter(!is.na(c)) %>%
+  replace_with_na(replace = list(c = "UND"))
+
+#southeastern plains
+southeastern_plain <- southeastern_clean %>%
+  select(scientific_name, name_origin, family, acronym,
+         ave_c_value_plains, physiognomy,
+         duration, common_name) %>%
+  mutate(fqa_db = "southeastern_plain_2014") %>%
+  rename(c = ave_c_value_plains) %>%
+  filter(!is.na(c)) %>%
+  replace_with_na(replace = list(c = "UND"))
+
+#southern piedmont
+southeastern_piedmont <- southeastern_clean %>%
+  select(scientific_name, name_origin, family, acronym,
+         ave_c_value_piedmont, physiognomy,
+         duration, common_name) %>%
+  mutate(fqa_db = "southeastern_piedmont_2014") %>%
+  rename(c = ave_c_value_piedmont) %>%
+  filter(!is.na(c)) %>%
+  replace_with_na(replace = list(c = "UND"))
+
+#southern mointians
+southeastern_mountains <- southeastern_clean %>%
+  select(scientific_name, name_origin, family, acronym,
+         ave_c_value_mountains, physiognomy,
+         duration, common_name) %>%
+  mutate(fqa_db = "southeastern_mountains_2014") %>%
+  rename(c = ave_c_value_mountains) %>%
+  filter(!is.na(c)) %>%
+  replace_with_na(replace = list(c = "UND"))
+
+#southern plat
+southeastern_plateau <- southeastern_clean %>%
+  select(scientific_name, name_origin, family, acronym,
+         ave_c_value_interior_plateau, physiognomy,
+         duration, common_name) %>%
+  mutate(fqa_db = "southeastern_interior_plateau_2014") %>%
+  rename(c = ave_c_value_interior_plateau) %>%
+  filter(!is.na(c)) %>%
+  replace_with_na(replace = list(c = "UND"))
+
+southeastern_complete <- rbind(southeastern_mountains,
+                               southeastern_piedmont,
+                               southeastern_plain,
+                               southeastern_plateau,
+                               southern_coastal_plain)
+
+repeating_sci_names <- southeastern_complete %>%
+  group_by(acronym, fqa_db) %>%
+  count() %>%
+  filter(n > 1)
 
 #-------------------------------------------------------------------------------
 #FOR NEW ENGLAND DBS
