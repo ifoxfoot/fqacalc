@@ -145,61 +145,111 @@ southeastern_clean <- southeastern %>%
   mutate(acronym = case_when(main_vs_syn == "Syn" ~ usda_synonym_symbol,
                              T ~ usda_accepted_symbol)) %>%
   mutate(name_origin = case_when(main_vs_syn == "Syn" ~ "synonym",
-                                 main_vs_syn == "MAIN" ~ "Main")) %>%
+                                 main_vs_syn == "MAIN" ~ "main")) %>%
   rename(scientific_name = usda_scientific_name) %>%
   mutate(family = NA) %>%
   rename(native = native_status) %>%
   rename(physiognomy = growth_habit) %>%
-  rename(common_name = usda_common_name)
+  rename(common_name = usda_common_name) %>%
+  group_by(usda_accepted_symbol) %>%
+  mutate(ID = cur_group_id()) %>%
+  ungroup()
+
+southeastern_cols <- southeastern_clean %>%
+  select(ID, name_origin, scientific_name, family, acronym, native,
+         ave_c_value_southern_coastal_plain,
+         ave_c_value_plains,
+         ave_c_value_piedmont,
+         ave_c_value_mountains,
+         ave_c_value_interior_plateau,
+         nwpl_e_mtns,
+         nwpl_cstl_plain,
+         common_name,
+         duration,
+         physiognomy,
+         native) %>%
+  mutate(native = case_when(name_origin == "main" & is.na(native) ~ "NA",
+                            T ~ native)) %>%
+  fill(native) %>%
+  mutate(ave_c_value_southern_coastal_plain = case_when(name_origin == "main" & is.na(ave_c_value_southern_coastal_plain) ~ "NA",
+                                        T ~ ave_c_value_southern_coastal_plain)) %>%
+  fill(ave_c_value_southern_coastal_plain) %>%
+  mutate(ave_c_value_plains = case_when(name_origin == "main" & is.na(ave_c_value_plains) ~ "NA",
+                            T ~ ave_c_value_plains)) %>%
+  fill(ave_c_value_plains) %>%
+  mutate(ave_c_value_piedmont = case_when(name_origin == "main" & is.na(ave_c_value_piedmont) ~ "NA",
+                                        T ~ ave_c_value_piedmont)) %>%
+  fill(ave_c_value_piedmont) %>%
+  mutate(ave_c_value_mountains = case_when(name_origin == "main" & is.na(ave_c_value_mountains) ~ "NA",
+                                          T ~ ave_c_value_mountains)) %>%
+  fill(ave_c_value_mountains) %>%
+  mutate(ave_c_value_interior_plateau = case_when(name_origin == "main" & is.na(ave_c_value_interior_plateau ) ~ "NA",
+                                           T ~ ave_c_value_interior_plateau )) %>%
+  fill(ave_c_value_interior_plateau) %>%
+  mutate(nwpl_e_mtns = case_when(name_origin == "main" & is.na(nwpl_e_mtns) ~ "NA",
+                                                  T ~ nwpl_e_mtns)) %>%
+  fill(nwpl_e_mtns) %>%
+  mutate(nwpl_cstl_plain = case_when(name_origin == "main" & is.na(nwpl_cstl_plain) ~ "NA",
+                                 T ~ nwpl_cstl_plain)) %>%
+  fill(nwpl_cstl_plain) %>%
+  mutate(common_name = case_when(name_origin == "main" & is.na(common_name) ~ "NA",
+                                     T ~ common_name)) %>%
+  fill(common_name) %>%
+  mutate(duration = case_when(name_origin == "main" & is.na(duration ) ~ "NA",
+                                 T ~ duration )) %>%
+  fill(duration ) %>%
+  mutate(physiognomy = case_when(name_origin == "main" & is.na(physiognomy) ~ "NA",
+                              T ~ physiognomy)) %>%
+  fill(physiognomy)
 
 #southern_coastal
-southern_coastal_plain <- southeastern_clean %>%
-  select(scientific_name, name_origin, family, acronym,
+southern_coastal_plain <- southeastern_cols %>%
+  select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_southern_coastal_plain, physiognomy,
          duration, common_name) %>%
   mutate(fqa_db = "southeastern_southern_coastal_plain_2014") %>%
   rename(c = ave_c_value_southern_coastal_plain) %>%
-  filter(!is.na(c)) %>%
+  filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
 #southeastern plains
-southeastern_plain <- southeastern_clean %>%
-  select(scientific_name, name_origin, family, acronym,
+southeastern_plain <- southeastern_cols %>%
+  select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_plains, physiognomy,
          duration, common_name) %>%
   mutate(fqa_db = "southeastern_plain_2014") %>%
   rename(c = ave_c_value_plains) %>%
-  filter(!is.na(c)) %>%
+  filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
 #southern piedmont
-southeastern_piedmont <- southeastern_clean %>%
-  select(scientific_name, name_origin, family, acronym,
+southeastern_piedmont <- southeastern_cols %>%
+  select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_piedmont, physiognomy,
          duration, common_name) %>%
   mutate(fqa_db = "southeastern_piedmont_2014") %>%
   rename(c = ave_c_value_piedmont) %>%
-  filter(!is.na(c)) %>%
+  filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
 #southern mointians
-southeastern_mountains <- southeastern_clean %>%
-  select(scientific_name, name_origin, family, acronym,
+southeastern_mountains <- southeastern_cols %>%
+  select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_mountains, physiognomy,
          duration, common_name) %>%
   mutate(fqa_db = "southeastern_mountains_2014") %>%
   rename(c = ave_c_value_mountains) %>%
-  filter(!is.na(c)) %>%
+  filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
 #southern plat
-southeastern_plateau <- southeastern_clean %>%
-  select(scientific_name, name_origin, family, acronym,
+southeastern_plateau <- southeastern_cols %>%
+  select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_interior_plateau, physiognomy,
          duration, common_name) %>%
   mutate(fqa_db = "southeastern_interior_plateau_2014") %>%
   rename(c = ave_c_value_interior_plateau) %>%
-  filter(!is.na(c)) %>%
+  filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
 southeastern_complete <- rbind(southeastern_mountains,
@@ -208,10 +258,9 @@ southeastern_complete <- rbind(southeastern_mountains,
                                southeastern_plateau,
                                southern_coastal_plain)
 
-repeating_sci_names <- southeastern_complete %>%
+test <- southeastern_complete %>%
   group_by(acronym, fqa_db) %>%
-  count() %>%
-  filter(n > 1)
+  count()
 
 #-------------------------------------------------------------------------------
 #FOR NEW ENGLAND DBS
@@ -268,7 +317,35 @@ chicago_clean <- chicago %>%
   mutate(common_name = common_name_nwpl_mohlenbrock_wilhelm_rericha) %>%
   mutate(fqa_db = "chicago_region_2017") %>%
   select(scientific_name, synonym, family, acronym, native,
-         c, w, physiognomy, duration, common_name, fqa_db)
+         c, w, physiognomy, duration, common_name, fqa_db) %>%
+  mutate(acronym = case_when(acronym == "Betula X sandbergii" ~ "ARAPYCA",
+                             T ~ acronym)) %>%
+  group_by(scientific_name) %>%
+  mutate(ID = cur_group_id()) %>%
+  ungroup() %>%
+  cSplit(., 'synonym', ';') %>%
+  mutate(synonym_1 = case_when(tolower(synonym_1) == tolower(scientific_name) ~ NA_character_,
+                               T ~ synonym_1))
+
+#list of syn columns
+syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6", "synonym_7")
+
+
+chic_piv <- chicago_clean %>%
+  pivot_longer(cols = c("scientific_name", syn_cols),
+               names_to = "name_origin",
+               values_to = "name") %>%
+  filter(!is.na(name)) %>%
+  distinct(name, name_origin, ID, .keep_all = TRUE)
+
+dups <- chic_piv %>%
+  group_by(name) %>%
+  count()
+
+#%>%
+  select(-acronym) %>%
+  cbind(., chicago_clean$acronym)
+
 
 #-------------------------------------------------------------------------------
 #COLORADO
@@ -285,7 +362,7 @@ colorado_clean <- colorado %>%
   mutate(acronym = fqa_usda_symbol) %>%
   mutate(native = fqa_native_status) %>%
   mutate(c = fqa_c_value2020_numeric) %>%
-  mutate(w = NA) %>%
+  mutate(w = wmvc_wet_indicator) %>%
   mutate(physiognomy = usda_growth_habit_simple) %>%
   mutate(duration = usda_duration) %>%
   mutate(common_name = NA) %>%
@@ -316,6 +393,17 @@ florida_clean <- florida %>%
   mutate(fqa_db = "florida_2011") %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
+
+florida_pivot <- florida_clean %>%
+  separate(scientific_name, into = c("scientific_name", "synonym"), sep = "syn.") %>%
+  mutate(ID = row_number()) %>%
+  pivot_longer(cols = c("scientific_name", "synonym"),
+               names_to = "name_origin",
+               values_to = "name") %>%
+  filter(!is.na(name)) %>%
+  mutate(name = case_when(name == "Eleocharis (submersed viviparous but unable to ID to species)" ~ "Eleocharis sp.",
+                          T ~ name)) %>%
+  mutate(name = str_remove_all(name, "[()]"))
 
 
 #-------------------------------------------------------------------------------
@@ -354,7 +442,7 @@ ms_clean <- ms %>%
   mutate(acronym = NA) %>%
   mutate(native = origin) %>%
   mutate(c = ave_cc) %>%
-  mutate(w = NA) %>%
+  mutate(w = wetland_indicator_status) %>%
   mutate(physiognomy = physiogynomy) %>%
   mutate(duration = x9) %>%
   mutate(duration = case_when(duration == "A" ~ "annual",
@@ -364,6 +452,7 @@ ms_clean <- ms %>%
   mutate(fqa_db = "mississippi_north_central_wetlands_2005") %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
+
 
 #-------------------------------------------------------------------------------
 #MONTANA
@@ -387,6 +476,22 @@ montana_clean <- montana %>%
   mutate(fqa_db = "montana_2017") %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
+
+#list of syn columns
+syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6", "synonym_7")
+
+montana_pivot <- montana_clean %>%
+  mutate(ID = row_number()) %>%
+  mutate(synonym = str_remove_all(synonym, "\\[.*\\]")) %>%
+  cSplit(., 'synonym', ';') %>%
+  pivot_longer(cols = c("scientific_name", syn_cols),
+               names_to = "name_origin",
+               values_to = "name") %>%
+  filter(!is.na(name))
+
+montana_dups <- montana_pivot %>%
+  group_by(name) %>%
+  count()
 
 #-------------------------------------------------------------------------------
 #OHIO
@@ -429,6 +534,7 @@ wyoming_cols <- wyoming %>%
   mutate(fqa_db = "wyoming_2017") %>%
   select(scientific_name, synonym, family, acronym, native, c, w, physiognomy, duration, common_name, fqa_db) %>%
   slice(., 1:(n() - 1))
+
 #-------------------------------------------------------------------------------
 #NOW CLEANING ALL TOGETHER
 
@@ -436,7 +542,7 @@ wyoming_cols <- wyoming %>%
 fqa_db_bind <- rbind(ne_clean,
                      chicago_clean,
                      #colorado_clean,
-                     florida_clean,
+                     florida_pivot,
                      florida_south_clean,
                      ms_clean,
                      montana_clean,
