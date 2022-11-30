@@ -132,6 +132,10 @@ syn_dist_acronyms <- syn_distinct %>%
   mutate(acronym = case_when(str_detect(name_origin, "synonym_") ~ NA_character_,
                              T ~ acronym))
 
+universal_dups <- syn_dist_acronyms %>%
+  group_by(name, fqa_db) %>%
+  count()
+
 #-------------------------------------------------------------------------------
 #SOUTH EASTERN DBS
 
@@ -338,13 +342,6 @@ chic_piv <- chicago_clean %>%
   filter(!is.na(name)) %>%
   distinct(name, name_origin, ID, .keep_all = TRUE)
 
-dups <- chic_piv %>%
-  group_by(name) %>%
-  count()
-
-#%>%
-  select(-acronym) %>%
-  cbind(., chicago_clean$acronym)
 
 
 #-------------------------------------------------------------------------------
@@ -368,7 +365,10 @@ colorado_clean <- colorado %>%
   mutate(common_name = NA) %>%
   mutate(fqa_db = "colorado_20201") %>%
   select(scientific_name, synonym, family, acronym, native,
-         c, w, physiognomy, duration, common_name, fqa_db)
+         c, w, physiognomy, duration, common_name, fqa_db) %>%
+  mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " ", negate = TRUE) ~ "remove")) %>%
+  filter(is.na(remove_me)) %>%
+  select(-remove_me)
 
 #-------------------------------------------------------------------------------
 #FLORIDA
@@ -500,10 +500,12 @@ ohio <- read_xlsx(here("data-raw",
                        "FQA_databases",
                        "not_from_universal_calc",
                        "ohio_2014.xlsx")) %>%
-  clean_names()
+  clean_names() %>%
+  #removing random mostly empty rows
+  filter(usda_id != "CAREX")
 
 ohio_clean <- ohio %>%
-  mutate(synonym = syn) %>%
+  mutate(synonym = NA) %>%
   mutate(native = oh_status) %>%
   mutate(c = cofc) %>%
   mutate(w = wet) %>%
@@ -511,8 +513,16 @@ ohio_clean <- ohio %>%
   mutate(duration = habit) %>%
   mutate(fqa_db = "ohio_2014") %>%
   select(scientific_name, synonym, family, acronym, native, c, w,
-         physiognomy, duration, common_name, fqa_db)
+         physiognomy, duration, common_name, fqa_db) %>%
+  distinct() %>%
+  mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " sp.") ~ "remove")) %>%
+  filter(is.na(remove_me)) %>%
+  select(-remove_me)
 
+
+ohio_dubs <- ohio_clean %>%
+  group_by(acronym) %>%
+  count()
 #-------------------------------------------------------------------------------
 #WYOMING
 
@@ -528,12 +538,24 @@ wyoming_cols <- wyoming %>%
   mutate(acronym = NA) %>%
   mutate(native = statewide_origin) %>%
   mutate(c = wyoming_coefficient_of_conservatism) %>%
-  mutate(w = NA) %>%
+  mutate(w = wetland_indicator_status_arid_west) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
   mutate(fqa_db = "wyoming_2017") %>%
   select(scientific_name, synonym, family, acronym, native, c, w, physiognomy, duration, common_name, fqa_db) %>%
   slice(., 1:(n() - 1))
+
+wyoming_pivot <- wyoming_cols %>%
+  cSplit(., 'synonym', ',') %>%
+  mutate(ID = row_number()) %>%
+  pivot_longer(cols = c("scientific_name", starts_with("synonym_")),
+               names_to = "name_origin",
+               values_to = "name") %>%
+  filter(!is.na(name))
+
+wyoming_dups <- wyoming_pivot %>%
+  group_by(name) %>%
+  count()
 
 #-------------------------------------------------------------------------------
 #NOW CLEANING ALL TOGETHER
