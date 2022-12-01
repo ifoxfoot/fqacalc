@@ -9,8 +9,8 @@ library(splitstackshape)
 library(naniar)
 
 
-#-------------------------------------------------------------------------------
-#FOR UNIVERSAL FQA DBS
+#FOR UNIVERSAL FQA DBS---------------------------------------------------------------
+
 
 #create list of file names
 univ_files <- list.files(path = here("data-raw", "FQA_databases"),
@@ -26,6 +26,10 @@ univ_list <- lapply(univ_files, function(x)
 univ_fqa <- bind_rows(univ_list) %>%
   #clean names
   clean_names() %>%
+  #eliminate rows that are exactly the same
+  distinct()
+
+univ_cleanish <- univ_fqa %>%
   #replace subsp., spp. with ssp.
   mutate(scientific_name = str_replace_all(scientific_name, " subsp.", " ssp.")) %>%
   mutate(scientific_name = str_replace_all(scientific_name, " spp.", " ssp.")) %>%
@@ -38,9 +42,13 @@ univ_fqa <- bind_rows(univ_list) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "[?]", " X ")) %>%
   #making separators consistent
   mutate(scientific_name = str_replace_all(scientific_name, "\\(=", ";")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "[\\[]", ";"))
+  mutate(scientific_name = case_when(fqa_db == "nebraska_2003.csv"
+                                     ~ str_replace(scientific_name, "\\(", ";"),
+                                     T ~ scientific_name)) %>%
+  mutate(scientific_name = str_replace_all(scientific_name, "[\\[]", ";")) %>%
+  mutate(scientific_name = str_remove(scientific_name, "\\(including.+\\)"))
 
-univ_syn_sep <- univ_fqa %>%
+univ_syn_sep <- univ_cleanish %>%
   #separate plants by first ";" into sci name and syn
   separate(scientific_name, c("scientific_name", "synonym"), ";", extra = "merge") %>%
   #remove leading/trailing white spaces
@@ -130,14 +138,16 @@ syn_distinct <- syn_pivot %>%
 #if the plant is a synonym, us NA for acronym (to avoid repeating acronyms)
 syn_dist_acronyms <- syn_distinct %>%
   mutate(acronym = case_when(str_detect(name_origin, "synonym_") ~ NA_character_,
-                             T ~ acronym))
+                             T ~ acronym)) %>%
+  rename(scientific_name = name) %>%
+  mutate(w = as.character(w))
 
-universal_dups <- syn_dist_acronyms %>%
-  group_by(name, fqa_db) %>%
-  count()
+# universal_dups <- syn_dist_acronyms %>%
+#   group_by(name, name_origin, fqa_db) %>%
+#   count() %>%
+#   filter(n > 1)
 
-#-------------------------------------------------------------------------------
-#SOUTH EASTERN DBS
+#SOUTH EASTERN DBS---------------------------------------------------------------
 
 #read in data
 southeastern <- read_xlsx(here("data-raw", "FQA_databases", "not_from_universal_calc",
@@ -210,9 +220,10 @@ southeastern_cols <- southeastern_clean %>%
 southern_coastal_plain <- southeastern_cols %>%
   select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_southern_coastal_plain, physiognomy,
-         duration, common_name) %>%
+         duration, common_name, nwpl_cstl_plain, native) %>%
   mutate(fqa_db = "southeastern_southern_coastal_plain_2014") %>%
   rename(c = ave_c_value_southern_coastal_plain) %>%
+  rename(w = nwpl_cstl_plain) %>%
   filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
@@ -220,9 +231,10 @@ southern_coastal_plain <- southeastern_cols %>%
 southeastern_plain <- southeastern_cols %>%
   select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_plains, physiognomy,
-         duration, common_name) %>%
+         duration, common_name, nwpl_cstl_plain, native) %>%
   mutate(fqa_db = "southeastern_plain_2014") %>%
   rename(c = ave_c_value_plains) %>%
+  rename(w = nwpl_cstl_plain) %>%
   filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
@@ -230,9 +242,10 @@ southeastern_plain <- southeastern_cols %>%
 southeastern_piedmont <- southeastern_cols %>%
   select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_piedmont, physiognomy,
-         duration, common_name) %>%
+         duration, common_name, nwpl_e_mtns, native) %>%
   mutate(fqa_db = "southeastern_piedmont_2014") %>%
   rename(c = ave_c_value_piedmont) %>%
+  rename(w = nwpl_e_mtns) %>%
   filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
@@ -240,9 +253,10 @@ southeastern_piedmont <- southeastern_cols %>%
 southeastern_mountains <- southeastern_cols %>%
   select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_mountains, physiognomy,
-         duration, common_name) %>%
+         duration, common_name, nwpl_e_mtns, native) %>%
   mutate(fqa_db = "southeastern_mountains_2014") %>%
   rename(c = ave_c_value_mountains) %>%
+  rename(w = nwpl_e_mtns) %>%
   filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
@@ -250,9 +264,10 @@ southeastern_mountains <- southeastern_cols %>%
 southeastern_plateau <- southeastern_cols %>%
   select(ID, scientific_name, name_origin, family, acronym,
          ave_c_value_interior_plateau, physiognomy,
-         duration, common_name) %>%
+         duration, common_name, nwpl_e_mtns, native) %>%
   mutate(fqa_db = "southeastern_interior_plateau_2014") %>%
   rename(c = ave_c_value_interior_plateau) %>%
+  rename(w = nwpl_e_mtns) %>%
   filter(!c == "NA") %>%
   replace_with_na(replace = list(c = "UND"))
 
@@ -262,12 +277,12 @@ southeastern_complete <- rbind(southeastern_mountains,
                                southeastern_plateau,
                                southern_coastal_plain)
 
-test <- southeastern_complete %>%
-  group_by(acronym, fqa_db) %>%
-  count()
+# test <- southeastern_complete %>%
+#   group_by(acronym, fqa_db) %>%
+#   count()
 
-#-------------------------------------------------------------------------------
-#FOR NEW ENGLAND DBS
+#FOR NEW ENGLAND DBS--------------------------------------------------------------
+
 
 #create list of file names
 ne_files <- list.files(path = here("data-raw", "FQA_databases", "not_from_universal_calc"),
@@ -285,7 +300,8 @@ ne_compiled <- bind_rows(ne_list)
 #clean up col names
 ne_clean <- ne_compiled %>%
   mutate(scientific_name = TaxaBotanist) %>%
-  mutate(synonym = NA) %>%
+  mutate(name_origin = "scientific_name") %>%
+  mutate(ID = row_number()) %>%
   mutate(family = NA) %>%
   mutate(acronym = PLANTSSymbol) %>%
   mutate(native = "undetermined") %>%
@@ -294,15 +310,15 @@ ne_clean <- ne_compiled %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
   mutate(common_name = CommonName) %>%
-  select(scientific_name, synonym, family, acronym,
+  select(scientific_name, name_origin, ID, family, acronym,
          native, c, w, physiognomy, duration, common_name, fqa_db) %>%
   #make sure to delete dups. if there are dups with different c scores, pick lowest score
   distinct() %>%
   group_by(fqa_db, scientific_name, acronym) %>%
   slice_min(n = 1, order_by = c)
 
-#-------------------------------------------------------------------------------
-#CHICAGO
+#CHICAGO------------------------------------------------------------------------
+
 
 chicago <- read_csv(here("data-raw",
                          "FQA_databases",
@@ -336,16 +352,18 @@ syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "
 
 
 chic_piv <- chicago_clean %>%
-  pivot_longer(cols = c("scientific_name", syn_cols),
+  pivot_longer(cols = c("scientific_name", all_of(syn_cols)),
                names_to = "name_origin",
-               values_to = "name") %>%
-  filter(!is.na(name)) %>%
-  distinct(name, name_origin, ID, .keep_all = TRUE)
+               values_to = "scientific_name") %>%
+  filter(!is.na(scientific_name)) %>%
+  distinct(scientific_name, name_origin, ID, .keep_all = TRUE)
 
+# chic_dup <- chic_piv %>%
+#   group_by(acronym, name_origin) %>%
+#   count()
 
+#COLORADO-----------------------------------------------------------------------
 
-#-------------------------------------------------------------------------------
-#COLORADO
 colorado <- read_xlsx(here("data-raw",
                          "FQA_databases",
                          "not_from_universal_calc",
@@ -354,7 +372,8 @@ colorado <- read_xlsx(here("data-raw",
 
 colorado_clean <- colorado %>%
   mutate(scientific_name = fqa_sci_name_no_authority) %>%
-  mutate(synonym = NA) %>%
+  mutate(name_origin = "scientific_name") %>%
+  mutate(ID = row_number()) %>%
   mutate(family = fqa_family) %>%
   mutate(acronym = fqa_usda_symbol) %>%
   mutate(native = fqa_native_status) %>%
@@ -364,14 +383,14 @@ colorado_clean <- colorado %>%
   mutate(duration = usda_duration) %>%
   mutate(common_name = NA) %>%
   mutate(fqa_db = "colorado_20201") %>%
-  select(scientific_name, synonym, family, acronym, native,
+  select(scientific_name, name_origin, ID, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db) %>%
   mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " ", negate = TRUE) ~ "remove")) %>%
   filter(is.na(remove_me)) %>%
   select(-remove_me)
 
-#-------------------------------------------------------------------------------
-#FLORIDA
+#FLORIDA------------------------------------------------------------------------
+
 
 florida <- read_csv(here("data-raw",
                          "FQA_databases",
@@ -399,15 +418,15 @@ florida_pivot <- florida_clean %>%
   mutate(ID = row_number()) %>%
   pivot_longer(cols = c("scientific_name", "synonym"),
                names_to = "name_origin",
-               values_to = "name") %>%
-  filter(!is.na(name)) %>%
-  mutate(name = case_when(name == "Eleocharis (submersed viviparous but unable to ID to species)" ~ "Eleocharis sp.",
-                          T ~ name)) %>%
-  mutate(name = str_remove_all(name, "[()]"))
+               values_to = "scientific_name") %>%
+  filter(!is.na(scientific_name)) %>%
+  mutate(scientific_name = case_when(scientific_name == "Eleocharis (submersed viviparous but unable to ID to species)" ~ "Eleocharis sp.",
+                          T ~ scientific_name)) %>%
+  mutate(scientific_name = str_remove_all(scientific_name, "[()]"))
 
 
-#-------------------------------------------------------------------------------
-# FLORIDA_SOUTH
+#FLORIDA_SOUTH-------------------------------------------------------------------
+
 
 florida_south <- read_csv(here("data-raw",
                          "FQA_databases",
@@ -416,19 +435,20 @@ florida_south <- read_csv(here("data-raw",
   clean_names()
 
 florida_south_clean <- florida_south %>%
-  mutate(synonym = NA) %>%
+  mutate(name_origin = "scientific_name") %>%
+  mutate(ID = row_number()) %>%
   mutate(acronym = NA) %>%
   mutate(c = as.numeric(c)) %>%
   mutate(w = NA) %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
   mutate(fqa_db = "florida_south_2009") %>%
-  select(scientific_name, synonym, family, acronym, native,
+  select(scientific_name, name_origin, ID, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "subsp.", "ssp."))
 
-#-------------------------------------------------------------------------------
-#MISSISSISSIPPI
+#MISSISSISSIPPI------------------------------------------------------------------
+
 
 ms <- read_xlsx(here("data-raw",
                      "FQA_databases",
@@ -438,7 +458,8 @@ ms <- read_xlsx(here("data-raw",
 
 ms_clean <- ms %>%
   mutate(scientific_name = species) %>%
-  mutate(synonym = NA) %>%
+  mutate(name_origin = "scientific_name") %>%
+  mutate(ID = row_number()) %>%
   mutate(acronym = NA) %>%
   mutate(native = origin) %>%
   mutate(c = ave_cc) %>%
@@ -450,12 +471,11 @@ ms_clean <- ms %>%
                               T ~ duration)) %>%
   mutate(common_name = common) %>%
   mutate(fqa_db = "mississippi_north_central_wetlands_2005") %>%
-  select(scientific_name, synonym, family, acronym, native,
+  select(scientific_name, name_origin, ID, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
 
-#-------------------------------------------------------------------------------
-#MONTANA
+#MONTANA------------------------------------------------------------------------
 
 montana <- read_xlsx(here("data-raw",
                           "FQA_databases",
@@ -486,15 +506,14 @@ montana_pivot <- montana_clean %>%
   cSplit(., 'synonym', ';') %>%
   pivot_longer(cols = c("scientific_name", syn_cols),
                names_to = "name_origin",
-               values_to = "name") %>%
-  filter(!is.na(name))
+               values_to = "scientific_name") %>%
+  filter(!is.na(scientific_name))
 
-montana_dups <- montana_pivot %>%
-  group_by(name) %>%
-  count()
+# montana_dups <- montana_pivot %>%
+#   group_by(name) %>%
+#   count()
 
-#-------------------------------------------------------------------------------
-#OHIO
+#OHIO--------------------------------------------------------------------------
 
 ohio <- read_xlsx(here("data-raw",
                        "FQA_databases",
@@ -505,14 +524,15 @@ ohio <- read_xlsx(here("data-raw",
   filter(usda_id != "CAREX")
 
 ohio_clean <- ohio %>%
-  mutate(synonym = NA) %>%
+  mutate(name_origin = "scientific_name") %>%
+  mutate(ID = row_number()) %>%
   mutate(native = oh_status) %>%
   mutate(c = cofc) %>%
   mutate(w = wet) %>%
   mutate(physiognomy = form) %>%
   mutate(duration = habit) %>%
   mutate(fqa_db = "ohio_2014") %>%
-  select(scientific_name, synonym, family, acronym, native, c, w,
+  select(scientific_name, name_origin, ID, family, acronym, native, c, w,
          physiognomy, duration, common_name, fqa_db) %>%
   distinct() %>%
   mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " sp.") ~ "remove")) %>%
@@ -520,11 +540,11 @@ ohio_clean <- ohio %>%
   select(-remove_me)
 
 
-ohio_dubs <- ohio_clean %>%
-  group_by(acronym) %>%
-  count()
-#-------------------------------------------------------------------------------
-#WYOMING
+# ohio_dubs <- ohio_clean %>%
+#   group_by(acronym) %>%
+#   count()
+
+#WYOMING------------------------------------------------------------------------
 
 wyoming <- read_xlsx(here("data-raw",
                           "FQA_databases",
@@ -550,243 +570,234 @@ wyoming_pivot <- wyoming_cols %>%
   mutate(ID = row_number()) %>%
   pivot_longer(cols = c("scientific_name", starts_with("synonym_")),
                names_to = "name_origin",
-               values_to = "name") %>%
-  filter(!is.na(name))
+               values_to = "scientific_name") %>%
+  filter(!is.na(scientific_name))
 
-wyoming_dups <- wyoming_pivot %>%
-  group_by(name) %>%
-  count()
+# wyoming_dups <- wyoming_pivot %>%
+#   group_by(name) %>%
+#   count()
 
-#-------------------------------------------------------------------------------
-#NOW CLEANING ALL TOGETHER
+#NOW CLEANING ALL TOGETHER-----------------------------------------------------
 
 #bind all together
-fqa_db_bind <- rbind(ne_clean,
-                     chicago_clean,
-                     #colorado_clean,
+fqa_db_bind <- rbind(syn_dist_acronyms,
+                     southeastern_complete,
+                     ne_clean,
+                     colorado_clean,
+                     chic_piv,
                      florida_pivot,
                      florida_south_clean,
                      ms_clean,
-                     montana_clean,
-                     #ohio_clean,
-                     wyoming_clean,
-                     univ_fqa) %>%
+                     montana_pivot,
+                     ohio_clean,
+                     wyoming_pivot) %>%
   #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
   #covert things to uppercase
-  mutate(scientific_name = toupper(scientific_name)) %>%
-  mutate(synonym = toupper(synonym))
+  mutate(scientific_name = toupper(scientific_name))
 
-#clean up cols (other than Latin name)
-fqa_db_clean_cols <- fqa_db_bind %>%
-  #clean nativity
-  mutate(native = case_when(
-    native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
-    ~ "native", T ~ native)) %>%
-  mutate(native = case_when(
-    native %in% c("Adventive", "Exotic", "exotic", "I", "Likely Exotic", "Nonnative")
-    ~ "non-native", T ~ native)) %>%
-  # mutate(native = case_when(
-  #   !native %in% c("native", "non-native") ~ "undetermined", T ~ native)) %>%
-  #clean duration
-  mutate(duration = str_to_title(duration)) %>%
-  #clean physiognomy
-  mutate(physiognomy = str_to_title(physiognomy)) %>%
-  mutate(physiognomy = case_when(physiognomy == "Shurb" ~ "Shrub",
-                                 physiognomy == "Shrub/Forb" ~ "Forb/Shrub",
-                                 physiognomy %in% c("H-Vine", "W-Vine") ~ "Vine",
-                                 #physiognomy == "Gram" ~ "Grass",
-                                 physiognomy == "Frob" ~ "Forb",
-                                 T ~ physiognomy)) %>%
-  #clean family
-  mutate(family = str_to_title(family)) %>%
-  mutate(family = str_remove_all(family, "[0-9]*-")) %>%
-  mutate(family = case_when(family == "Iso�Taceae" ~ "Isoetaceae",
-                            family == "Azollaceae\r\nAzollaceae" ~ "Azollaceae",
-                            family == "Hydrocharitaceae\r\nHydrocharitaceae" ~
-                              "Hydrocharitaceae",
-                            family == "#N/A" ~ NA_character_,
-                            family == "As" ~ "Asteraceae",
-                            T ~ family)) %>%
-  #clean commmon name
-  mutate(common_name = str_to_title(common_name)) %>%
-  #clean C Value
-  mutate(c = as.numeric(c)) %>%
-  mutate(scientific_name = case_when(scientific_name == "BOTRYCHIUM SP. (NON-SOC)" ~
-                                       "BOTRYCHIUM SP. NON-SOC",
-                                     scientific_name == "BOTRYCHIUM SP. (SOC)" ~
-                                       "BOTRYCHIUM SP. SOC",
-                                     T ~ scientific_name))
+#get unique values to clean
+unique_native <- data.frame(unique(fqa_db_bind$native))
+unique_w <- data.frame(unique(fqa_db_bind$w))
+unique_physiog <- data.frame(unique(fqa_db_bind$physiognomy))
+unique_duration <- data.frame(unique(fqa_db_bind$duration))
+unique_scientific_name <- data.frame(unique(fqa_db_bind$scientific_name))
 
+# #clean up cols (other than Latin name)
+# fqa_db_clean_cols <- fqa_db_bind %>%
+#   #clean nativity
+#   mutate(native = case_when(
+#     native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
+#     ~ "native", T ~ native)) %>%
+#   mutate(native = case_when(
+#     native %in% c("Adventive", "Exotic", "exotic", "I", "Likely Exotic", "Nonnative")
+#     ~ "non-native", T ~ native)) %>%
+#   # mutate(native = case_when(
+#   #   !native %in% c("native", "non-native") ~ "undetermined", T ~ native)) %>%
+#   #clean duration
+#   mutate(duration = str_to_title(duration)) %>%
+#   #clean physiognomy
+#   mutate(physiognomy = str_to_title(physiognomy)) %>%
+#   mutate(physiognomy = case_when(physiognomy == "Shurb" ~ "Shrub",
+#                                  physiognomy == "Shrub/Forb" ~ "Forb/Shrub",
+#                                  physiognomy %in% c("H-Vine", "W-Vine") ~ "Vine",
+#                                  #physiognomy == "Gram" ~ "Grass",
+#                                  physiognomy == "Frob" ~ "Forb",
+#                                  T ~ physiognomy)) %>%
+#   #clean family
+#   mutate(family = str_to_title(family)) %>%
+#   mutate(family = str_remove_all(family, "[0-9]*-")) %>%
+#   mutate(family = case_when(family == "Iso�Taceae" ~ "Isoetaceae",
+#                             family == "Azollaceae\r\nAzollaceae" ~ "Azollaceae",
+#                             family == "Hydrocharitaceae\r\nHydrocharitaceae" ~
+#                               "Hydrocharitaceae",
+#                             family == "#N/A" ~ NA_character_,
+#                             family == "As" ~ "Asteraceae",
+#                             T ~ family)) %>%
+#   #clean commmon name
+#   mutate(common_name = str_to_title(common_name)) %>%
+#   #clean C Value
+#   mutate(c = as.numeric(c)) %>%
+#   mutate(scientific_name = case_when(scientific_name == "BOTRYCHIUM SP. (NON-SOC)" ~
+#                                        "BOTRYCHIUM SP. NON-SOC",
+#                                      scientific_name == "BOTRYCHIUM SP. (SOC)" ~
+#                                        "BOTRYCHIUM SP. SOC",
+#                                      T ~ scientific_name))
+#
+#
+# #cleaning latin names
+# fqa_db_latin <- fqa_db_clean_cols %>%
+#   #making separators consistent
+#   mutate(scientific_name = str_replace_all(scientific_name, "_", " ")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, "SYN. ", "; ")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, "[{]", ";")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, "=", ";")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, "[(]", ";")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, "[\\[]", ";")) %>%
+#   #making sure abbreviations are consistent
+#   mutate(scientific_name = str_replace_all(scientific_name, " SUBSP. ", " SSP. ")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, " VAR ", " VAR. ")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, " V. ", " VAR. ")) %>%
+#   mutate(scientific_name = str_replace_all(scientific_name, "�", "X ")) %>%
+#   #fixing white spaces
+#   mutate(scientific_name = str_squish(scientific_name)) %>%
+#   mutate(scientific_name = str_trim(scientific_name, side = "both")) %>%
+#   mutate(scientific_name = case_when(!str_detect(scientific_name, pattern = " ") ~
+#                                        paste(scientific_name, "SP."),
+#                                      T ~ scientific_name)) %>%
+#   #fixing odds and ends
+#   mutate(scientific_name = case_when(scientific_name == "APOCYNUM XFLORIBUNDUM" ~
+#                                        "APOCYNUM X FLORIBUNDUM",
+#                                      scientific_name == "BETULA XCAERULEA" ~
+#                                        "BETULA X CAERULEA",
+#                                      scientific_name == "MENTHA X X VERTICILLATA" ~
+#                                        "MENTHA X VERTICILLATA",
+#                                      scientific_name == "SPARTINA XCAESPITOSA" ~
+#                                        "SPARTINA X CAESPITOSA",
+#                                      scientific_name == "SCUTELLARIA XCHURCHILLIANA" ~
+#                                        "SCUTELLARIA X CHURCHILLIANA",
+#                                      scientific_name == "SCIRPUS XPECKII" ~
+#                                        "SCIRPUS X PECKII",
+#                                      scientific_name == "POTAMOGETON XMYSTICUS" ~
+#                                        "POTAMOGETON X MYSTICUS",
+#                                      scientific_name == "DRYOPTERIS XULIGINOSA" ~
+#                                        "DRYOPTERIS X ULIGINOSA",
+#                                      scientific_name == "ACER XFREEMANII" ~
+#                                        "ACER X FREEMANII",
+#                                      scientific_name == "QUERCUS XSUBFALCATA" ~
+#                                        "QUERCUS X SUBFALCATA",
+#                                      scientific_name == "QUERCUS XSAULII" ~
+#                                        "QUERCUS X SAULII",
+#                                      scientific_name == "QUERCUS XRUDKINII" ~
+#                                        "QUERCUS X RUDKINII",
+#                                      scientific_name == "QUERCUS XHETEROPHYLLA" ~
+#                                        "QUERCUS X HETEROPHYLLA",
+#                                      scientific_name == "QUERCUS XGIFFORDII" ~
+#                                        "QUERCUS X GIFFORDII",
+#                                      scientific_name == "QUERCUS XFILIALIS" ~
+#                                        "QUERCUS X FILIALIS",
+#                                      scientific_name == "QUERCUS XFERNOWII" ~
+#                                        "QUERCUS X FERNOWII",
+#                                      scientific_name == "QUERCUS XBEADLEI" ~
+#                                        "QUERCUS X BEADLEI",
+#                                      scientific_name == "POPULUS XJACKII" ~
+#                                        "POPULUS X JACKII",
+#                                      scientific_name == "PLATANTHERA XCANBYI" ~
+#                                        "PLATANTHERA X CANBYI",
+#                                      scientific_name == "PETUNIA XHYBRIDA" ~
+#                                        "PETUNIA X HYBRIDA",
+#                                      scientific_name == "LYCOPODIELLA XCOPELANDII" ~
+#                                        "LYCOPODIELLA X COPELANDII",
+#                                      scientific_name == "ILEX XATTENUATA" ~
+#                                        "ILEX X ATTENUATA",
+#                                      scientific_name == "DRYOPTERIS XBOOTTII" ~
+#                                        "DRYOPTERIS X BOOTTII",
+#                                      scientific_name == "DICHANTHELIUM XSCOPARIOIDES; PANICUM SCOPARIOIDES; P. VILLOSISSIMUM VAR. SCOPARIOIDES" ~
+#                                        "DICHANTHELIUM X SCOPARIOIDES; PANICUM SCOPARIOIDES; P. VILLOSISSIMUM VAR. SCOPARIOIDES",
+#                                      scientific_name == "KALANCHOE XHOUGHTONII" ~
+#                                        "KALANCHOE X HOUGHTONII",
+#                                      scientific_name == "ARABIS XDIVARICARPA" ~
+#                                        "ARABIS X DIVARICARPA",
+#                                      scientific_name == "AMELANCHIER X INTERMEDIA" ~
+#                                        "AMELANCHIER X INTERMEDIA",
+#                                      scientific_name == "VIOLA XBERNARDII" ~
+#                                        "VIOLA X BERNARDII",
+#                                      scientific_name == "VIOLA XPRIMULIFOLIA" ~
+#                                        "VIOLA X PRIMULIFOLIA",
+#                                      scientific_name == "VIOLA XPALMATA" ~
+#                                        "VIOLA X PALMATA",
+#                                      scientific_name == "SOLIDAGO XASPERULA" ~
+#                                        "SOLIDAGO X ASPERULA",
+#                                      scientific_name == "SALIX XSEPULCRALIS" ~
+#                                        "SALIX X SEPULCRALIS",
+#                                      scientific_name == "SALIX XPENDULINA" ~
+#                                        "SALIX X PENDULINA",
+#                                      scientific_name == "OCLEMENA XBLAKEI" ~
+#                                        "OCLEMENA X BLAKEI",
+#                                      scientific_name == "DRYOPTERIS XTRIPLOIDEA" ~
+#                                        "DRYOPTERIS X TRIPLOIDEA",
+#                                      scientific_name == "VITIS XNOVAE-ANGLIAE"~
+#                                        "VITIS X NOVAE-ANGLIAE",
+#                                      scientific_name == "SOLIDAGO XCALCICOLA" ~
+#                                        "SOLIDAGO X CALCICOLA",
+#                                      scientific_name == "SALIX XRUBENS" ~
+#                                        "SALIX X RUBENS",
+#                                      scientific_name == "MENTHA XPIPERITA" ~
+#                                        "MENTHA X PIPERITA",
+#                                      scientific_name == "MENTHA XGRACILIS" ~
+#                                        "MENTHA X GRACILIS",
+#                                      scientific_name == "HYPERICUM XDISSIMULATUM" ~
+#                                        "HYPERICUM X DISSIMULATUM",
+#                                      scientific_name == "BETULA XCAERULEA VAR. GRANDIS" ~
+#                                        "BETULA X CAERULEA VAR. GRANDIS",
+#                                      scientific_name == "ELEOCHARIS ACICULARIS / WILL SUGGESTS REMOVING, MAY BE MORE MONTANE" ~
+#                                        "ELEOCHARIS ACICULARIS",
+#                                      scientific_name == "PHYTOLACCA AMERICANA VAR, AMERICANA" ~
+#                                        "PHYTOLACCA AMERICANA VAR. AMERICANA",
+#                                      scientific_name == "SALVINIA SPP." ~
+#                                       " SALVINIA SP.",
+#                                      scientific_name == "CARDARIA DRABA, LEPIDIUM DRABA" ~
+#                                        "CARDARIA DRABA; LEPIDIUM DRABA",
+#                                      scientific_name == "TYPHA XGLAUCA" ~
+#                                        "TYPHA X GLAUCA",
+#                                      T ~ scientific_name)) %>%
+#   #separating by semicolon
+#   separate(scientific_name, c("scientific_name", "synonym1"), ";", extra = "merge")
+#
+# #clean synonym1
+# fqa_db_synonym1 <- fqa_db_latin %>%
+#   #removing useless symbols
+#   mutate(synonym1 = str_remove_all(synonym1, "[}]")) %>%
+#   mutate(synonym1 = str_remove_all(synonym1, "[)]")) %>%
+#   mutate(synonym1 = str_remove_all(synonym1, "\\.")) %>%
+#   mutate(synonym1 = str_remove_all(synonym1, "^;")) %>%
+#   mutate(synonym1 = str_replace_all(synonym1, ";", "; ")) %>%
+#   #fixing white spaces
+#   mutate(synonym1 = str_squish(synonym1)) %>%
+#   mutate(synonym1 = str_trim(synonym1, side = "both"))
+#
+# fqa_db_synonym <- fqa_db_synonym1 %>%
+#   #making sure abbreviations are consistent
+#   mutate(synonym = str_replace_all(synonym, " SUBSP. ", " SSP. ")) %>%
+#   mutate(synonym = str_replace_all(synonym, " VAR ", " VAR. ")) %>%
+#   mutate(synonym = str_replace_all(synonym, ",", ";")) %>%
+#   mutate(synonym = str_remove_all(synonym, "[\\[]]")) %>%
+#   #fixing white spaces
+#   mutate(synonym = str_squish(synonym)) %>%
+#   mutate(synonym = str_trim(synonym, side = "both")) %>%
+#   mutate(synonym = case_when(!str_detect(synonym, pattern = " ") ~
+#                                paste(synonym, "SP."),
+#                              T ~ synonym))
+#
+# #sort data frame column alphabetically
+# #fqa_db_synonym[order(df$fqa_db_synonym), ]
 
-#cleaning latin names
-fqa_db_latin <- fqa_db_clean_cols %>%
-  #making separators consistent
-  mutate(scientific_name = str_replace_all(scientific_name, "_", " ")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "SYN. ", "; ")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "[{]", ";")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "=", ";")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "[(]", ";")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "[\\[]", ";")) %>%
-  #making sure abbreviations are consistent
-  mutate(scientific_name = str_replace_all(scientific_name, " SUBSP. ", " SSP. ")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, " VAR ", " VAR. ")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, " V. ", " VAR. ")) %>%
-  mutate(scientific_name = str_replace_all(scientific_name, "�", "X ")) %>%
-  #fixing white spaces
-  mutate(scientific_name = str_squish(scientific_name)) %>%
-  mutate(scientific_name = str_trim(scientific_name, side = "both")) %>%
-  mutate(scientific_name = case_when(!str_detect(scientific_name, pattern = " ") ~
-                                       paste(scientific_name, "SP."),
-                                     T ~ scientific_name)) %>%
-  #fixing odds and ends
-  mutate(scientific_name = case_when(scientific_name == "APOCYNUM XFLORIBUNDUM" ~
-                                       "APOCYNUM X FLORIBUNDUM",
-                                     scientific_name == "BETULA XCAERULEA" ~
-                                       "BETULA X CAERULEA",
-                                     scientific_name == "MENTHA X X VERTICILLATA" ~
-                                       "MENTHA X VERTICILLATA",
-                                     scientific_name == "SPARTINA XCAESPITOSA" ~
-                                       "SPARTINA X CAESPITOSA",
-                                     scientific_name == "SCUTELLARIA XCHURCHILLIANA" ~
-                                       "SCUTELLARIA X CHURCHILLIANA",
-                                     scientific_name == "SCIRPUS XPECKII" ~
-                                       "SCIRPUS X PECKII",
-                                     scientific_name == "POTAMOGETON XMYSTICUS" ~
-                                       "POTAMOGETON X MYSTICUS",
-                                     scientific_name == "DRYOPTERIS XULIGINOSA" ~
-                                       "DRYOPTERIS X ULIGINOSA",
-                                     scientific_name == "ACER XFREEMANII" ~
-                                       "ACER X FREEMANII",
-                                     scientific_name == "QUERCUS XSUBFALCATA" ~
-                                       "QUERCUS X SUBFALCATA",
-                                     scientific_name == "QUERCUS XSAULII" ~
-                                       "QUERCUS X SAULII",
-                                     scientific_name == "QUERCUS XRUDKINII" ~
-                                       "QUERCUS X RUDKINII",
-                                     scientific_name == "QUERCUS XHETEROPHYLLA" ~
-                                       "QUERCUS X HETEROPHYLLA",
-                                     scientific_name == "QUERCUS XGIFFORDII" ~
-                                       "QUERCUS X GIFFORDII",
-                                     scientific_name == "QUERCUS XFILIALIS" ~
-                                       "QUERCUS X FILIALIS",
-                                     scientific_name == "QUERCUS XFERNOWII" ~
-                                       "QUERCUS X FERNOWII",
-                                     scientific_name == "QUERCUS XBEADLEI" ~
-                                       "QUERCUS X BEADLEI",
-                                     scientific_name == "POPULUS XJACKII" ~
-                                       "POPULUS X JACKII",
-                                     scientific_name == "PLATANTHERA XCANBYI" ~
-                                       "PLATANTHERA X CANBYI",
-                                     scientific_name == "PETUNIA XHYBRIDA" ~
-                                       "PETUNIA X HYBRIDA",
-                                     scientific_name == "LYCOPODIELLA XCOPELANDII" ~
-                                       "LYCOPODIELLA X COPELANDII",
-                                     scientific_name == "ILEX XATTENUATA" ~
-                                       "ILEX X ATTENUATA",
-                                     scientific_name == "DRYOPTERIS XBOOTTII" ~
-                                       "DRYOPTERIS X BOOTTII",
-                                     scientific_name == "DICHANTHELIUM XSCOPARIOIDES; PANICUM SCOPARIOIDES; P. VILLOSISSIMUM VAR. SCOPARIOIDES" ~
-                                       "DICHANTHELIUM X SCOPARIOIDES; PANICUM SCOPARIOIDES; P. VILLOSISSIMUM VAR. SCOPARIOIDES",
-                                     scientific_name == "KALANCHOE XHOUGHTONII" ~
-                                       "KALANCHOE X HOUGHTONII",
-                                     scientific_name == "ARABIS XDIVARICARPA" ~
-                                       "ARABIS X DIVARICARPA",
-                                     scientific_name == "AMELANCHIER X INTERMEDIA" ~
-                                       "AMELANCHIER X INTERMEDIA",
-                                     scientific_name == "VIOLA XBERNARDII" ~
-                                       "VIOLA X BERNARDII",
-                                     scientific_name == "VIOLA XPRIMULIFOLIA" ~
-                                       "VIOLA X PRIMULIFOLIA",
-                                     scientific_name == "VIOLA XPALMATA" ~
-                                       "VIOLA X PALMATA",
-                                     scientific_name == "SOLIDAGO XASPERULA" ~
-                                       "SOLIDAGO X ASPERULA",
-                                     scientific_name == "SALIX XSEPULCRALIS" ~
-                                       "SALIX X SEPULCRALIS",
-                                     scientific_name == "SALIX XPENDULINA" ~
-                                       "SALIX X PENDULINA",
-                                     scientific_name == "OCLEMENA XBLAKEI" ~
-                                       "OCLEMENA X BLAKEI",
-                                     scientific_name == "DRYOPTERIS XTRIPLOIDEA" ~
-                                       "DRYOPTERIS X TRIPLOIDEA",
-                                     scientific_name == "VITIS XNOVAE-ANGLIAE"~
-                                       "VITIS X NOVAE-ANGLIAE",
-                                     scientific_name == "SOLIDAGO XCALCICOLA" ~
-                                       "SOLIDAGO X CALCICOLA",
-                                     scientific_name == "SALIX XRUBENS" ~
-                                       "SALIX X RUBENS",
-                                     scientific_name == "MENTHA XPIPERITA" ~
-                                       "MENTHA X PIPERITA",
-                                     scientific_name == "MENTHA XGRACILIS" ~
-                                       "MENTHA X GRACILIS",
-                                     scientific_name == "HYPERICUM XDISSIMULATUM" ~
-                                       "HYPERICUM X DISSIMULATUM",
-                                     scientific_name == "BETULA XCAERULEA VAR. GRANDIS" ~
-                                       "BETULA X CAERULEA VAR. GRANDIS",
-                                     scientific_name == "ELEOCHARIS ACICULARIS / WILL SUGGESTS REMOVING, MAY BE MORE MONTANE" ~
-                                       "ELEOCHARIS ACICULARIS",
-                                     scientific_name == "PHYTOLACCA AMERICANA VAR, AMERICANA" ~
-                                       "PHYTOLACCA AMERICANA VAR. AMERICANA",
-                                     scientific_name == "SALVINIA SPP." ~
-                                      " SALVINIA SP.",
-                                     scientific_name == "CARDARIA DRABA, LEPIDIUM DRABA" ~
-                                       "CARDARIA DRABA; LEPIDIUM DRABA",
-                                     scientific_name == "TYPHA XGLAUCA" ~
-                                       "TYPHA X GLAUCA",
-                                     T ~ scientific_name)) %>%
-  #separating by semicolon
-  separate(scientific_name, c("scientific_name", "synonym1"), ";", extra = "merge")
-
-
-#clean synonym1
-fqa_db_synonym1 <- fqa_db_latin %>%
-  #removing useless symbols
-  mutate(synonym1 = str_remove_all(synonym1, "[}]")) %>%
-  mutate(synonym1 = str_remove_all(synonym1, "[)]")) %>%
-  mutate(synonym1 = str_remove_all(synonym1, "\\.")) %>%
-  mutate(synonym1 = str_remove_all(synonym1, "^;")) %>%
-  mutate(synonym1 = str_replace_all(synonym1, ";", "; ")) %>%
-  #fixing white spaces
-  mutate(synonym1 = str_squish(synonym1)) %>%
-  mutate(synonym1 = str_trim(synonym1, side = "both"))
-
-fqa_db_synonym <- fqa_db_synonym1 %>%
-  #making sure abbreviations are consistent
-  mutate(synonym = str_replace_all(synonym, " SUBSP. ", " SSP. ")) %>%
-  mutate(synonym = str_replace_all(synonym, " VAR ", " VAR. ")) %>%
-  mutate(synonym = str_replace_all(synonym, ",", ";")) %>%
-  mutate(synonym = str_remove_all(synonym, "[\\[]]")) %>%
-  #fixing white spaces
-  mutate(synonym = str_squish(synonym)) %>%
-  mutate(synonym = str_trim(synonym, side = "both")) %>%
-  mutate(synonym = case_when(!str_detect(synonym, pattern = " ") ~
-                               paste(synonym, "SP."),
-                             T ~ synonym))
-#unique latin
-#unique synonym
-unique_latin <- data.frame(unique(fqa_db_latin$scientific_name))
-
-#unique synonym
-unique_syn <- data.frame(unique(fqa_db_synonym$synonym))
-
-#unique synonym1
-unique_syn1 <- data.frame(unique(fqa_db_synonym1$synonym1))
-
-#sort data frame column alphabetically
-#fqa_db_synonym[order(df$fqa_db_synonym), ]
-
-#AT SOME POINT LOOK INTO DUP SCI NAMES
-test <- fqa_db_clean_cols %>%
-  group_by(scientific_name, fqa_db) %>%
-  count() %>%
-  filter(n>1)
 
 #-------------------------------------------------------------------------------
 #saving dataset MAKE SURE IT IS CLEAN VERSION!!!
 
 #use this dataset  (not viewable to package user)
-usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE, compress = "bzip2")
+#usethis::use_data(fqa_db, overwrite = TRUE, internal = TRUE, compress = "bzip2")
 
 #-------------------------------------------------------------------------------
 
