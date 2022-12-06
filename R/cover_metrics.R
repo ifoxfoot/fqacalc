@@ -135,7 +135,7 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
   #create list of values
   values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
               suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
-              nrow(dplyr::filter(accepted, .data$native == "exotic")),
+              nrow(dplyr::filter(accepted, .data$native == "non-native")),
               (sum(is.na(accepted$c))/length(accepted$c))*100,
               (sum(accepted$c < 1, na.rm = TRUE )/length(accepted$c))*100,
               (sum(accepted$c >= 1 & accepted$c < 4, na.rm = TRUE)/length(accepted$c))*100,

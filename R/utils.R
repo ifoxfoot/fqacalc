@@ -48,12 +48,13 @@ db_names <- function() {
 #'
 #' @return A data frame with 11 variables:
 #' \describe{
+#'   \item{ID}{A common identifier between a plant's latin name and synonyms}
+#'   \item{name_origin}{Indicates if the name is the accepted scientific name or a synonym}
 #'   \item{scientific_name}{Latin name}
-#'   \item{synonym}{Alternate latin name(s)}
-#'   \item{family}{Taxonomic family of species}
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
+#'   \item{family}{Taxonomic family of species}
 #'   \item{native}{Nativity status. native, non-native, and undetermined are values}
-#'   \item{c}{Coefficient of Conservation (C Value)}
+#'   \item{c}{Coefficient of Conservatism (C Value)}
 #'   \item{w}{Wetland Indicator Rating}
 #'   \item{physiognomy}{Structure or physical appearance of plant}
 #'   \item{duration}{Lifespan of plant}
@@ -329,10 +330,11 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if (allow_non_veg) {
     regional_fqai <- rbind(
       #create df with water and ground
-      data.frame(scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
-                 synonym = c(NA, NA),
-                 family = c("Unvegetated Ground", "Unvegetated Water"),
+      data.frame(ID = c(NA, NA),
+                 name_origin = c(NA, NA),
+                 scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  acronym = c("GROUND", "WATER"),
+                 family = c("Unvegetated Ground", "Unvegetated Water"),
                  native = c(NA, NA),
                  c = c(0, 0),
                  w = c(0, 0),
