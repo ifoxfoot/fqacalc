@@ -621,7 +621,7 @@ unique_native <- data.frame(unique(fqa_db_bind$native))
 unique_w <- data.frame(unique(fqa_db_bind$w))
 unique_physiog <- data.frame(unique(fqa_db_bind$physiognomy))
 unique_duration <- data.frame(unique(fqa_db_bind$duration))
-unique_scientific_name <- data.frame(unique(fqa_db_bind$scientific_name))
+
 
 #cleaning up native column
 fqa_native <- fqa_db_bind %>%
@@ -660,7 +660,33 @@ fqa_wet <- fqa_native %>%
                        T ~ w)) %>%
   mutate(w = as.numeric(w))
 
+#cleaning physiog column
+fqa_physiog <- fqa_wet %>%
+  mutate(physiognomy = tolower(physiognomy)) %>%
+  mutate(physiognomy = str_remove(physiognomy, ",.*")) %>%
+  mutate(physiognomy = str_remove(physiognomy, "\\/.*")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "shurb", "shrub")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "sm tree", "tree")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "subshrub", "shrub")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "frob", "forb")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "graminoid", "grass")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "gram", "grass")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "h-vine", "vine")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "w-vine", "vine")) %>%
+  mutate(physiognomy = str_replace(physiognomy, "^bryo$", "bryophyte"))
 
+#cleaning up duration column
+fqa_duration <- fqa_physiog %>%
+  mutate(duration = tolower(duration)) %>%
+  mutate(duration = str_replace(duration, "n\\/a \\(non-vascular\\)", "none")) %>%
+  mutate(duration = str_remove(duration, ",.*")) %>%
+  mutate(duration = str_remove(duration, "\\/.*")) %>%
+  mutate(duration = str_replace(duration, "^an$", "annual")) %>%
+  mutate(duration = str_replace(duration, "^w$", "perennial")) %>%
+  mutate(duration = str_replace(duration, "^pe$", "perennial")) %>%
+  mutate(duration = str_replace(duration, "^bi$", "biennial")) %>%
+  mutate(duration = str_replace(duration, "^br$", "none")) %>%
+  mutate(duration = str_replace(duration, "^nd$", NA_character_))
 
 # #clean up cols (other than Latin name)
 # fqa_db_clean_cols <- fqa_db_bind %>%
