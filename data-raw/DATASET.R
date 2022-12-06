@@ -143,7 +143,7 @@ syn_dist_acronyms <- syn_distinct %>%
   mutate(w = as.character(w))
 
 # universal_dups <- syn_dist_acronyms %>%
-#   group_by(name, name_origin, fqa_db) %>%
+#   group_by(acronym, fqa_db) %>%
 #   count() %>%
 #   filter(n > 1)
 
@@ -277,12 +277,7 @@ southeastern_complete <- rbind(southeastern_mountains,
                                southeastern_plateau,
                                southern_coastal_plain)
 
-# test <- southeastern_complete %>%
-#   group_by(acronym, fqa_db) %>%
-#   count()
-
 #FOR NEW ENGLAND DBS--------------------------------------------------------------
-
 
 #create list of file names
 ne_files <- list.files(path = here("data-raw", "FQA_databases", "not_from_universal_calc"),
@@ -299,9 +294,8 @@ ne_compiled <- bind_rows(ne_list)
 
 #clean up col names
 ne_clean <- ne_compiled %>%
-  mutate(scientific_name = TaxaBotanist) %>%
-  mutate(name_origin = "scientific_name") %>%
-  mutate(ID = row_number()) %>%
+  mutate(scientific_name = Taxon) %>%
+  mutate(synonym = TaxaBotanist) %>%
   mutate(family = NA) %>%
   mutate(acronym = PLANTSSymbol) %>%
   mutate(native = "undetermined") %>%
@@ -310,12 +304,14 @@ ne_clean <- ne_compiled %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
   mutate(common_name = CommonName) %>%
-  select(scientific_name, name_origin, ID, family, acronym,
+  select(scientific_name, synonym, family, acronym,
          native, c, w, physiognomy, duration, common_name, fqa_db) %>%
-  #make sure to delete dups. if there are dups with different c scores, pick lowest score
   distinct() %>%
+  mutate(ID = row_number()) %>%
+  #make sure to delete dups. if there are dups with different c scores, pick lowest score
   group_by(fqa_db, scientific_name, acronym) %>%
   slice_min(n = 1, order_by = c)
+
 
 #CHICAGO------------------------------------------------------------------------
 
@@ -359,7 +355,7 @@ chic_piv <- chicago_clean %>%
   distinct(scientific_name, name_origin, ID, .keep_all = TRUE)
 
 # chic_dup <- chic_piv %>%
-#   group_by(acronym, name_origin) %>%
+#   group_by(acronym) %>%
 #   count()
 
 #COLORADO-----------------------------------------------------------------------
@@ -372,7 +368,7 @@ colorado <- read_xlsx(here("data-raw",
 
 colorado_clean <- colorado %>%
   mutate(scientific_name = fqa_sci_name_no_authority) %>%
-  mutate(name_origin = "scientific_name") %>%
+  mutate(synonym = national_sci_name_no_authority) %>%
   mutate(ID = row_number()) %>%
   mutate(family = fqa_family) %>%
   mutate(acronym = fqa_usda_symbol) %>%
@@ -382,12 +378,27 @@ colorado_clean <- colorado %>%
   mutate(physiognomy = usda_growth_habit_simple) %>%
   mutate(duration = usda_duration) %>%
   mutate(common_name = NA) %>%
-  mutate(fqa_db = "colorado_20201") %>%
-  select(scientific_name, name_origin, ID, family, acronym, native,
+  mutate(fqa_db = "colorado_2020") %>%
+  select(scientific_name, synonym, ID, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db) %>%
+  #if sci name and syn name match, delete syn
+  mutate(synonym = case_when(scientific_name == synonym ~ NA_character_, T ~ synonym)) %>%
+  #remove genus with no C score
   mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " ", negate = TRUE) ~ "remove")) %>%
   filter(is.na(remove_me)) %>%
   select(-remove_me)
+
+colorado_pivot <- colorado_clean %>%
+  pivot_longer(cols = c("scientific_name", "synonym"),
+               names_to = "name_origin",
+               values_to = "scientific_name") %>%
+  filter(!is.na(scientific_name)) %>%
+  mutate(acronym = case_when(name_origin == "synonym" ~ NA_character_,
+                             T ~ acronym))
+
+# colorado_dup <- colorado_pivot %>%
+#   group_by(scientific_name, name_origin) %>%
+#   count()
 
 #FLORIDA------------------------------------------------------------------------
 
@@ -495,7 +506,11 @@ montana_clean <- montana %>%
   mutate(duration = NA) %>%
   mutate(fqa_db = "montana_2017") %>%
   select(scientific_name, synonym, family, acronym, native,
-         c, w, physiognomy, duration, common_name, fqa_db)
+         c, w, physiognomy, duration, common_name, fqa_db) %>%
+  mutate(synonym = case_when(scientific_name == "Eriogonum brevicaule var. canum"
+                             ~ "Eriogonum lagopus; Eriogonum pauciflorum var. canum",
+                             T ~ synonym)) %>%
+  distinct()
 
 #list of syn columns
 syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6", "synonym_7")
@@ -510,7 +525,7 @@ montana_pivot <- montana_clean %>%
   filter(!is.na(scientific_name))
 
 # montana_dups <- montana_pivot %>%
-#   group_by(name) %>%
+#   group_by(scientific_name, name_origin) %>%
 #   count()
 
 #OHIO--------------------------------------------------------------------------
@@ -537,11 +552,15 @@ ohio_clean <- ohio %>%
   distinct() %>%
   mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " sp.") ~ "remove")) %>%
   filter(is.na(remove_me)) %>%
-  select(-remove_me)
-
+  select(-remove_me) %>%
+  mutate(acronym = case_when(scientific_name == "Symphyotrichum laeve" ~ "SYNLAE",
+                     scientific_name == "Solidago speciosa Nutt. var. rigidiuscula" ~ "SOLSPR",
+                     scientific_name == "Cuscuta epithymum" ~ "CUSEPT",
+                     scientific_name == "Collinsonia verticillata" ~ "COLVET",
+                     scientific_name == "Chenopodium glaucum" ~ "CHEGLU", T ~ acronym))
 
 # ohio_dubs <- ohio_clean %>%
-#   group_by(acronym) %>%
+#   group_by(scientific_name) %>%
 #   count()
 
 #WYOMING------------------------------------------------------------------------
@@ -574,7 +593,7 @@ wyoming_pivot <- wyoming_cols %>%
   filter(!is.na(scientific_name))
 
 # wyoming_dups <- wyoming_pivot %>%
-#   group_by(name) %>%
+#   group_by(scientific_name, name_origin) %>%
 #   count()
 
 #NOW CLEANING ALL TOGETHER-----------------------------------------------------
@@ -582,15 +601,16 @@ wyoming_pivot <- wyoming_cols %>%
 #bind all together
 fqa_db_bind <- rbind(syn_dist_acronyms,
                      southeastern_complete,
-                     ne_clean,
-                     colorado_clean,
+                     #ne_clean,
+                     colorado_pivot,
                      chic_piv,
                      florida_pivot,
                      florida_south_clean,
                      ms_clean,
                      montana_pivot,
                      ohio_clean,
-                     wyoming_pivot) %>%
+                     wyoming_pivot
+                     ) %>%
   #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
   #covert things to uppercase
@@ -602,6 +622,45 @@ unique_w <- data.frame(unique(fqa_db_bind$w))
 unique_physiog <- data.frame(unique(fqa_db_bind$physiognomy))
 unique_duration <- data.frame(unique(fqa_db_bind$duration))
 unique_scientific_name <- data.frame(unique(fqa_db_bind$scientific_name))
+
+#cleaning up native column
+fqa_native <- fqa_db_bind %>%
+  mutate(native = case_when(str_detect(native, "L48 \\(N\\)") ~ "native",
+                            str_detect(native, "L48 \\(NI\\)") ~ "native",
+                            str_detect(native, "L48 \\(I\\)") ~ "non-native",
+                            T ~ native)) %>%
+  mutate(native = case_when(native %in% c("native",
+                                          "Native",
+                                          "N",
+                                          "Native/Naturalized",
+                                          "Native/Adventive",
+                                          "Likely Native",
+                                          "Native/Exotic") ~ "native",
+                            native %in% c("non-native",
+                                          "Nonnative",
+                                          "cryptogenic",
+                                          "adventive",
+                                          "Likely Exotic",
+                                          "I",
+                                          "Exotic",
+                                          "Adventive",
+                                          "Cryptogenic",
+                                          "Non-native") ~ "non-native",
+                            T ~ "undetermined"))
+
+#cleaning up wet coef column
+fqa_wet <- fqa_native %>%
+  mutate(w = str_remove_all(w, "[()]")) %>%
+  mutate(w = case_when(w %in% c("NA", "ND", "NI") ~ NA_character_,
+                       w %in% c("UPL") ~ "5",
+                       w %in% c("FACU", "FACU-", "FACU+") ~ "3",
+                       w %in% c("FAC", "FAC-", "FAC+") ~ "0",
+                       w %in% c("FACW", "FACW-", "FACW+") ~ "-3",
+                       w %in% c("OBL") ~ "-5",
+                       T ~ w)) %>%
+  mutate(w = as.numeric(w))
+
+
 
 # #clean up cols (other than Latin name)
 # fqa_db_clean_cols <- fqa_db_bind %>%
