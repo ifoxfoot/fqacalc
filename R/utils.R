@@ -323,14 +323,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #PREPARING REGIONAL LIST FOR JOINING
 
   regional_fqai <- fqa_db %>%
-    dplyr::filter(fqa_db == db) %>%
-    #so i can tell if observation came from regional list
-    dplyr::mutate(p = "p")
+    dplyr::filter(fqa_db == db)
 
   if (allow_non_veg) {
     regional_fqai <- rbind(
       #create df with water and ground
-      data.frame(ID = c(NA, NA),
+      data.frame(ID = c(0, 0),
                  name_origin = c(NA, NA),
                  scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  acronym = c("GROUND", "WATER"),
@@ -341,8 +339,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
                  physiognomy = c("Unvegetated Ground", "Unvegetated Water"),
                  duration = c("Unvegetated Ground", "Unvegetated Water"),
                  common_name = c(NA, NA),
-                 fqa_db = c({{db}}, {{db}}),
-                 p = c("p", "p")),
+                 fqa_db = c({{db}}, {{db}})),
       #bind to regional fqai
       regional_fqai)
   }
@@ -356,31 +353,82 @@ accepted_entries <- function(x, key = "scientific_name", db,
                      regional_fqai,
                      by = key)
 
-  #warning if species not present in regional list
-  if( any(is.na(entries_joined$p)) )
-       message(paste("Species", entries_joined[is.na(entries_joined$p), key],
-                     "not listed in database. It will be discarded."))
+  #if a species is not present in regional list
+  if( any(is.na(entries_joined$ID)) ) {
 
-  #now get rid of observations not in regional list
-  entries_joined <- entries_joined %>%
-    dplyr::filter(!is.na(.data$p)) %>%
-    dplyr::select(-"p")
+    #send message to user
+    message(paste("Species", entries_joined[is.na(entries_joined$ID), key],
+                  "not listed in database. It will be discarded."))
 
-  #send message to user if site assessment contains plant not in FQAI database
-  if( any(is.na(entries_joined$c)) )
-    message(paste("Species", entries_joined[is.na(entries_joined$c), key],
-                  "is recognized but has not been assigned a C Value. It can optionally be included in species richness but will not be included in any FQI metrics. "))
-
-  #if allow no c is false, get rid of observations with no c value
-  if( !allow_no_c ) {
+    #get rid of observations not in regional list
     entries_joined <- entries_joined %>%
-      dplyr::filter(!is.na(c)) }
+      dplyr::filter(!is.na(.data$ID))
+  }
+
+  #If a species is entered twice under different names/synonyms
+  if( any(duplicated(entries_joined$ID) & !duplicated(entries_joined$scientific_name) )) {
+
+    #get synonyms
+    synonyms <- entries_joined %>%
+      dplyr::filter(duplicated(ID) & !duplicated(scientific_name) |
+               duplicated(ID, fromLast = TRUE) & !duplicated(scientific_name)) %>%
+      dplyr::select(scientific_name)
+
+    #send message
+    message(paste("Species ", synonyms, " are synonyms and will be treated as one species."))
+
+    # #if duplicates are allowed, keep entries but change names so they are the same
+    # if(allow_duplicates == TRUE) {
+    #
+    # }
+    #
+    # if (allow_duplicates == FALSE){
+    #   #if duplicates are not allowed $ cover = T, keep one entry, combine cover vals
+    #   if(cover_weighted == TRUE) {
+    #
+    #   } else {
+    #     #if duplicates are not allowed & cover = F, keep one entry
+    #
+    #   }
+    #}
+
+  }
+
+  #If a species name is associated with two separate species with separate IDs
+  if( any(!duplicated(entries_joined$ID) & duplicated(entries_joined$scientific_name) )) {
+
+    #get duplicated names associated with diff IDs
+    duplicate_names <- entries_joined %>%
+      dplyr::filter(duplicated(scientific_name) & !duplicated(ID)) %>%
+      dplyr::select(scientific_name)
+
+    #message user
+    message(paste("Species", duplicate_names, "matches two or more species."))
+
+    #if duplicates are all synonyms, delete all and send warning
+
+    #if one duplicate is a scientific, keep sci name
+
+  }
 
   #if native = T, filter for only native species
   if (native) {
     entries_joined <- entries_joined %>%
       dplyr::filter(native == "native")
   }
+
+  #If site assessment contains a plant that has no C value
+  if( any(is.na(entries_joined$c)) ) {
+    #sent message to user
+    message(paste("Species", entries_joined[is.na(entries_joined$c), key],
+                  "is recognized but has not been assigned a C Value. It can optionally be included in species richness but will not be included in any FQI metrics. "))
+
+    #if allow no c is false, get rid of observations with no c value
+    if( !allow_no_c ) {
+      entries_joined <- entries_joined %>%
+        dplyr::filter(!is.na(c)) }
+  }
+
 
   return(as.data.frame(entries_joined))
 }

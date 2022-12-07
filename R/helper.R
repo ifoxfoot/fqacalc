@@ -52,6 +52,7 @@ quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"),
                       cover = c(50, 4, 20, 30))
 
+#accepted testing
 accepted_perfect <- data.frame(acronym  = c("ABEESC", "ABIBAL"),
                        cover = c(60, 50),
                        quad_id = c(1, 1))
@@ -79,3 +80,20 @@ accepted_cover_method <-  data.frame(acronym  = c("ABEESC", "ABIBAL"),
 
 accepted_bad_cov_val <-  data.frame(acronym  = c("ABEESC", "ABIBAL"),
                                      cover = c(25, 3))
+
+#test using wyoming_2017
+#df where some entries are synonyms shared by more than one species
+same_syn <- data.frame(scientific_name = c("CAREX MURICATA", "POTENTILLA NANA", "POTENTILLA NANA", "ABIES BIFOLIA"),
+                       cover = c(80, 60, 20, 10))
+
+#df where some entries are listed as main name, and synonym of another species
+same_syn_sci <- data.frame(scientific_name = c("CAREX FOENEA", "GNAPHALIUM ULIGINOSUM", "CAREX FOENEA", "ABIES BIFOLIA"),
+                           cover = c(80, 60, 20, 10))
+
+same_id <- data.frame(scientific_name = c("ABIES BIFOLIA", "ABIES LASIOCARPA", "ABIES LASIOCARPA", "ABIES MENZIESII"),
+                      id = c(1, 1, 1, 2),
+                      cover = c(80, 60, 20, 10))
+
+#df where some entries are synonyms to mult species and some are both
+same <- data.frame(scientific_name = c("CAREX MURICATA", "GNAPHALIUM ULIGINOSUM", "CAREX FOENEA", "ABIES BIFOLIA"),
+                   cover = c(80, 60, 20, 10))

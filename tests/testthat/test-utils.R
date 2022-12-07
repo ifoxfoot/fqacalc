@@ -422,7 +422,7 @@ test_that("accepted_entries with allow_non_veg = TRUE", {
                                 allow_non_veg = TRUE),
 
                data.frame(acronym = c("ABEESC", "GROUND", "WATER"),
-                          ID = c(32840, NA, NA),
+                          ID = c(32840, 0, 0),
                           name_origin = c("scientific_name", NA_character_, NA_character_),
                           scientific_name = c("ABELMOSCHUS ESCULENTUS", "UNVEGETATED GROUND", "UNVEGETATED WATER"),
                           family = c("Malvaceae", "Unvegetated Ground", "Unvegetated Water"),
