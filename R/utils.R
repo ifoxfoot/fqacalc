@@ -221,7 +221,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
         dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
     }
 
-    #if cover method is usfs_ecodata, just convert to numeric because they use midpoint as class label
+    #if cover method is usfs_ecodata
     if(cover_metric == "usfs_ecodata") {
       cols <- cols %>%
         dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.5,
@@ -287,7 +287,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::filter(!is.na(cols$cover))
   }
 
-  #TREATING DUPLICATES
+  #MESSAGING ABOUT DUPLICATES
 
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(cols[,key])) > 0 & !allow_duplicates){
@@ -297,28 +297,9 @@ accepted_entries <- function(x, key = "scientific_name", db,
       message("Duplicate entries detected. Duplicates will only be counted once.")}
   }
 
-  #if allow duplicates is false, do not allow duplicates
-  if( !allow_duplicates ) {
-    if ( !cover_weighted ){ cols <- cols %>% dplyr::distinct() }
-    #if allow dups is false but cover weight is true, add cover values for like species together
-    else(cols <- cols %>%
-           dplyr::group_by(!!as.name(key)) %>%
-           dplyr::summarise(cover = sum(as.numeric(.data$cover))))
-  }
-
   #message if there are duplicates in same plot
   if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(cols, {{key}}, {{plot_id}}))) )
     message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
-
-  #remove duplicates in the same plot
-  if( !is.null(plot_id) && allow_duplicates ){
-    if( cover_weighted ) {
-      cols <- cols %>%
-        dplyr::group_by(!!as.name(key), !!as.name(plot_id)) %>%
-        dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
-        dplyr::distinct() %>%
-        dplyr::ungroup()}
-    else {cols <- dplyr::distinct(cols, !!as.name(key), !!as.name(plot_id), .keep_all = TRUE)}}
 
   #PREPARING REGIONAL LIST FOR JOINING
 
@@ -328,7 +309,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if (allow_non_veg) {
     regional_fqai <- rbind(
       #create df with water and ground
-      data.frame(ID = c(0, 0),
+      data.frame(ID = c("A", "B"),
                  name_origin = c(NA, NA),
                  scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  acronym = c("GROUND", "WATER"),
@@ -349,7 +330,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #join scores from FQAI to user's assessment
   entries_joined <-
     dplyr::left_join(cols %>%
-                       dplyr::mutate({{key}} := toupper(!!as.name(key))),
+                       dplyr::mutate({{key}} := toupper(!!as.name(key))) %>%
+                       dplyr::mutate(row = dplyr::row_number()),
                      regional_fqai,
                      by = key)
 
@@ -365,51 +347,84 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::filter(!is.na(.data$ID))
   }
 
-  #If a species is entered twice under different names/synonyms
-  if( any(duplicated(entries_joined$ID) & !duplicated(entries_joined$scientific_name) )) {
-
-    #get synonyms
-    synonyms <- entries_joined %>%
-      dplyr::filter(duplicated(ID) & !duplicated(scientific_name) |
-               duplicated(ID, fromLast = TRUE) & !duplicated(scientific_name)) %>%
-      dplyr::select(scientific_name)
-
-    #send message
-    message(paste("Species ", synonyms, " are synonyms and will be treated as one species."))
-
-    # #if duplicates are allowed, keep entries but change names so they are the same
-    # if(allow_duplicates == TRUE) {
-    #
-    # }
-    #
-    # if (allow_duplicates == FALSE){
-    #   #if duplicates are not allowed $ cover = T, keep one entry, combine cover vals
-    #   if(cover_weighted == TRUE) {
-    #
-    #   } else {
-    #     #if duplicates are not allowed & cover = F, keep one entry
-    #
-    #   }
-    #}
-
-  }
+  #SAME NAME, DIFFERENT IDS
 
   #If a species name is associated with two separate species with separate IDs
   if( any(!duplicated(entries_joined$ID) & duplicated(entries_joined$scientific_name) )) {
 
     #get duplicated names associated with diff IDs
     duplicate_names <- entries_joined %>%
-      dplyr::filter(duplicated(scientific_name) & !duplicated(ID)) %>%
-      dplyr::select(scientific_name)
+      dplyr::filter(duplicated(entries_joined$scientific_name) &
+                      !duplicated(entries_joined$ID)) %>%
+      dplyr::select("scientific_name")
 
     #message user
     message(paste("Species", duplicate_names, "matches two or more species."))
 
-    #if duplicates are all synonyms, delete all and send warning
-
-    #if one duplicate is a scientific, keep sci name
-
+    #if species are duplicated, keep only sci name
+    entries_joined <- entries_joined %>%
+      dplyr::group_by(row) %>%
+      dplyr::mutate(dup = dplyr::n() > 1) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!dup | name_origin == "scientific_name") %>%
+      dplyr::select(-dup)
   }
+
+  #get rid of row column, no longer needed
+  entries_joined <- dplyr::select(entries_joined, -row)
+
+  #DIFFERENT NAMES, SAME IDS
+
+  #If a species is entered twice under different names/synonyms
+  if( any(duplicated(entries_joined$ID) & !duplicated(entries_joined$scientific_name) )) {
+
+    #get synonyms
+    synonyms <- entries_joined %>%
+      dplyr::filter(duplicated(entries_joined$ID) &
+                      !duplicated(entries_joined$scientific_name) |
+               duplicated(entries_joined$ID, fromLast = TRUE) &
+                 !duplicated(entries_joined$scientific_name)) %>%
+      dplyr::select("scientific_name")
+
+    #send message
+    message(paste("Species ", synonyms, " are synonyms and will be treated as one species."))
+
+    #replace diff names in same id group with first name
+    entries_joined <- entries_joined %>%
+      dplyr::group_by(.data$ID) %>%
+      dplyr::mutate(scientific_name = dplyr::first(.data$scientific_name),
+                    name_origin = dplyr::first(.data$name_origin))
+  }
+
+  #TREATING DUPLICATES (FROM USER OR JOINING)
+
+  #if allow duplicates is false, do not allow duplicates
+  if( !allow_duplicates ) {
+    if ( !cover_weighted ){
+      entries_joined <- entries_joined %>%
+        dplyr::distinct() }
+    #if allow dups is false but cover weight is true, add cover values for like species together
+    else(entries_joined <- entries_joined %>%
+           dplyr::group_by(.data$ID) %>%
+           dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
+           dplyr::distinct() %>%
+           dplyr::ungroup() )
+  }
+
+  #remove duplicates in the same plot
+  if( !is.null(plot_id) & allow_duplicates ){
+    if( cover_weighted ) {
+      entries_joined <- entries_joined %>%
+        dplyr::group_by(.data$ID, !!as.name(plot_id)) %>%
+        dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
+        dplyr::distinct() %>%
+        dplyr::ungroup() }
+    else {entries_joined <- dplyr::distinct(entries_joined,
+                                            .data$ID, !!as.name(plot_id),
+                                            .keep_all = TRUE) }
+    }
+
+  #NATIVITY AND C SCORE
 
   #if native = T, filter for only native species
   if (native) {

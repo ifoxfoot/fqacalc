@@ -1,5 +1,4 @@
-#-------------------------------------------------------------------------------
-#testing accepted_entries() errors
+#testing accepted_entries() errors---------------------------------------------
 
 test_that("accepted_entries() errors work for missing arguments", {
   expect_error(accepted_entries(key = "acronym", db = "michigan_2014", native = F),
@@ -68,8 +67,7 @@ test_that("accepted_entries() throws error if olot_id isn't a column", {
 })
 
 
-#-------------------------------------------------------------------------------
-#testing accepted_entries() messages
+#testing accepted_entries() messages-------------------------------------------
 
 test_that("accepted_entries() throws a message if duplicates are detected-noncover", {
   expect_message(accepted_entries(duplicate, key = "acronym", db = "michigan_2014", native = F),
@@ -81,7 +79,7 @@ test_that("accepted_entries() throws a message if duplicates are detected-cover"
                  "Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.")
 })
 
-test_that("accepted_entries() throws a message if duplicates are detected-cover", {
+test_that("accepted_entries() throws a message if duplicates are detected in same plot-cover", {
   expect_message(accepted_entries(transect_dup, key = "acronym", db = "michigan_2014", native = F, plot_id = "quad_id",
                                   allow_duplicates = TRUE, allow_non_veg = TRUE),
                  "Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
@@ -103,8 +101,7 @@ test_that("accepted_entries() throws warning if nas are introduced to cover", {
                  "NAs were introduced during the conversion to the braun-blanquet system. Species with NA cover values will be removed.")
 })
 
-#-------------------------------------------------------------------------------
-#testing accepted_entries() results
+#testing accepted_entries() results---------------------------------------------
 
 #testing normal result
 test_that("accepted_entries works in perfect setting", {
@@ -162,6 +159,8 @@ test_that("accepted_entries works in perfect setting with cover_weighted = TRUE"
                           common_name = c("okra; gumbo", "balsam fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
+
+#testing accepted_entries() cover methods---------------------------------------
 
 #testing cover-weighted result (braun-blanquet)
 test_that("accepted_entries works with br-bl", {
@@ -235,7 +234,7 @@ test_that("accepted_entries works with carolina cover method", {
 })
 
 #testing cover-weighted result (daubenmire)
-test_that("accepted_entries works with carolina cover method", {
+test_that("accepted_entries works with daubenmire cover method", {
   expect_equal(accepted_entries(x = accepted_cover_method, key = "acronym", db = "michigan_2014",
                                 native = FALSE,
                                 cover_weighted = TRUE,
@@ -279,6 +278,8 @@ test_that("accepted_entries works with usfs method", {
                  common_name = c("okra; gumbo", "balsam fir"),
                  fqa_db = c("michigan_2014", "michigan_2014")))
 })
+
+#testing accepted_entries() duplicates---------------------------------------------
 
 #testing allow_duplicate result
 test_that("accepted_entries works in perfect setting with allow_duplicates = TRUE", {
@@ -380,6 +381,8 @@ test_that("accepted_entries with allow_duplicates = FALSE, cover_weighted = FALS
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
+#testing accepted_entries() no C---------------------------------------------
+
 #testing allow_non_c
 test_that("accepted_entries with allow_no_c = TRUE", {
   expect_equal(accepted_entries(x = accepted_no_c, db = "montana_2017", native = FALSE, allow_no_c = TRUE),
@@ -416,13 +419,15 @@ test_that("accepted_entries with allow_no_c = FALSE", {
                           fqa_db = c("montana_2017")))
 })
 
+#testing accepted_entries() non-veg---------------------------------------------
+
 #testing using non-veg
 test_that("accepted_entries with allow_non_veg = TRUE", {
   expect_equal(accepted_entries(x = accepted_non_veg, key = "acronym", db = "michigan_2014", native = FALSE,
                                 allow_non_veg = TRUE),
 
                data.frame(acronym = c("ABEESC", "GROUND", "WATER"),
-                          ID = c(32840, 0, 0),
+                          ID = c(32840, "A", "B"),
                           name_origin = c("scientific_name", NA_character_, NA_character_),
                           scientific_name = c("ABELMOSCHUS ESCULENTUS", "UNVEGETATED GROUND", "UNVEGETATED WATER"),
                           family = c("Malvaceae", "Unvegetated Ground", "Unvegetated Water"),
@@ -436,7 +441,7 @@ test_that("accepted_entries with allow_non_veg = TRUE", {
 })
 
 #testing non-recognized species
-test_that("accepted_entries with unrec species", {
+test_that("accepted_entries with allow_non_veg = FALSE", {
   expect_equal(accepted_entries(x = accepted_non_veg, key = "acronym", db = "michigan_2014", native = FALSE,
                                 allow_non_veg = FALSE),
 
@@ -452,4 +457,115 @@ test_that("accepted_entries with unrec species", {
                           duration = c("annual"),
                           common_name = c("okra; gumbo"),
                           fqa_db = c("michigan_2014")))
+})
+
+#testing accepted_entries() synonyms---------------------------------------------
+
+#testing same name, diff ID where both names are syns
+test_that("accepted_entries deletes observations that are synonyms to > 1 species", {
+  expect_equal(accepted_entries(x = same_syn, db = "wyoming_2017", native = FALSE),
+
+               data.frame(scientific_name = c("ABIES BIFOLIA"),
+                          ID = c(1),
+                          name_origin = c("scientific_name"),
+                          acronym = c(NA_character_),
+                          family = c("Pinaceae"),
+                          native = c("native"),
+                          c = c(6),
+                          w = c(3),
+                          physiognomy = c(NA_character_),
+                          duration = c(NA_character_),
+                          common_name = c("subalpine fir"),
+                          fqa_db = c("wyoming_2017")))
+})
+
+#testing same name, diff ID where one name is a sci name
+test_that("accepted_entries keeps sci name if name is both syn and sci name", {
+  expect_equal(accepted_entries(x = same_syn_sci, db = "wyoming_2017", native = FALSE),
+
+               data.frame(scientific_name = c("CAREX FOENEA", "ABIES BIFOLIA"),
+                          ID = c(299, 1),
+                          name_origin = c("scientific_name", "scientific_name"),
+                          acronym = c(NA_character_, NA_character_),
+                          family = c("Cyperaceae", "Pinaceae"),
+                          native = c("native", "native"),
+                          c = c(6, 6),
+                          w = c(3, 3),
+                          physiognomy = c(NA_character_, NA_character_),
+                          duration = c(NA_character_, NA_character_),
+                          common_name = c("bronze sedge", "subalpine fir"),
+                          fqa_db = c("wyoming_2017", "wyoming_2017")))
+})
+
+#testing same name, diff ID where one name is a sci name, also duplicates
+test_that("accepted_entries keeps sci name if name is both syn and sci name, also keeps dup syns", {
+  expect_equal(accepted_entries(x = same_syn_sci_2, db = "wyoming_2017", native = FALSE,
+                                allow_duplicates = TRUE),
+
+               data.frame(scientific_name = c("CAREX FOENEA","CAREX FOENEA", "ABIES MENZIESII", "ABIES MENZIESII"),
+                          ID = c(299, 299, 1193, 1193),
+                          name_origin = c("scientific_name", "scientific_name", "synonym_001", "synonym_001"),
+                          acronym = c(NA_character_, NA_character_, NA_character_, NA_character_),
+                          family = c("Cyperaceae", "Cyperaceae", "Pinaceae", "Pinaceae"),
+                          native = c("native", "native", "native", "native"),
+                          c = c(6, 6, 6, 6),
+                          w = c(3, 3, 3, 3),
+                          physiognomy = c(NA_character_, NA_character_, NA_character_, NA_character_),
+                          duration = c(NA_character_, NA_character_, NA_character_, NA_character_),
+                          common_name = c("bronze sedge","bronze sedge", "Rocky Mountain Douglas-fir", "Rocky Mountain Douglas-fir"),
+                          fqa_db = c("wyoming_2017", "wyoming_2017", "wyoming_2017", "wyoming_2017")))
+})
+
+#testing diff name, same ID
+test_that("accepted_entries considers two names names associated with same ID to be same plant", {
+  expect_equal(accepted_entries(x = same_id, db = "wyoming_2017", native = FALSE),
+
+               data.frame(scientific_name = c("ABIES BIFOLIA", "ABIES MENZIESII"),
+                          ID = c(1, 1193),
+                          name_origin = c("scientific_name", "synonym_001"),
+                          acronym = c(NA_character_, NA_character_),
+                          family = c("Pinaceae", "Pinaceae"),
+                          native = c("native", "native"),
+                          c = c(6, 6),
+                          w = c(3, 3),
+                          physiognomy = c(NA_character_, NA_character_),
+                          duration = c(NA_character_, NA_character_),
+                          common_name = c("subalpine fir", "Rocky Mountain Douglas-fir"),
+                          fqa_db = c("wyoming_2017", "wyoming_2017")))
+})
+
+#testing diff name, same ID
+test_that("accepted_entries considers two names names associated with same ID to be same plant", {
+  expect_equal(accepted_entries(x = same_id, db = "wyoming_2017", native = FALSE, allow_duplicates = TRUE),
+
+               data.frame(scientific_name = c("ABIES BIFOLIA", "ABIES BIFOLIA", "ABIES BIFOLIA", "ABIES MENZIESII"),
+                          ID = c(1, 1, 1, 1193),
+                          name_origin = c("scientific_name", "scientific_name", "scientific_name", "synonym_001"),
+                          acronym = c(NA_character_, NA_character_, NA_character_, NA_character_),
+                          family = c("Pinaceae", "Pinaceae", "Pinaceae", "Pinaceae"),
+                          native = c("native", "native", "native", "native"),
+                          c = c(6, 6, 6, 6),
+                          w = c(3, 3, 3, 3),
+                          physiognomy = c(NA_character_, NA_character_, NA_character_, NA_character_),
+                          duration = c(NA_character_, NA_character_, NA_character_, NA_character_),
+                          common_name = c("subalpine fir", "subalpine fir", "subalpine fir", "Rocky Mountain Douglas-fir"),
+                          fqa_db = c("wyoming_2017", "wyoming_2017", "wyoming_2017", "wyoming_2017")))
+})
+
+#testing diff name, same ID, allow_duplicates = FALSE
+test_that("accepted_entries considers two names names associated with same ID to be same plant, deletes dups", {
+  expect_equal(accepted_entries(x = same_id, db = "wyoming_2017", native = FALSE, allow_duplicates = FALSE),
+
+               data.frame(scientific_name = c("ABIES BIFOLIA", "ABIES MENZIESII"),
+                          ID = c(1, 1193),
+                          name_origin = c("scientific_name", "synonym_001"),
+                          acronym = c(NA_character_, NA_character_),
+                          family = c("Pinaceae", "Pinaceae"),
+                          native = c("native",  "native"),
+                          c = c(6, 6),
+                          w = c(3, 3),
+                          physiognomy = c(NA_character_, NA_character_),
+                          duration = c(NA_character_,  NA_character_),
+                          common_name = c("subalpine fir", "Rocky Mountain Douglas-fir"),
+                          fqa_db = c("wyoming_2017", "wyoming_2017")))
 })

@@ -87,13 +87,18 @@ same_syn <- data.frame(scientific_name = c("CAREX MURICATA", "POTENTILLA NANA", 
                        cover = c(80, 60, 20, 10))
 
 #df where some entries are listed as main name, and synonym of another species
-same_syn_sci <- data.frame(scientific_name = c("CAREX FOENEA", "GNAPHALIUM ULIGINOSUM", "CAREX FOENEA", "ABIES BIFOLIA"),
-                           cover = c(80, 60, 20, 10))
+same_syn_sci <- data.frame(scientific_name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES BIFOLIA"),
+                           cover = c(80, 60, 10))
+
+#same but with an innocently duplicated synonym
+same_syn_sci_2 <- data.frame(scientific_name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES MENZIESII", "ABIES MENZIESII"),
+                             cover = c(80, 60, 10, 10))
 
 same_id <- data.frame(scientific_name = c("ABIES BIFOLIA", "ABIES LASIOCARPA", "ABIES LASIOCARPA", "ABIES MENZIESII"),
-                      id = c(1, 1, 1, 2),
                       cover = c(80, 60, 20, 10))
 
 #df where some entries are synonyms to mult species and some are both
 same <- data.frame(scientific_name = c("CAREX MURICATA", "GNAPHALIUM ULIGINOSUM", "CAREX FOENEA", "ABIES BIFOLIA"),
                    cover = c(80, 60, 20, 10))
+
+
