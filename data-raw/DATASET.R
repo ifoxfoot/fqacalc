@@ -142,10 +142,10 @@ syn_dist_acronyms <- syn_distinct %>%
   rename(scientific_name = name) %>%
   mutate(w = as.character(w))
 
-# universal_dups <- syn_dist_acronyms %>%
-#   group_by(acronym, fqa_db) %>%
-#   count() %>%
-#   filter(n > 1)
+universal_dups <- syn_dist_acronyms %>%
+  group_by(scientific_name, name_origin, fqa_db) %>%
+  count() %>%
+  filter(n > 1)
 
 #SOUTH EASTERN DBS---------------------------------------------------------------
 
@@ -278,39 +278,39 @@ southeastern_complete <- rbind(southeastern_mountains,
                                southern_coastal_plain)
 
 #FOR NEW ENGLAND DBS--------------------------------------------------------------
-
-#create list of file names
-ne_files <- list.files(path = here("data-raw", "FQA_databases", "not_from_universal_calc"),
-                         pattern = "*_2013.csv",
-                         full.names = F)
-
-#read them in and create new col with region
-ne_list <- lapply(ne_files, function(x)
-  readxl::read_xlsx(paste0("./data-raw/FQA_databases/not_from_universal_calc/", x)) %>%
-                    mutate(fqa_db = x))
-
-#bind together
-ne_compiled <- bind_rows(ne_list)
-
-#clean up col names
-ne_clean <- ne_compiled %>%
-  mutate(scientific_name = Taxon) %>%
-  mutate(synonym = TaxaBotanist) %>%
-  mutate(family = NA) %>%
-  mutate(acronym = PLANTSSymbol) %>%
-  mutate(native = "undetermined") %>%
-  mutate(c = as.numeric(Score)) %>%
-  mutate(w = NA) %>%
-  mutate(physiognomy = NA) %>%
-  mutate(duration = NA) %>%
-  mutate(common_name = CommonName) %>%
-  select(scientific_name, synonym, family, acronym,
-         native, c, w, physiognomy, duration, common_name, fqa_db) %>%
-  distinct() %>%
-  mutate(ID = row_number()) %>%
-  #make sure to delete dups. if there are dups with different c scores, pick lowest score
-  group_by(fqa_db, scientific_name, acronym) %>%
-  slice_min(n = 1, order_by = c)
+#
+# #create list of file names
+# ne_files <- list.files(path = here("data-raw", "FQA_databases", "not_from_universal_calc"),
+#                          pattern = "*_2013.csv",
+#                          full.names = F)
+#
+# #read them in and create new col with region
+# ne_list <- lapply(ne_files, function(x)
+#   readxl::read_xlsx(paste0("./data-raw/FQA_databases/not_from_universal_calc/", x)) %>%
+#                     mutate(fqa_db = x))
+#
+# #bind together
+# ne_compiled <- bind_rows(ne_list)
+#
+# #clean up col names
+# ne_clean <- ne_compiled %>%
+#   mutate(scientific_name = Taxon) %>%
+#   mutate(synonym = TaxaBotanist) %>%
+#   mutate(family = NA) %>%
+#   mutate(acronym = PLANTSSymbol) %>%
+#   mutate(native = "undetermined") %>%
+#   mutate(c = as.numeric(Score)) %>%
+#   mutate(w = NA) %>%
+#   mutate(physiognomy = NA) %>%
+#   mutate(duration = NA) %>%
+#   mutate(common_name = CommonName) %>%
+#   select(scientific_name, synonym, family, acronym,
+#          native, c, w, physiognomy, duration, common_name, fqa_db) %>%
+#   distinct() %>%
+#   mutate(ID = row_number()) %>%
+#   #make sure to delete dups. if there are dups with different c scores, pick lowest score
+#   group_by(fqa_db, scientific_name, acronym) %>%
+#   slice_min(n = 1, order_by = c)
 
 
 #CHICAGO------------------------------------------------------------------------
