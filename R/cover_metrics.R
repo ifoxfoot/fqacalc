@@ -192,9 +192,6 @@ plot_summary <- function(x, key = "scientific_name", db,
                          cover_metric = "percent_cover", plot_id,
                          allow_no_c = TRUE, allow_non_veg = TRUE){
 
-  #plot_id argument must be a column name in input data frame x
-  if( is.null(plot_id) )
-    stop(paste0("'plot_id' must be the name of a column in ", deparse(substitute(x)), " ."))
 
   #get accepted species
   accepted <- accepted_entries(x, key, db,

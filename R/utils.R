@@ -483,10 +483,6 @@ unassigned_plants <- function(x, key = "scientific_name", db) {
   if( missing(x) )
     stop("argument x is missing, with no default.")
 
-  #error if db argument is missing
-  if( missing(db) )
-    stop("argument db is missing, with no default.")
-
   #error if x is not a data frame
   if( !is.data.frame(x) )
     stop(paste(deparse(substitute(x)), "must be a data frame."))
