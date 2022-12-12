@@ -359,7 +359,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::select("scientific_name")
 
     #message user
-    message(paste("Species", duplicate_names, "matches two or more species."))
+    message("Species", duplicate_names, "matches two or more species.")
 
     #if species are duplicated, keep only sci name
     entries_joined <- entries_joined %>%
@@ -370,9 +370,6 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::select(-dup)
   }
 
-  #get rid of row column, no longer needed
-  entries_joined <- dplyr::select(entries_joined, -row)
-
   #DIFFERENT NAMES, SAME IDS
 
   #If a species is entered twice under different names/synonyms
@@ -380,14 +377,17 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
     #get synonyms
     synonyms <- entries_joined %>%
-      dplyr::filter(duplicated(entries_joined$ID) &
-                      !duplicated(entries_joined$scientific_name) |
-               duplicated(entries_joined$ID, fromLast = TRUE) &
-                 !duplicated(entries_joined$scientific_name)) %>%
-      dplyr::select("scientific_name")
+      dplyr::group_by(ID) %>%
+      dplyr::filter(n_distinct(scientific_name) > 1)
 
-    #send message
-    message(paste("Species ", synonyms, " are synonyms and will be treated as one species."))
+    #get list of names in each id group
+    list <- split(synonyms$scientific_name, synonyms$ID)
+
+    #use for loop to create warning for each set of synonyms
+    for(i in 1:length(list)) {
+      #send message
+      message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species.")
+    }
 
     #replace diff names in same id group with first name
     entries_joined <- entries_joined %>%
@@ -395,6 +395,9 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::mutate(scientific_name = dplyr::first(.data$scientific_name),
                     name_origin = dplyr::first(.data$name_origin))
   }
+
+  #get rid of row column, no longer needed
+  entries_joined <- dplyr::select(entries_joined, -row)
 
   #TREATING DUPLICATES (FROM USER OR JOINING)
 
