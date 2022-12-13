@@ -351,21 +351,21 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #get duplicated names associated with diff IDs
   same_name_diff_id <- entries_joined %>%
-    dplyr::group_by(scientific_name) %>%
-    dplyr::filter(dplyr::n_distinct(ID) > 1)
+    dplyr::group_by(.data$scientific_name) %>%
+    dplyr::filter(dplyr::n_distinct(.data$ID) > 1)
 
   #If a species name is associated with two separate species with separate IDs
   if( nrow(same_name_diff_id) > 0 ) {
 
     #one name is main name
     one_main <- same_name_diff_id %>%
-      dplyr::group_by(scientific_name) %>%
-      dplyr::filter(any(name_origin == "scientific_name"))
+      dplyr::group_by(.data$scientific_name) %>%
+      dplyr::filter(any(.data$name_origin == "scientific_name"))
 
     #both are synonyms
     both_syn <- same_name_diff_id %>%
-      dplyr::group_by(scientific_name) %>%
-      dplyr::filter(all(name_origin != "scientific_name"))
+      dplyr::group_by(.data$scientific_name) %>%
+      dplyr::filter(all(.data$name_origin != "scientific_name"))
 
     #message if one name is a main name
     for(i in unique(one_main$scientific_name)) {
@@ -379,19 +379,19 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
     #if species are duplicated, keep only sci name
     entries_joined <- entries_joined %>%
-      dplyr::group_by(row) %>%
+      dplyr::group_by(.data$row) %>%
       dplyr::mutate(dup = dplyr::n() > 1) %>%
       dplyr::ungroup() %>%
-      dplyr::filter(!dup | name_origin == "scientific_name") %>%
-      dplyr::select(-dup)
+      dplyr::filter(!.data$dup | .data$name_origin == "scientific_name") %>%
+      dplyr::select(-"dup")
   }
 
   #DIFFERENT NAMES, SAME IDS
 
   #get synonyms
   synonyms <- entries_joined %>%
-    dplyr::group_by(ID) %>%
-    dplyr::filter(dplyr::n_distinct(scientific_name) > 1)
+    dplyr::group_by(.data$ID) %>%
+    dplyr::filter(dplyr::n_distinct(.data$scientific_name) > 1)
 
   #If a species is entered twice under different names/synonyms
   if( nrow(synonyms) > 0 ) {
@@ -413,7 +413,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   }
 
   #get rid of row column, no longer needed
-  entries_joined <- dplyr::select(entries_joined, -row)
+  entries_joined <- dplyr::select(entries_joined, -"row")
 
   #TREATING DUPLICATES (FROM USER OR JOINING)
 

@@ -101,6 +101,24 @@ test_that("accepted_entries() throws warning if nas are introduced to cover", {
                  "NAs were introduced during the conversion to the braun-blanquet system. Species with NA cover values will be removed.")
 })
 
+test_that("accepted_entries() throws a message if two species entered have same id", {
+  expect_message(accepted_entries(same_id, db = "wyoming_2017", native = F, allow_duplicates = T),
+                 "Species 'ABIES BIFOLIA''ABIES LASIOCARPA' are synonyms and will be treated as one species.")
+})
+
+test_that("accepted_entries() throws a message if one species entered returns two + matches and both are syn", {
+  expect_message(accepted_entries(same_syn, db = "wyoming_2017", native = F, allow_duplicates = T),
+                 "CAREX MURICATA is a synonym to multiple species. It will be omited. To include this species, use the main name.")
+
+  expect_message(accepted_entries(same_syn, db = "wyoming_2017", native = F, allow_duplicates = T),
+                 "POTENTILLA NANA is a synonym to multiple species. It will be omited. To include this species, use the main name.")
+})
+
+test_that("accepted_entries() throws a message if one species entered returns two + matches and both are syn", {
+  expect_message(accepted_entries(same_syn_sci, db = "wyoming_2017", native = F, allow_duplicates = T),
+                 "CAREX FOENEA is a main name and a synonym. It will default to main name.")
+})
+
 #testing accepted_entries() results---------------------------------------------
 
 #testing normal result
@@ -459,7 +477,7 @@ test_that("accepted_entries with allow_non_veg = FALSE", {
                           fqa_db = c("michigan_2014")))
 })
 
-#testing accepted_entries() synonyms---------------------------------------------
+#testing accepted_entries() synonyms--------------------------------------------
 
 #testing same name, diff ID where both names are syns
 test_that("accepted_entries deletes observations that are synonyms to > 1 species", {
