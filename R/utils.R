@@ -349,17 +349,33 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #SAME NAME, DIFFERENT IDS
 
+  #get duplicated names associated with diff IDs
+  same_name_diff_id <- entries_joined %>%
+    dplyr::group_by(scientific_name) %>%
+    dplyr::filter(dplyr::n_distinct(ID) > 1)
+
   #If a species name is associated with two separate species with separate IDs
-  if( any(!duplicated(entries_joined$ID) & duplicated(entries_joined$scientific_name) )) {
+  if( nrow(same_name_diff_id) > 0 ) {
 
-    #get duplicated names associated with diff IDs
-    duplicate_names <- entries_joined %>%
-      dplyr::filter(duplicated(entries_joined$scientific_name) &
-                      !duplicated(entries_joined$ID)) %>%
-      dplyr::select("scientific_name")
+    #one name is main name
+    one_main <- same_name_diff_id %>%
+      dplyr::group_by(scientific_name) %>%
+      dplyr::filter(any(name_origin == "scientific_name"))
 
-    #message user
-    message("Species", duplicate_names, "matches two or more species.")
+    #both are synonyms
+    both_syn <- same_name_diff_id %>%
+      dplyr::group_by(scientific_name) %>%
+      dplyr::filter(all(name_origin != "scientific_name"))
+
+    #message if one name is a main name
+    for(i in unique(one_main$scientific_name)) {
+      message(i, " is a main name and a synonym. It will default to main name.")
+    }
+
+    #message if both are synonyms
+    for(i in unique(both_syn$scientific_name)) {
+      message(i, " is a synonym to multiple species. It will be omited. To include this species, use the main name.")
+    }
 
     #if species are duplicated, keep only sci name
     entries_joined <- entries_joined %>%
@@ -372,13 +388,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
 
   #DIFFERENT NAMES, SAME IDS
 
-  #If a species is entered twice under different names/synonyms
-  if( any(duplicated(entries_joined$ID) & !duplicated(entries_joined$scientific_name) )) {
+  #get synonyms
+  synonyms <- entries_joined %>%
+    dplyr::group_by(ID) %>%
+    dplyr::filter(dplyr::n_distinct(scientific_name) > 1)
 
-    #get synonyms
-    synonyms <- entries_joined %>%
-      dplyr::group_by(ID) %>%
-      dplyr::filter(n_distinct(scientific_name) > 1)
+  #If a species is entered twice under different names/synonyms
+  if( nrow(synonyms) > 0 ) {
 
     #get list of names in each id group
     list <- split(synonyms$scientific_name, synonyms$ID)
