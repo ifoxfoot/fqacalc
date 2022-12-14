@@ -251,6 +251,7 @@ southeastern_plain <- southeastern_cols %>%
   rename(c = ave_c_value_plains) %>%
   rename(w = nwpl_cstl_plain) %>%
   filter(!c == "NA") %>%
+  filter(!is.na(name_origin)) %>%
   replace_with_na(replace = list(c = "UND"))
 
 #southern piedmont
@@ -638,7 +639,8 @@ fqa_db_bind <- rbind(syn_dist_acronyms,
   #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
   #covert things to uppercase
-  mutate(scientific_name = toupper(scientific_name))
+  mutate(scientific_name = toupper(scientific_name)) %>%
+  rename(name = scientific_name)
 
 #get unique values to clean
 unique_native <- data.frame(unique(fqa_db_bind$native))
@@ -670,7 +672,8 @@ fqa_native <- fqa_db_bind %>%
                                           "Adventive",
                                           "Cryptogenic",
                                           "Non-native") ~ "non-native",
-                            T ~ "undetermined"))
+                            T ~ "undetermined")) %>%
+  rename(nativity = native)
 
 #cleaning up wet coef column
 fqa_wet <- fqa_native %>%
@@ -712,37 +715,13 @@ fqa_duration <- fqa_physiog %>%
   mutate(duration = str_replace(duration, "^br$", "none")) %>%
   mutate(duration = str_replace(duration, "^nd$", NA_character_))
 
-# #clean up cols (other than Latin name)
-# fqa_db_clean_cols <- fqa_db_bind %>%
-#   #clean nativity
-#   mutate(native = case_when(
-#     native %in% c("Native", "N", "Native/Naturalized", "Native/Adventive", "Likely Native")
-#     ~ "native", T ~ native)) %>%
-#   mutate(native = case_when(
-#     native %in% c("Adventive", "Exotic", "exotic", "I", "Likely Exotic", "Nonnative")
-#     ~ "non-native", T ~ native)) %>%
-#   # mutate(native = case_when(
-#   #   !native %in% c("native", "non-native") ~ "undetermined", T ~ native)) %>%
-#   #clean duration
-#   mutate(duration = str_to_title(duration)) %>%
-#   #clean physiognomy
-#   mutate(physiognomy = str_to_title(physiognomy)) %>%
-#   mutate(physiognomy = case_when(physiognomy == "Shurb" ~ "Shrub",
-#                                  physiognomy == "Shrub/Forb" ~ "Forb/Shrub",
-#                                  physiognomy %in% c("H-Vine", "W-Vine") ~ "Vine",
-#                                  #physiognomy == "Gram" ~ "Grass",
-#                                  physiognomy == "Frob" ~ "Forb",
-#                                  T ~ physiognomy)) %>%
-#   #clean family
-#   mutate(family = str_to_title(family)) %>%
-#   mutate(family = str_remove_all(family, "[0-9]*-")) %>%
-#   mutate(family = case_when(family == "Iso�Taceae" ~ "Isoetaceae",
-#                             family == "Azollaceae\r\nAzollaceae" ~ "Azollaceae",
-#                             family == "Hydrocharitaceae\r\nHydrocharitaceae" ~
-#                               "Hydrocharitaceae",
-#                             family == "#N/A" ~ NA_character_,
-#                             family == "As" ~ "Asteraceae",
-#                             T ~ family)) %>%
+#cleaning up name_origin column
+fqa_origin <- fqa_duration %>%
+  mutate(name_origin = case_when(str_detect(name_origin, "synonym") ~ "synonym",
+                                 name_origin %in% c("scientific_name", "main") ~ "proper_name",
+                                 T ~ name_origin))
+
+
 #   #clean commmon name
 #   mutate(common_name = str_to_title(common_name)) %>%
 #   #clean C Value
@@ -873,39 +852,16 @@ fqa_duration <- fqa_physiog %>%
 #   #separating by semicolon
 #   separate(scientific_name, c("scientific_name", "synonym1"), ";", extra = "merge")
 #
-# #clean synonym1
-# fqa_db_synonym1 <- fqa_db_latin %>%
-#   #removing useless symbols
-#   mutate(synonym1 = str_remove_all(synonym1, "[}]")) %>%
-#   mutate(synonym1 = str_remove_all(synonym1, "[)]")) %>%
-#   mutate(synonym1 = str_remove_all(synonym1, "\\.")) %>%
-#   mutate(synonym1 = str_remove_all(synonym1, "^;")) %>%
-#   mutate(synonym1 = str_replace_all(synonym1, ";", "; ")) %>%
-#   #fixing white spaces
-#   mutate(synonym1 = str_squish(synonym1)) %>%
-#   mutate(synonym1 = str_trim(synonym1, side = "both"))
-#
-# fqa_db_synonym <- fqa_db_synonym1 %>%
-#   #making sure abbreviations are consistent
-#   mutate(synonym = str_replace_all(synonym, " SUBSP. ", " SSP. ")) %>%
-#   mutate(synonym = str_replace_all(synonym, " VAR ", " VAR. ")) %>%
-#   mutate(synonym = str_replace_all(synonym, ",", ";")) %>%
-#   mutate(synonym = str_remove_all(synonym, "[\\[]]")) %>%
-#   #fixing white spaces
-#   mutate(synonym = str_squish(synonym)) %>%
-#   mutate(synonym = str_trim(synonym, side = "both")) %>%
-#   mutate(synonym = case_when(!str_detect(synonym, pattern = " ") ~
-#                                paste(synonym, "SP."),
-#                              T ~ synonym))
-#
+
 
 #sort data frame column alphabetically
-fqa_db_cols <- fqa_duration[order(fqa_duration$fqa_db), ]
+fqa_db_cols <- fqa_origin[order(fqa_origin$fqa_db), ]
 
 #get desired column order
 fqa_db <- fqa_db_cols %>%
-  select(ID, name_origin, scientific_name, proper_name, acronym, everything()) %>%
-  mutate(c = as.numeric(c))
+  select(name, name_origin, acronym, proper_name, everything()) %>%
+  mutate(c = as.numeric(c)) %>%
+  select(-ID)
 
 
 #-------------------------------------------------------------------------------
@@ -928,7 +884,8 @@ crooked_island_site <-
 #clean the names, select relevant cols
 crooked_island <- clean_names(crooked_island_site) %>%
   select(scientific_name, acronym, common_name) %>%
-  mutate(scientific_name = str_remove(scientific_name, ";.*"))
+  mutate(name = str_remove(scientific_name, ";.*")) %>%
+  select(-scientific_name)
 
 #use this dataset  (not viewable to package user)
 usethis::use_data(crooked_island, overwrite = TRUE)

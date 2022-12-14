@@ -6,7 +6,7 @@ bad_names <- data.frame(acronot  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 
 #data frame with one incorrect column name
 one_bad_names <- data.frame(acronot  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                            scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"))
+                            name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans; zigadenus glaucus"))
 
 #character string
 character_string <- list("character", "string", "not", "df")
@@ -16,26 +16,26 @@ numbers <- 1:5
 
 #data frame with duplicates in both rows
 duplicate <- data.frame(acronym  = c("ABIBAL", "ABIBAL", "AMMBRE", "ABEESC"),
-                           scientific_name = c("Abies balsamea", "Abies balsamea", "Ammophila breviligulata", "Abelmoschus esculentus"))
+                           name = c("Abies balsamea", "Abies balsamea", "Ammophila breviligulata", "Abelmoschus esculentus"))
 
 #data frame with incorrect entries in both rows
 typo <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "typo"),
-                   scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "typo"))
+                   name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "typo"))
 
 #data frame with incorrect entries in both rows
 fuzzy <- data.frame(acronym  = c("abeesc", "ABIBAL", "AMMBRE", "ANTELE"),
-                    scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"))
+                    name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"))
 
 #transect test
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
                       cover = c(50, 4, 20, 30, 40, 7, 60),
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #na C Value
-no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM", "ACER GRANDIDENTATUM", "BOOP", "ACER PLATANOIDES"))
+no_c_test <- data.frame(name = c("ABRONIA FRAGRANS", "ACER GLABRUM", "ACER GRANDIDENTATUM", "BOOP", "ACER PLATANOIDES"))
 
 #cover method test
 cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                      scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"),
+                      name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"),
                       cover = c(1, 2, 3, 4))
 
 #na in cover test
@@ -49,7 +49,7 @@ transect_dup <- data.frame(acronym  = c("GROUND", "GROUND", "ABEESC", "ABIBAL", 
 
 #quadrant test
 quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                      scientific_name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"),
+                      name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"),
                       cover = c(50, 4, 20, 30))
 
 #accepted testing
@@ -65,7 +65,7 @@ accepted_non_veg <- data.frame(acronym  = c("ABEESC", "GROUND", "WATER"),
                            cover = c(60, 50, 1),
                            quad_id = c(1, 2, 2))
 
-accepted_no_c <- data.frame(scientific_name  = c("ABRONIA FRAGRANS", "ACER GLABRUM"))
+accepted_no_c <- data.frame(name  = c("ABRONIA FRAGRANS", "ACER GLABRUM"))
 
 accepted_br <-  data.frame(acronym  = c("ABEESC", "ABIBAL", "ABIBAL"),
                              cover = c(5, "+", 50),
@@ -83,22 +83,22 @@ accepted_bad_cov_val <-  data.frame(acronym  = c("ABEESC", "ABIBAL"),
 
 #test using wyoming_2017
 #df where some entries are synonyms shared by more than one species
-same_syn <- data.frame(scientific_name = c("CAREX MURICATA", "POTENTILLA NANA", "POTENTILLA NANA", "ABIES BIFOLIA"),
+same_syn <- data.frame(name = c("CAREX MURICATA", "POTENTILLA NANA", "POTENTILLA NANA", "ABIES BIFOLIA"),
                        cover = c(80, 60, 20, 10))
 
 #df where some entries are listed as main name, and synonym of another species
-same_syn_sci <- data.frame(scientific_name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES BIFOLIA"),
+same_syn_sci <- data.frame(name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES BIFOLIA"),
                            cover = c(80, 60, 10))
 
 #same but with an innocently duplicated synonym
-same_syn_sci_2 <- data.frame(scientific_name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES MENZIESII", "ABIES MENZIESII"),
+same_syn_sci_2 <- data.frame(name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES MENZIESII", "ABIES MENZIESII"),
                              cover = c(80, 60, 10, 10))
 
-same_id <- data.frame(scientific_name = c("ABIES BIFOLIA", "ABIES LASIOCARPA", "ABIES LASIOCARPA", "ABIES MENZIESII"),
+same_id <- data.frame(name = c("ABIES BIFOLIA", "ABIES LASIOCARPA", "ABIES LASIOCARPA", "ABIES MENZIESII"),
                       cover = c(80, 60, 20, 10))
 
 #df where some entries are synonyms to mult species and some are both
-same <- data.frame(scientific_name = c("CAREX MURICATA", "GNAPHALIUM ULIGINOSUM", "CAREX FOENEA", "ABIES BIFOLIA"),
+same <- data.frame(name = c("CAREX MURICATA", "GNAPHALIUM ULIGINOSUM", "CAREX FOENEA", "ABIES BIFOLIA"),
                    cover = c(80, 60, 20, 10))
 
 

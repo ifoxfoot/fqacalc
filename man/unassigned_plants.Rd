@@ -4,15 +4,15 @@
 \alias{unassigned_plants}
 \title{Return Data Frame of Plant Species That Have No C Value}
 \usage{
-unassigned_plants(x, key = "scientific_name", db)
+unassigned_plants(x, key = "name", db)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name} or \code{acronym}.}
+must have one of the following columns: \code{name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
 the input \code{x} with the regional FQA database. If a value is not specified the
-default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only acceptable
 values for key.}
 
 \item{db}{A character string representing the regional FQA database to use. See
@@ -29,9 +29,9 @@ returns a data frame of plants in \code{x} that can be matched to a regional FQA
 but have no C Value. These observations are discarded in other \code{fqacalc} functions.
 }
 \examples{
-no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM",
+no_c_test <- data.frame(name = c("ABRONIA FRAGRANS", "ACER GLABRUM",
 "ACER GRANDIDENTATUM", "ACER PLATANOIDES"))
 
-unassigned_plants(no_c_test, key = "scientific_name", db = "montana_2017")
+unassigned_plants(no_c_test, key = "name", db = "montana_2017")
 
 }

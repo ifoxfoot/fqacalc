@@ -24,7 +24,7 @@
 #'
 #' relative_freq(transect, key = "acronym", db = "michigan_2014", col = "physiog")
 
-relative_freq <- function(x, key = "scientific_name", db,
+relative_freq <- function(x, key = "name", db,
                           col = c("species", "family", "physiog"),
                           allow_no_c = TRUE,
                           allow_non_veg = TRUE) {
@@ -37,7 +37,7 @@ relative_freq <- function(x, key = "scientific_name", db,
     stop("'col' argument can only be set to 'species', 'family', or 'physiog'")
 
   #which column is being called?
-  name <- if(col == "species")  {"scientific_name"}
+  name <- if(col == "species")  {"name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #join entries to database in order to get info on family, physiognomy
@@ -83,7 +83,7 @@ relative_freq <- function(x, key = "scientific_name", db,
 #' relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species")
 #'
 
-relative_cover <- function(x, key = "scientific_name", db,
+relative_cover <- function(x, key = "name", db,
                            col = c("species", "family", "physiog"),
                            cover_metric = "percent_cover", allow_no_c = TRUE,
                            allow_non_veg = TRUE){
@@ -96,7 +96,7 @@ relative_cover <- function(x, key = "scientific_name", db,
     stop("'col' argument can only be set to 'species', 'family', or 'physiog'")
 
   #which column is being called?
-  name <- if(col == "species")  {"scientific_name"}
+  name <- if(col == "species")  {"name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #bind to regional fqa list to get info about taxonomy, physiognomy
@@ -140,7 +140,7 @@ relative_cover <- function(x, key = "scientific_name", db,
 #'
 #' relative_importance(transect, key = "acronym", db = "michigan_2014", col = "family")
 
-relative_importance <- function(x, key = "scientific_name", db,
+relative_importance <- function(x, key = "name", db,
                                 col = c("species", "family", "physiog"),
                                 cover_metric = "percent_cover", allow_no_c = TRUE,
                                 allow_non_veg = TRUE){
@@ -149,7 +149,7 @@ relative_importance <- function(x, key = "scientific_name", db,
   rel_import <- NULL
 
   #which column is being called?
-  name <- if(col == "species")  {"scientific_name"}
+  name <- if(col == "species")  {"name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #get mean of relative freq and relative cover
@@ -187,7 +187,7 @@ relative_importance <- function(x, key = "scientific_name", db,
 #'
 #'species_summary(transect, key = "acronym", db = "michigan_2014")
 
-species_summary <- function(x, key = "scientific_name", db,
+species_summary <- function(x, key = "name", db,
                             cover_metric = "percent_cover",
                             allow_no_c = TRUE,
                             allow_non_veg = TRUE){
@@ -201,7 +201,7 @@ species_summary <- function(x, key = "scientific_name", db,
                                allow_non_veg)
 
   c_score <- accepted %>%
-    dplyr::select("scientific_name", "acronym", "native", "c", "w") %>%
+    dplyr::select("name", "acronym", "nativity", "c", "w") %>%
     dplyr::distinct()
 
   #getting freq and coverage
@@ -250,7 +250,7 @@ species_summary <- function(x, key = "scientific_name", db,
 #'
 #' physiog_summary(transect, key = "acronym", db = "michigan_2014")
 
-physiog_summary <- function(x, key = "scientific_name", db,
+physiog_summary <- function(x, key = "name", db,
                             cover_metric = "percent_cover",
                             allow_no_c = TRUE,
                             allow_non_veg = TRUE){

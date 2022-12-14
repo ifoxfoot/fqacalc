@@ -24,7 +24,7 @@
 #' #number of native species
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-species_richness <- function(x, key = "scientific_name", db, native = FALSE, allow_no_c = TRUE) {
+species_richness <- function(x, key = "name", db, native = FALSE, allow_no_c = TRUE) {
 
   #count how many observations are unique and matched
   species_richness <- nrow(accepted_entries(x, key, db, native, allow_no_c,
@@ -59,7 +59,7 @@ species_richness <- function(x, key = "scientific_name", db, native = FALSE, all
 #' #mean c of native species
 #' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
+mean_c <- function(x, key = "name", db, native = FALSE) {
 
   #calculate mean C Value
   mean_c <- mean(accepted_entries(x, key, db, native,
@@ -95,7 +95,7 @@ mean_c <- function(x, key = "scientific_name", db, native = FALSE) {
 #' #FQI of native species
 #' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-FQI <- function(x, key = "scientific_name", db, native = FALSE) {
+FQI <- function(x, key = "name", db, native = FALSE) {
 
   #calculate total fqi
   fqi <- mean_c(x, key, db, native) *
@@ -124,7 +124,7 @@ FQI <- function(x, key = "scientific_name", db, native = FALSE) {
 #' plant_list <- crooked_island
 #' adjusted_FQI(x = plant_list, key = "acronym", db = "michigan_2014")
 
-adjusted_FQI <- function(x, key = "scientific_name", db) {
+adjusted_FQI <- function(x, key = "name", db) {
 
   #calculate adjusted fqi
   fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = TRUE))/10) *
@@ -143,18 +143,7 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 #'
 #' `all_metrics` calculates and prints a summary of all non cover-weighted metrics
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"acronym"`. `"scientific_name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
-#' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-#' regional database but have not been assigned a C Values to be counted in species
-#' richness and native species richness. If FALSE, omit species that have not
-#' been assigned C Values.
+#' @inheritParams accepted_entries
 #'
 #' @return A data frame
 #' @export
@@ -163,7 +152,7 @@ adjusted_FQI <- function(x, key = "scientific_name", db) {
 #' plant_list <- crooked_island
 #' all_metrics(x = plant_list, key = "acronym", db = "michigan_2014")
 
-all_metrics <- function(x, key = "scientific_name", db, allow_no_c = TRUE) {
+all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
 
   #get list of accepted entries for calculating stats
   accepted <- suppressMessages(accepted_entries(x, key, db, native = FALSE,
@@ -192,7 +181,7 @@ all_metrics <- function(x, key = "scientific_name", db, allow_no_c = TRUE) {
   #create list of values
   values <- c(species_richness(x, key, db, native = FALSE, allow_no_c),
             suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
-            nrow(dplyr::filter(accepted, .data$native == "non-native")),
+            nrow(dplyr::filter(accepted, .data$nativity == "non-native")),
             (sum(is.na(accepted$c))/length(accepted$c))*100,
             (sum(accepted$c < 1, na.rm = TRUE )/length(accepted$c))*100,
             (sum(accepted$c >= 1 & accepted$c < 4, na.rm = TRUE)/length(accepted$c))*100,

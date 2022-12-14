@@ -6,7 +6,7 @@
 \usage{
 accepted_entries(
   x,
-  key = "scientific_name",
+  key = "name",
   db,
   native = c(TRUE, FALSE),
   cover_weighted = FALSE,
@@ -19,11 +19,11 @@ accepted_entries(
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name} or \code{acronym}.}
+must have one of the following columns: \code{name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
 the input data frame \code{x} with the regional FQA database. If a value is not specified, the
-default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only acceptable
 values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
@@ -58,7 +58,7 @@ identification values.}
 }
 \value{
 A data frame containing the \code{key} column--either \code{acronym} or
-\code{scientific_name}--as well as columns from the relevant FQA database.
+\code{name}--as well as columns from the relevant FQA database.
 These columns include \code{family}, \code{native}, \code{c} (which represents the C Value),
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }

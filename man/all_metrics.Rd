@@ -4,23 +4,22 @@
 \alias{all_metrics}
 \title{Print a Summary of Non-Weighted FQA Metrics}
 \usage{
-all_metrics(x, key = "scientific_name", db, allow_no_c = TRUE)
+all_metrics(x, key = "name", db, allow_no_c = TRUE)
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name} or \code{acronym}.}
+must have one of the following columns: \code{name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
-the input \code{x} with the regional FQA database. If a value is not specified the
-default is \code{"acronym"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
-values for key.}
+the input data frame \code{x} with the regional FQA database. If a value is not specified, the
+default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only acceptable
+values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
 
-\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, include species that are found in the
-regional database but have not been assigned a C Values to be counted in species
-richness and native species richness. If FALSE, omit species that have not
+\item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
+regional database but have not been assigned a C Values. If FALSE, omit species that have not
 been assigned C Values.}
 }
 \value{

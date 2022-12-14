@@ -39,12 +39,12 @@ test_that("relative_importance() works", {
 test_that("species_summary() works in perfect setting", {
   expect_equal(species_summary(transect, key = "acronym", db = "michigan_2014"),
 
-               data.frame(scientific_name = c("ABELMOSCHUS ESCULENTUS",
+               data.frame(name = c("ABELMOSCHUS ESCULENTUS",
                                               "ABIES BALSAMEA",
                                               "AMMOPHILA BREVILIGULATA",
                                               "ANTICLEA ELEGANS"),
                           acronym = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                          native = c("non-native", "native", "native", "native"),
+                          nativity = c("non-native", "native", "native", "native"),
                           c = c(0, 3, 10, 10),
                           w = c(5, 0, 5, -3),
                           frequency = c(2,2,2,1),

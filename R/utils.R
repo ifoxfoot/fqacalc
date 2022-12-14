@@ -48,12 +48,12 @@ db_names <- function() {
 #'
 #' @return A data frame with 11 variables:
 #' \describe{
-#'   \item{ID}{A common identifier between a plant's latin name and synonyms}
-#'   \item{name_origin}{Indicates if the name is the accepted scientific name or a synonym}
-#'   \item{scientific_name}{Latin name}
+#'   \item{name}{Latin name, either proper name or synonym}
+#'   \item{name_origin}{Indicates if the name is the accepted scientific name--"proper_name"--or a synonym}
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
+#'   \item{proper_name}{The accepted/official scientific name}
 #'   \item{family}{Taxonomic family of species}
-#'   \item{native}{Nativity status. native, non-native, and undetermined are values}
+#'   \item{nativity}{Nativity status. native, non-native, and undetermined are values}
 #'   \item{c}{Coefficient of Conservatism (C Value)}
 #'   \item{w}{Wetland Indicator Rating}
 #'   \item{physiognomy}{Structure or physical appearance of plant}
@@ -92,10 +92,10 @@ view_db <- function(db) {
 #' functions in this package.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
+#' must have one of the following columns: `name` or `acronym`.
 #' @param key A character string representing the column that will be used to join
 #' the input data frame `x` with the regional FQA database. If a value is not specified, the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"name"`. `"name"` and `"acronym"` are the only acceptable
 #' values for `key`.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -121,7 +121,7 @@ view_db <- function(db) {
 #' identification values.
 #'
 #' @return A data frame containing the `key` column--either `acronym` or
-#' `scientific_name`--as well as columns from the relevant FQA database.
+#' `name`--as well as columns from the relevant FQA database.
 #' These columns include `family`, `native`, `c` (which represents the C Value),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
 #' @export
@@ -130,7 +130,7 @@ view_db <- function(db) {
 #' plant_list <- crooked_island
 #' accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
-accepted_entries <- function(x, key = "scientific_name", db,
+accepted_entries <- function(x, key = "name", db,
                              native = c(TRUE, FALSE),
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
@@ -158,8 +158,8 @@ accepted_entries <- function(x, key = "scientific_name", db,
     stop(paste(deparse(substitute(x)), "must be a data frame."))
 
   #error if key is not acronym or scientific name
-  if( !key %in% c("acronym", "scientific_name") )
-    stop("'key' argument must be equal to 'acronym' or 'scientific_name'.")
+  if( !key %in% c("acronym", "name") )
+    stop("'key' argument must be equal to 'acronym' or 'name'.")
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )
@@ -309,12 +309,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if (allow_non_veg) {
     regional_fqai <- rbind(
       #create df with water and ground
-      data.frame(ID = c("A", "B"),
+      data.frame(name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  name_origin = c(NA, NA),
-                 scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  acronym = c("GROUND", "WATER"),
+                 proper_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  family = c("Unvegetated Ground", "Unvegetated Water"),
-                 native = c(NA, NA),
+                 nativity = c(NA, NA),
                  c = c(0, 0),
                  w = c(0, 0),
                  physiognomy = c("Unvegetated Ground", "Unvegetated Water"),
@@ -336,44 +336,44 @@ accepted_entries <- function(x, key = "scientific_name", db,
                      by = key)
 
   #if a species is not present in regional list
-  if( any(is.na(entries_joined$ID)) ) {
+  if( any(is.na(entries_joined$proper_name)) ) {
 
     #send message to user
-    message(paste("Species", entries_joined[is.na(entries_joined$ID), key],
+    message(paste("Species", entries_joined[is.na(entries_joined$proper_name), key],
                   "not listed in database. It will be discarded."))
 
     #get rid of observations not in regional list
     entries_joined <- entries_joined %>%
-      dplyr::filter(!is.na(.data$ID))
+      dplyr::filter(!is.na(.data$proper_name))
   }
 
-  #SAME NAME, DIFFERENT IDS
+  #SAME NAME, DIFFERENT proper_nameS
 
-  #get duplicated names associated with diff IDs
-  same_name_diff_id <- entries_joined %>%
-    dplyr::group_by(.data$scientific_name) %>%
-    dplyr::filter(dplyr::n_distinct(.data$ID) > 1)
+  #get duplicated names associated with diff proper_names
+  same_name_diff_proper_name <- entries_joined %>%
+    dplyr::group_by(.data$name) %>%
+    dplyr::filter(dplyr::n_distinct(.data$proper_name) > 1)
 
-  #If a species name is associated with two separate species with separate IDs
-  if( nrow(same_name_diff_id) > 0 ) {
+  #If a species name is associated with two separate species with separate proper_names
+  if( nrow(same_name_diff_proper_name) > 0 ) {
 
     #one name is main name
-    one_main <- same_name_diff_id %>%
-      dplyr::group_by(.data$scientific_name) %>%
-      dplyr::filter(any(.data$name_origin == "scientific_name"))
+    one_main <- same_name_diff_proper_name %>%
+      dplyr::group_by(.data$name) %>%
+      dplyr::filter(any(.data$name_origin == "proper_name"))
 
     #both are synonyms
-    both_syn <- same_name_diff_id %>%
-      dplyr::group_by(.data$scientific_name) %>%
-      dplyr::filter(all(.data$name_origin != "scientific_name"))
+    both_syn <- same_name_diff_proper_name %>%
+      dplyr::group_by(.data$name) %>%
+      dplyr::filter(all(.data$name_origin != "proper_name"))
 
     #message if one name is a main name
-    for(i in unique(one_main$scientific_name)) {
+    for(i in unique(one_main$name)) {
       message(i, " is a main name and a synonym. It will default to main name.")
     }
 
     #message if both are synonyms
-    for(i in unique(both_syn$scientific_name)) {
+    for(i in unique(both_syn$name)) {
       message(i, " is a synonym to multiple species. It will be omited. To include this species, use the main name.")
     }
 
@@ -382,22 +382,22 @@ accepted_entries <- function(x, key = "scientific_name", db,
       dplyr::group_by(.data$row) %>%
       dplyr::mutate(dup = dplyr::n() > 1) %>%
       dplyr::ungroup() %>%
-      dplyr::filter(!.data$dup | .data$name_origin == "scientific_name") %>%
+      dplyr::filter(!.data$dup | .data$name_origin == "proper_name") %>%
       dplyr::select(-"dup")
   }
 
-  #DIFFERENT NAMES, SAME IDS
+  #DIFFERENT NAMES, SAME proper_nameS
 
   #get synonyms
   synonyms <- entries_joined %>%
-    dplyr::group_by(.data$ID) %>%
-    dplyr::filter(dplyr::n_distinct(.data$scientific_name) > 1)
+    dplyr::group_by(.data$proper_name) %>%
+    dplyr::filter(dplyr::n_distinct(.data$name) > 1)
 
   #If a species is entered twice under different names/synonyms
   if( nrow(synonyms) > 0 ) {
 
-    #get list of names in each id group
-    list <- split(synonyms$scientific_name, synonyms$ID)
+    #get list of names in each proper_name group
+    list <- split(synonyms$name, synonyms$proper_name)
 
     #use for loop to create warning for each set of synonyms
     for(i in 1:length(list)) {
@@ -405,10 +405,10 @@ accepted_entries <- function(x, key = "scientific_name", db,
       message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species.")
     }
 
-    #replace diff names in same id group with first name
+    #replace diff names in same proper_name group with first name
     entries_joined <- entries_joined %>%
-      dplyr::group_by(.data$ID) %>%
-      dplyr::mutate(scientific_name = dplyr::first(.data$scientific_name),
+      dplyr::group_by(.data$proper_name) %>%
+      dplyr::mutate(name = dplyr::first(.data$name),
                     name_origin = dplyr::first(.data$name_origin))
   }
 
@@ -424,7 +424,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
         dplyr::distinct() }
     #if allow dups is false but cover weight is true, add cover values for like species together
     else(entries_joined <- entries_joined %>%
-           dplyr::group_by(.data$ID) %>%
+           dplyr::group_by(.data$proper_name) %>%
            dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
            dplyr::distinct() %>%
            dplyr::ungroup() )
@@ -434,12 +434,12 @@ accepted_entries <- function(x, key = "scientific_name", db,
   if( !is.null(plot_id) & allow_duplicates ){
     if( cover_weighted ) {
       entries_joined <- entries_joined %>%
-        dplyr::group_by(.data$ID, !!as.name(plot_id)) %>%
+        dplyr::group_by(.data$proper_name, !!as.name(plot_id)) %>%
         dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
         dplyr::distinct() %>%
         dplyr::ungroup() }
     else {entries_joined <- dplyr::distinct(entries_joined,
-                                            .data$ID, !!as.name(plot_id),
+                                            .data$proper_name, !!as.name(plot_id),
                                             .keep_all = TRUE) }
     }
 
@@ -448,7 +448,7 @@ accepted_entries <- function(x, key = "scientific_name", db,
   #if native = T, filter for only native species
   if (native) {
     entries_joined <- entries_joined %>%
-      dplyr::filter(native == "native")
+      dplyr::filter(.data$nativity == "native")
   }
 
   #If site assessment contains a plant that has no C value
@@ -478,10 +478,10 @@ accepted_entries <- function(x, key = "scientific_name", db,
 #' but have no C Value. These observations are discarded in other `fqacalc` functions.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `scientific_name` or `acronym`.
+#' must have one of the following columns: `name` or `acronym`.
 #' @param key A character string representing the column that will be used to join
 #' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable
+#' default is `"name"`. `"name"` and `"acronym"` are the only acceptable
 #' values for key.
 #' @param db A character string representing the regional FQA database to use. See
 #' `db_names()` for a list of potential values.
@@ -490,13 +490,13 @@ accepted_entries <- function(x, key = "scientific_name", db,
 #' @export
 #'
 #' @examples
-#' no_c_test <- data.frame(scientific_name = c("ABRONIA FRAGRANS", "ACER GLABRUM",
+#' no_c_test <- data.frame(name = c("ABRONIA FRAGRANS", "ACER GLABRUM",
 #' "ACER GRANDIDENTATUM", "ACER PLATANOIDES"))
 #'
-#' unassigned_plants(no_c_test, key = "scientific_name", db = "montana_2017")
+#' unassigned_plants(no_c_test, key = "name", db = "montana_2017")
 #'
 
-unassigned_plants <- function(x, key = "scientific_name", db) {
+unassigned_plants <- function(x, key = "name", db) {
 
   #error if x argument is missing
   if( missing(x) )
@@ -507,13 +507,13 @@ unassigned_plants <- function(x, key = "scientific_name", db) {
     stop(paste(deparse(substitute(x)), "must be a data frame."))
 
   #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) & !"scientific_name" %in% colnames(x))
+  if( !"acronym" %in% colnames(x) & !"name" %in% colnames(x))
     stop(paste(deparse(substitute(x)),
-               "must have a column named 'acronym' and/or 'scientific_name'."))
+               "must have a column named 'acronym' and/or 'name'."))
 
   #error if key is not acronym or scientific name
-  if( !key %in% c("acronym", "scientific_name") )
-    stop("'key' argument must be equal to 'acronym' or 'scientific_name'.")
+  if( !key %in% c("acronym", "name") )
+    stop("'key' argument must be equal to 'acronym' or 'name'.")
 
   #error if key is not in col names of x
   if( !key %in% colnames(x) )

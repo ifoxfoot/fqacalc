@@ -24,8 +24,8 @@ test_that("species_richness() does not count duplicates", {
   expect_message(species_richness(duplicate, db = "michigan_2014", native = F), "Duplicate entries detected")
   expect_equal(species_richness(duplicate, key = "acronym", db = "michigan_2014", native = F), 3)
   expect_message(species_richness(duplicate, key = "acronym", db = "michigan_2014", native = F), "Duplicate entries detected")
-  expect_equal(species_richness(duplicate, key = "scientific_name", db = "michigan_2014", native = F), 3)
-  expect_message(species_richness(duplicate, key = "scientific_name", db = "michigan_2014", native = F), "Duplicate entries detected")
+  expect_equal(species_richness(duplicate, key = "name", db = "michigan_2014", native = F), 3)
+  expect_message(species_richness(duplicate, key = "name", db = "michigan_2014", native = F), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
@@ -34,8 +34,8 @@ test_that("species_richness() drops non-matching plants", {
   expect_message(species_richness(typo, db = "michigan_2014", native = F), "TYPO not listed in database")
   expect_equal(species_richness(typo, key = "acronym", db = "michigan_2014", native = F), 3)
   expect_message(species_richness(typo, key = "acronym", db = "michigan_2014", native = F), "TYPO not listed in database")
-  expect_equal(species_richness(typo, key = "scientific_name", db = "michigan_2014", native = F), 3)
-  expect_message(species_richness(typo, key = "scientific_name", db = "michigan_2014", native = F), "TYPO not listed in database")
+  expect_equal(species_richness(typo, key = "name", db = "michigan_2014", native = F), 3)
+  expect_message(species_richness(typo, key = "name", db = "michigan_2014", native = F), "TYPO not listed in database")
 })
 
 #testing fuzzy matching
@@ -69,8 +69,8 @@ test_that("mean_c() does not count duplicates", {
   expect_message(mean_c(duplicate, db = "michigan_2014", native = F), "Duplicate entries detected")
   expect_equal(mean_c(duplicate, key = "acronym", db = "michigan_2014", native = F), 4.33333333)
   expect_message(mean_c(duplicate, key = "acronym", db = "michigan_2014", native = F), "Duplicate entries detected")
-  expect_equal(mean_c(duplicate, key = "scientific_name", db = "michigan_2014", native = F), 4.33333333)
-  expect_message(mean_c(duplicate, key = "scientific_name", db = "michigan_2014", native = F), "Duplicate entries detected")
+  expect_equal(mean_c(duplicate, key = "name", db = "michigan_2014", native = F), 4.33333333)
+  expect_message(mean_c(duplicate, key = "name", db = "michigan_2014", native = F), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
@@ -79,8 +79,8 @@ test_that("mean_c() drops non-matching plants", {
   expect_message(mean_c(typo, db = "michigan_2014", native = F), "not listed in database")
   expect_equal(mean_c(typo, key = "acronym", db = "michigan_2014", native = F),  4.33333333)
   expect_message(mean_c(typo, key = "acronym", db = "michigan_2014", native = F), "not listed in database")
-  expect_equal(mean_c(typo, key = "scientific_name", db = "michigan_2014", native = F), 4.33333333)
-  expect_message(mean_c(typo, key = "scientific_name", db = "michigan_2014", native = F), "not listed in database")
+  expect_equal(mean_c(typo, key = "name", db = "michigan_2014", native = F), 4.33333333)
+  expect_message(mean_c(typo, key = "name", db = "michigan_2014", native = F), "not listed in database")
 })
 
 #testing fuzzy matching
@@ -113,8 +113,8 @@ test_that("FQI() does not count duplicates", {
   expect_message(FQI(duplicate, db = "michigan_2014", native = F), "Duplicate entries detected")
   expect_equal(FQI(duplicate, key = "acronym", db = "michigan_2014", native = F), 7.5055535)
   expect_message(FQI(duplicate, key = "acronym", db = "michigan_2014", native = F), "Duplicate entries detected")
-  expect_equal(FQI(duplicate, key = "scientific_name", db = "michigan_2014", native = F), 7.5055535)
-  expect_message(FQI(duplicate, key = "scientific_name", db = "michigan_2014", native = F), "Duplicate entries detected")
+  expect_equal(FQI(duplicate, key = "name", db = "michigan_2014", native = F), 7.5055535)
+  expect_message(FQI(duplicate, key = "name", db = "michigan_2014", native = F), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
@@ -123,8 +123,8 @@ test_that("FQI() drops non-matching plants", {
   expect_message(FQI(typo, db = "michigan_2014", native = F), "not listed in database")
   expect_equal(FQI(typo, key = "acronym", db = "michigan_2014", native = F), 7.5055535)
   expect_message(FQI(typo, key = "acronym", db = "michigan_2014", native = F), "not listed in database")
-  expect_equal(FQI(typo, key = "scientific_name", db = "michigan_2014", native = F), 7.5055535)
-  expect_message(FQI(typo, key = "scientific_name", db = "michigan_2014", native = F), "not listed in database")
+  expect_equal(FQI(typo, key = "name", db = "michigan_2014", native = F), 7.5055535)
+  expect_message(FQI(typo, key = "name", db = "michigan_2014", native = F), "not listed in database")
 })
 
 #testing fuzzy matching
@@ -156,8 +156,8 @@ test_that("adjusted_FQI() does not count duplicates", {
   expect_message(adjusted_FQI(duplicate, db = "michigan_2014"), "Duplicate entries detected")
   expect_equal(adjusted_FQI(duplicate, key = "acronym", db = "michigan_2014"), 53.0722777)
   expect_message(adjusted_FQI(duplicate, key = "acronym", db = "michigan_2014"), "Duplicate entries detected")
-  expect_equal(adjusted_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), 53.0722777)
-  expect_message(adjusted_FQI(duplicate, key = "scientific_name", db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(adjusted_FQI(duplicate, key = "name", db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(duplicate, key = "name", db = "michigan_2014"), "Duplicate entries detected")
 })
 
 #test unrecognized behavior
@@ -166,8 +166,8 @@ test_that("adjusted_FQI() drops non-matching plants", {
   expect_message(adjusted_FQI(typo, db = "michigan_2014"), "not listed in database")
   expect_equal(adjusted_FQI(typo, key = "acronym", db = "michigan_2014"), 53.0722777)
   expect_message(adjusted_FQI(typo, key = "acronym", db = "michigan_2014"), "not listed in database")
-  expect_equal(adjusted_FQI(typo, key = "scientific_name", db = "michigan_2014"), 53.0722777)
-  expect_message(adjusted_FQI(typo, key = "scientific_name", db = "michigan_2014"), "not listed in database")
+  expect_equal(adjusted_FQI(typo, key = "name", db = "michigan_2014"), 53.0722777)
+  expect_message(adjusted_FQI(typo, key = "name", db = "michigan_2014"), "not listed in database")
 })
 
 #testing fuzzy matching

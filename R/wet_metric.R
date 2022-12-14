@@ -24,7 +24,7 @@
 #' #mean wetness of native species
 #' mean_w(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
 
-mean_w <- function(x, key = "scientific_name", db, native = FALSE, allow_no_c = TRUE) {
+mean_w <- function(x, key = "name", db, native = FALSE, allow_no_c = TRUE) {
 
   #calculate mean W vlaue
   mean_w <- mean(accepted_entries(x, key, db, native,

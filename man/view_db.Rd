@@ -13,12 +13,12 @@ to retrieve. Generally, the format is "place_year".}
 \value{
 A data frame with 11 variables:
 \describe{
-\item{ID}{A common identifier between a plant's latin name and synonyms}
-\item{name_origin}{Indicates if the name is the accepted scientific name or a synonym}
-\item{scientific_name}{Latin name}
+\item{name}{Latin name, either proper name or synonym}
+\item{name_origin}{Indicates if the name is the accepted scientific name--"proper_name"--or a synonym}
 \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
+\item{proper_name}{The accepted/official scientific name}
 \item{family}{Taxonomic family of species}
-\item{native}{Nativity status. native, non-native, and undetermined are values}
+\item{nativity}{Nativity status. native, non-native, and undetermined are values}
 \item{c}{Coefficient of Conservatism (C Value)}
 \item{w}{Wetland Indicator Rating}
 \item{physiognomy}{Structure or physical appearance of plant}

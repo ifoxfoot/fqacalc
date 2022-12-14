@@ -6,7 +6,7 @@
 \usage{
 relative_cover(
   x,
-  key = "scientific_name",
+  key = "name",
   db,
   col = c("species", "family", "physiog"),
   cover_metric = "percent_cover",
@@ -16,11 +16,11 @@ relative_cover(
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{scientific_name} or \code{acronym}.}
+must have one of the following columns: \code{name} or \code{acronym}.}
 
 \item{key}{A character string representing the column that will be used to join
 the input data frame \code{x} with the regional FQA database. If a value is not specified, the
-default is \code{"scientific_name"}. \code{"scientific_name"} and \code{"acronym"} are the only acceptable
+default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only acceptable
 values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
