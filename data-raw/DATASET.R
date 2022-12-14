@@ -126,6 +126,7 @@ syn_row_name <- syn_initials %>%
 
 #pivot longer
 syn_pivot <- syn_row_name %>%
+  mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", syn_cols),
                names_to = "name_origin",
                values_to = "name") %>%
@@ -142,10 +143,23 @@ syn_dist_acronyms <- syn_distinct %>%
   rename(scientific_name = name) %>%
   mutate(w = as.character(w))
 
-universal_dups <- syn_dist_acronyms %>%
-  group_by(scientific_name, name_origin, fqa_db) %>%
+# syn_acronym_var <- syn_dist_acronyms %>%
+#   mutate(acronym = case_when(str_detect(toupper(scientific_name), "VAR.")
+#                              & fqa_db == "pennsylvania_piedmont_2013.csv"
+#                              & !is.na(acronym)
+#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", scientific_name))),
+#                              T ~ acronym)) %>%
+#   mutate(acronym = case_when(str_detect(toupper(scientific_name), "SSP.")
+#                              & fqa_db == "pennsylvania_piedmont_2013.csv"
+#                              & !is.na(acronym)
+#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", scientific_name))),
+#                              T ~ acronym))
+
+universal_dups <- syn_acronym_var %>%
+  group_by(acronym, fqa_db) %>%
   count() %>%
-  filter(n > 1)
+  filter(n > 1) %>%
+  filter(!is.na(acronym))
 
 #SOUTH EASTERN DBS---------------------------------------------------------------
 
@@ -167,10 +181,11 @@ southeastern_clean <- southeastern %>%
   rename(common_name = usda_common_name) %>%
   group_by(usda_accepted_symbol) %>%
   mutate(ID = cur_group_id()) %>%
+  mutate(proper_name = first(scientific_name)) %>%
   ungroup()
 
 southeastern_cols <- southeastern_clean %>%
-  select(ID, name_origin, scientific_name, family, acronym, native,
+  select(ID, proper_name, name_origin, scientific_name, family, acronym, native,
          ave_c_value_southern_coastal_plain,
          ave_c_value_plains,
          ave_c_value_piedmont,
@@ -218,7 +233,7 @@ southeastern_cols <- southeastern_clean %>%
 
 #southern_coastal
 southern_coastal_plain <- southeastern_cols %>%
-  select(ID, scientific_name, name_origin, family, acronym,
+  select(ID, proper_name, scientific_name, name_origin, family, acronym,
          ave_c_value_southern_coastal_plain, physiognomy,
          duration, common_name, nwpl_cstl_plain, native) %>%
   mutate(fqa_db = "southeastern_southern_coastal_plain_2014") %>%
@@ -229,7 +244,7 @@ southern_coastal_plain <- southeastern_cols %>%
 
 #southeastern plains
 southeastern_plain <- southeastern_cols %>%
-  select(ID, scientific_name, name_origin, family, acronym,
+  select(ID, proper_name, scientific_name, name_origin, family, acronym,
          ave_c_value_plains, physiognomy,
          duration, common_name, nwpl_cstl_plain, native) %>%
   mutate(fqa_db = "southeastern_plain_2014") %>%
@@ -240,7 +255,7 @@ southeastern_plain <- southeastern_cols %>%
 
 #southern piedmont
 southeastern_piedmont <- southeastern_cols %>%
-  select(ID, scientific_name, name_origin, family, acronym,
+  select(ID, proper_name, scientific_name, name_origin, family, acronym,
          ave_c_value_piedmont, physiognomy,
          duration, common_name, nwpl_e_mtns, native) %>%
   mutate(fqa_db = "southeastern_piedmont_2014") %>%
@@ -251,7 +266,7 @@ southeastern_piedmont <- southeastern_cols %>%
 
 #southern mointians
 southeastern_mountains <- southeastern_cols %>%
-  select(ID, scientific_name, name_origin, family, acronym,
+  select(ID, proper_name, scientific_name, name_origin, family, acronym,
          ave_c_value_mountains, physiognomy,
          duration, common_name, nwpl_e_mtns, native) %>%
   mutate(fqa_db = "southeastern_mountains_2014") %>%
@@ -262,7 +277,7 @@ southeastern_mountains <- southeastern_cols %>%
 
 #southern plat
 southeastern_plateau <- southeastern_cols %>%
-  select(ID, scientific_name, name_origin, family, acronym,
+  select(ID, proper_name, scientific_name, name_origin, family, acronym,
          ave_c_value_interior_plateau, physiognomy,
          duration, common_name, nwpl_e_mtns, native) %>%
   mutate(fqa_db = "southeastern_interior_plateau_2014") %>%
@@ -348,6 +363,7 @@ syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "
 
 
 chic_piv <- chicago_clean %>%
+  mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", all_of(syn_cols)),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
@@ -389,6 +405,7 @@ colorado_clean <- colorado %>%
   select(-remove_me)
 
 colorado_pivot <- colorado_clean %>%
+  mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", "synonym"),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
@@ -427,13 +444,15 @@ florida_clean <- florida %>%
 florida_pivot <- florida_clean %>%
   separate(scientific_name, into = c("scientific_name", "synonym"), sep = "syn.") %>%
   mutate(ID = row_number()) %>%
+  mutate(scientific_name = case_when(scientific_name == "Eleocharis (submersed viviparous but unable to ID to species)" ~ "Eleocharis sp.",
+                                     T ~ scientific_name)) %>%
+  mutate(scientific_name = str_remove_all(scientific_name, "[()]")) %>%
+  mutate(synonym = str_remove_all(synonym, "[()]")) %>%
+  mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", "synonym"),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
-  filter(!is.na(scientific_name)) %>%
-  mutate(scientific_name = case_when(scientific_name == "Eleocharis (submersed viviparous but unable to ID to species)" ~ "Eleocharis sp.",
-                          T ~ scientific_name)) %>%
-  mutate(scientific_name = str_remove_all(scientific_name, "[()]"))
+  filter(!is.na(scientific_name))
 
 
 #FLORIDA_SOUTH-------------------------------------------------------------------
@@ -447,6 +466,7 @@ florida_south <- read_csv(here("data-raw",
 
 florida_south_clean <- florida_south %>%
   mutate(name_origin = "scientific_name") %>%
+  mutate(proper_name = scientific_name) %>%
   mutate(ID = row_number()) %>%
   mutate(acronym = NA) %>%
   mutate(c = as.numeric(c)) %>%
@@ -454,7 +474,7 @@ florida_south_clean <- florida_south %>%
   mutate(physiognomy = NA) %>%
   mutate(duration = NA) %>%
   mutate(fqa_db = "florida_south_2009") %>%
-  select(scientific_name, name_origin, ID, family, acronym, native,
+  select(scientific_name, proper_name, name_origin, ID, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db) %>%
   mutate(scientific_name = str_replace_all(scientific_name, "subsp.", "ssp."))
 
@@ -470,6 +490,7 @@ ms <- read_xlsx(here("data-raw",
 ms_clean <- ms %>%
   mutate(scientific_name = species) %>%
   mutate(name_origin = "scientific_name") %>%
+  mutate(proper_name = scientific_name) %>%
   mutate(ID = row_number()) %>%
   mutate(acronym = NA) %>%
   mutate(native = origin) %>%
@@ -482,7 +503,7 @@ ms_clean <- ms %>%
                               T ~ duration)) %>%
   mutate(common_name = common) %>%
   mutate(fqa_db = "mississippi_north_central_wetlands_2005") %>%
-  select(scientific_name, name_origin, ID, family, acronym, native,
+  select(scientific_name, proper_name, name_origin, ID, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db)
 
 
@@ -519,6 +540,7 @@ montana_pivot <- montana_clean %>%
   mutate(ID = row_number()) %>%
   mutate(synonym = str_remove_all(synonym, "\\[.*\\]")) %>%
   cSplit(., 'synonym', ';') %>%
+  mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", syn_cols),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
@@ -541,13 +563,14 @@ ohio <- read_xlsx(here("data-raw",
 ohio_clean <- ohio %>%
   mutate(name_origin = "scientific_name") %>%
   mutate(ID = row_number()) %>%
+  mutate(proper_name = scientific_name) %>%
   mutate(native = oh_status) %>%
   mutate(c = cofc) %>%
   mutate(w = wet) %>%
   mutate(physiognomy = form) %>%
   mutate(duration = habit) %>%
   mutate(fqa_db = "ohio_2014") %>%
-  select(scientific_name, name_origin, ID, family, acronym, native, c, w,
+  select(scientific_name, proper_name, name_origin, ID, family, acronym, native, c, w,
          physiognomy, duration, common_name, fqa_db) %>%
   distinct() %>%
   mutate(remove_me = case_when(is.na(c) & str_detect(scientific_name, " sp.") ~ "remove")) %>%
@@ -587,6 +610,7 @@ wyoming_cols <- wyoming %>%
 wyoming_pivot <- wyoming_cols %>%
   cSplit(., 'synonym', ',') %>%
   mutate(ID = row_number()) %>%
+  mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", starts_with("synonym_")),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
@@ -880,7 +904,7 @@ fqa_db_cols <- fqa_duration[order(fqa_duration$fqa_db), ]
 
 #get desired column order
 fqa_db <- fqa_db_cols %>%
-  select(ID, name_origin, scientific_name, acronym, everything()) %>%
+  select(ID, name_origin, scientific_name, proper_name, acronym, everything()) %>%
   mutate(c = as.numeric(c))
 
 
