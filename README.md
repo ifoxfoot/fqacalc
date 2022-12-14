@@ -9,8 +9,8 @@
 <!-- badges: end -->
 
 This package provides functions for calculating Floristic Quality
-Assessment (FQA) metrics based on 52 regional FQA databases that have
-been approved for use by the US Army Corps of Engineers.
+Assessment (FQA) metrics based on regional FQA databases that have been
+approved for use by the US Army Corps of Engineers.
 
 ## Installation
 
@@ -39,7 +39,7 @@ library(dplyr)
 
 ## Package Data
 
-`fqacalc` contains all 52 regional FQA databases that have been either
+`fqacalc` contains all regional FQA databases that have been either
 fully approved for use or approved with reservations by the US Army
 Corps of Engineers. By referencing these databases, the package knows
 what Coefficient of Conservatism (or C Value) to give each plant that
@@ -50,30 +50,31 @@ the `view_db()` function.
 ``` r
 #view a list of all 51 available databases
 head(db_names())
-#>                 name                     status
-#> 1   connecticut_2013 Approved with reservations
-#> 2 massachusetts_2013                   Approved
-#> 3      new_york_2013                   Approved
-#> 4  rhode_island_2013                   Approved
-#> 5       vermont_2013 Approved with reservations
-#> 6       florida_2011                   Approved
+#>                                       name                     status
+#> 1       atlantic_coastal_pine_barrens_2018 Approved with reservations
+#> 2                      chicago_region_2014                   Approved
+#> 3                      chicago_region_2017                   Approved
+#> 4                            colorado_2020                   Approved
+#> 5       dakotas_excluding_black_hills_2017                   Approved
+#> 6 eastern_great_lakes_hudson_lowlands_2018                   Approved
 
 #store the Connecticut database as an object
-connecticut <- view_db("connecticut_2013")
+colorado <- view_db("colorado_2020")
 
 #view it
-head(connecticut)
-#> # A tibble: 6 × 11
-#>   scientific…¹ synonym family acronym native     c     w physi…² durat…³ commo…⁴
-#>   <chr>        <chr>   <chr>  <chr>   <chr>  <dbl> <dbl> <chr>   <chr>   <chr>  
-#> 1 ABELMOSCHUS… <NA>    <NA>   ABES    <NA>       0    NA <NA>    <NA>    okra   
-#> 2 ABIES BALSA… <NA>    <NA>   ABBAB   <NA>       8    NA <NA>    <NA>    balsam…
-#> 3 ABUTILON TH… <NA>    <NA>   ABTH    <NA>       0    NA <NA>    <NA>    velvet…
-#> 4 ACALYPHA GR… <NA>    <NA>   ACGR2   <NA>      NA    NA <NA>    <NA>    slende…
-#> 5 ACALYPHA RH… <NA>    <NA>   ACRH    <NA>       2    NA <NA>    <NA>    common…
-#> 6 ACALYPHA VI… <NA>    <NA>   ACVI    <NA>       9    NA <NA>    <NA>    Virgin…
-#> # … with 1 more variable: fqa_db <chr>, and abbreviated variable names
-#> #   ¹​scientific_name, ²​physiognomy, ³​duration, ⁴​common_name
+head(colorado)
+#> # A tibble: 6 × 12
+#>   name        name_…¹ acronym prope…² family nativ…³     c     w physi…⁴ durat…⁵
+#>   <chr>       <chr>   <chr>   <chr>   <chr>  <chr>   <dbl> <dbl> <chr>   <chr>  
+#> 1 ABIES       proper… ABIES   Abies   Pinac… native      5    NA tree    <NA>   
+#> 2 ABIES BIFO… proper… ABBI3   Abies … Pinac… native      5     3 tree    perenn…
+#> 3 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     3 tree    perenn…
+#> 4 ABIES CONC… proper… ABCO    Abies … Pinac… native      5    NA tree    perenn…
+#> 5 ABRONIA EL… proper… ABEL    Abroni… Nycta… native      4    NA forb    perenn…
+#> 6 ABRONIA FR… proper… ABFR2   Abroni… Nycta… native      6    NA forb    perenn…
+#> # … with 2 more variables: common_name <chr>, fqa_db <chr>, and abbreviated
+#> #   variable names ¹​name_origin, ²​proper_name, ³​nativity, ⁴​physiognomy,
+#> #   ⁵​duration
 ```
 
 `fqacalc` also comes with a real site assessment from Crooked Island,
@@ -86,13 +87,13 @@ package works.
 ``` r
 #take a look at crooked island's plants
 head(crooked_island)
-#>                       scientific_name acronym  common_name
-#> 1                      Abies balsamea  ABIBAL   balsam fir
-#> 2             Ammophila breviligulata  AMMBRE marram grass
-#> 3 Anticlea elegans; zigadenus glaucus  ANTELE  white camas
-#> 4             Arctostaphylos uva-ursi  ARCUVA    bearberry
-#> 5                Artemisia campestris  ARTCAM     wormwood
-#> 6              Calamagrostis epigeios  CALEPI    reedgrass
+#>   acronym  common_name                    name
+#> 1  ABIBAL   balsam fir          Abies balsamea
+#> 2  AMMBRE marram grass Ammophila breviligulata
+#> 3  ANTELE  white camas        Anticlea elegans
+#> 4  ARCUVA    bearberry Arctostaphylos uva-ursi
+#> 5  ARTCAM     wormwood    Artemisia campestris
+#> 6  CALEPI    reedgrass  Calamagrostis epigeios
 
 #look at the documentation for the data (bottom right pane of R studio)
 ?crooked_island
@@ -113,14 +114,13 @@ work I’m going to add a mistake to the `crooked_island` data set.
 ``` r
 #introduce a typo
 mistake_island <- crooked_island %>% 
-  mutate(scientific_name = str_replace(
-    scientific_name, "Abies balsamea", "Abies blahblah"))
+  mutate(name = str_replace(name, "Abies balsamea", "Abies blahblah"))
 
 #store accepted entries
 accepted_entries <- accepted_entries(#this is the data
                                      mistake_island, 
                                      #'key' to join the data to regional list
-                                     key = "scientific_name", 
+                                     key = "name", 
                                      #this is the regional list
                                      db = "michigan_2014", 
                                      #include native AND non-native entries
@@ -129,26 +129,33 @@ accepted_entries <- accepted_entries(#this is the data
 
 #view accepted entries
 head(accepted_entries)
-#>                       scientific_name synonym        family acronym native  c
-#> 2             AMMOPHILA BREVILIGULATA    <NA>       Poaceae  AMMBRE native 10
-#> 3 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS    <NA> Melanthiaceae  ANTELE native 10
-#> 4             ARCTOSTAPHYLOS UVA-URSI    <NA>     Ericaceae  ARCUVA native  8
-#> 5                ARTEMISIA CAMPESTRIS    <NA>    Asteraceae  ARTCAM native  5
-#> 6              CALAMAGROSTIS EPIGEIOS    <NA>       Poaceae  CALEPI exotic  0
-#> 7              CALAMOVILFA LONGIFOLIA    <NA>       Poaceae  CALLON native 10
-#>    w physiognomy  duration     common_name        fqa_db
-#> 2  5       grass perennial    marram grass michigan_2014
-#> 3 -3        forb perennial     white camas michigan_2014
-#> 4  5       shrub perennial       bearberry michigan_2014
-#> 5  5        forb  biennial        wormwood michigan_2014
-#> 6  3       grass perennial       reedgrass michigan_2014
-#> 7  5       grass perennial sand reed grass michigan_2014
+#>                      name name_origin acronym             proper_name
+#> 1 AMMOPHILA BREVILIGULATA proper_name  AMMBRE Ammophila breviligulata
+#> 2        ANTICLEA ELEGANS proper_name  ANTELE        Anticlea elegans
+#> 3 ARCTOSTAPHYLOS UVA-URSI proper_name  ARCUVA Arctostaphylos uva-ursi
+#> 4    ARTEMISIA CAMPESTRIS proper_name  ARTCAM    Artemisia campestris
+#> 5  CALAMAGROSTIS EPIGEIOS proper_name  CALEPI  Calamagrostis epigeios
+#> 6  CALAMOVILFA LONGIFOLIA proper_name  CALLON  Calamovilfa longifolia
+#>          family   nativity  c  w physiognomy  duration     common_name
+#> 1       Poaceae     native 10  5       grass perennial    marram grass
+#> 2 Melanthiaceae     native 10 -3        forb perennial     white camas
+#> 3     Ericaceae     native  8  5       shrub perennial       bearberry
+#> 4    Asteraceae     native  5  5        forb  biennial        wormwood
+#> 5       Poaceae non-native  0  3       grass perennial       reedgrass
+#> 6       Poaceae     native 10  5       grass perennial sand reed grass
+#>          fqa_db
+#> 1 michigan_2014
+#> 2 michigan_2014
+#> 3 michigan_2014
+#> 4 michigan_2014
+#> 5 michigan_2014
+#> 6 michigan_2014
 ```
 
 Now, when we use `accepted_entries()` to see which species were matched
 to the regional dataset, we can see that we got a message about the
-species ‘typo’ being discarded and we can also see that the accepted
-entries dataset we created only has 34 entries.
+species ‘ABIES BLAHBLAH’ being discarded and we can also see that the
+accepted entries dataset we created only has 34 entries.
 
 In some cases, plants from the user list can be matched to the regional
 database, but the plant is not associated with any C Value. This is
@@ -166,19 +173,22 @@ have not been assigned a C Value.
 #To see unassigned_plants in action we're going to Montana! 
 
 #first I'll create a df of plants to input
-no_c_plants<- data.frame(scientific_name = c("ABRONIA FRAGRANS", 
-                                             "ACER GLABRUM", 
-                                             "ACER GRANDIDENTATUM", 
-                                             "ACER PLATANOIDES"))
+no_c_plants<- data.frame(name = c("ABRONIA FRAGRANS", 
+                                  "ACER GLABRUM", 
+                                  "ACER GRANDIDENTATUM", 
+                                  "ACER PLATANOIDES"))
 
 #then I'll create a df of unassigned plants
-unassigned_plants(no_c_plants, key = "scientific_name", db = "montana_2017")
-#>       scientific_name synonym        family acronym               native  c  w
-#> 1    ABRONIA FRAGRANS    <NA> Nyctaginaceae    <NA>               native NA NA
-#> 2 ACER GRANDIDENTATUM    <NA>     Aceraceae    <NA> Unknown/Undetermined NA NA
-#>   physiognomy duration                 common_name       fqa_db
-#> 1        <NA>     <NA> Fragrant White Sand-verbena montana_2017
-#> 2        <NA>     <NA>              Bigtooth Maple montana_2017
+unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
+#>                  name name_origin acronym         proper_name        family
+#> 1    ABRONIA FRAGRANS proper_name    <NA>    Abronia fragrans Nyctaginaceae
+#> 2 ACER GRANDIDENTATUM proper_name    <NA> Acer grandidentatum     Aceraceae
+#>       nativity  c  w physiognomy duration                 common_name
+#> 1       native NA NA        <NA>     <NA> Fragrant White Sand-verbena
+#> 2 undetermined NA NA        <NA>     <NA>              Bigtooth Maple
+#>         fqa_db
+#> 1 montana_2017
+#> 2 montana_2017
 ```
 
 As you can see, two of these species have no C Values.
@@ -202,9 +212,8 @@ the native argument)
 
 -   **key**: A character string representing the column that will be
     used to join the input `x` with the regional FQA database. If a
-    value is not specified the default is `"scientific_name"`.
-    `"scientific_name"` and `"acronym"` are the only acceptable values
-    for key.
+    value is not specified the default is `"name"`. `"name"` and
+    `"acronym"` are the only acceptable values for key.
 
 -   **db**: A character string representing the regional FQA database to
     use. See `db_names()` for a list of potential values.
@@ -315,10 +324,10 @@ Cover-Weighted Functions have a few additional arguments:
 ``` r
 #first I'll make a hypothetical plot with cover values
 plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                      scientific_name = c("Abelmoschus esculentus", 
-                      "Abies balsamea", "Ammophila breviligulata", 
-                      "Anticlea elegans; zigadenus glaucus"),
-                      cover = c(50, 4, 20, 30))
+                   name = c("Abelmoschus esculentus", 
+                            "Abies balsamea", "Ammophila breviligulata", 
+                            "Anticlea elegans; zigadenus glaucus"),
+                   cover = c(50, 4, 20, 30))
 
 #now I'll make up a transect
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
@@ -328,14 +337,14 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
 
 #cover mean c (no duplicates allowed!)
 cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
-               native = FALSE, cover_metric = "percent_cover", 
+             native = FALSE, cover_metric = "percent_cover", 
              allow_duplicates = FALSE)
 #> [1] 4.923077
 
 #transect mean c (duplicates allowed)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
-               native = FALSE, cover_metric = "percent_cover",
-               allow_duplicates = TRUE)
+             native = FALSE, cover_metric = "percent_cover",
+             allow_duplicates = TRUE)
 #> [1] 5.946058
 
 #cover-weighted FQI (again, you can choose to allow duplicates or not)
@@ -392,8 +401,8 @@ also use acronyms “GROUND” or “WATER”.
 ``` r
 #print transect to view structure of data
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
-                       cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-                       quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+                             cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+                             quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 #plot summary of a transect (dplicates are not allowed)
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
@@ -449,25 +458,25 @@ relative_cover(transect, key = "acronym", db = "michigan_2014",
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
                     col = "species", cover_metric = "percent_cover")
-#>                       scientific_name rel_import
-#> 1              ABELMOSCHUS ESCULENTUS   35.61273
-#> 2                      ABIES BALSAMEA   16.89235
-#> 3             AMMOPHILA BREVILIGULATA   33.24306
-#> 4 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS   14.25186
+#>                      name rel_import
+#> 1  ABELMOSCHUS ESCULENTUS   35.61273
+#> 2          ABIES BALSAMEA   16.89235
+#> 3 AMMOPHILA BREVILIGULATA   33.24306
+#> 4        ANTICLEA ELEGANS   14.25186
 
 #species summary
 species_summary(transect, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
-#>                       scientific_name acronym native  c  w frequency coverage
-#> 1              ABELMOSCHUS ESCULENTUS  ABEESC exotic  0  5         2       90
-#> 2                      ABIES BALSAMEA  ABIBAL native  3  0         2       11
-#> 3             AMMOPHILA BREVILIGULATA  AMMBRE native 10  5         2       80
-#> 4 ANTICLEA ELEGANS; ZIGADENUS GLAUCUS  ANTELE native 10 -3         1       30
-#>   rel_freq  rel_cov rel_import
-#> 1 28.57143 42.65403   35.61273
-#> 2 28.57143  5.21327   16.89235
-#> 3 28.57143 37.91469   33.24306
-#> 4 14.28571 14.21801   14.25186
+#>                      name acronym   nativity  c  w frequency coverage rel_freq
+#> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90 28.57143
+#> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11 28.57143
+#> 3 AMMOPHILA BREVILIGULATA  AMMBRE     native 10  5         2       80 28.57143
+#> 4        ANTICLEA ELEGANS  ANTELE     native 10 -3         1       30 14.28571
+#>    rel_cov rel_import
+#> 1 42.65403   35.61273
+#> 2  5.21327   16.89235
+#> 3 37.91469   33.24306
+#> 4 14.21801   14.25186
 
 #physiognomy summary
 physiog_summary(transect, key = "acronym", db = "michigan_2014", 

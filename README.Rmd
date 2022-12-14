@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package provides functions for calculating Floristic Quality Assessment (FQA) metrics based on 52 regional FQA databases that have been approved for use by the US Army Corps of Engineers. 
+This package provides functions for calculating Floristic Quality Assessment (FQA) metrics based on regional FQA databases that have been approved for use by the US Army Corps of Engineers. 
 
 ## Installation
 
@@ -40,17 +40,17 @@ library(dplyr)
 
 ## Package Data
 
-`fqacalc` contains all 52 regional FQA databases that have been either fully approved for use or approved with reservations by the US Army Corps of Engineers. By referencing these databases, the package knows what Coefficient of Conservatism (or C Value) to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
+`fqacalc` contains all regional FQA databases that have been either fully approved for use or approved with reservations by the US Army Corps of Engineers. By referencing these databases, the package knows what Coefficient of Conservatism (or C Value) to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
 
 ```{r}
 #view a list of all 51 available databases
 head(db_names())
 
 #store the Connecticut database as an object
-connecticut <- view_db("connecticut_2013")
+colorado <- view_db("colorado_2020")
 
 #view it
-head(connecticut)
+head(colorado)
 ```
 
 `fqacalc` also comes with a real site assessment from Crooked Island, Michigan, downloaded from the [Universal FQA Calculator](https://universalfqa.org/). 
@@ -75,14 +75,13 @@ crooked_island <- crooked_island
 ```{r}
 #introduce a typo
 mistake_island <- crooked_island %>% 
-  mutate(scientific_name = str_replace(
-    scientific_name, "Abies balsamea", "Abies blahblah"))
+  mutate(name = str_replace(name, "Abies balsamea", "Abies blahblah"))
 
 #store accepted entries
 accepted_entries <- accepted_entries(#this is the data
                                      mistake_island, 
                                      #'key' to join the data to regional list
-                                     key = "scientific_name", 
+                                     key = "name", 
                                      #this is the regional list
                                      db = "michigan_2014", 
                                      #include native AND non-native entries
@@ -92,7 +91,7 @@ accepted_entries <- accepted_entries(#this is the data
 head(accepted_entries)
 ```
 
-Now, when we use `accepted_entries()` to see which species were matched to the regional dataset, we can see that we got a message about the species 'typo' being discarded and we can also see that the accepted entries dataset we created only has 34 entries.
+Now, when we use `accepted_entries()` to see which species were matched to the regional dataset, we can see that we got a message about the species 'ABIES BLAHBLAH' being discarded and we can also see that the accepted entries dataset we created only has 34 entries.
 
 In some cases, plants from the user list can be matched to the regional database, but the plant is not associated with any C Value. This is usually because not enough is known about that plant. Plants that are matched but have no C Value will be excluded from FQI metric calculation but they can *optionally* be included in other metrics like species richness, relative cover, relative frequency, relative importance, and mean wetness, as well as any summarizing functions containing these metrics. This option is denoted with the `allow_no_c` argument. 
 
@@ -102,13 +101,13 @@ In some cases, plants from the user list can be matched to the regional database
 #To see unassigned_plants in action we're going to Montana! 
 
 #first I'll create a df of plants to input
-no_c_plants<- data.frame(scientific_name = c("ABRONIA FRAGRANS", 
-                                             "ACER GLABRUM", 
-                                             "ACER GRANDIDENTATUM", 
-                                             "ACER PLATANOIDES"))
+no_c_plants<- data.frame(name = c("ABRONIA FRAGRANS", 
+                                  "ACER GLABRUM", 
+                                  "ACER GRANDIDENTATUM", 
+                                  "ACER PLATANOIDES"))
 
 #then I'll create a df of unassigned plants
-unassigned_plants(no_c_plants, key = "scientific_name", db = "montana_2017")
+unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
 
 ```
 
@@ -124,7 +123,7 @@ All of the metric functions have the same arguments. (and two don't have the nat
 
 * **x**: A data frame containing a list of plant species. This data frame *must* have one of the following columns: `scientific_name` or `acronym`. 
 
-* **key**: A character string representing the column that will be used to join the input `x` with the regional FQA database. If a value is not specified the default is `"scientific_name"`. `"scientific_name"` and `"acronym"` are the only acceptable values for key.
+* **key**: A character string representing the column that will be used to join the input `x` with the regional FQA database. If a value is not specified the default is `"name"`. `"name"` and `"acronym"` are the only acceptable values for key.
 
 * **db**: A character string representing the regional FQA database to use. See `db_names()` for a list of potential values.
 
@@ -183,10 +182,10 @@ Cover-Weighted Functions have a few additional arguments:
 ```{r}
 #first I'll make a hypothetical plot with cover values
 plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-                      scientific_name = c("Abelmoschus esculentus", 
-                      "Abies balsamea", "Ammophila breviligulata", 
-                      "Anticlea elegans; zigadenus glaucus"),
-                      cover = c(50, 4, 20, 30))
+                   name = c("Abelmoschus esculentus", 
+                            "Abies balsamea", "Ammophila breviligulata", 
+                            "Anticlea elegans; zigadenus glaucus"),
+                   cover = c(50, 4, 20, 30))
 
 #now I'll make up a transect
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
@@ -196,13 +195,13 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
 
 #cover mean c (no duplicates allowed!)
 cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
-               native = FALSE, cover_metric = "percent_cover", 
+             native = FALSE, cover_metric = "percent_cover", 
              allow_duplicates = FALSE)
 
 #transect mean c (duplicates allowed)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
-               native = FALSE, cover_metric = "percent_cover",
-               allow_duplicates = TRUE)
+             native = FALSE, cover_metric = "percent_cover",
+             allow_duplicates = TRUE)
 
 #cover-weighted FQI (again, you can choose to allow duplicates or not)
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
@@ -226,8 +225,8 @@ If `allow_non_veg` is true, the user can include species "UNVEGETATED GROUND" or
 ```{r}
 #print transect to view structure of data
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
-                       cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-                       quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+                             cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+                             quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 #plot summary of a transect (dplicates are not allowed)
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
