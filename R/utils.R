@@ -409,7 +409,8 @@ accepted_entries <- function(x, key = "name", db,
     entries_joined <- entries_joined %>%
       dplyr::group_by(.data$proper_name) %>%
       dplyr::mutate(name = dplyr::first(.data$name),
-                    name_origin = dplyr::first(.data$name_origin))
+                    name_origin = dplyr::first(.data$name_origin),
+                    acronym = dplyr::first(.data$acronym))
   }
 
   #get rid of row column, no longer needed

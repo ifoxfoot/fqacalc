@@ -66,7 +66,8 @@ univ_syn_sep <- univ_cleanish %>%
 syn_split <- cSplit(univ_syn_sep, 'synonym', ';')
 
 #list of syn columns
-syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6")
+cols <- colnames(syn_split)
+syn_cols <- cols[grepl("^synonym", cols)]
 
 #replace fist character of syn cols with upper case
 syn_upper <- syn_split %>%
@@ -120,12 +121,8 @@ syn_initials <- syn_upper %>%
       str_replace(synonym_5, "\\w\\.$", str_extract(synonym_4, "\\w+$")),
       synonym_5))
 
-#use row number as unique ID
-syn_row_name <- syn_initials %>%
-  mutate(ID = as.numeric(row.names.default(.)))
-
 #pivot longer
-syn_pivot <- syn_row_name %>%
+syn_pivot <- syn_initials %>%
   mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", syn_cols),
                names_to = "name_origin",
@@ -133,33 +130,98 @@ syn_pivot <- syn_row_name %>%
   filter(!is.na(name))
 
 #keep only distinct rows (rows with diff IDs not distinct)
-syn_distinct <- syn_pivot %>%
-  distinct(ID, name, .keep_all = TRUE)
+distinct <- syn_pivot %>%
+  distinct(proper_name, name, fqa_db, .keep_all = TRUE)
 
 #if the plant is a synonym, us NA for acronym (to avoid repeating acronyms)
-syn_dist_acronyms <- syn_distinct %>%
+syn_na_acronyms <- distinct %>%
   mutate(acronym = case_when(str_detect(name_origin, "synonym_") ~ NA_character_,
                              T ~ acronym)) %>%
-  rename(scientific_name = name) %>%
   mutate(w = as.character(w))
 
-# syn_acronym_var <- syn_dist_acronyms %>%
-#   mutate(acronym = case_when(str_detect(toupper(scientific_name), "VAR.")
-#                              & fqa_db == "pennsylvania_piedmont_2013.csv"
-#                              & !is.na(acronym)
-#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", scientific_name))),
+
+#create function for cleaning up wisconsin
+wisconsin_dup <- function(.data, sci_name, new_acronym) {
+  m <- mutate(.data, acronym = case_when(fqa_db %in%
+                                           c("wisconsin_wetland_northern_southcentral_2017.csv",
+                                             "wisconsin_wetland_southwestern_southeastern_2017.csv") &
+                               name == sci_name ~ new_acronym,
+                             T ~ acronym))
+  return(m)
+}
+
+#getting rid of duplicate acronyms
+clean_acronyms <- syn_na_acronyms %>%
+  wisconsin_dup("Acer saccharum", "ACESACCU") %>%
+  wisconsin_dup("Cakile edentula ssp. edentula var. lacustris", "CAKEDELA") %>%
+  wisconsin_dup("Callitriche palustris var. verna", "CALLIPAV") %>%
+  wisconsin_dup("Carex arctata", "CARARCTT") %>%
+  wisconsin_dup("Carex cephalophora", "CARCEPHP") %>%
+  wisconsin_dup("Carex lupulina", "CARLUPUN") %>%
+  wisconsin_dup("Euonymus atropurpureus var. atropurpureus", "EUOATRVU") %>%
+  wisconsin_dup("Gymnocladus dioicus", "GYMDIOIS") %>%
+  wisconsin_dup("Hieracium piloselloides", "HIEPILOO") %>%
+  wisconsin_dup("Humulus lupulus var. lupulus", "HUMLUPVU") %>%
+  wisconsin_dup("Lotus unifoliolatus var. unifoliolatus", "LOTUNUVU") %>%
+  wisconsin_dup("Lysimachia quadrifolia", "LYSQUADO") %>%
+  wisconsin_dup("Odontites vernus ssp. serotinus", "ODOVERSU") %>%
+  wisconsin_dup("Phlox bifida ssp. bifida x p. subulata", "PHLBIFSX") %>%
+  wisconsin_dup("Phragmites australis ssp. australis", "PHRAUSSU") %>%
+  wisconsin_dup("Ptelea trifoliata ssp. trifoliata var. trifoliata", "PTETRISV") %>%
+  wisconsin_dup("Sambucus racemosa ssp. pubens var. pubens", "SAMRACSV") %>%
+  wisconsin_dup("Solidago rugosa ssp. rugosa var. rugosa", "SOLRUGRR") %>%
+  wisconsin_dup("Solidago rugosa ssp. rugosa var. villosa", "SOLRUGRV") %>%
+  wisconsin_dup("Solidago simplex ssp. randii var. gillmanii", "SOLSIMSG") %>%
+  wisconsin_dup("Solidago simplex ssp. simplex var. simplex", "SOLSIMSV") %>%
+  wisconsin_dup("Stachys palustris ssp. pilosa", "STAPALSI") %>%
+  wisconsin_dup("Viola pedatifida", "VIOPEDAI") %>%
+  #cleaning up dup acronyms in other fqa lists
+  mutate(acronym = case_when(fqa_db == "illinois_2020.csv" &
+                               name == "Polygala verticillata var. ambigua" ~ "POLVERA",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "illinois_2020.csv" &
+                               name == "Polygala verticillata var. isocycla" ~ "POLVERI",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "illinois_2020.csv" &
+                               name == "Salix glaucophylloides var. glaucophylla" ~ "SALGLAG",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "iowa_2001.csv" &
+                               name == "Juncus x nodosiformis" ~ "JUNXNO",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "louisiana_coastal_prairie_2006.csv" &
+                               name == "Scleria pauciflora" ~ "SCPA",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "louisiana_coastal_prairie_2006.csv" &
+                               name == "Kyllinga odorata" ~ "KYOD",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "nebraska_2003.csv" &
+                               name == "Phragmites australis ssp. australis" ~ "[PHAU7U]",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "nebraska_2003.csv" &
+                               name == "Rumex patientia ssp. patientia" ~ "[RUPA5P]",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "west_virginia_2015.csv" &
+                               name == "Lactuca floridana" ~ "LAFL",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "west_virginia_2015.csv" &
+                               name == "Osmunda cinnamomea" ~ "OSCI",
+                             T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "west_virginia_2015.csv" &
+                               name == "Osmunda cinnamomea" ~ "OSCI",
+                             T ~ acronym))
+
+# syn_acronym_var <- syn_na_acronyms %>%
+#   mutate(acronym = case_when(str_detect(toupper(name), "VAR.") & !is.na(acronym) & duplicated(acronym, fqa_db) & !duplicated(name)
+#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", name))),
 #                              T ~ acronym)) %>%
-#   mutate(acronym = case_when(str_detect(toupper(scientific_name), "SSP.")
-#                              & fqa_db == "pennsylvania_piedmont_2013.csv"
-#                              & !is.na(acronym)
-#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", scientific_name))),
+#   mutate(acronym = case_when(str_detect(toupper(name), "SSP.") & !is.na(acronym) & duplicated(acronym, fqa_db) & !duplicated(name)
+#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", name))),
 #                              T ~ acronym))
 
-universal_dups <- syn_acronym_var %>%
-  group_by(acronym, fqa_db) %>%
+dup_acronyms <- clean_acronyms %>%
+  group_by(name, name_origin, fqa_db) %>%
   count() %>%
-  filter(n > 1) %>%
-  filter(!is.na(acronym))
+  filter(n > 1)
 
 #SOUTH EASTERN DBS---------------------------------------------------------------
 
