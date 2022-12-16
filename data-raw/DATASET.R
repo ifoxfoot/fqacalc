@@ -124,6 +124,7 @@ syn_initials <- syn_upper %>%
 #pivot longer
 syn_pivot <- syn_initials %>%
   mutate(proper_name = scientific_name) %>%
+  mutate(ID = row_number()) %>%
   pivot_longer(cols = c("scientific_name", syn_cols),
                names_to = "name_origin",
                values_to = "name") %>%
@@ -188,6 +189,9 @@ clean_acronyms <- syn_na_acronyms %>%
   mutate(acronym = case_when(fqa_db == "iowa_2001.csv" &
                                name == "Juncus x nodosiformis" ~ "JUNXNO",
                              T ~ acronym)) %>%
+  mutate(acronym = case_when(fqa_db == "iowa_2001.csv" &
+                               name == "Malus sylvestris" ~ "MALSYV",
+                             T ~ acronym)) %>%
   mutate(acronym = case_when(fqa_db == "louisiana_coastal_prairie_2006.csv" &
                                name == "Scleria pauciflora" ~ "SCPA",
                              T ~ acronym)) %>%
@@ -208,20 +212,14 @@ clean_acronyms <- syn_na_acronyms %>%
                              T ~ acronym)) %>%
   mutate(acronym = case_when(fqa_db == "west_virginia_2015.csv" &
                                name == "Osmunda cinnamomea" ~ "OSCI",
-                             T ~ acronym))
+                             T ~ acronym)) %>%
+  #temporary code
+  rename(scientific_name = name)
 
-# syn_acronym_var <- syn_na_acronyms %>%
-#   mutate(acronym = case_when(str_detect(toupper(name), "VAR.") & !is.na(acronym) & duplicated(acronym, fqa_db) & !duplicated(name)
-#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", name))),
-#                              T ~ acronym)) %>%
-#   mutate(acronym = case_when(str_detect(toupper(name), "SSP.") & !is.na(acronym) & duplicated(acronym, fqa_db) & !duplicated(name)
-#                              ~ paste0(acronym, toupper(sub(".*\\s+(\\S)\\S+$", "\\1", name))),
-#                              T ~ acronym))
-
-dup_acronyms <- clean_acronyms %>%
-  group_by(name, name_origin, fqa_db) %>%
-  count() %>%
-  filter(n > 1)
+# dup_acronyms <- clean_acronyms %>%
+#   group_by(name, name_origin, fqa_db) %>%
+#   count() %>%
+#   filter(n > 1)
 
 #SOUTH EASTERN DBS---------------------------------------------------------------
 
@@ -686,7 +684,7 @@ wyoming_pivot <- wyoming_cols %>%
 #NOW CLEANING ALL TOGETHER-----------------------------------------------------
 
 #bind all together
-fqa_db_bind <- rbind(syn_dist_acronyms,
+fqa_db_bind <- rbind(clean_acronyms,
                      southeastern_complete,
                      #ne_clean,
                      colorado_pivot,
@@ -780,7 +778,7 @@ fqa_duration <- fqa_physiog %>%
 #cleaning up name_origin column
 fqa_origin <- fqa_duration %>%
   mutate(name_origin = case_when(str_detect(name_origin, "synonym") ~ "synonym",
-                                 name_origin %in% c("scientific_name", "main") ~ "proper_name",
+                                 name_origin %in% c("scientific_name", "main") ~ "accepted_scientific_name",
                                  T ~ name_origin))
 
 
@@ -922,6 +920,7 @@ fqa_db_cols <- fqa_origin[order(fqa_origin$fqa_db), ]
 #get desired column order
 fqa_db <- fqa_db_cols %>%
   select(name, name_origin, acronym, proper_name, everything()) %>%
+  rename(accepted_scientific_name = proper_name) %>%
   mutate(c = as.numeric(c)) %>%
   select(-ID)
 

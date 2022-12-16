@@ -49,9 +49,9 @@ db_names <- function() {
 #' @return A data frame with 11 variables:
 #' \describe{
 #'   \item{name}{Latin name, either proper name or synonym}
-#'   \item{name_origin}{Indicates if the name is the accepted scientific name--"proper_name"--or a synonym}
+#'   \item{name_origin}{Indicates if the name is the accepted scientific name--"accepted_scientific_name"--or a synonym}
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
-#'   \item{proper_name}{The accepted/official scientific name}
+#'   \item{accepted_scientific_name}{The accepted/official scientific name}
 #'   \item{family}{Taxonomic family of species}
 #'   \item{nativity}{Nativity status. native, non-native, and undetermined are values}
 #'   \item{c}{Coefficient of Conservatism (C Value)}
@@ -312,7 +312,7 @@ accepted_entries <- function(x, key = "name", db,
       data.frame(name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  name_origin = c(NA, NA),
                  acronym = c("GROUND", "WATER"),
-                 proper_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
+                 accepted_scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  family = c("Unvegetated Ground", "Unvegetated Water"),
                  nativity = c(NA, NA),
                  c = c(0, 0),
@@ -336,45 +336,45 @@ accepted_entries <- function(x, key = "name", db,
                      by = key)
 
   #if a species is not present in regional list
-  if( any(is.na(entries_joined$proper_name)) ) {
+  if( any(is.na(entries_joined$accepted_scientific_name)) ) {
 
     #send message to user
-    message(paste("Species", entries_joined[is.na(entries_joined$proper_name), key],
+    message(paste("Species", entries_joined[is.na(entries_joined$accepted_scientific_name), key],
                   "not listed in database. It will be discarded."))
 
     #get rid of observations not in regional list
     entries_joined <- entries_joined %>%
-      dplyr::filter(!is.na(.data$proper_name))
+      dplyr::filter(!is.na(.data$accepted_scientific_name))
   }
 
-  #SAME NAME, DIFFERENT proper_nameS
+  #SAME NAME, DIFFERENT accepted_scientific_nameS
 
-  #get duplicated names associated with diff proper_names
-  same_name_diff_proper_name <- entries_joined %>%
+  #get duplicated names associated with diff accepted_scientific_names
+  same_name_diff_accepted_scientific_name <- entries_joined %>%
     dplyr::group_by(.data$name) %>%
-    dplyr::filter(dplyr::n_distinct(.data$proper_name) > 1)
+    dplyr::filter(dplyr::n_distinct(.data$accepted_scientific_name) > 1)
 
-  #If a species name is associated with two separate species with separate proper_names
-  if( nrow(same_name_diff_proper_name) > 0 ) {
+  #If a species name is associated with two separate species with separate accepted_scientific_names
+  if( nrow(same_name_diff_accepted_scientific_name) > 0 ) {
 
     #one name is main name
-    one_main <- same_name_diff_proper_name %>%
+    one_main <- same_name_diff_accepted_scientific_name %>%
       dplyr::group_by(.data$name) %>%
-      dplyr::filter(any(.data$name_origin == "proper_name"))
+      dplyr::filter(any(.data$name_origin == "accepted_scientific_name"))
 
     #both are synonyms
-    both_syn <- same_name_diff_proper_name %>%
+    both_syn <- same_name_diff_accepted_scientific_name %>%
       dplyr::group_by(.data$name) %>%
-      dplyr::filter(all(.data$name_origin != "proper_name"))
+      dplyr::filter(all(.data$name_origin != "accepted_scientific_name"))
 
     #message if one name is a main name
     for(i in unique(one_main$name)) {
-      message(i, " is a main name and a synonym. It will default to main name.")
+      message(i, " is an accepted scientific name and a synonym. It will default to accepted scientific name.")
     }
 
     #message if both are synonyms
     for(i in unique(both_syn$name)) {
-      message(i, " is a synonym to multiple species. It will be omited. To include this species, use the main name.")
+      message(i, " is a synonym to multiple species. It will be omited. To include this species, use the accepted scientific name.")
     }
 
     #if species are duplicated, keep only sci name
@@ -382,22 +382,22 @@ accepted_entries <- function(x, key = "name", db,
       dplyr::group_by(.data$row) %>%
       dplyr::mutate(dup = dplyr::n() > 1) %>%
       dplyr::ungroup() %>%
-      dplyr::filter(!.data$dup | .data$name_origin == "proper_name") %>%
+      dplyr::filter(!.data$dup | .data$name_origin == "accepted_scientific_name") %>%
       dplyr::select(-"dup")
   }
 
-  #DIFFERENT NAMES, SAME proper_nameS
+  #DIFFERENT NAMES, SAME accepted_scientific_nameS
 
   #get synonyms
   synonyms <- entries_joined %>%
-    dplyr::group_by(.data$proper_name) %>%
+    dplyr::group_by(.data$accepted_scientific_name) %>%
     dplyr::filter(dplyr::n_distinct(.data$name) > 1)
 
   #If a species is entered twice under different names/synonyms
   if( nrow(synonyms) > 0 ) {
 
-    #get list of names in each proper_name group
-    list <- split(synonyms$name, synonyms$proper_name)
+    #get list of names in each accepted_scientific_name group
+    list <- split(synonyms$name, synonyms$accepted_scientific_name)
 
     #use for loop to create warning for each set of synonyms
     for(i in 1:length(list)) {
@@ -405,9 +405,9 @@ accepted_entries <- function(x, key = "name", db,
       message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species.")
     }
 
-    #replace diff names in same proper_name group with first name
+    #replace diff names in same accepted_scientific_name group with first name
     entries_joined <- entries_joined %>%
-      dplyr::group_by(.data$proper_name) %>%
+      dplyr::group_by(.data$accepted_scientific_name) %>%
       dplyr::mutate(name = dplyr::first(.data$name),
                     name_origin = dplyr::first(.data$name_origin),
                     acronym = dplyr::first(.data$acronym))
@@ -425,7 +425,7 @@ accepted_entries <- function(x, key = "name", db,
         dplyr::distinct() }
     #if allow dups is false but cover weight is true, add cover values for like species together
     else(entries_joined <- entries_joined %>%
-           dplyr::group_by(.data$proper_name) %>%
+           dplyr::group_by(.data$accepted_scientific_name) %>%
            dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
            dplyr::distinct() %>%
            dplyr::ungroup() )
@@ -435,12 +435,12 @@ accepted_entries <- function(x, key = "name", db,
   if( !is.null(plot_id) & allow_duplicates ){
     if( cover_weighted ) {
       entries_joined <- entries_joined %>%
-        dplyr::group_by(.data$proper_name, !!as.name(plot_id)) %>%
+        dplyr::group_by(.data$accepted_scientific_name, !!as.name(plot_id)) %>%
         dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
         dplyr::distinct() %>%
         dplyr::ungroup() }
     else {entries_joined <- dplyr::distinct(entries_joined,
-                                            .data$proper_name, !!as.name(plot_id),
+                                            .data$accepted_scientific_name, !!as.name(plot_id),
                                             .keep_all = TRUE) }
     }
 
