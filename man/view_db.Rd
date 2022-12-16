@@ -2,16 +2,16 @@
 % Please edit documentation in R/utils.R
 \name{view_db}
 \alias{view_db}
-\title{Call a Regional FQA Database}
+\title{View a Regional FQA Database}
 \usage{
 view_db(db)
 }
 \arguments{
-\item{db}{A character string representing the name of the regional FQA database
-to retrieve. Generally, the format is "place_year".}
+\item{db}{A character string representing the regional FQA database to use. See
+\code{db_names()} for a list of potential values.}
 }
 \value{
-A data frame with 11 variables:
+A data frame with 12 variables:
 \describe{
 \item{name}{Latin name, either proper name or synonym}
 \item{name_origin}{Indicates if the name is the accepted scientific name--"accepted_scientific_name"--or a synonym}

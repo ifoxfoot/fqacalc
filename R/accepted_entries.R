@@ -3,7 +3,6 @@
 
 #-------------------------------------------------------------------------------
 
-
 #' Return A Data Frame of Plant Species That Successfully Match to the Regional FQA Database
 #'
 #' `accepted_entries` takes a data frame of user-entered plant species and returns a
@@ -373,16 +372,16 @@ accepted_entries <- function(x, key = "name", db,
   }
 
   #If site assessment contains a plant that has no C value
-  if( any(is.na(entries_joined$c)) ) {
+  if( any(is.na(entries_joined$c)) & !allow_no_c ) {
+
     #sent message to user
     message(paste("Species", entries_joined[is.na(entries_joined$c), key],
-                  "is recognized but has not been assigned a C Value. It can optionally be included in species richness but will not be included in any FQI metrics. "))
+                  "is recognized but has not been assigned a C Value. It can optionally be included in species richness but will not be included in any FQI metrics."))
 
-    #if allow no c is false, get rid of observations with no c value
-    if( !allow_no_c ) {
-      entries_joined <- entries_joined %>%
-        dplyr::filter(!is.na(c)) }
-  }
+    #get rid of no C value
+    entries_joined <- entries_joined %>%
+      dplyr::filter(!is.na(c))
+}
 
 
   return(as.data.frame(entries_joined))

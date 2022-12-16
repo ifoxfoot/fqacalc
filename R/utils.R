@@ -39,14 +39,13 @@ db_names <- function() {
 
 #-------------------------------------------------------------------------------
 
-#' Call a Regional FQA Database
+#' View a Regional FQA Database
 #'
 #' Create a data frame containing an entire regional FQA database.
 #'
-#' @param db A character string representing the name of the regional FQA database
-#' to retrieve. Generally, the format is "place_year".
+#' @inheritParams accepted_entries
 #'
-#' @return A data frame with 11 variables:
+#' @return A data frame with 12 variables:
 #' \describe{
 #'   \item{name}{Latin name, either proper name or synonym}
 #'   \item{name_origin}{Indicates if the name is the accepted scientific name--"accepted_scientific_name"--or a synonym}
@@ -71,7 +70,7 @@ view_db <- function(db) {
 
   #error if db is not a legit db
   if( !db %in% db_names()$name )
-    stop(paste(db," is not recognized. Run 'db_names()' for a list of acceptable db values."))
+    stop(paste0(db," is not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #filter system data for correct db
   df <- fqa_db %>%
@@ -93,14 +92,7 @@ view_db <- function(db) {
 #' but have no C Value. These observations can optionally be discarded in other `fqacalc`
 #' functions.
 #'
-#' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `name` or `acronym`.
-#' @param key A character string representing the column that will be used to join
-#' the input `x` with the regional FQA database. If a value is not specified the
-#' default is `"name"`. `"name"` and `"acronym"` are the only acceptable
-#' values for key.
-#' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
+#' @inheritParams accepted_entries
 #'
 #' @return A data frame
 #' @export
@@ -114,52 +106,17 @@ view_db <- function(db) {
 
 unassigned_plants <- function(x, key = "name", db) {
 
-  #error if x argument is missing
-  if( missing(x) )
-    stop("argument x is missing, with no default.")
-
-  #error if x is not a data frame
-  if( !is.data.frame(x) )
-    stop(paste(deparse(substitute(x)), "must be a data frame."))
-
-  #error if x does not have correct col names
-  if( !"acronym" %in% colnames(x) & !"name" %in% colnames(x))
-    stop(paste(deparse(substitute(x)),
-               "must have a column named 'acronym' and/or 'name'."))
-
-  #error if key is not acronym or scientific name
-  if( !key %in% c("acronym", "name") )
-    stop("'key' argument must be equal to 'acronym' or 'name'.")
-
-  #error if key is not in col names of x
-  if( !key %in% colnames(x) )
-    stop(paste(deparse(substitute(x)), " does not have a column named ", key, "."))
-
-  #error if db is not a legit db
-  if( !db %in% unique(fqa_db$fqa_db) )
-    stop(paste(db, " not recognized. Run 'db_names()' for a list of acceptable db values."))
-
-  #get distinct values
-  cols <- x %>%
-    dplyr::distinct(!!as.name(key))
-
- #join scores from FQAI to user's assessment
- entries_joined <-
-   dplyr::inner_join(cols %>%
-                      dplyr::mutate(!!key := toupper(!!as.name(key))),
-                    fqa_db %>%
-                      dplyr::filter(fqa_db == db),
-                    by = key)
-
- for ( i in x[, key] ) {
-   #send message to user if site assessment contains plant not in FQA database
-   if( !toupper(i) %in% entries_joined[,key] )
-     message(paste("Species", toupper(i), "not listed in database. It will be discarded."))
-  }
-
- #discard entries that have no match
- entries_matched <- entries_joined %>%
-   dplyr::filter(is.na(entries_joined$c))
+  #call accepted entries
+  entries_matched <- accepted_entries(x, key, db,
+                                      native = FALSE,
+                                      cover_weighted = FALSE,
+                                      cover_metric = "percent_cover",
+                                      allow_duplicates = FALSE,
+                                      allow_no_c = TRUE,
+                                      allow_non_veg = FALSE,
+                                      plot_id = NULL) %>%
+    #filter for No C value plants
+    dplyr::filter(is.na(c))
 
  #return this for now
  return(entries_matched)
