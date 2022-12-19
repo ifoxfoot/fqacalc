@@ -391,7 +391,6 @@ southeastern_complete <- rbind(southeastern_mountains,
 
 #CHICAGO------------------------------------------------------------------------
 
-
 chicago <- read_csv(here("data-raw",
                          "FQA_databases",
                          "not_from_universal_calc",
@@ -419,17 +418,28 @@ chicago_clean <- chicago %>%
   mutate(synonym_1 = case_when(tolower(synonym_1) == tolower(scientific_name) ~ NA_character_,
                                T ~ synonym_1))
 
-#list of syn columns
-syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6", "synonym_7")
-
 
 chic_piv <- chicago_clean %>%
   mutate(proper_name = scientific_name) %>%
-  pivot_longer(cols = c("scientific_name", all_of(syn_cols)),
+  pivot_longer(cols = c("scientific_name", starts_with("synonym_")),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
   filter(!is.na(scientific_name)) %>%
   distinct(scientific_name, name_origin, ID, .keep_all = TRUE)
+
+#figuring out missing acronyms
+# chicago_raw_counts <- chicago_clean %>%
+#   group_by(ID) %>%
+#   count() %>%
+#   rename(raw_counts = n)
+#
+# chicago_piv_counts <- chic_piv %>%
+#   group_by(ID) %>%
+#   count() %>%
+#   rename(piv_counts = n)
+#
+# non_match <- merge(chicago_raw_counts, chicago_piv_counts, by = "ID") %>%
+#   mutate(match = raw_counts == piv_counts)
 
 # chic_dup <- chic_piv %>%
 #   group_by(acronym) %>%
@@ -594,15 +604,12 @@ montana_clean <- montana %>%
                              T ~ synonym)) %>%
   distinct()
 
-#list of syn columns
-syn_cols <- c("synonym_1", "synonym_2", "synonym_3", "synonym_4", "synonym_5", "synonym_6", "synonym_7")
-
 montana_pivot <- montana_clean %>%
   mutate(ID = row_number()) %>%
   mutate(synonym = str_remove_all(synonym, "\\[.*\\]")) %>%
   cSplit(., 'synonym', ';') %>%
   mutate(proper_name = scientific_name) %>%
-  pivot_longer(cols = c("scientific_name", syn_cols),
+  pivot_longer(cols = c("scientific_name", starts_with("synonym_")),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
   filter(!is.na(scientific_name))
@@ -694,10 +701,15 @@ fqa_db_bind <- rbind(clean_acronyms,
                      ms_clean,
                      montana_pivot,
                      ohio_clean,
-                     wyoming_pivot
-                     ) %>%
+                     wyoming_pivot) %>%
   #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
+  #fixing white spaces in scientific name
+  mutate(scientific_name = str_squish(scientific_name)) %>%
+  mutate(scientific_name = str_trim(scientific_name, side = "both")) %>%
+  mutate(scientific_name = case_when(!str_detect(scientific_name, pattern = " ") ~
+                                       paste(scientific_name, "SP."),
+                                     T ~ scientific_name)) %>%
   #covert things to uppercase
   mutate(scientific_name = toupper(scientific_name)) %>%
   rename(name = scientific_name)
@@ -707,6 +719,12 @@ unique_native <- data.frame(unique(fqa_db_bind$native))
 unique_w <- data.frame(unique(fqa_db_bind$w))
 unique_physiog <- data.frame(unique(fqa_db_bind$physiognomy))
 unique_duration <- data.frame(unique(fqa_db_bind$duration))
+
+#get counts that contain SP
+# SP_counts <- fqa_db_bind %>%
+#   filter(str_detect(name, " SP\\.")) %>%
+#   group_by(fqa_db) %>%
+#   count()
 
 
 #cleaning up native column

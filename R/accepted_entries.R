@@ -225,6 +225,10 @@ accepted_entries <- function(x, key = "name", db,
   regional_fqai <- fqa_db %>%
     dplyr::filter(fqa_db == db)
 
+  if( key == "acronym" &
+      any(is.na(regional_fqai$acronym) & regional_fqai$name_origin == "accepted_scientific_name"))
+    stop(paste(db, "does not have a complete set of acronyms, please set key to 'name'."))
+
   if (allow_non_veg) {
     regional_fqai <- rbind(
       #create df with water and ground

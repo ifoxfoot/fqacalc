@@ -60,12 +60,16 @@ test_that("accepted_entries() throws error if cover_metric isn't right", {
                "percent is not an accepted cover-method. See documentation.")
 })
 
-test_that("accepted_entries() throws error if olot_id isn't a column", {
+test_that("accepted_entries() throws error if plot_id isn't a column", {
   expect_error(accepted_entries(crooked_island, key = "acronym", db = "michigan_2014", native = F,
                                 plot_id = "percent"),
                "'plot_id' must be the name of a column in crooked_island.")
 })
 
+test_that("accepted_entries() throws error if key = acronym and db does not have complete acronyms", {
+  expect_error(accepted_entries(crooked_island, key = "acronym", db = "florida_2011", native = F),
+               "florida_2011 does not have a complete set of acronyms, please set key to 'name'.")
+})
 
 #testing accepted_entries() messages-------------------------------------------
 
