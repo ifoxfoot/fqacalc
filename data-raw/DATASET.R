@@ -351,7 +351,15 @@ southeastern_complete <- rbind(southeastern_mountains,
                                southeastern_piedmont,
                                southeastern_plain,
                                southeastern_plateau,
-                               southern_coastal_plain)
+                               southern_coastal_plain) %>%
+  mutate(native = case_when(str_detect(native, "L48 \\(N\\)") ~ "native",
+                            str_detect(native, "L48 \\(NI\\)") & c > 0 ~ "native",
+                            str_detect(native, "L48 \\(NI\\)") & c == 0 ~ "non-native",
+                            str_detect(native, "L48 \\(I\\)") ~ "non-native",
+                            T ~ native)) %>%
+  mutate(native = case_when(scientific_name == "Cyperus esculentus" ~ "native",
+                            T ~ native))
+
 
 #FOR NEW ENGLAND DBS--------------------------------------------------------------
 #
@@ -729,10 +737,6 @@ unique_duration <- data.frame(unique(fqa_db_bind$duration))
 
 #cleaning up native column
 fqa_native <- fqa_db_bind %>%
-  mutate(native = case_when(str_detect(native, "L48 \\(N\\)") ~ "native",
-                            str_detect(native, "L48 \\(NI\\)") ~ "native",
-                            str_detect(native, "L48 \\(I\\)") ~ "non-native",
-                            T ~ native)) %>%
   mutate(native = case_when(native %in% c("native",
                                           "Native",
                                           "N",
