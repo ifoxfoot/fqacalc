@@ -325,7 +325,12 @@ accepted_entries <- function(x, key = "name", db,
     #use for loop to create warning for each set of synonyms
     for(i in 1:length(list)) {
       #send message
-      message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species.")
+      if(!cover_weighted) {
+        message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species.")
+      } else {
+        message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species. If allow_duplicates = FALSE, cover values of synonyms will be added together.")
+      }
+
     }
 
     #replace diff names in same accepted_scientific_name group with first name
