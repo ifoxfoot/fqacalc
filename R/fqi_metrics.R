@@ -155,11 +155,11 @@ adjusted_FQI <- function(x, key = "name", db) {
 all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
 
   #get list of accepted entries for calculating stats
-  accepted <- suppressMessages(accepted_entries(x, key, db, native = FALSE,
-                                                cover_weighted = FALSE,
-                                                cover_metric = "percent_cover",
-                                                allow_duplicates = FALSE,
-                                                allow_no_c))
+  accepted <- accepted_entries(x, key, db, native = FALSE,
+                               cover_weighted = FALSE,
+                               cover_metric = "percent_cover",
+                               allow_duplicates = FALSE,
+                               allow_no_c)
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
@@ -179,7 +179,7 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
             "Native Mean Wetness")
 
   #create list of values
-  values <- c(species_richness(x, key, db, native = FALSE, allow_no_c),
+  values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
             suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
             nrow(dplyr::filter(accepted, .data$nativity == "non-native")),
             (sum(is.na(accepted$c))/length(accepted$c))*100,

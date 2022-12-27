@@ -40,7 +40,7 @@ library(dplyr)
 
 ## Package Data
 
-`fqacalc` contains all regional FQA databases that have been either fully approved for use or approved with reservations by the US Army Corps of Engineers. By referencing these databases, the package knows what Coefficient of Conservatism (or C Value) to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
+`fqacalc` contains all regional FQA databases that have been either fully approved or approved with reservations for use by the US Army Corps of Engineers. By referencing these databases, the package knows what Coefficient of Conservatism (or C Value) to give each plant that the user inputs. Users can see a list of regional databases using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
 
 ```{r}
 #view a list of all 51 available databases

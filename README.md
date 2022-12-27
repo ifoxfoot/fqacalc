@@ -40,7 +40,7 @@ library(dplyr)
 ## Package Data
 
 `fqacalc` contains all regional FQA databases that have been either
-fully approved for use or approved with reservations by the US Army
+fully approved or approved with reservations for use by the US Army
 Corps of Engineers. By referencing these databases, the package knows
 what Coefficient of Conservatism (or C Value) to give each plant that
 the user inputs. Users can see a list of regional databases using the
@@ -64,17 +64,17 @@ colorado <- view_db("colorado_2020")
 #view it
 head(colorado)
 #> # A tibble: 6 × 12
-#>   name        name_…¹ acronym prope…² family nativ…³     c     w physi…⁴ durat…⁵
+#>   name        name_…¹ acronym accep…² family nativ…³     c     w physi…⁴ durat…⁵
 #>   <chr>       <chr>   <chr>   <chr>   <chr>  <chr>   <dbl> <dbl> <chr>   <chr>  
-#> 1 ABIES       proper… ABIES   Abies   Pinac… native      5    NA tree    <NA>   
-#> 2 ABIES BIFO… proper… ABBI3   Abies … Pinac… native      5     3 tree    perenn…
+#> 1 ABIES       accept… ABIES   Abies   Pinac… native      5    NA tree    <NA>   
+#> 2 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     3 tree    perenn…
 #> 3 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     3 tree    perenn…
-#> 4 ABIES CONC… proper… ABCO    Abies … Pinac… native      5    NA tree    perenn…
-#> 5 ABRONIA EL… proper… ABEL    Abroni… Nycta… native      4    NA forb    perenn…
-#> 6 ABRONIA FR… proper… ABFR2   Abroni… Nycta… native      6    NA forb    perenn…
+#> 4 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA tree    perenn…
+#> 5 ABRONIA EL… accept… ABEL    Abroni… Nycta… native      4    NA forb    perenn…
+#> 6 ABRONIA FR… accept… ABFR2   Abroni… Nycta… native      6    NA forb    perenn…
 #> # … with 2 more variables: common_name <chr>, fqa_db <chr>, and abbreviated
-#> #   variable names ¹​name_origin, ²​proper_name, ³​nativity, ⁴​physiognomy,
-#> #   ⁵​duration
+#> #   variable names ¹​name_origin, ²​accepted_scientific_name, ³​nativity,
+#> #   ⁴​physiognomy, ⁵​duration
 ```
 
 `fqacalc` also comes with a real site assessment from Crooked Island,
@@ -129,27 +129,27 @@ accepted_entries <- accepted_entries(#this is the data
 
 #view accepted entries
 head(accepted_entries)
-#>                      name name_origin acronym             proper_name
-#> 1 AMMOPHILA BREVILIGULATA proper_name  AMMBRE Ammophila breviligulata
-#> 2        ANTICLEA ELEGANS proper_name  ANTELE        Anticlea elegans
-#> 3 ARCTOSTAPHYLOS UVA-URSI proper_name  ARCUVA Arctostaphylos uva-ursi
-#> 4    ARTEMISIA CAMPESTRIS proper_name  ARTCAM    Artemisia campestris
-#> 5  CALAMAGROSTIS EPIGEIOS proper_name  CALEPI  Calamagrostis epigeios
-#> 6  CALAMOVILFA LONGIFOLIA proper_name  CALLON  Calamovilfa longifolia
-#>          family   nativity  c  w physiognomy  duration     common_name
-#> 1       Poaceae     native 10  5       grass perennial    marram grass
-#> 2 Melanthiaceae     native 10 -3        forb perennial     white camas
-#> 3     Ericaceae     native  8  5       shrub perennial       bearberry
-#> 4    Asteraceae     native  5  5        forb  biennial        wormwood
-#> 5       Poaceae non-native  0  3       grass perennial       reedgrass
-#> 6       Poaceae     native 10  5       grass perennial sand reed grass
-#>          fqa_db
-#> 1 michigan_2014
-#> 2 michigan_2014
-#> 3 michigan_2014
-#> 4 michigan_2014
-#> 5 michigan_2014
-#> 6 michigan_2014
+#>                      name              name_origin acronym
+#> 1 AMMOPHILA BREVILIGULATA accepted_scientific_name  AMMBRE
+#> 2        ANTICLEA ELEGANS accepted_scientific_name  ANTELE
+#> 3 ARCTOSTAPHYLOS UVA-URSI accepted_scientific_name  ARCUVA
+#> 4    ARTEMISIA CAMPESTRIS accepted_scientific_name  ARTCAM
+#> 5  CALAMAGROSTIS EPIGEIOS accepted_scientific_name  CALEPI
+#> 6  CALAMOVILFA LONGIFOLIA accepted_scientific_name  CALLON
+#>   accepted_scientific_name        family   nativity  c  w physiognomy  duration
+#> 1  Ammophila breviligulata       Poaceae     native 10  5       grass perennial
+#> 2         Anticlea elegans Melanthiaceae     native 10 -3        forb perennial
+#> 3  Arctostaphylos uva-ursi     Ericaceae     native  8  5       shrub perennial
+#> 4     Artemisia campestris    Asteraceae     native  5  5        forb  biennial
+#> 5   Calamagrostis epigeios       Poaceae non-native  0  3       grass perennial
+#> 6   Calamovilfa longifolia       Poaceae     native 10  5       grass perennial
+#>       common_name        fqa_db
+#> 1    marram grass michigan_2014
+#> 2     white camas michigan_2014
+#> 3       bearberry michigan_2014
+#> 4        wormwood michigan_2014
+#> 5       reedgrass michigan_2014
+#> 6 sand reed grass michigan_2014
 ```
 
 Now, when we use `accepted_entries()` to see which species were matched
@@ -180,15 +180,15 @@ no_c_plants<- data.frame(name = c("ABRONIA FRAGRANS",
 
 #then I'll create a df of unassigned plants
 unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
-#>                  name name_origin acronym         proper_name        family
-#> 1    ABRONIA FRAGRANS proper_name    <NA>    Abronia fragrans Nyctaginaceae
-#> 2 ACER GRANDIDENTATUM proper_name    <NA> Acer grandidentatum     Aceraceae
-#>       nativity  c  w physiognomy duration                 common_name
-#> 1       native NA NA        <NA>     <NA> Fragrant White Sand-verbena
-#> 2 undetermined NA NA        <NA>     <NA>              Bigtooth Maple
-#>         fqa_db
-#> 1 montana_2017
-#> 2 montana_2017
+#>                  name              name_origin acronym accepted_scientific_name
+#> 1    ABRONIA FRAGRANS accepted_scientific_name    <NA>         Abronia fragrans
+#> 2 ACER GRANDIDENTATUM accepted_scientific_name    <NA>      Acer grandidentatum
+#>          family     nativity  c  w physiognomy duration
+#> 1 Nyctaginaceae       native NA NA        <NA>     <NA>
+#> 2     Aceraceae undetermined NA NA        <NA>     <NA>
+#>                   common_name       fqa_db
+#> 1 Fragrant White Sand-verbena montana_2017
+#> 2              Bigtooth Maple montana_2017
 ```
 
 As you can see, two of these species have no C Values.
@@ -206,20 +206,20 @@ database, and species without a C Value.
 All of the metric functions have the same arguments. (and two don’t have
 the native argument)
 
--   **x**: A data frame containing a list of plant species. This data
-    frame *must* have one of the following columns: `scientific_name` or
-    `acronym`.
+- **x**: A data frame containing a list of plant species. This data
+  frame *must* have one of the following columns: `scientific_name` or
+  `acronym`.
 
--   **key**: A character string representing the column that will be
-    used to join the input `x` with the regional FQA database. If a
-    value is not specified the default is `"name"`. `"name"` and
-    `"acronym"` are the only acceptable values for key.
+- **key**: A character string representing the column that will be used
+  to join the input `x` with the regional FQA database. If a value is
+  not specified the default is `"name"`. `"name"` and `"acronym"` are
+  the only acceptable values for key.
 
--   **db**: A character string representing the regional FQA database to
-    use. See `db_names()` for a list of potential values.
+- **db**: A character string representing the regional FQA database to
+  use. See `db_names()` for a list of potential values.
 
--   **native**: native Boolean (TRUE or FALSE). If TRUE, calculate
-    metrics using only native species.
+- **native**: native Boolean (TRUE or FALSE). If TRUE, calculate metrics
+  using only native species.
 
 Additionally, `species_richness()` and `all_metrics()` have an argument
 called `allow_no_c`. If `allow_no_c = TRUE` than species that are in the
@@ -306,18 +306,18 @@ be counted once and their cover values will be added together.
 
 Cover-Weighted Functions have a few additional arguments:
 
--   **cover_metric**: A character string representing the cover method
-    used. Acceptable cover methods are: `"percent_cover"`,
-    `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
-    `"usfs_ecodata"`. `"percent_cover"` is the default and is
-    recommended because it is the most accurate.
--   **allow_duplicates**: Boolean (TRUE or FALSE). If TRUE, allow
-    duplicate entries of the same species. If FALSE, do not allow
-    species duplication. Setting `allow_duplicates` to TRUE is best for
-    calculating metrics for multiple plots/quadrants which potentially
-    contain the same species. Setting `allow_duplicates` to FALSE is
-    best for calculating metrics for a single plot/quadrant, where each
-    species is entered once along with its total cover value.
+- **cover_metric**: A character string representing the cover method
+  used. Acceptable cover methods are: `"percent_cover"`,
+  `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
+  `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended
+  because it is the most accurate.
+- **allow_duplicates**: Boolean (TRUE or FALSE). If TRUE, allow
+  duplicate entries of the same species. If FALSE, do not allow species
+  duplication. Setting `allow_duplicates` to TRUE is best for
+  calculating metrics for multiple plots/quadrants which potentially
+  contain the same species. Setting `allow_duplicates` to FALSE is best
+  for calculating metrics for a single plot/quadrant, where each species
+  is entered once along with its total cover value.
 
 #### Functions
 
@@ -383,16 +383,16 @@ plot. This data frame must also have a column representing the plot the
 species was observed in. This column is then passed to an additional
 argument
 
--   **plot_id**: A character string representing the name of the column
-    in `x` that indicates which plot the species was observed in.
+- **plot_id**: A character string representing the name of the column in
+  `x` that indicates which plot the species was observed in.
 
 Because it is sometimes useful to calculate the total amount of bare
 ground or un-vegetated water in a plot, the user can also choose to
 include bare ground or water. To get this feature to work, the user must
 set another argument:
 
--   **allow_non_veg**: Boolean (TRUE or FALSE). If TRUE, allow input to
-    contain un-vegetated ground and un-vegetated water.
+- **allow_non_veg**: Boolean (TRUE or FALSE). If TRUE, allow input to
+  contain un-vegetated ground and un-vegetated water.
 
 If `allow_non_veg` is true, the user can include species “UNVEGETATED
 GROUND” or “UNVEGETATED WATER” along with their plant species. They can
@@ -430,8 +430,7 @@ They also allow ground and water to be included.
 Relative functions have one additional argument which tells the
 functions what to calculate the relative value of:
 
--   **col** A character string equal to ‘species’, ‘family’, or
-    ‘physiog’.
+- **col** A character string equal to ‘species’, ‘family’, or ‘physiog’.
 
 Relative functions do not have a native argument.
 

@@ -358,7 +358,8 @@ southeastern_complete <- rbind(southeastern_mountains,
                             str_detect(native, "L48 \\(I\\)") ~ "non-native",
                             T ~ native)) %>%
   mutate(native = case_when(scientific_name == "Cyperus esculentus" ~ "native",
-                            T ~ native))
+                            T ~ native)) %>%
+  mutate(c = str_remove(c, "\\*"))
 
 
 #FOR NEW ENGLAND DBS--------------------------------------------------------------

@@ -330,7 +330,6 @@ accepted_entries <- function(x, key = "name", db,
       } else {
         message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species. If allow_duplicates = FALSE, cover values of synonyms will be added together.")
       }
-
     }
 
     #replace diff names in same accepted_scientific_name group with first name
