@@ -6,7 +6,7 @@
 \usage{
 cover_FQI(
   x,
-  key = "scientific_name",
+  key = "name",
   db,
   native = FALSE,
   cover_metric = "percent_cover",

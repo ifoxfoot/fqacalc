@@ -2,11 +2,11 @@
 #-------------------------------------------------------------------------------
 #testing relative_freq()
 
-test_that("relative_freq() works", {
-  expect_equal(relative_freq(transect, key = "acronym", db = "michigan_2014", col = "physiog"),
+test_that("relative_frequency() works", {
+  expect_equal(relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "physiog"),
                data.frame(physiognomy = c("forb", "grass", "tree"),
                           rel_freq = c(42.857143, 28.571429, 28.571429)))
-  expect_error(relative_freq(transect, key = "acronym", db = "michigan_2014", col = "plant"),
+  expect_error(relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "plant"),
                "'col' argument can only be set to 'species', 'family', or 'physiog'")
 })
 

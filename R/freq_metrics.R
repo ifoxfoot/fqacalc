@@ -1,12 +1,12 @@
 
 #this file contains frequency  metrics
-#relative_freq(), relative_cover(), relative_importance(), species_summary() and physiog_summary()
+#relative_frequency(), relative_cover(), relative_importance(), species_summary() and physiog_summary()
 
 #-------------------------------------------------------------------------------
 
 #' Calculate Relative Frequency
 #'
-#' `relative_freq()` calculates the frequency of one species, taxonomic family,
+#' `relative_frequency()` calculates the frequency of one species, taxonomic family,
 #' or physiognomic group multiplied by 100, divided by the frequency of all observations.
 #'
 #' @inheritParams accepted_entries
@@ -22,9 +22,18 @@
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_freq(transect, key = "acronym", db = "michigan_2014", col = "physiog")
+#' relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "physiog")
+#'
+#' #can also include bare ground and unveg water
+#' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+#' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#'
+#' relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
+#' col = "physiog")
 
-relative_freq <- function(x, key = "name", db,
+relative_frequency <- function(x, key = "name", db,
                           col = c("species", "family", "physiog"),
                           allow_no_c = TRUE,
                           allow_non_veg = TRUE) {
@@ -82,6 +91,14 @@ relative_freq <- function(x, key = "name", db,
 #'
 #' relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species")
 #'
+#' #can also include bare ground and unveg water
+#' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+#' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#'
+#' relative_cover(transect_unveg, key = "acronym", db = "michigan_2014",
+#' col = "species")
 
 relative_cover <- function(x, key = "name", db,
                            col = c("species", "family", "physiog"),
@@ -139,6 +156,16 @@ relative_cover <- function(x, key = "name", db,
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' relative_importance(transect, key = "acronym", db = "michigan_2014", col = "family")
+#'
+#' #can also include bare ground and unveg water
+#' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+#' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#'
+#' relative_importance(transect_unveg, key = "acronym", db = "michigan_2014",
+#' col = "family")
+#'
 
 relative_importance <- function(x, key = "name", db,
                                 col = c("species", "family", "physiog"),
@@ -154,7 +181,7 @@ relative_importance <- function(x, key = "name", db,
 
   #get mean of relative freq and relative cover
   avg <- merge(
-    relative_freq(x, key, db, col, allow_no_c, allow_non_veg),
+    relative_frequency(x, key, db, col, allow_no_c, allow_non_veg),
     relative_cover(x, key, db, col, cover_metric, allow_no_c, allow_non_veg)) %>%
     dplyr::mutate(rel_import = (.data$rel_freq + .data$rel_cov)/2) %>%
     dplyr::select(!!as.name(name), rel_import)
@@ -186,6 +213,15 @@ relative_importance <- function(x, key = "name", db,
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #'species_summary(transect, key = "acronym", db = "michigan_2014")
+#'
+#' #can also include bare ground and unveg water
+#' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+#' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#'
+#' species_summary(transect_unveg, key = "acronym", db = "michigan_2014")
+#'
 
 species_summary <- function(x, key = "name", db,
                             cover_metric = "percent_cover",
@@ -211,7 +247,7 @@ species_summary <- function(x, key = "name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  rel_freq <- relative_freq(x, key, db, col = "species", allow_no_c, allow_non_veg)
+  rel_freq <- relative_frequency(x, key, db, col = "species", allow_no_c, allow_non_veg)
 
   #relative cover
   rel_cov <- relative_cover(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
@@ -249,6 +285,16 @@ species_summary <- function(x, key = "name", db,
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' physiog_summary(transect, key = "acronym", db = "michigan_2014")
+#'
+#'
+#' #can also include bare ground and unveg water
+#' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+#' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
+#' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
+#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#'
+#' physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014")
+#'
 
 physiog_summary <- function(x, key = "name", db,
                             cover_metric = "percent_cover",
@@ -270,7 +316,7 @@ physiog_summary <- function(x, key = "name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  rel_freq <- relative_freq(x, key, db, col = "physiog", allow_no_c, allow_non_veg)
+  rel_freq <- relative_frequency(x, key, db, col = "physiog", allow_no_c, allow_non_veg)
 
   #relative cover
   rel_cov <- relative_cover(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)

@@ -586,7 +586,7 @@ Relative functions do not have a native argument.
 #say I want to calculate the relative value of a tree
 
 #relative frequency
-relative_freq(transect, key = "acronym", db = "michigan_2014", 
+relative_frequency(transect, key = "acronym", db = "michigan_2014", 
               col = "physiog")
 #>   physiognomy rel_freq
 #> 1        forb 42.85714
@@ -594,7 +594,7 @@ relative_freq(transect, key = "acronym", db = "michigan_2014",
 #> 3        tree 28.57143
 
 #can also include bare ground and water
-relative_freq(transect_unveg, key = "acronym", db = "michigan_2014", 
+relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014", 
               col = "physiog")
 #>          physiognomy rel_freq
 #> 1               forb       30

@@ -6,7 +6,7 @@
 \usage{
 transect_summary(
   x,
-  key = "scientific_name",
+  key = "name",
   db,
   cover_metric = "percent_cover",
   allow_no_c = TRUE
