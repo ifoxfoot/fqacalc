@@ -70,5 +70,42 @@ functions in this package.
 }
 \examples{
 plant_list <- crooked_island
+
+#with native and non natives
 accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
+
+#with only native species
+accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = TRUE)
+
+#an example with duplicates allowed
+duplicate_df <- data.frame(acronym  = c("ABEESC", "ABIBAL", "ABIBAL"),
+cover = c(60, 50, 50),
+quad_id = c(1, 2, 2))
+
+accepted_entries(x = duplicate_df, key = "acronym",
+db = "michigan_2014", native = FALSE, allow_duplicates = TRUE)
+
+#an example of duplicates not allowed
+accepted_entries(x = duplicate_dft, key = "acronym",
+db = "michigan_2014", native = FALSE, allow_duplicates = FALSE)
+
+#an example of duplicates not allowed, adding cover values
+accepted_entries(x = duplicate_df, key = "acronym",
+db = "michigan_2014", native = FALSE, allow_duplicates = FALSE,
+cover_weighted = TRUE)
+
+#an example where some entries are synonyms shared by more than one species
+same_syn <- data.frame(name = c("CAREX MURICATA", "POTENTILLA NANA", "ABIES BIFOLIA"),
+cover = c(80, 60, 10))
+
+accepted_entries(x = same_syn, key = "name",
+db = "wyoming_2017", native = FALSE)
+
+#an example where species is both a synonym and an accepted name
+same_syn2 <- data.frame(name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES BIFOLIA"),
+cover = c(80, 60, 10))
+
+accepted_entries(x = same_syn2, key = "name",
+db = "wyoming_2017", native = FALSE)
+
 }
