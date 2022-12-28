@@ -572,7 +572,7 @@ Relative functions calculate relative frequency, coverage, and
 importance for each category. There is also a species summary function
 that produces a summary of each species’ relative metrics in the data
 frame. Relative functions always allow duplicate species observations.
-They also allow ground and water to be included.
+They also always allow ground and water to be included.
 
 Relative functions have one additional argument which tells the
 functions what to calculate the relative value of:
@@ -593,6 +593,16 @@ relative_freq(transect, key = "acronym", db = "michigan_2014",
 #> 2       grass 28.57143
 #> 3        tree 28.57143
 
+#can also include bare ground and water
+relative_freq(transect_unveg, key = "acronym", db = "michigan_2014", 
+              col = "physiog")
+#>          physiognomy rel_freq
+#> 1               forb       30
+#> 2              grass       20
+#> 3               tree       20
+#> 4 Unvegetated Ground       20
+#> 5  Unvegetated Water       10
+
 #relative cover
 relative_cover(transect, key = "acronym", db = "michigan_2014", 
                col = "family", cover_metric = "percent_cover")
@@ -611,27 +621,33 @@ relative_importance(transect, key = "acronym", db = "michigan_2014",
 #> 3 AMMOPHILA BREVILIGULATA   33.24306
 #> 4        ANTICLEA ELEGANS   14.25186
 
-#species summary
-species_summary(transect, key = "acronym", db = "michigan_2014", 
+#species summary (including ground and water)
+species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
 #>                      name acronym   nativity  c  w frequency coverage rel_freq
-#> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90 28.57143
-#> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11 28.57143
-#> 3 AMMOPHILA BREVILIGULATA  AMMBRE     native 10  5         2       80 28.57143
-#> 4        ANTICLEA ELEGANS  ANTELE     native 10 -3         1       30 14.28571
-#>    rel_cov rel_import
-#> 1 42.65403   35.61273
-#> 2  5.21327   16.89235
-#> 3 37.91469   33.24306
-#> 4 14.21801   14.25186
+#> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90       20
+#> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11       20
+#> 3 AMMOPHILA BREVILIGULATA  AMMBRE     native 10  5         2       80       20
+#> 4        ANTICLEA ELEGANS  ANTELE     native 10 -3         1       30       10
+#> 5      UNVEGETATED GROUND  GROUND       <NA>  0  0         2       80       20
+#> 6       UNVEGETATED WATER   WATER       <NA>  0  0         1       20       10
+#>     rel_cov rel_import
+#> 1 28.938907  24.469453
+#> 2  3.536977  11.768489
+#> 3 25.723473  22.861736
+#> 4  9.646302   9.823151
+#> 5 25.723473  22.861736
+#> 6  6.430868   8.215434
 
-#physiognomy summary
-physiog_summary(transect, key = "acronym", db = "michigan_2014", 
+#physiognomy summary (including ground and water)
+physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
-#>   physiognomy frequency coverage rel_freq  rel_cov rel_import
-#> 1        forb         3      120 42.85714 56.87204   49.86459
-#> 2       grass         2       80 28.57143 37.91469   33.24306
-#> 3        tree         2       11 28.57143  5.21327   16.89235
+#>          physiognomy frequency coverage rel_freq   rel_cov rel_import
+#> 1               forb         3      120       30 38.585209  34.292605
+#> 2              grass         2       80       20 25.723473  22.861736
+#> 3               tree         2       11       20  3.536977  11.768489
+#> 4 Unvegetated Ground         2       80       20 25.723473  22.861736
+#> 5  Unvegetated Water         1       20       10  6.430868   8.215434
 ```
 
 ## Wetness metric

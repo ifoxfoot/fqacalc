@@ -300,7 +300,7 @@ plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014",
 
 ## Relative Functions
 
-Relative functions calculate relative frequency, coverage, and importance for each category. There is also a species summary function that produces a summary of each species' relative metrics in the data frame. Relative functions always allow duplicate species observations. They also allow ground and water to be included.
+Relative functions calculate relative frequency, coverage, and importance for each category. There is also a species summary function that produces a summary of each species' relative metrics in the data frame. Relative functions always allow duplicate species observations. They also always allow ground and water to be included.
 
 Relative functions have one additional argument which tells the functions what to calculate the relative value of: 
 
@@ -315,6 +315,10 @@ Relative functions do not have a native argument.
 relative_freq(transect, key = "acronym", db = "michigan_2014", 
               col = "physiog")
 
+#can also include bare ground and water
+relative_freq(transect_unveg, key = "acronym", db = "michigan_2014", 
+              col = "physiog")
+
 #relative cover
 relative_cover(transect, key = "acronym", db = "michigan_2014", 
                col = "family", cover_metric = "percent_cover")
@@ -323,12 +327,12 @@ relative_cover(transect, key = "acronym", db = "michigan_2014",
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
                     col = "species", cover_metric = "percent_cover")
 
-#species summary
-species_summary(transect, key = "acronym", db = "michigan_2014", 
+#species summary (including ground and water)
+species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
 
-#physiognomy summary
-physiog_summary(transect, key = "acronym", db = "michigan_2014", 
+#physiognomy summary (including ground and water)
+physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
 ```
 
