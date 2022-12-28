@@ -21,7 +21,7 @@
 #' cover_mean_c(x = plot, key = "acronym", db = "michigan_2014", native = FALSE,
 #' allow_duplicates = FALSE)
 
-cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
+cover_mean_c <- function(x, key = "name", db, native = FALSE,
                            cover_metric = "percent_cover", allow_duplicates) {
 
   #get accepted entries
@@ -69,7 +69,7 @@ cover_mean_c <- function(x, key = "scientific_name", db, native = FALSE,
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014",
 #' native = FALSE, allow_duplicates = TRUE)
 
-cover_FQI <- function(x, key = "scientific_name", db, native = FALSE,
+cover_FQI <- function(x, key = "name", db, native = FALSE,
                       cover_metric = "percent_cover", allow_duplicates) {
 
   fqi <- cover_mean_c(x, key, db, native, cover_metric, allow_duplicates) *
@@ -100,7 +100,7 @@ cover_FQI <- function(x, key = "scientific_name", db, native = FALSE,
 #'
 #' transect_summary(x = transect, key = "acronym", db = "michigan_2014")
 
-transect_summary <- function(x, key = "scientific_name", db, cover_metric = "percent_cover",
+transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover",
                              allow_no_c = TRUE) {
 
 
@@ -188,7 +188,7 @@ transect_summary <- function(x, key = "scientific_name", db, cover_metric = "per
 #' cover_metric = "percent_cover", plot_id = "quad_id")
 
 
-plot_summary <- function(x, key = "scientific_name", db,
+plot_summary <- function(x, key = "name", db,
                          cover_metric = "percent_cover", plot_id,
                          allow_no_c = TRUE, allow_non_veg = TRUE){
 
