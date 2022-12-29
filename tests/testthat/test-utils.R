@@ -12,6 +12,20 @@ test_that("view_db() throws error if db is not recognized", {
                "michigaan_2014 is not recognized.")
 })
 
+#test that output has the right dimensions
+test_that("view_db() throws error if db is not recognized", {
+  expect_equal(dim(view_db("michigan_2014")),
+                   c(3356, 12))
+})
+
+#test that output has the right column names
+test_that("view_db() throws error if db is not recognized", {
+  expect_equal(names(view_db("michigan_2014")),
+               c("name", "name_origin", "acronym", "accepted_scientific_name",
+                 "family", "nativity", "c", "w", "physiognomy", "duration",
+                 "common_name", "fqa_db"))
+})
+
 #-------------------------------------------------------------------------------
 #testing unassigned_plants()
 
