@@ -26,6 +26,13 @@
 
 mean_w <- function(x, key = "name", db, native = FALSE, allow_no_c = TRUE) {
 
+  #messages about wetland status indicator defaults
+  if (db == "wyoming_2017")
+    message("The Wyoming FQA database is associated with multiple wetland indicator status regions. This package defaults to the Arid West wetland indicator region when calculating Wyoming metrics.")
+
+  if (db == "colorado_2020")
+    message("The Colorado FQA database is associated with multiple wetland indicator status regions. This package defaults to the Western Mountains, Valleys, and Coasts indicator region when calculating Wyoming metrics.")
+
   #calculate mean W vlaue
   mean_w <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = FALSE,

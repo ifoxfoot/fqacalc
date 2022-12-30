@@ -299,7 +299,7 @@ accepted_entries <- function(x, key = "name", db,
   if( any(is.na(entries_joined$accepted_scientific_name)) ) {
 
     #send message to user
-    message(paste("Species", entries_joined[is.na(entries_joined$accepted_scientific_name), key],
+    message(paste("Species", unique(entries_joined[is.na(entries_joined$accepted_scientific_name), key]),
                   "not listed in database. It will be discarded."))
 
     #get rid of observations not in regional list
