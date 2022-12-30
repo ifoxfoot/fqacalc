@@ -5,7 +5,7 @@
 test_that("relative_frequency() works", {
   expect_equal(relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "physiog"),
                data.frame(physiognomy = c("forb", "grass", "tree"),
-                          rel_freq = c(42.857143, 28.571429, 28.571429)))
+                          relative_frequency = c(42.857143, 28.571429, 28.571429)))
   expect_error(relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "plant"),
                "'col' argument can only be set to 'species', 'family', or 'physiog'")
 })
@@ -16,7 +16,7 @@ test_that("relative_frequency() works", {
 test_that("relative_cover() works", {
   expect_equal(relative_cover(transect, key = "acronym", db = "michigan_2014", col = "physiog"),
                data.frame(physiognomy = c("forb", "grass", "tree"),
-                          rel_cov = c(56.8720379, 37.9146919, 5.2132701)))
+                          relative_cover = c(56.8720379, 37.9146919, 5.2132701)))
   expect_error(relative_cover(transect, key = "acronym", db = "michigan_2014", col = "plant"),
                "'col' argument can only be set to 'species', 'family', or 'physiog'")
 })
@@ -27,7 +27,7 @@ test_that("relative_cover() works", {
 test_that("relative_importance() works", {
   expect_equal(relative_importance(transect, key = "acronym", db = "michigan_2014", col = "family"),
                data.frame(family = c("Malvaceae", "Melanthiaceae", "Pinaceae", "Poaceae"),
-                          rel_import = c(35.6127285, 14.2518619, 16.8923494, 33.2430603)))
+                          relative_importance = c(35.6127285, 14.2518619, 16.8923494, 33.2430603)))
 
   expect_error(relative_importance(transect, key = "acronym", db = "michigan_2014", col = "plant"),
                "'col' argument can only be set to 'species', 'family', or 'physiog'")
@@ -49,9 +49,9 @@ test_that("species_summary() works in perfect setting", {
                           w = c(5, 0, 5, -3),
                           frequency = c(2,2,2,1),
                           coverage = c(90, 11, 80, 30),
-                          rel_freq = c(28.5714286, 28.5714286, 28.5714286, 14.2857143),
-                          rel_cov = c(42.6540284, 5.2132701, 37.9146919, 14.2180095),
-                          rel_import = c(35.6127285, 16.8923494, 33.2430603, 14.2518619)))
+                          relative_frequency = c(28.5714286, 28.5714286, 28.5714286, 14.2857143),
+                          relative_cover = c(42.6540284, 5.2132701, 37.9146919, 14.2180095),
+                          relative_importance = c(35.6127285, 16.8923494, 33.2430603, 14.2518619)))
 })
 
 #-------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ test_that("physiog_summary() works in perfect setting", {
                                           "tree"),
                           frequency = c(3,2,2),
                           coverage = c(120, 80, 11),
-                          rel_freq = c(42.85714286, 28.5714286, 28.5714286),
-                          rel_cov = c(56.87203791, 37.91469194, 5.21327014),
-                          rel_import = c(49.86459,  33.2430603, 16.8923494)))
+                          relative_frequency = c(42.85714286, 28.5714286, 28.5714286),
+                          relative_cover = c(56.87203791, 37.91469194, 5.21327014),
+                          relative_importance = c(49.86459,  33.2430603, 16.8923494)))
 })

@@ -38,8 +38,8 @@ relative_frequency <- function(x, key = "name", db,
                           allow_no_c = TRUE,
                           allow_non_veg = TRUE) {
 
-  #declaring rel_freq as null so I can use as a veriable name
-  rel_freq <- NULL
+  #declaring relative_frequency as null so I can use as a veriable name
+  relative_frequency <- NULL
 
   #col argument must be right
   if( !col %in% c("species", "family", "physiog"))
@@ -57,8 +57,8 @@ relative_frequency <- function(x, key = "name", db,
                               allow_non_veg)
 
   #calculate relative frequency--fre/num observations
-  df <- data.frame(dplyr::count(entries, !!as.name(name), name = "rel_freq")) %>%
-    dplyr::mutate(rel_freq = 100*rel_freq/nrow(entries))
+  df <- data.frame(dplyr::count(entries, !!as.name(name), name = "relative_frequency")) %>%
+    dplyr::mutate(relative_frequency = 100*relative_frequency/nrow(entries))
 
   #return result
   return(df)
@@ -105,8 +105,8 @@ relative_cover <- function(x, key = "name", db,
                            cover_metric = "percent_cover", allow_no_c = TRUE,
                            allow_non_veg = TRUE){
 
-  #declaring rel_cov is null
-  rel_cov <- NULL
+  #declaring relative_cover is null
+  relative_cover <- NULL
 
   #col argument must be right
   if( !col %in% c("species", "family", "physiog"))
@@ -127,8 +127,8 @@ relative_cover <- function(x, key = "name", db,
     #caclulate cover per group
     dplyr::summarise(sum = sum(.data$cover)) %>%
     as.data.frame() %>%
-    dplyr::mutate(rel_cov = 100*sum/sum(sum)) %>%
-    dplyr::select(!!as.name(name), rel_cov)
+    dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
+    dplyr::select(!!as.name(name), relative_cover)
 
   #return the result
   return(entries)
@@ -173,7 +173,7 @@ relative_importance <- function(x, key = "name", db,
                                 allow_non_veg = TRUE){
 
   #declaring var names as null
-  rel_import <- NULL
+  relative_importance <- NULL
 
   #which column is being called?
   name <- if(col == "species")  {"name"}
@@ -183,8 +183,8 @@ relative_importance <- function(x, key = "name", db,
   avg <- merge(
     relative_frequency(x, key, db, col, allow_no_c, allow_non_veg),
     relative_cover(x, key, db, col, cover_metric, allow_no_c, allow_non_veg)) %>%
-    dplyr::mutate(rel_import = (.data$rel_freq + .data$rel_cov)/2) %>%
-    dplyr::select(!!as.name(name), rel_import)
+    dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2) %>%
+    dplyr::select(!!as.name(name), relative_importance)
 
   #return value
   return(avg)
@@ -247,20 +247,20 @@ species_summary <- function(x, key = "name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  rel_freq <- relative_frequency(x, key, db, col = "species", allow_no_c, allow_non_veg)
+  relative_frequency <- relative_frequency(x, key, db, col = "species", allow_no_c, allow_non_veg)
 
   #relative cover
-  rel_cov <- relative_cover(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
+  relative_cover <- relative_cover(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
 
   #relative importance
-  rel_import <- relative_importance(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
+  relative_importance <- relative_importance(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
 
 
   #merge together
   df <- merge(c_score, group) %>%
-    merge(rel_freq) %>%
-    merge(rel_cov) %>%
-    merge(rel_import)
+    merge(relative_frequency) %>%
+    merge(relative_cover) %>%
+    merge(relative_importance)
 
 
   return(df)
@@ -316,18 +316,18 @@ physiog_summary <- function(x, key = "name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  rel_freq <- relative_frequency(x, key, db, col = "physiog", allow_no_c, allow_non_veg)
+  relative_frequency <- relative_frequency(x, key, db, col = "physiog", allow_no_c, allow_non_veg)
 
   #relative cover
-  rel_cov <- relative_cover(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
+  relative_cover <- relative_cover(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
 
   #relative importance
-  rel_import <- relative_importance(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
+  relative_importance <- relative_importance(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
 
   #merge together
-  df <- merge(group, rel_freq) %>%
-    merge(rel_cov) %>%
-    merge(rel_import)
+  df <- merge(group, relative_frequency) %>%
+    merge(relative_cover) %>%
+    merge(relative_importance)
 
 
   return(df)
