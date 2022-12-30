@@ -21,16 +21,20 @@ db_names <- function() {
 
   #filter system data for db names
   df <- data.frame(name = c(unique(fqa_db$fqa_db))) %>%
-    dplyr::mutate(status = "Approved") %>%
+    dplyr::mutate(usace_status = "Approved 2021") %>%
     #note approval status
-    dplyr::mutate(status = dplyr::case_when(name %in%
-      c("atlantic_coastal_pine_barrens_2018",
-      "connecticut_2013",
-      "deleware_2013",
-      "maine_2014",
-      "maine_new_brunswick_2018",
-      "vermont_2013")
-      ~ "Approved with reservations", TRUE ~ status))
+    dplyr::mutate(usace_status = dplyr::case_when(name %in%
+                                              c("atlantic_coastal_pine_barrens_2018",
+                                                "delaware_2013",
+                                                "maine_new_brunswick_2018")
+                                            ~ "Approved with reservations 2021",
+                                            TRUE ~ usace_status)) %>%
+    dplyr::mutate(usace_status = dplyr::case_when(name %in%
+                                              c("chicago_region_2014",
+                                                "dakotas_excluding_black_hills_2017",
+                                                "kansas_2014")
+                                            ~ "Previously Certified",
+                                            TRUE ~ usace_status))
 
   #return names
   return(df)

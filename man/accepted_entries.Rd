@@ -86,7 +86,7 @@ accepted_entries(x = duplicate_df, key = "acronym",
 db = "michigan_2014", native = FALSE, allow_duplicates = TRUE)
 
 #an example of duplicates not allowed
-accepted_entries(x = duplicate_dft, key = "acronym",
+accepted_entries(x = duplicate_df, key = "acronym",
 db = "michigan_2014", native = FALSE, allow_duplicates = FALSE)
 
 #an example of duplicates not allowed, adding cover values

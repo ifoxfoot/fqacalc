@@ -63,7 +63,7 @@
 #' db = "michigan_2014", native = FALSE, allow_duplicates = TRUE)
 #'
 #' #an example of duplicates not allowed
-#' accepted_entries(x = duplicate_dft, key = "acronym",
+#' accepted_entries(x = duplicate_df, key = "acronym",
 #' db = "michigan_2014", native = FALSE, allow_duplicates = FALSE)
 #'
 #' #an example of duplicates not allowed, adding cover values
@@ -122,7 +122,7 @@ accepted_entries <- function(x, key = "name", db,
     stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #error if db is not a legit db
-  if( !db %in% unique(fqa_db$fqa_db) )
+  if( !db %in% db_names()$name )
     stop(paste(db, "not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #native must be TRUE or FALSE
