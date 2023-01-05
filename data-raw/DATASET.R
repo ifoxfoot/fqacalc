@@ -11,7 +11,6 @@ library(naniar)
 
 #FOR UNIVERSAL FQA DBS---------------------------------------------------------------
 
-
 #create list of file names
 univ_files <- list.files(path = here("data-raw", "FQA_databases"),
                          pattern = "*.csv",
@@ -437,22 +436,22 @@ chic_piv <- chicago_clean %>%
   distinct(scientific_name, name_origin, ID, .keep_all = TRUE)
 
 #figuring out missing acronyms
-# chicago_raw_counts <- chicago_clean %>%
-#   group_by(ID) %>%
-#   count() %>%
-#   rename(raw_counts = n)
+chicago_raw_counts <- chicago_clean %>%
+  group_by(ID) %>%
+  count() %>%
+  rename(raw_counts = n)
 #
-# chicago_piv_counts <- chic_piv %>%
-#   group_by(ID) %>%
-#   count() %>%
-#   rename(piv_counts = n)
-#
-# non_match <- merge(chicago_raw_counts, chicago_piv_counts, by = "ID") %>%
-#   mutate(match = raw_counts == piv_counts)
+chicago_piv_counts <- chic_piv %>%
+  group_by(ID) %>%
+  count() %>%
+  rename(piv_counts = n)
 
-# chic_dup <- chic_piv %>%
-#   group_by(acronym) %>%
-#   count()
+non_match <- merge(chicago_raw_counts, chicago_piv_counts, by = "ID") %>%
+  mutate(match = raw_counts == piv_counts)
+
+chic_dup <- chic_piv %>%
+  group_by(acronym) %>%
+  count()
 
 #COLORADO-----------------------------------------------------------------------
 
@@ -659,9 +658,9 @@ ohio_clean <- ohio %>%
                      scientific_name == "Collinsonia verticillata" ~ "COLVET",
                      scientific_name == "Chenopodium glaucum" ~ "CHEGLU", T ~ acronym))
 
-# ohio_dubs <- ohio_clean %>%
-#   group_by(scientific_name) %>%
-#   count()
+ohio_dubs <- ohio_clean %>%
+  group_by(scientific_name) %>%
+  count()
 
 #WYOMING------------------------------------------------------------------------
 

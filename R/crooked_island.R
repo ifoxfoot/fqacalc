@@ -7,7 +7,7 @@
 #' @format A data frame with 35 rows and 3 variables:
 #' \describe{
 #'   \item{name}{Latin names for each plant}
-#'   \item{acronym}{A unique acronym for each plant}
+#'   \item{acronym}{Unique acronyms for each plant}
 #'   \item{common_name}{Common names for each plant}
 #'   ...
 #' }

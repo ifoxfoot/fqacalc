@@ -247,13 +247,16 @@ species_summary <- function(x, key = "name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  relative_frequency <- relative_frequency(x, key, db, col = "species", allow_no_c, allow_non_veg)
+  relative_frequency <- relative_frequency(x, key, db, col = "species",
+                                           allow_no_c, allow_non_veg)
 
   #relative cover
-  relative_cover <- relative_cover(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
+  relative_cover <- relative_cover(x, key, db, col = "species",
+                                   cover_metric, allow_no_c, allow_non_veg)
 
   #relative importance
-  relative_importance <- relative_importance(x, key, db, col = "species", cover_metric, allow_no_c, allow_non_veg)
+  relative_importance <- relative_importance(x, key, db, col = "species",
+                                             cover_metric, allow_no_c, allow_non_veg)
 
 
   #merge together
@@ -316,13 +319,16 @@ physiog_summary <- function(x, key = "name", db,
                      coverage = sum(.data$cover))
 
   #relative frequency
-  relative_frequency <- relative_frequency(x, key, db, col = "physiog", allow_no_c, allow_non_veg)
+  relative_frequency <- relative_frequency(x, key, db, col = "physiog",
+                                           allow_no_c, allow_non_veg)
 
   #relative cover
-  relative_cover <- relative_cover(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
+  relative_cover <- relative_cover(x, key, db, col = "physiog",
+                                   cover_metric, allow_no_c, allow_non_veg)
 
   #relative importance
-  relative_importance <- relative_importance(x, key, db, col = "physiog", cover_metric, allow_no_c, allow_non_veg)
+  relative_importance <- relative_importance(x, key, db, col = "physiog",
+                                             cover_metric, allow_no_c, allow_non_veg)
 
   #merge together
   df <- merge(group, relative_frequency) %>%
