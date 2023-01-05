@@ -52,13 +52,13 @@ the `view_db()` function.
 ``` r
 #view a list of all available databases
 head(db_names())
-#>                                       name                     status
-#> 1       atlantic_coastal_pine_barrens_2018 Approved with reservations
-#> 2                      chicago_region_2014                   Approved
-#> 3                      chicago_region_2017                   Approved
-#> 4                            colorado_2020                   Approved
-#> 5       dakotas_excluding_black_hills_2017                   Approved
-#> 6 eastern_great_lakes_hudson_lowlands_2018                   Approved
+#>                                 name                    usace_status
+#> 1 atlantic_coastal_pine_barrens_2018 Approved with reservations 2021
+#> 2                chicago_region_2014            Previously Certified
+#> 3                chicago_region_2017                   Approved 2021
+#> 4                      colorado_2020                   Approved 2021
+#> 5 dakotas_excluding_black_hills_2017            Previously Certified
+#> 6                      delaware_2013 Approved with reservations 2021
 
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
@@ -68,7 +68,7 @@ head(colorado)
 #> # A tibble: 6 × 12
 #>   name        name_…¹ acronym accep…² family nativ…³     c     w physi…⁴ durat…⁵
 #>   <chr>       <chr>   <chr>   <chr>   <chr>  <chr>   <dbl> <dbl> <chr>   <chr>  
-#> 1 ABIES       accept… ABIES   Abies   Pinac… native      5    NA tree    <NA>   
+#> 1 ABIES SP.   accept… ABIES   Abies   Pinac… native      5    NA tree    <NA>   
 #> 2 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     3 tree    perenn…
 #> 3 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     3 tree    perenn…
 #> 4 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA tree    perenn…
@@ -645,66 +645,72 @@ Relative functions do not have a native argument.
 #relative frequency
 relative_frequency(transect, key = "acronym", db = "michigan_2014", 
               col = "physiog")
-#>   physiognomy rel_freq
-#> 1        forb 42.85714
-#> 2       grass 28.57143
-#> 3        tree 28.57143
+#>   physiognomy relative_frequency
+#> 1        forb           42.85714
+#> 2       grass           28.57143
+#> 3        tree           28.57143
 
 #can also include bare ground and water
 relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014", 
               col = "physiog")
-#>          physiognomy rel_freq
-#> 1               forb       30
-#> 2              grass       20
-#> 3               tree       20
-#> 4 Unvegetated Ground       20
-#> 5  Unvegetated Water       10
+#>          physiognomy relative_frequency
+#> 1               forb                 30
+#> 2              grass                 20
+#> 3               tree                 20
+#> 4 Unvegetated Ground                 20
+#> 5  Unvegetated Water                 10
 
 #relative cover
 relative_cover(transect, key = "acronym", db = "michigan_2014", 
                col = "family", cover_metric = "percent_cover")
-#>          family  rel_cov
-#> 1     Malvaceae 42.65403
-#> 2 Melanthiaceae 14.21801
-#> 3      Pinaceae  5.21327
-#> 4       Poaceae 37.91469
+#>          family relative_cover
+#> 1     Malvaceae       42.65403
+#> 2 Melanthiaceae       14.21801
+#> 3      Pinaceae        5.21327
+#> 4       Poaceae       37.91469
 
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
                     col = "species", cover_metric = "percent_cover")
-#>                      name rel_import
-#> 1  ABELMOSCHUS ESCULENTUS   35.61273
-#> 2          ABIES BALSAMEA   16.89235
-#> 3 AMMOPHILA BREVILIGULATA   33.24306
-#> 4        ANTICLEA ELEGANS   14.25186
+#>                      name relative_importance
+#> 1  ABELMOSCHUS ESCULENTUS            35.61273
+#> 2          ABIES BALSAMEA            16.89235
+#> 3 AMMOPHILA BREVILIGULATA            33.24306
+#> 4        ANTICLEA ELEGANS            14.25186
 
 #species summary (including ground and water)
 species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
-#>                      name acronym   nativity  c  w frequency coverage rel_freq
-#> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90       20
-#> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11       20
-#> 3 AMMOPHILA BREVILIGULATA  AMMBRE     native 10  5         2       80       20
-#> 4        ANTICLEA ELEGANS  ANTELE     native 10 -3         1       30       10
-#> 5      UNVEGETATED GROUND  GROUND       <NA>  0  0         2       80       20
-#> 6       UNVEGETATED WATER   WATER       <NA>  0  0         1       20       10
-#>     rel_cov rel_import
-#> 1 28.938907  24.469453
-#> 2  3.536977  11.768489
-#> 3 25.723473  22.861736
-#> 4  9.646302   9.823151
-#> 5 25.723473  22.861736
-#> 6  6.430868   8.215434
+#>                      name acronym   nativity  c  w frequency coverage
+#> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90
+#> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11
+#> 3 AMMOPHILA BREVILIGULATA  AMMBRE     native 10  5         2       80
+#> 4        ANTICLEA ELEGANS  ANTELE     native 10 -3         1       30
+#> 5      UNVEGETATED GROUND  GROUND       <NA>  0  0         2       80
+#> 6       UNVEGETATED WATER   WATER       <NA>  0  0         1       20
+#>   relative_frequency relative_cover relative_importance
+#> 1                 20      28.938907           24.469453
+#> 2                 20       3.536977           11.768489
+#> 3                 20      25.723473           22.861736
+#> 4                 10       9.646302            9.823151
+#> 5                 20      25.723473           22.861736
+#> 6                 10       6.430868            8.215434
 
 #physiognomy summary (including ground and water)
 physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_metric = "percent_cover")
-#>          physiognomy frequency coverage rel_freq   rel_cov rel_import
-#> 1               forb         3      120       30 38.585209  34.292605
-#> 2              grass         2       80       20 25.723473  22.861736
-#> 3               tree         2       11       20  3.536977  11.768489
-#> 4 Unvegetated Ground         2       80       20 25.723473  22.861736
-#> 5  Unvegetated Water         1       20       10  6.430868   8.215434
+#>          physiognomy frequency coverage relative_frequency relative_cover
+#> 1               forb         3      120                 30      38.585209
+#> 2              grass         2       80                 20      25.723473
+#> 3               tree         2       11                 20       3.536977
+#> 4 Unvegetated Ground         2       80                 20      25.723473
+#> 5  Unvegetated Water         1       20                 10       6.430868
+#>   relative_importance
+#> 1           34.292605
+#> 2           22.861736
+#> 3           11.768489
+#> 4           22.861736
+#> 5            8.215434
 ```
 
 ## Wetness metric

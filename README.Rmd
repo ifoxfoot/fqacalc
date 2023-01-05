@@ -233,6 +233,7 @@ Cover-Weighted Functions calculate the same metrics but they are weighted by how
 
 The following tables describe how cover classes are converted to percent cover. Internally, cover-weighted functions convert cover classes to the percent cover midpoint, which reduces accuracy. Therefore using percent cover is recommended over using cover classes.
 
+
 | Braun-Blanquet Classes | \% Cover Range | Midpoint |
 |------------------------|----------------|----------|
 | \+                     | \<1%           | 0.1      |
@@ -241,6 +242,7 @@ The following tables describe how cover classes are converted to percent cover. 
 | 3                      | 25-50%         | 37.5     |
 | 4                      | 50-75%         | 62.5     |
 | 4                      | 75-100%        | 87.5     |
+
 
 | Carolina Veg Survey Classes | \% Cover Range | Midpoint |
 |-----------------------------|----------------|----------|
@@ -255,6 +257,7 @@ The following tables describe how cover classes are converted to percent cover. 
 | 9                           | 75-95%         | 85       |
 | 10                          | 95-100%        | 97.5     |
 
+
 | Daubenmire Classes | \% Cover Range | Midpoint |
 |--------------------|----------------|----------|
 | 1                  | 0-5%           | 2.5      |
@@ -263,6 +266,7 @@ The following tables describe how cover classes are converted to percent cover. 
 | 4                  | 50-75%         | 62.5     |
 | 5                  | 75-95%         | 85       |
 | 6                  | 95-100%        | 97.5     |
+
 
 | USFS Ecodata Classes | \% Cover Range | Midpoint |
 |----------------------|----------------|----------|
