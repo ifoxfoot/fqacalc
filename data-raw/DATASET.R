@@ -210,7 +210,8 @@ clean_acronyms <- syn_na_acronyms %>%
                                name == "Osmunda cinnamomea" ~ "OSCI",
                              T ~ acronym)) %>%
   mutate(acronym = case_when(fqa_db == "west_virginia_2015.csv" &
-                               name == "Osmunda cinnamomea" ~ "OSCI",
+                               acronym == "PIRE" &
+                               native == "native" ~ "PIREN",
                              T ~ acronym)) %>%
   #temporary code
   rename(scientific_name = name)
@@ -656,11 +657,22 @@ ohio_clean <- ohio %>%
                      scientific_name == "Solidago speciosa Nutt. var. rigidiuscula" ~ "SOLSPR",
                      scientific_name == "Cuscuta epithymum" ~ "CUSEPT",
                      scientific_name == "Collinsonia verticillata" ~ "COLVET",
-                     scientific_name == "Chenopodium glaucum" ~ "CHEGLU", T ~ acronym))
-
-ohio_dubs <- ohio_clean %>%
-  group_by(scientific_name) %>%
-  count()
+                     scientific_name == "Chenopodium glaucum" ~ "CHEGLU", T ~ acronym)) %>%
+  mutate(scientific_name = case_when(scientific_name == "Najas marina" &
+                                       native == "native" ~ "Najas marina (native)",
+                                     T ~ scientific_name)) %>%
+  mutate(acronym = case_when(scientific_name == "Najas marina (native)" ~ "NAJMARI",
+                             T ~ acronym)) %>%
+  mutate(scientific_name = case_when(scientific_name == "Phlox subulata" &
+                                       native == "native" ~ "Phlox subulata (native)",
+                                     T ~ scientific_name)) %>%
+  mutate(acronym = case_when(scientific_name == "Phlox subulata (native)" ~ "PHLSUBT",
+                             T ~ acronym)) %>%
+  mutate(scientific_name = case_when(scientific_name == "Pinus strobus" &
+                                       native == "native" ~ "Pinus strobus (native)",
+                                     T ~ scientific_name)) %>%
+  mutate(acronym = case_when(scientific_name == "Pinus strobus (native)" ~ "PINSTRO",
+                             T ~ acronym))
 
 #WYOMING------------------------------------------------------------------------
 
@@ -712,14 +724,16 @@ fqa_db_bind <- rbind(clean_acronyms,
                      wyoming_pivot) %>%
   #remove csv from end of fqa_db column
   mutate(fqa_db = str_remove_all(fqa_db, ".csv")) %>%
+  #covert things to uppercase
+  mutate(scientific_name = toupper(scientific_name)) %>%
   #fixing white spaces in scientific name
   mutate(scientific_name = str_squish(scientific_name)) %>%
   mutate(scientific_name = str_trim(scientific_name, side = "both")) %>%
   mutate(scientific_name = case_when(!str_detect(scientific_name, pattern = " ") ~
                                        paste(scientific_name, "SP."),
                                      T ~ scientific_name)) %>%
-  #covert things to uppercase
-  mutate(scientific_name = toupper(scientific_name)) %>%
+  #delete observations that convert species
+  filter(str_detect(scientific_name, " SP\\.", negate = TRUE)) %>%
   rename(name = scientific_name)
 
 #get unique values to clean
@@ -727,13 +741,6 @@ unique_native <- data.frame(unique(fqa_db_bind$native))
 unique_w <- data.frame(unique(fqa_db_bind$w))
 unique_physiog <- data.frame(unique(fqa_db_bind$physiognomy))
 unique_duration <- data.frame(unique(fqa_db_bind$duration))
-
-#get counts that contain SP
-# SP_counts <- fqa_db_bind %>%
-#   filter(str_detect(name, " SP\\.")) %>%
-#   group_by(fqa_db) %>%
-#   count()
-
 
 #cleaning up native column
 fqa_native <- fqa_db_bind %>%
