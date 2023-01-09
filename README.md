@@ -44,7 +44,7 @@ library(readxl) #for reading in excel files
 `fqacalc` contains all regional FQAI databases that have been either
 fully approved or approved with reservations for use by the US Army
 Corps of Engineers. By referencing these databases, the package can
-assign Coefficients of Conservatism (or C Value) to each plant that the
+assign a Coefficient of Conservatism (or C Value) to each plant that the
 user inputs. A list of regional FQAI databases can be viewed using the
 `db_names()` function, and specific FQA databases can be accessed using
 the `view_db()` function.
@@ -133,12 +133,12 @@ data must be in a certain format.
     class or else they won’t be recognized. See the section on
     cover-weighted functions to learn more about cover classes.
 
-3.  If the user is calculation plot metrics, the data must have another
+3.  If the user is calculating plot metrics, the data must have another
     column containing the plot ID. In this case, each observation is one
     row, containing the species name or acronym, the cover value, and
     the plot ID.
 
-It might looks something like this:
+It might look something like this:
 
 <table>
 <thead>
@@ -242,14 +242,15 @@ expected 35 entries.
 
 ### What happens when plants don’t have C values?
 
-In some cases, plants from the user list can be matched to the regional
-database, but the plant is not associated with any C Value. This is
-usually because not enough is known about that plant. Plants that are
-matched but have no C Value will be excluded from FQI metric calculation
-but they can *optionally* be included in other metrics like species
-richness, relative cover, relative frequency, relative importance, and
-mean wetness, as well as any summarizing functions containing these
-metrics. This option is denoted with the `allow_no_c` argument.
+In some cases, plants from the site assessment can be matched to the
+regional database, but the plant is not associated with any C Value.
+This is usually because not enough is known about that plant. Plants
+that are matched but have no C Value will be excluded from FQI metric
+calculation but they can *optionally* be included in other metrics like
+species richness, relative cover, relative frequency, relative
+importance, and mean wetness, as well as any summarizing functions
+containing these metrics. This option is denoted with the `allow_no_c`
+argument.
 
 `unassigned_plants()` is a function that shows the user which plants
 have not been assigned a C Value.
@@ -265,6 +266,7 @@ no_c_plants<- data.frame(name = c("ABRONIA FRAGRANS",
 
 #then create a df of unassigned plants
 unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
+#> montana_2017 does not have wetland coefficients, wetland metrics cannot be calculated.
 #>                  name              name_origin acronym accepted_scientific_name
 #> 1    ABRONIA FRAGRANS accepted_scientific_name    <NA>         Abronia fragrans
 #> 2 ACER GRANDIDENTATUM accepted_scientific_name    <NA>      Acer grandidentatum
@@ -282,12 +284,12 @@ Two of these species have no C Values.
 
 If the site assessment data contains duplicate species, they will be
 excluded from certain FQA metrics. For example, species richness counts
-the number of unique species so duplicates are not allowed. Generally,
+the number of unique species, so duplicates are not allowed. Generally,
 duplicates are excluded for all non-cover-weighted metrics but can
 optionally be included in cover-weighted metrics unless they are in the
 same plot. Duplicate behavior in cover-weighted functions is controlled
 by the `allow_duplicates` argument. If there are duplicates, and the
-user is attempting to preform a cover-weighted calculation where
+user is attempting to perform a cover-weighted calculation where
 duplicates are not allowed, the they will be condensed into one species
 with an aggregate cover value. Duplicates can always be included in all
 frequency metrics.
@@ -440,8 +442,8 @@ Cover values can be continuous (i.e. percent cover) or classed
 
 The following tables describe how cover classes are converted to percent
 cover. Internally, cover-weighted functions convert cover classes to the
-percent cover midpoint, which reduces accuracy. Therefore using percent
-cover is recommended over using cover classes.
+percent cover midpoint, which reduces accuracy. For this reason using
+percent cover is recommended over using cover classes.
 
 | Braun-Blanquet Classes | % Cover Range | Midpoint |
 |------------------------|---------------|----------|

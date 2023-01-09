@@ -41,7 +41,7 @@ library(readxl) #for reading in excel files
 
 ## Package Data
 
-`fqacalc` contains all regional FQAI databases that have been either fully approved or approved with reservations for use by the US Army Corps of Engineers. By referencing these databases, the package can assign Coefficients of Conservatism (or C Value) to each plant that the user inputs. A list of regional FQAI databases can be viewed using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
+`fqacalc` contains all regional FQAI databases that have been either fully approved or approved with reservations for use by the US Army Corps of Engineers. By referencing these databases, the package can assign a Coefficient of Conservatism (or C Value) to each plant that the user inputs. A list of regional FQAI databases can be viewed using the `db_names()` function, and specific FQA databases can be accessed using the `view_db()` function. 
 
 ```{r}
 #view a list of all available databases
@@ -79,9 +79,9 @@ In order to calculate FQA metrics using `fqacalc`, the site assessment data must
 
 2. If the user is calculating cover-weighted metrics, the data must have another column containing cover values and it must be called `cover`. If the cover values are in percent cover, they must be between 0-100. If they are in a class, they must be correct for that class or else they won't be recognized. See the section on cover-weighted functions to learn more about cover classes.
 
-3. If the user is calculation plot metrics, the data must have another column containing the plot ID. In this case, each observation is one row, containing the species name or acronym, the cover value, and the plot ID.
+3. If the user is calculating plot metrics, the data must have another column containing the plot ID. In this case, each observation is one row, containing the species name or acronym, the cover value, and the plot ID.
 
-It might looks something like this:
+It might look something like this:
 
 ```{r, echo = F}
 data <- data.frame(plot_id = c(1, 1, 2, 2),
@@ -120,7 +120,7 @@ Now, when we use `accepted_entries()` to see which species were matched to the r
 
 ### What happens when plants don't have C values?
 
-In some cases, plants from the user list can be matched to the regional database, but the plant is not associated with any C Value. This is usually because not enough is known about that plant. Plants that are matched but have no C Value will be excluded from FQI metric calculation but they can *optionally* be included in other metrics like species richness, relative cover, relative frequency, relative importance, and mean wetness, as well as any summarizing functions containing these metrics. This option is denoted with the `allow_no_c` argument. 
+In some cases, plants from the site assessment can be matched to the regional database, but the plant is not associated with any C Value. This is usually because not enough is known about that plant. Plants that are matched but have no C Value will be excluded from FQI metric calculation but they can *optionally* be included in other metrics like species richness, relative cover, relative frequency, relative importance, and mean wetness, as well as any summarizing functions containing these metrics. This option is denoted with the `allow_no_c` argument. 
 
 `unassigned_plants()` is a function that shows the user which plants have not been assigned a C Value.
 
@@ -142,7 +142,7 @@ Two of these species have no C Values.
 
 ### How will duplicates be treated?
 
-If the site assessment data contains duplicate species, they will be excluded from certain FQA metrics. For example, species richness counts the number of unique species so duplicates are not allowed. Generally, duplicates are excluded for all non-cover-weighted metrics but can optionally be included in cover-weighted metrics unless they are in the same plot. Duplicate behavior in cover-weighted functions is controlled by the `allow_duplicates` argument. If there are duplicates, and the user is attempting to preform a cover-weighted calculation where duplicates are not allowed, the they will be condensed into one species with an aggregate cover value. Duplicates can always be included in all frequency metrics. 
+If the site assessment data contains duplicate species, they will be excluded from certain FQA metrics. For example, species richness counts the number of unique species, so duplicates are not allowed. Generally, duplicates are excluded for all non-cover-weighted metrics but can optionally be included in cover-weighted metrics unless they are in the same plot. Duplicate behavior in cover-weighted functions is controlled by the `allow_duplicates` argument. If there are duplicates, and the user is attempting to perform a cover-weighted calculation where duplicates are not allowed, the they will be condensed into one species with an aggregate cover value. Duplicates can always be included in all frequency metrics. 
 
 If there is a duplicate species and `allow_duplicates = FALSE`, a message will warn the user that the duplicate will be removed. See this example.
 
@@ -231,7 +231,7 @@ All of the functions are documented with help pages.
 
 Cover-Weighted Functions calculate the same metrics but they are weighted by how abundant each species is. Therefore, the input data frame must also have a column named `cover` containing cover values. Cover values can be continuous (i.e. percent cover) or classed (i.e. using the Braun-Blanquet method).
 
-The following tables describe how cover classes are converted to percent cover. Internally, cover-weighted functions convert cover classes to the percent cover midpoint, which reduces accuracy. Therefore using percent cover is recommended over using cover classes.
+The following tables describe how cover classes are converted to percent cover. Internally, cover-weighted functions convert cover classes to the percent cover midpoint, which reduces accuracy. For this reason using percent cover is recommended over using cover classes.
 
 
 | Braun-Blanquet Classes | \% Cover Range | Midpoint |
