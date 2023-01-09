@@ -30,7 +30,8 @@ species_richness <- function(x, key = "name", db, native = FALSE, allow_no_c = T
   species_richness <- nrow(accepted_entries(x, key, db, native, allow_no_c,
                                             cover_weighted = FALSE,
                                             cover_metric = "percent_cover",
-                                            allow_duplicates = FALSE))
+                                            allow_duplicates = FALSE,
+                                            wetland_warning = FALSE))
 
   #return number of species
   return(species_richness)
@@ -66,7 +67,8 @@ mean_c <- function(x, key = "name", db, native = FALSE) {
                                   cover_weighted = FALSE,
                                   cover_metric = "percent_cover",
                                   allow_duplicates = FALSE,
-                                  allow_no_c = FALSE)$c)
+                                  allow_no_c = FALSE,
+                                  wetland_warning = FALSE)$c)
 
   #print
   return(mean_c)
@@ -159,7 +161,8 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
                                cover_weighted = FALSE,
                                cover_metric = "percent_cover",
                                allow_duplicates = FALSE,
-                               allow_no_c)
+                               allow_no_c,
+                               wetland_warning = TRUE)
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",

@@ -407,6 +407,7 @@ chicago <- read_csv(here("data-raw",
   clean_names()
 
 chicago_clean <- chicago %>%
+  #get correct column names
   mutate(scientific_name = scientific_name_nwpl_mohlenbrock_wilhelm_rericha) %>%
   mutate(synonym = scientific_name_synonym_swink_wilhelm_wilhelm_rericha) %>%
   mutate(family = scientific_family_name) %>%
@@ -418,40 +419,47 @@ chicago_clean <- chicago %>%
   mutate(fqa_db = "chicago_region_2017") %>%
   select(scientific_name, synonym, family, acronym, native,
          c, w, physiognomy, duration, common_name, fqa_db) %>%
+  #fix a typo
   mutate(acronym = case_when(acronym == "Betula X sandbergii" ~ "ARAPYCA",
                              T ~ acronym)) %>%
+  #get ID per each official name
   group_by(scientific_name) %>%
   mutate(ID = cur_group_id()) %>%
   ungroup() %>%
+  #split synonyms out
   cSplit(., 'synonym', ';') %>%
   mutate(synonym_1 = case_when(tolower(synonym_1) == tolower(scientific_name) ~ NA_character_,
                                T ~ synonym_1))
 
+#get complete list of acronyms and IDs
+chico_acronyms <- data.frame(acronym = c(chicago_clean$acronym),
+                               ID = c(chicago_clean$ID)) %>%
+  #create unique ID with count to be shared by chic piv
+  group_by(ID) %>%
+  mutate(count = row_number()) %>%
+  ungroup() %>%
+  mutate(new_id = paste0(ID, "-", count))
 
+
+#pivot names and synonyms into long form
 chic_piv <- chicago_clean %>%
+  select(-acronym) %>%
   mutate(proper_name = scientific_name) %>%
   pivot_longer(cols = c("scientific_name", starts_with("synonym_")),
                names_to = "name_origin",
                values_to = "scientific_name") %>%
   filter(!is.na(scientific_name)) %>%
-  distinct(scientific_name, name_origin, ID, .keep_all = TRUE)
-
-#figuring out missing acronyms
-chicago_raw_counts <- chicago_clean %>%
+  distinct() %>%
+  #new ID
   group_by(ID) %>%
-  count() %>%
-  rename(raw_counts = n)
-#
-chicago_piv_counts <- chic_piv %>%
-  group_by(ID) %>%
-  count() %>%
-  rename(piv_counts = n)
+  mutate(count = row_number()) %>%
+  ungroup() %>%
+  mutate(new_id = paste0(ID, "-", count))
 
-non_match <- merge(chicago_raw_counts, chicago_piv_counts, by = "ID") %>%
-  mutate(match = raw_counts == piv_counts)
+chic_piv_acronym <- left_join(chic_piv, chico_acronyms, by = "new_id")
 
-chic_dup <- chic_piv %>%
-  group_by(acronym) %>%
+chic_dup <- chic_piv_acronym %>%
+  group_by(name_origin, acronym) %>%
   count()
 
 #COLORADO-----------------------------------------------------------------------

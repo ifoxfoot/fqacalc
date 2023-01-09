@@ -20,6 +20,8 @@
 #' `db_names()` for a list of potential values.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
+#' @param wetland_warning Boolean (TRUE or FALSE). If TRUE, show user messages regarding
+#' issues with wetland coefficients.
 #' @param cover_weighted Boolean (TRUE or FALSE). If TRUE, keep `cover` column in output.
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
 #' is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
@@ -88,6 +90,7 @@
 
 accepted_entries <- function(x, key = "name", db,
                              native = c(TRUE, FALSE),
+                             wetland_warning = TRUE,
                              cover_weighted = FALSE,
                              cover_metric = "percent_cover",
                              allow_duplicates = FALSE,
@@ -124,6 +127,21 @@ accepted_entries <- function(x, key = "name", db,
   #error if db is not a legit db
   if( !db %in% db_names()$name )
     stop(paste(db, "not recognized. Run 'db_names()' for a list of acceptable db values."))
+
+  #native must be TRUE or FALSE
+  if( !is.logical(native) )
+    stop("'native' can only be set to TRUE or FALSE")
+
+  #wetland_warning must be TRUE or FALSE
+  if( !is.logical(wetland_warning) )
+    stop("'wetland_warning' can only be set to TRUE or FALSE")
+
+  #messages about wetland status indicator defaults
+  if (wetland_warning & db == "wyoming_2017")
+    message("The Wyoming FQA database is associated with multiple wetland indicator status regions. This package defaults to the Arid West wetland indicator region when calculating Wyoming metrics.")
+
+  if (wetland_warning & db == "colorado_2020")
+    message("The Colorado FQA database is associated with multiple wetland indicator status regions. This package defaults to the Western Mountains, Valleys, and Coasts indicator region when calculating Colorado metrics.")
 
   #native must be TRUE or FALSE
   if( !is.logical(native) )
@@ -259,12 +277,18 @@ accepted_entries <- function(x, key = "name", db,
 
   #PREPARING REGIONAL LIST FOR JOINING
 
+  #get fqai db
   regional_fqai <- fqa_db %>%
     dplyr::filter(fqa_db == db)
 
+  #error if fqai db does not have complete set of acronyms
   if( key == "acronym" &
       any(is.na(regional_fqai$acronym) & regional_fqai$name_origin == "accepted_scientific_name"))
     stop(paste(db, "does not have a complete set of acronyms, please set key to 'name'."))
+
+  #warning if fqai db does not wetland scores
+  if( wetland_warning & all(is.na(regional_fqai$w)))
+    message(paste(db, "does not have wetland coefficients, wetland metrics cannot be calculated."))
 
   if (allow_non_veg) {
     regional_fqai <- rbind(
@@ -426,8 +450,16 @@ accepted_entries <- function(x, key = "name", db,
     #get rid of no C value
     entries_joined <- entries_joined %>%
       dplyr::filter(!is.na(c))
-}
+  }
 
+  #If site assessment contains a plant that has no W value
+  if( wetland_warning & any(is.na(entries_joined$w)) & !all(is.na(entries_joined$w)) ) {
 
+    #sent message to user
+    message(paste("Species", entries_joined[is.na(entries_joined$w), key],
+                  "does not have a wetland coefficient. It will be omitted from wetness metric calculations."))
+  }
+
+  #return accepted entries df
   return(as.data.frame(entries_joined))
 }

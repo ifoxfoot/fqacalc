@@ -9,6 +9,7 @@ accepted_entries(
   key = "name",
   db,
   native = c(TRUE, FALSE),
+  wetland_warning = TRUE,
   cover_weighted = FALSE,
   cover_metric = "percent_cover",
   allow_duplicates = FALSE,
@@ -31,6 +32,9 @@ values for \code{key}.}
 
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
+
+\item{wetland_warning}{Boolean (TRUE or FALSE). If TRUE, show user messages regarding
+issues with wetland coefficients.}
 
 \item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
 Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter

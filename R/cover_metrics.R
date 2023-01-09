@@ -26,7 +26,10 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
-                              cover_weighted = TRUE, cover_metric, allow_duplicates)
+                              cover_weighted = TRUE,
+                              cover_metric,
+                              allow_duplicates,
+                              wetland_warning = FALSE)
 
   #calculate mean C Value
   if(allow_duplicates == FALSE){
@@ -108,7 +111,8 @@ transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover"
                                                 cover_weighted = FALSE,
                                                 cover_metric = "percent_cover",
                                                 allow_duplicates = FALSE,
-                                                allow_no_c))
+                                                allow_no_c,
+                                                wetland_warning = TRUE))
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
@@ -201,7 +205,8 @@ plot_summary <- function(x, key = "name", db,
                                allow_duplicates = TRUE,
                                allow_no_c,
                                allow_non_veg,
-                               plot_id)
+                               plot_id,
+                               wetland_warning = TRUE)
 
   #get ground columns
   ground <- accepted %>%

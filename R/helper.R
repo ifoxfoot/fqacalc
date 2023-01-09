@@ -52,6 +52,9 @@ quadrat <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                       name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"),
                       cover = c(50, 4, 20, 30))
 
+#wetland testing colorado_2020
+partial_wetland <- data.frame(name = c("ABIES LASIOCARPA", "ABIES CONCOLOR"))
+
 #accepted testing
 accepted_perfect <- data.frame(acronym  = c("ABEESC", "ABIBAL"),
                        cover = c(60, 50),

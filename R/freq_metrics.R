@@ -54,7 +54,8 @@ relative_frequency <- function(x, key = "name", db,
                               cover_weighted = FALSE,
                               cover_metric = "percent_cover",
                               allow_no_c,
-                              allow_non_veg)
+                              allow_non_veg,
+                              wetland_warning = FALSE)
 
   #calculate relative frequency--fre/num observations
   df <- data.frame(dplyr::count(entries, !!as.name(name), name = "relative_frequency")) %>%
@@ -122,7 +123,8 @@ relative_cover <- function(x, key = "name", db,
                               cover_weighted = TRUE,
                               cover_metric,
                               allow_no_c,
-                              allow_non_veg) %>%
+                              allow_non_veg,
+                              wetland_warning = FALSE) %>%
     dplyr::group_by(!!as.name(name)) %>%
     #caclulate cover per group
     dplyr::summarise(sum = sum(.data$cover)) %>%
@@ -234,7 +236,8 @@ species_summary <- function(x, key = "name", db,
                                cover_metric,
                                allow_duplicates = TRUE,
                                allow_no_c,
-                               allow_non_veg)
+                               allow_non_veg,
+                               wetland_warning = FALSE)
 
   c_score <- accepted %>%
     dplyr::select("name", "acronym", "nativity", "c", "w") %>%
@@ -310,7 +313,8 @@ physiog_summary <- function(x, key = "name", db,
                                cover_metric,
                                allow_duplicates = TRUE,
                                allow_no_c,
-                               allow_non_veg)
+                               allow_non_veg,
+                               wetland_warning = FALSE)
 
   #getting freq and coverage
   group <- accepted %>%
