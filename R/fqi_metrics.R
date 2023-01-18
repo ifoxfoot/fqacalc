@@ -99,11 +99,23 @@ mean_c <- function(x, key = "name", db, native = FALSE) {
 
 FQI <- function(x, key = "name", db, native = FALSE) {
 
-  #calculate total fqi
-  fqi <- mean_c(x, key, db, native) *
-    suppressMessages(sqrt(species_richness(x, key, db, native, allow_no_c = FALSE)))
+  # #calculate total fqi
+  # fqi <- mean_c(x, key, db, native) *
+  #   suppressMessages(sqrt(species_richness(x, key, db, native, allow_no_c = FALSE)))
 
-  #print
+  #get accepted entries
+  entries <- accepted_entries(x, key, db, native,
+                              cover_weighted = FALSE,
+                              cover_metric = "percent_cover",
+                              allow_duplicates = FALSE,
+                              allow_no_c = FALSE,
+                              allow_non_veg = FALSE,
+                              wetland_warning = FALSE,
+                              plot_id = NULL)
+
+  #calculate FQI
+  fqi <- mean(entries$c) * sqrt(nrow(entries))
+
   return(fqi)
 
 }
@@ -129,12 +141,26 @@ FQI <- function(x, key = "name", db, native = FALSE) {
 adjusted_FQI <- function(x, key = "name", db) {
 
   #calculate adjusted fqi
-  fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = TRUE))/10) *
-      sqrt(suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c = FALSE))/
-             species_richness(x, key, db, native = FALSE, allow_no_c = FALSE)
-      )
+  # fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = TRUE))/10) *
+  #     sqrt(suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c = FALSE))/
+  #            species_richness(x, key, db, native = FALSE, allow_no_c = FALSE)
+  #     )
 
-  #print
+  #get accepted entries
+  entries <- accepted_entries(x, key, db,
+                              native = FALSE,
+                              cover_weighted = FALSE,
+                              cover_metric = "percent_cover",
+                              allow_duplicates = FALSE,
+                              allow_no_c = FALSE,
+                              allow_non_veg = FALSE,
+                              wetland_warning = FALSE,
+                              plot_id = NULL)
+
+  #calculate adjusted fqi
+  fqi <- 100 * (mean(dplyr::filter(entries, nativity == "native")$c)/10)*
+    sqrt(nrow(dplyr::filter(entries, nativity == "native"))/nrow(entries))
+
   return(fqi)
 
 }
@@ -157,11 +183,12 @@ adjusted_FQI <- function(x, key = "name", db) {
 all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
 
   #get list of accepted entries for calculating stats
-  accepted <- accepted_entries(x, key, db, native = FALSE,
+  entries <- accepted_entries(x, key, db, allow_no_c,
+                               native = FALSE,
                                cover_weighted = FALSE,
                                cover_metric = "percent_cover",
                                allow_duplicates = FALSE,
-                               allow_no_c,
+                               allow_non_veg = FALSE,
                                wetland_warning = TRUE)
 
   #create list of all metrics that will be included in the output
@@ -181,23 +208,60 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
             "Mean Wetness",
             "Native Mean Wetness")
 
-  #create list of values
-  values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
-            suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
-            nrow(dplyr::filter(accepted, .data$nativity == "non-native")),
-            (sum(is.na(accepted$c))/length(accepted$c))*100,
-            (sum(accepted$c < 1, na.rm = TRUE )/length(accepted$c))*100,
-            (sum(accepted$c >= 1 & accepted$c < 4, na.rm = TRUE)/length(accepted$c))*100,
-            (sum(accepted$c >= 4 & accepted$c < 7, na.rm = TRUE)/length(accepted$c))*100,
-            (sum(accepted$c >= 7 & accepted$c <= 10, na.rm = TRUE)/length(accepted$c))*100,
-            suppressMessages(mean_c(x, key, db, native = FALSE)),
-            suppressMessages(mean_c(x, key, db, native = TRUE)),
-            suppressMessages(FQI(x, key, db, native = FALSE)),
-            suppressMessages(FQI(x, key, db, native = TRUE)),
-            suppressMessages(adjusted_FQI(x, key, db)),
-            suppressMessages(mean_w(x, key, db, native = FALSE, allow_no_c)),
-            suppressMessages(mean_w(x, key, db, native = TRUE, allow_no_c)))
+  # #create list of values
+  # values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
+  #           suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
+  #           nrow(dplyr::filter(entries, .data$nativity == "non-native")),
+  #           (sum(is.na(entries$c))/length(entries$c))*100,
+  #           (sum(entries$c < 1, na.rm = TRUE )/length(entries$c))*100,
+  #           (sum(entries$c >= 1 & entries$c < 4, na.rm = TRUE)/length(entries$c))*100,
+  #           (sum(entries$c >= 4 & entries$c < 7, na.rm = TRUE)/length(entries$c))*100,
+  #           (sum(entries$c >= 7 & entries$c <= 10, na.rm = TRUE)/length(entries$c))*100,
+  #           suppressMessages(mean_c(x, key, db, native = FALSE)),
+  #           suppressMessages(mean_c(x, key, db, native = TRUE)),
+  #           suppressMessages(FQI(x, key, db, native = FALSE)),
+  #           suppressMessages(FQI(x, key, db, native = TRUE)),
+  #           suppressMessages(adjusted_FQI(x, key, db)),
+  #           suppressMessages(mean_w(x, key, db, native = FALSE, allow_no_c)),
+  #           suppressMessages(mean_w(x, key, db, native = TRUE, allow_no_c)))
 
+  values <- c(
+    # Total Species Richness
+    nrow(entries),
+    # Native Species Richness,
+    nrow(dplyr::filter(entries, nativity == "native")),
+    # Non-native Species Richness
+    nrow(dplyr::filter(entries, .data$nativity == "non-native")),
+    # % of Species with no C Value
+    (sum(is.na(entries$c))/length(entries$c))*100,
+    # % of Species with 0 C Value
+    (sum(entries$c < 1, na.rm = TRUE )/length(entries$c))*100,
+    # % of Species with 1-3 C Value
+    (sum(entries$c >= 1 & entries$c < 4, na.rm = TRUE)/length(entries$c))*100,
+    # % of Species with 4-6 C Value
+    (sum(entries$c >= 4 & entries$c < 7, na.rm = TRUE)/length(entries$c))*100,
+    # % of Species with 7-10 C Value
+    (sum(entries$c >= 7 & entries$c <= 10, na.rm = TRUE)/length(entries$c))*100,
+    # Mean C
+    mean(entries$c, na.rm = TRUE),
+    # Native Mean C
+    mean(dplyr::filter(entries, nativity == "native")$c, na.rm = TRUE),
+    # Total FQI
+    mean(entries$c, na.rm = TRUE) * sqrt(nrow(dplyr::filter(entries, !is.na(c)))),
+    # Native FQI
+    mean(dplyr::filter(entries, nativity == "native")$c, na.rm = TRUE) *
+      sqrt(nrow(dplyr::filter(entries, !is.na(c), nativity == "native"))),
+    # Adjusted FQI
+    100 * (mean(dplyr::filter(entries, nativity == "native")$c, na.rm = TRUE)/10)*
+      sqrt(
+        nrow(dplyr::filter(entries, nativity == "native", !is.na(c)))/
+          nrow(dplyr::filter(entries,!is.na(c)))
+      ),
+    # Mean Wetness
+    mean(entries$w, na.rm = TRUE),
+    # Native Mean Wetness
+    mean(dplyr::filter(entries, nativity == "native")$w, na.rm = TRUE)
+  )
 
   #bind metrics and values into data frame
   report <- data.frame(metrics, values)
