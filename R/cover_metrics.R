@@ -25,11 +25,12 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
                            cover_metric = "percent_cover", allow_duplicates) {
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, native,
+  entries <- accepted_entries(x, key, db, native, cover_metric, allow_duplicates,
                               cover_weighted = TRUE,
-                              cover_metric,
-                              allow_duplicates,
-                              wetland_warning = FALSE)
+                              allow_no_c = FALSE,
+                              allow_non_veg = FALSE,
+                              wetland_warning = FALSE,
+                              plot_id = NULL)
 
   #calculate mean C Value
   if(allow_duplicates == FALSE){
@@ -75,10 +76,31 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 cover_FQI <- function(x, key = "name", db, native = FALSE,
                       cover_metric = "percent_cover", allow_duplicates) {
 
-  fqi <- cover_mean_c(x, key, db, native, cover_metric, allow_duplicates) *
-    suppressMessages(sqrt(species_richness(x, key, db, native)))
+  #get accepted entries
+  entries <- accepted_entries(x, key, db, native, cover_metric, allow_duplicates,
+                              cover_weighted = TRUE,
+                              allow_no_c = FALSE,
+                              allow_non_veg = FALSE,
+                              wetland_warning = FALSE,
+                              plot_id = NULL)
 
-  #return mean
+  #calculate mean c
+  if(allow_duplicates == FALSE){
+    mean_c <- sum(entries$c * entries$cover)/sum(entries$cover)}
+
+  else if(allow_duplicates == TRUE){
+    entries <- entries %>%
+      dplyr::group_by(!!as.name(key)) %>%
+      dplyr::mutate(mean = mean(.data$cover)) %>%
+      dplyr::distinct(!!as.name(key), mean, c)
+    mean_c <- sum(entries$c * entries$mean)/
+      sum(entries$mean)
+  }
+
+  #calculate fqi
+  fqi <- mean_c * sqrt(nrow(unique(dplyr::select(entries,!!as.name(key)))))
+
+  #return fqi
   return(fqi)
 
 }
@@ -88,7 +110,7 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 #' Print a Summary of Cover-Weighted FQA Metrics
 #'
 #' `transect_summary()` calculates and prints a summary of both non cover-weighted
-#' metrics and cover-weighted metrics.Cover-weighted metrics allow duplicate entries.
+#' metrics and cover-weighted metrics. Cover-weighted metrics allow duplicate entries.
 #'
 #' @inheritParams accepted_entries
 #'
@@ -106,13 +128,32 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover",
                              allow_no_c = TRUE) {
 
+  #get accepted entries
+  entries <- accepted_entries(x, key, db, allow_no_c = allow_no_c,
+                              native = FALSE,
+                              cover_weighted = TRUE,
+                              cover_metric,
+                              allow_duplicates = TRUE,
+                              allow_non_veg = FALSE,
+                              wetland_warning = TRUE)
 
-  accepted <- suppressMessages(accepted_entries(x, key, db, native = FALSE,
-                                                cover_weighted = FALSE,
-                                                cover_metric = "percent_cover",
-                                                allow_duplicates = FALSE,
-                                                allow_no_c,
-                                                wetland_warning = TRUE))
+  #get unique species (no duplicates)
+  unique_entries <- entries %>%
+    dplyr::distinct(!!as.name(key), .keep_all = TRUE)
+
+  #get entries where if dups are present the mean cover value is assigned
+  entries_c <- entries %>%
+    dplyr::group_by(!!as.name(key)) %>%
+    dplyr::mutate(mean = mean(.data$cover)) %>%
+    dplyr::distinct(!!as.name(key), mean, c)
+
+  #get native entries c
+  entries_n <- entries %>%
+    dplyr::filter(.data$nativity == "native") %>%
+    dplyr::group_by(!!as.name(key)) %>%
+    dplyr::mutate(mean = mean(.data$cover)) %>%
+    dplyr::distinct(!!as.name(key), mean, c)
+
 
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
@@ -136,28 +177,53 @@ transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover"
                "Native Mean Wetness"
                )
 
-  #create list of values
-  values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
-              suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
-              nrow(dplyr::filter(accepted, .data$nativity == "non-native")),
-              (sum(is.na(accepted$c))/length(accepted$c))*100,
-              (sum(accepted$c < 1, na.rm = TRUE )/length(accepted$c))*100,
-              (sum(accepted$c >= 1 & accepted$c < 4, na.rm = TRUE)/length(accepted$c))*100,
-              (sum(accepted$c >= 4 & accepted$c < 7, na.rm = TRUE)/length(accepted$c))*100,
-              (sum(accepted$c >= 7 & accepted$c <= 10, na.rm = TRUE)/length(accepted$c))*100,
-              suppressMessages(mean_c(x, key, db, native = FALSE)),
-              suppressMessages(mean_c(x, key, db, native = TRUE)),
-              cover_mean_c(x, key, db, native = FALSE, cover_metric, allow_duplicates = TRUE),
-              suppressMessages(cover_mean_c(x, key, db, native = TRUE, cover_metric, allow_duplicates = TRUE)),
-              suppressMessages(FQI(x, key, db, native = FALSE)),
-              suppressMessages(FQI(x, key, db, native = TRUE)),
-              suppressMessages(cover_FQI(x, key, db, native = FALSE, cover_metric, allow_duplicates = TRUE)),
-              suppressMessages(cover_FQI(x, key, db, native = TRUE, cover_metric, allow_duplicates = TRUE)),
-              suppressMessages(adjusted_FQI(x, key, db)),
-              suppressMessages(mean_w(x, key, db, native = FALSE, allow_no_c)),
-              suppressMessages(mean_w(x, key, db, native = TRUE, allow_no_c))
-              )
-
+  values <- c(
+    # Total Species Richness
+    nrow(unique_entries),
+    # Native Species Richness,
+    nrow(dplyr::filter(unique_entries, .data$nativity == "native")),
+    # Non-native Species Richness
+    nrow(dplyr::filter(unique_entries, .data$nativity == "non-native")),
+    # % of Species with no C Value
+    (sum(is.na(unique_entries$c))/length(unique_entries$c))*100,
+    # % of Species with 0 C Value
+    (sum(unique_entries$c < 1, na.rm = TRUE )/length(unique_entries$c))*100,
+    # % of Species with 1-3 C Value
+    (sum(unique_entries$c >= 1 & unique_entries$c < 4, na.rm = TRUE)/length(unique_entries$c))*100,
+    # % of Species with 4-6 C Value
+    (sum(unique_entries$c >= 4 & unique_entries$c < 7, na.rm = TRUE)/length(unique_entries$c))*100,
+    # % of Species with 7-10 C Value
+    (sum(unique_entries$c >= 7 & unique_entries$c <= 10, na.rm = TRUE)/length(unique_entries$c))*100,
+    # Mean C
+    mean(unique_entries$c, na.rm = TRUE),
+    # Native Mean C
+    mean(dplyr::filter(unique_entries, .data$nativity == "native")$c, na.rm = TRUE),
+    # Cover-Weighted Mean C
+    sum(entries_c$c * entries_c$mean)/sum(entries_c$mean),
+    #Cover-Weighted Native Mean C
+    sum(entries_n$c * entries_n$mean)/sum(entries_n$mean),
+    # Total FQI
+    mean(unique_entries$c, na.rm = TRUE) * sqrt(nrow(dplyr::filter(unique_entries, !is.na(c)))),
+    # Native FQI
+    mean(dplyr::filter(unique_entries, .data$nativity == "native")$c, na.rm = TRUE) *
+      sqrt(nrow(dplyr::filter(unique_entries, !is.na(c), .data$nativity == "native"))),
+    # Cover-Weighted FQI
+    (sum(entries_c$c * entries_c$mean)/sum(entries_c$mean)) *
+      sqrt(nrow(dplyr::filter(unique_entries, !is.na(c)))),
+    #Cover-Weighted Native FQI
+    (sum(entries_n$c * entries_n$mean)/sum(entries_n$mean)) *
+      sqrt(nrow(dplyr::filter(unique_entries, !is.na(c), .data$nativity == "native"))),
+    # Adjusted FQI
+    100 * (mean(dplyr::filter(unique_entries, .data$nativity == "native")$c, na.rm = TRUE)/10)*
+      sqrt(
+        nrow(dplyr::filter(unique_entries, .data$nativity == "native", !is.na(c)))/
+          nrow(dplyr::filter(unique_entries,!is.na(c)))
+      ),
+    # Mean Wetness
+    mean(unique_entries$w, na.rm = TRUE),
+    # Native Mean Wetness
+    mean(dplyr::filter(unique_entries, .data$nativity == "native")$w, na.rm = TRUE)
+  )
 
   #bind metrics and values into data frame
   report <- data.frame(metrics, values)

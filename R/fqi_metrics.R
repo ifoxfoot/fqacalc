@@ -158,8 +158,8 @@ adjusted_FQI <- function(x, key = "name", db) {
                               plot_id = NULL)
 
   #calculate adjusted fqi
-  fqi <- 100 * (mean(dplyr::filter(entries, nativity == "native")$c)/10)*
-    sqrt(nrow(dplyr::filter(entries, nativity == "native"))/nrow(entries))
+  fqi <- 100 * (mean(dplyr::filter(entries, .data$nativity == "native")$c)/10)*
+    sqrt(nrow(dplyr::filter(entries, .data$nativity == "native"))/nrow(entries))
 
   return(fqi)
 
@@ -208,28 +208,11 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
             "Mean Wetness",
             "Native Mean Wetness")
 
-  # #create list of values
-  # values <- c(suppressMessages(species_richness(x, key, db, native = FALSE, allow_no_c)),
-  #           suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c)),
-  #           nrow(dplyr::filter(entries, .data$nativity == "non-native")),
-  #           (sum(is.na(entries$c))/length(entries$c))*100,
-  #           (sum(entries$c < 1, na.rm = TRUE )/length(entries$c))*100,
-  #           (sum(entries$c >= 1 & entries$c < 4, na.rm = TRUE)/length(entries$c))*100,
-  #           (sum(entries$c >= 4 & entries$c < 7, na.rm = TRUE)/length(entries$c))*100,
-  #           (sum(entries$c >= 7 & entries$c <= 10, na.rm = TRUE)/length(entries$c))*100,
-  #           suppressMessages(mean_c(x, key, db, native = FALSE)),
-  #           suppressMessages(mean_c(x, key, db, native = TRUE)),
-  #           suppressMessages(FQI(x, key, db, native = FALSE)),
-  #           suppressMessages(FQI(x, key, db, native = TRUE)),
-  #           suppressMessages(adjusted_FQI(x, key, db)),
-  #           suppressMessages(mean_w(x, key, db, native = FALSE, allow_no_c)),
-  #           suppressMessages(mean_w(x, key, db, native = TRUE, allow_no_c)))
-
   values <- c(
     # Total Species Richness
     nrow(entries),
     # Native Species Richness,
-    nrow(dplyr::filter(entries, nativity == "native")),
+    nrow(dplyr::filter(entries, .data$nativity == "native")),
     # Non-native Species Richness
     nrow(dplyr::filter(entries, .data$nativity == "non-native")),
     # % of Species with no C Value
@@ -245,22 +228,22 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
     # Mean C
     mean(entries$c, na.rm = TRUE),
     # Native Mean C
-    mean(dplyr::filter(entries, nativity == "native")$c, na.rm = TRUE),
+    mean(dplyr::filter(entries, .data$nativity == "native")$c, na.rm = TRUE),
     # Total FQI
     mean(entries$c, na.rm = TRUE) * sqrt(nrow(dplyr::filter(entries, !is.na(c)))),
     # Native FQI
-    mean(dplyr::filter(entries, nativity == "native")$c, na.rm = TRUE) *
-      sqrt(nrow(dplyr::filter(entries, !is.na(c), nativity == "native"))),
+    mean(dplyr::filter(entries, .data$nativity == "native")$c, na.rm = TRUE) *
+      sqrt(nrow(dplyr::filter(entries, !is.na(c), .data$nativity == "native"))),
     # Adjusted FQI
-    100 * (mean(dplyr::filter(entries, nativity == "native")$c, na.rm = TRUE)/10)*
+    100 * (mean(dplyr::filter(entries, .data$nativity == "native")$c, na.rm = TRUE)/10)*
       sqrt(
-        nrow(dplyr::filter(entries, nativity == "native", !is.na(c)))/
+        nrow(dplyr::filter(entries, .data$nativity == "native", !is.na(c)))/
           nrow(dplyr::filter(entries,!is.na(c)))
       ),
     # Mean Wetness
     mean(entries$w, na.rm = TRUE),
     # Native Mean Wetness
-    mean(dplyr::filter(entries, nativity == "native")$w, na.rm = TRUE)
+    mean(dplyr::filter(entries, .data$nativity == "native")$w, na.rm = TRUE)
   )
 
   #bind metrics and values into data frame

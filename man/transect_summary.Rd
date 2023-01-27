@@ -38,7 +38,7 @@ A data frame
 }
 \description{
 \code{transect_summary()} calculates and prints a summary of both non cover-weighted
-metrics and cover-weighted metrics.Cover-weighted metrics allow duplicate entries.
+metrics and cover-weighted metrics. Cover-weighted metrics allow duplicate entries.
 }
 \examples{
 transect <- data.frame(
