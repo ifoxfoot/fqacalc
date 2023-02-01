@@ -30,17 +30,17 @@ the relative frequency of. Can be set to "species", "family" or "physiog" (for p
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values.}
+been assigned C Values. The default value is FALSE.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-ground and un-vegetated water.}
+ground and un-vegetated water. The default value is FALSE.}
 }
 \value{
 A data frame with categorical variables set by the col argument and their relative frequency.
 }
 \description{
-\code{relative_frequency()} calculates the frequency of one species, taxonomic family,
-or physiognomic group multiplied by 100, divided by the frequency of all observations.
+\code{relative_frequency} calculates the frequency of one species, taxonomic family,
+or physiognomic group, divided by the frequency of all observations, then multiplied by 100.
 }
 \examples{
 transect <- data.frame(

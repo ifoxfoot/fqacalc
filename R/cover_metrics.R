@@ -10,7 +10,7 @@
 #'
 #' @inheritParams accepted_entries
 #'
-#' @return A non-negative integer
+#' @return A non-negative number
 #' @export
 #' @importFrom rlang .data
 #'
@@ -61,7 +61,7 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 #'
 #' @inheritParams accepted_entries
 #'
-#' @return A non-negative integer
+#' @return A non-negative number
 #' @export
 #'
 #' @examples

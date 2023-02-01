@@ -2,7 +2,8 @@
 % Please edit documentation in R/accepted_entries.R
 \name{accepted_entries}
 \alias{accepted_entries}
-\title{Return A Data Frame of Plant Species That Successfully Match to the Regional FQA Database}
+\title{Return A Data Frame of Plant Species That Successfully Match to the Regional
+FQA Database of choice}
 \usage{
 accepted_entries(
   x,
@@ -39,26 +40,25 @@ issues with wetland coefficients.}
 \item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
 Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter
 is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
-cover-weighted FQI.}
+cover-weighted FQI. The default value is FALSE.}
 
-\item{cover_metric}{a character string representing the cover method used. Acceptable
-cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
-\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
-recommended because it is the most accurate.}
+\item{cover_metric}{a character string representing the cover classification used. Acceptable
+cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency metrics.}
+calculating transect and frequency/abundance metrics. The default value is FALSE.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values.}
+been assigned C Values. The default value is FALSE.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-ground and un-vegetated water.}
+ground and un-vegetated water. The default value is FALSE.}
 
 \item{plot_id}{(optional) A character string representing the column in \code{x} that contains plot
-identification values.}
+identification values. The default value is NULL.}
 }
 \value{
 A data frame containing the \code{key} column--either \code{acronym} or
@@ -67,10 +67,10 @@ These columns include \code{family}, \code{native}, \code{c} (which represents t
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }
 \description{
-\code{accepted_entries} takes a data frame of user-entered plant species and returns a
-data frame of plant species that are successfully matched to the regional FQA database.
-\code{accepted_entries} is a utility function that is used all other metric-calculating
-functions in this package.
+\code{accepted_entries} takes a data frame of user-entered plant species and returns
+a data frame of plant species that are successfully matched to the regional FQA
+database of choice. \code{accepted_entries} is a utility function that is used in all
+other metric-calculating functions in this package.
 }
 \examples{
 plant_list <- crooked_island

@@ -5,12 +5,12 @@
 
 #' Look Up the Names of Regional FQA Databases
 #'
-#' Create a data frame containing the names of regional FQA data bases contained in
+#' Create a data frame containing the names of regional FQA databases contained in
 #' this package as well as their certification status.
 #'
 #' @return A data frame of regional FQA database names. The column `name` contains
 #' the names of the databases. These are acceptable values for `db` in other `fqacalc`
-#' functions.The column `status` notes whether the database has been fully approved or
+#' functions. The column `status` notes whether the database has been fully approved or
 #' approved with reservations by the US Army Corps of Engineers.
 #' @export
 #'
@@ -59,8 +59,9 @@ db_names <- function() {
 #'   \item{nativity}{Nativity status. native, non-native, and undetermined are values}
 #'   \item{c}{Coefficient of Conservatism (C Value)}
 #'   \item{w}{Wetland Indicator Rating}
-#'   \item{physiognomy}{Structure or physical appearance of plant}
-#'   \item{duration}{Lifespan of plant}
+#'   \item{physiognomy}{Categories based on plant habit (architectural characteristics),
+#'   life history, and certain taxonomic classes}
+#'   \item{duration}{Categories based on life cycle}
 #'   \item{common_name}{Common name(s) for plant}
 #'   \item{fqa_db}{Regional FQA database}
 #'   ...

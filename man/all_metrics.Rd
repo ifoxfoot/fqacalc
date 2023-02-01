@@ -20,7 +20,7 @@ values for \code{key}.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values.}
+been assigned C Values. The default value is FALSE.}
 }
 \value{
 A data frame

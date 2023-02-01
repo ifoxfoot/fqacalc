@@ -22,10 +22,9 @@ values for \code{key}.}
 A non-negative integer
 }
 \description{
-\code{adjusted_FQI} calculates the Adjusted Floristic Quality Index for the
-site. Adjusted FQI is found by multiplying 100 by the Native
-Mean C divided by 10 and then multiplied by the square root of Native Species
-Richness over Total Species Richness.
+\code{adjusted_FQI} calculates the Adjusted Floristic Quality Index. Adjusted FQI
+is found by multiplying 100 by the Native Mean C divided by 10 and then multiplied
+by the square root of Native Species Richness over Total Species Richness.
 }
 \examples{
 plant_list <- crooked_island

@@ -24,14 +24,13 @@ values for \code{key}.}
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
 
-\item{cover_metric}{a character string representing the cover method used. Acceptable
-cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
-\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
-recommended because it is the most accurate.}
+\item{cover_metric}{a character string representing the cover classification used. Acceptable
+cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values.}
+been assigned C Values. The default value is FALSE.}
 }
 \value{
 A data frame

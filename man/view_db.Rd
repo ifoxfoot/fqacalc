@@ -21,8 +21,9 @@ A data frame with 12 variables:
 \item{nativity}{Nativity status. native, non-native, and undetermined are values}
 \item{c}{Coefficient of Conservatism (C Value)}
 \item{w}{Wetland Indicator Rating}
-\item{physiognomy}{Structure or physical appearance of plant}
-\item{duration}{Lifespan of plant}
+\item{physiognomy}{Categories based on plant habit (architectural characteristics),
+life history, and certain taxonomic classes}
+\item{duration}{Categories based on life cycle}
 \item{common_name}{Common name(s) for plant}
 \item{fqa_db}{Regional FQA database}
 ...

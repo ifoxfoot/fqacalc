@@ -3,12 +3,13 @@
 
 #-------------------------------------------------------------------------------
 
-#' Return A Data Frame of Plant Species That Successfully Match to the Regional FQA Database
+#' Return A Data Frame of Plant Species That Successfully Match to the Regional
+#' FQA Database of choice
 #'
-#' `accepted_entries` takes a data frame of user-entered plant species and returns a
-#' data frame of plant species that are successfully matched to the regional FQA database.
-#' `accepted_entries` is a utility function that is used all other metric-calculating
-#' functions in this package.
+#' `accepted_entries` takes a data frame of user-entered plant species and returns
+#' a data frame of plant species that are successfully matched to the regional FQA
+#' database of choice. `accepted_entries` is a utility function that is used in all
+#' other metric-calculating functions in this package.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `name` or `acronym`.
@@ -25,21 +26,20 @@
 #' @param cover_weighted Boolean (TRUE or FALSE). If TRUE, keep `cover` column in output.
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
 #' is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
-#' cover-weighted FQI.
-#' @param cover_metric a character string representing the cover method used. Acceptable
-#' cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
-#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is
-#' recommended because it is the most accurate.
+#' cover-weighted FQI. The default value is FALSE.
+#' @param cover_metric a character string representing the cover classification used. Acceptable
+#' cover classes are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
+#' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
-#' calculating transect and frequency metrics.
+#' calculating transect and frequency/abundance metrics. The default value is FALSE.
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 #' regional database but have not been assigned a C Values. If FALSE, omit species that have not
-#' been assigned C Values.
+#' been assigned C Values. The default value is FALSE.
 #' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-#' ground and un-vegetated water.
+#' ground and un-vegetated water. The default value is FALSE.
 #' @param plot_id (optional) A character string representing the column in `x` that contains plot
-#' identification values.
+#' identification values. The default value is NULL.
 #'
 #' @return A data frame containing the `key` column--either `acronym` or
 #' `name`--as well as columns from the relevant FQA database.

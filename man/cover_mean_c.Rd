@@ -28,17 +28,16 @@ values for \code{key}.}
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
 
-\item{cover_metric}{a character string representing the cover method used. Acceptable
-cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
-\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
-recommended because it is the most accurate.}
+\item{cover_metric}{a character string representing the cover classification used. Acceptable
+cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency metrics.}
+calculating transect and frequency/abundance metrics. The default value is FALSE.}
 }
 \value{
-A non-negative integer
+A non-negative number
 }
 \description{
 \code{cover_mean_c()} calculates the sum of cover times the C value per each species,

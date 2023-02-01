@@ -6,8 +6,8 @@
 
 #' Calculate Relative Frequency
 #'
-#' `relative_frequency()` calculates the frequency of one species, taxonomic family,
-#' or physiognomic group multiplied by 100, divided by the frequency of all observations.
+#' `relative_frequency` calculates the frequency of one species, taxonomic family,
+#' or physiognomic group, divided by the frequency of all observations, then multiplied by 100.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
@@ -71,13 +71,13 @@ relative_frequency <- function(x, key = "name", db,
 
 #' Calculate Relative Cover
 #'
-#' `relative_cover()` calculates the total cover per group of interest (species,
-#' taxonomic family, or physiognomic group) multiplied by 100 and divided by the total cover for all
-#' observations.
+#' `relative_cover` calculates the total cover per group of interest (species,
+#' taxonomic family, or physiognomic group) divided by the total cover for all
+#' observations, then multiplied by 100.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
-#' the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).
+#' the relative cover of. Can be set to "species", "family" or "physiog" (for physiognomy).
 #'
 #'
 #' @return A data frame with categorical variables set by the col argument and their relative cover.
@@ -141,7 +141,7 @@ relative_cover <- function(x, key = "name", db,
 
 #' Calculate Relative Importance
 #'
-#' `relative_importance()` calculates the average of relative frequency and relative cover.
+#' `relative_importance` calculates the average of relative frequency and relative cover.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate

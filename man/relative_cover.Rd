@@ -27,27 +27,26 @@ values for \code{key}.}
 \code{db_names()} for a list of potential values.}
 
 \item{col}{A character string representing the categorical variable to calculate
-the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).}
+the relative cover of. Can be set to "species", "family" or "physiog" (for physiognomy).}
 
-\item{cover_metric}{a character string representing the cover method used. Acceptable
-cover methods are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
-\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default and is
-recommended because it is the most accurate.}
+\item{cover_metric}{a character string representing the cover classification used. Acceptable
+cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
+\code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values.}
+been assigned C Values. The default value is FALSE.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-ground and un-vegetated water.}
+ground and un-vegetated water. The default value is FALSE.}
 }
 \value{
 A data frame with categorical variables set by the col argument and their relative cover.
 }
 \description{
-\code{relative_cover()} calculates the total cover per group of interest (species,
-taxonomic family, or physiognomic group) multiplied by 100 and divided by the total cover for all
-observations.
+\code{relative_cover} calculates the total cover per group of interest (species,
+taxonomic family, or physiognomic group) divided by the total cover for all
+observations, then multiplied by 100.
 }
 \examples{
 transect <- data.frame(

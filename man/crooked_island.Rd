@@ -22,6 +22,6 @@ crooked_island
 \description{
 A plant list from a site assessment conducted on crooked island, MI in open dune
 habitat. The data was collected in the summer of 2022 by Joshua Cohen, Jesse Lincoln,
-Tyler Bassett, and Scott Warner as part of project for the National Wildlife Refuge.
+Tyler Bassett, and Scott Warner as part of a project for the National Wildlife Refuge.
 }
 \keyword{datasets}

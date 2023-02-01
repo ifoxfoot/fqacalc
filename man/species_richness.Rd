@@ -23,14 +23,13 @@ native species.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values.}
+been assigned C Values. The default value is FALSE.}
 }
 \value{
 A non-negative integer
 }
 \description{
-\code{species_richness} calculates the total number of species in the site
-assessment.
+\code{species_richness} calculates the total number of species.
 }
 \examples{
 plant_list <- crooked_island

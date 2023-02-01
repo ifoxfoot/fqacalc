@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Iris", "Foxfoot", , "ifoxfoot@gmail.com", role = c("aut", "cre"),
            )
-Description: This package provides functions for calculating Floristic Quality Assessment (FQA) metrics using 52 regional FQA databases that have been certified by the U.S. Army Engineer Research and Development Center’s Environmental Laboratory in collaboration with the U.S. Army Corps of Engineers’ Center of Ecosystem Restoration Expertise. 
+Description: This package provides functions for calculating Floristic Quality Assessment (FQA) met- rics using  regional FQA databases that have been reviewed and certified by the U.S. Army Corps of Engineers (USACE). This package was developed for the USACE by the U.S. Army Engineer Research and Development Center’s Environmental Laboratory. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
