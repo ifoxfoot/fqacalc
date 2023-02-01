@@ -41,7 +41,7 @@ species_richness <- function(x, key = "name", db, native = FALSE, allow_no_c = T
 
 #' Calculate Mean C
 #'
-#' `mean_c()` calculates the mean conservation coefficient for all species in the inventory
+#' `mean_c` calculates the mean conservation coefficient for all species in the inventory
 #' or along the transect.
 #'
 #' @inheritParams accepted_entries
@@ -78,7 +78,7 @@ mean_c <- function(x, key = "name", db, native = FALSE) {
 
 #' Calculate FQI
 #'
-#' `FQI()` calculates the Floristic Quality Index (FQI) for the site. FQI is found
+#' `FQI` calculates the Floristic Quality Index (FQI) for the site. FQI is found
 #' by multiplying the mean C by the square root of the species richness. If `native = TRUE`,
 #' `FQI` will calculate the Native FQI.
 #'

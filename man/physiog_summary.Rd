@@ -41,7 +41,8 @@ A data frame where each row is a physiognomic group and each column is a metric 
 based on the input data frame.
 }
 \description{
-Create a cover-Weighted Summary of Physiognomic Groups
+\code{physiog_summary} produces a table summarizing physiognomic groups' frequency, total cover,
+relative frequency, relative cover, and relative importance.
 }
 \examples{
 transect <- data.frame(

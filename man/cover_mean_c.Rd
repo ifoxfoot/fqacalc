@@ -40,7 +40,7 @@ calculating transect and frequency/abundance metrics. The default value is FALSE
 A non-negative number
 }
 \description{
-\code{cover_mean_c()} calculates the sum of cover times the C value per each species,
+\code{cover_mean_c} calculates the sum of cover times the C value per each species,
 divided by the sum of cover values for all species.
 }
 \examples{

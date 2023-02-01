@@ -5,7 +5,7 @@
 
 #' Calculate Cover-Weighted Mean C
 #'
-#' `cover_mean_c()` calculates the sum of cover times the C value per each species,
+#' `cover_mean_c` calculates the sum of cover times the C value per each species,
 #' divided by the sum of cover values for all species.
 #'
 #' @inheritParams accepted_entries
@@ -56,7 +56,7 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 
 #' Calculate Cover-Weighted FQI
 #'
-#' `cover_FQI()` calculates cover-weighted mean C multiplied by the square root
+#' `cover_FQI` calculates cover-weighted mean C multiplied by the square root
 #' of species richness.
 #'
 #' @inheritParams accepted_entries
@@ -109,7 +109,7 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 
 #' Print a Summary of Cover-Weighted FQA Metrics
 #'
-#' `transect_summary()` calculates and prints a summary of both non cover-weighted
+#' `transect_summary` calculates and prints a summary of both non cover-weighted
 #' metrics and cover-weighted metrics. Cover-weighted metrics allow duplicate entries.
 #'
 #' @inheritParams accepted_entries
@@ -238,7 +238,7 @@ transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover"
 #' Calculate Plot-level Summary Statistics
 #'
 #' Input a transect with one or more plots (designated with a unique plot ID) as a
-#' single data frame and  the output will be a data frame with plot-level species richness,
+#' single data frame and the output will be a data frame with plot-level species richness,
 #' native species richness, mean c, native mean c, FQI, native FQI, adjusted FQI,
 #' cover-weighted FQI, and native cover-weighted FQI.
 #'

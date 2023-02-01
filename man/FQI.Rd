@@ -25,7 +25,7 @@ native species.}
 A non-negative integer
 }
 \description{
-\code{FQI()} calculates the Floristic Quality Index (FQI) for the site. FQI is found
+\code{FQI} calculates the Floristic Quality Index (FQI) for the site. FQI is found
 by multiplying the mean C by the square root of the species richness. If \code{native = TRUE},
 \code{FQI} will calculate the Native FQI.
 }

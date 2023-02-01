@@ -25,7 +25,7 @@ native species.}
 A non-negative integer
 }
 \description{
-\code{mean_c()} calculates the mean conservation coefficient for all species in the inventory
+\code{mean_c} calculates the mean conservation coefficient for all species in the inventory
 or along the transect.
 }
 \examples{

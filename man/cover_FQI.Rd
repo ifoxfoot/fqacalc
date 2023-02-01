@@ -40,7 +40,7 @@ calculating transect and frequency/abundance metrics. The default value is FALSE
 A non-negative number
 }
 \description{
-\code{cover_FQI()} calculates cover-weighted mean C multiplied by the square root
+\code{cover_FQI} calculates cover-weighted mean C multiplied by the square root
 of species richness.
 }
 \examples{

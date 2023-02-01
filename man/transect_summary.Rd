@@ -36,7 +36,7 @@ been assigned C Values. The default value is FALSE.}
 A data frame
 }
 \description{
-\code{transect_summary()} calculates and prints a summary of both non cover-weighted
+\code{transect_summary} calculates and prints a summary of both non cover-weighted
 metrics and cover-weighted metrics. Cover-weighted metrics allow duplicate entries.
 }
 \examples{

@@ -46,7 +46,7 @@ cover-weighted FQI statistics.
 }
 \description{
 Input a transect with one or more plots (designated with a unique plot ID) as a
-single data frame and  the output will be a data frame with plot-level species richness,
+single data frame and the output will be a data frame with plot-level species richness,
 native species richness, mean c, native mean c, FQI, native FQI, adjusted FQI,
 cover-weighted FQI, and native cover-weighted FQI.
 }

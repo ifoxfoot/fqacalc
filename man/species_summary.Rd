@@ -41,7 +41,7 @@ A data frame where each row is a species and each column is information about th
 based on the input data frame.
 }
 \description{
-\code{species_summary()} produces a table summarizing species' frequency, total cover,
+\code{species_summary} produces a table summarizing species' frequency, total cover,
 relative frequency, relative cover, and relative importance.
 }
 \examples{

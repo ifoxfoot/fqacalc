@@ -198,7 +198,7 @@ relative_importance <- function(x, key = "name", db,
 
 #' Create A Cover-Weighted Summary of Species
 #'
-#' `species_summary()` produces a table summarizing species' frequency, total cover,
+#' `species_summary` produces a table summarizing species' frequency, total cover,
 #' relative frequency, relative cover, and relative importance.
 #'
 #' @inheritParams accepted_entries
@@ -276,6 +276,9 @@ species_summary <- function(x, key = "name", db,
 #-------------------------------------------------------------------------------
 
 #' Create a cover-Weighted Summary of Physiognomic Groups
+#'
+#' `physiog_summary` produces a table summarizing physiognomic groups' frequency, total cover,
+#' relative frequency, relative cover, and relative importance.
 #'
 #' @inheritParams accepted_entries
 #'
