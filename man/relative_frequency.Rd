@@ -30,10 +30,10 @@ the relative frequency of. Can be set to "species", "family" or "physiog" (for p
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values. The default value is FALSE.}
+been assigned C Values.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-ground and un-vegetated water. The default value is FALSE.}
+ground and un-vegetated water.}
 }
 \value{
 A data frame with categorical variables set by the col argument and their relative frequency.

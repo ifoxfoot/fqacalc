@@ -40,7 +40,7 @@ issues with wetland coefficients.}
 \item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
 Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter
 is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
-cover-weighted FQI. The default value is FALSE.}
+cover-weighted FQI.}
 
 \item{cover_metric}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
@@ -48,17 +48,17 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency/abundance metrics. The default value is FALSE.}
+calculating transect and frequency/abundance metrics.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values. The default value is FALSE.}
+been assigned C Values.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-ground and un-vegetated water. The default value is FALSE.}
+ground and un-vegetated water.}
 
 \item{plot_id}{(optional) A character string representing the column in \code{x} that contains plot
-identification values. The default value is NULL.}
+identification values.}
 }
 \value{
 A data frame containing the \code{key} column--either \code{acronym} or

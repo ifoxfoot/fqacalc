@@ -31,14 +31,14 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
 \item{plot_id}{(optional) A character string representing the column in \code{x} that contains plot
-identification values. The default value is NULL.}
+identification values.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional database but have not been assigned a C Values. If FALSE, omit species that have not
-been assigned C Values. The default value is FALSE.}
+been assigned C Values.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
-ground and un-vegetated water. The default value is FALSE.}
+ground and un-vegetated water.}
 }
 \value{
 A data frame where each row is a plot and columns contain FQI and

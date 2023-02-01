@@ -34,7 +34,7 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency/abundance metrics. The default value is FALSE.}
+calculating transect and frequency/abundance metrics.}
 }
 \value{
 A non-negative number
