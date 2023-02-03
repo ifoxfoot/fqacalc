@@ -8,7 +8,7 @@ plot_summary(
   x,
   key = "name",
   db,
-  cover_metric = "percent_cover",
+  cover_class = "percent_cover",
   plot_id,
   allow_no_c = TRUE,
   allow_non_veg = TRUE
@@ -26,7 +26,7 @@ values for \code{key}.}
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
 
-\item{cover_metric}{a character string representing the cover classification used. Acceptable
+\item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
@@ -57,5 +57,5 @@ cover = c(50, 4, 20, 30, 40, 7, 60),
 quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
 plot_summary(transect, key = "acronym", db = "michigan_2014",
-cover_metric = "percent_cover", plot_id = "quad_id")
+cover_class = "percent_cover", plot_id = "quad_id")
 }

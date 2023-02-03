@@ -12,7 +12,7 @@ accepted_entries(
   native = c(TRUE, FALSE),
   wetland_warning = TRUE,
   cover_weighted = FALSE,
-  cover_metric = "percent_cover",
+  cover_class = "percent_cover",
   allow_duplicates = FALSE,
   allow_no_c = FALSE,
   allow_non_veg = FALSE,
@@ -42,7 +42,7 @@ Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{c
 is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
 cover-weighted FQI.}
 
-\item{cover_metric}{a character string representing the cover classification used. Acceptable
+\item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 

@@ -8,7 +8,7 @@ transect_summary(
   x,
   key = "name",
   db,
-  cover_metric = "percent_cover",
+  cover_class = "percent_cover",
   allow_no_c = TRUE
 )
 }
@@ -24,7 +24,7 @@ values for \code{key}.}
 \item{db}{A character string representing the regional FQA database to use. See
 \code{db_names()} for a list of potential values.}
 
-\item{cover_metric}{a character string representing the cover classification used. Acceptable
+\item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 

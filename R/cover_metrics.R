@@ -22,10 +22,10 @@
 #' allow_duplicates = FALSE)
 
 cover_mean_c <- function(x, key = "name", db, native = FALSE,
-                           cover_metric = "percent_cover", allow_duplicates) {
+                           cover_class = "percent_cover", allow_duplicates) {
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, native, cover_metric, allow_duplicates,
+  entries <- accepted_entries(x, key, db, native, cover_class, allow_duplicates,
                               cover_weighted = TRUE,
                               allow_no_c = FALSE,
                               allow_non_veg = FALSE,
@@ -74,10 +74,10 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 #' native = FALSE, allow_duplicates = TRUE)
 
 cover_FQI <- function(x, key = "name", db, native = FALSE,
-                      cover_metric = "percent_cover", allow_duplicates) {
+                      cover_class = "percent_cover", allow_duplicates) {
 
   #get accepted entries
-  entries <- accepted_entries(x, key, db, native, cover_metric, allow_duplicates,
+  entries <- accepted_entries(x, key, db, native, cover_class, allow_duplicates,
                               cover_weighted = TRUE,
                               allow_no_c = FALSE,
                               allow_non_veg = FALSE,
@@ -125,14 +125,14 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 #'
 #' transect_summary(x = transect, key = "acronym", db = "michigan_2014")
 
-transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover",
+transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
                              allow_no_c = TRUE) {
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, allow_no_c = allow_no_c,
                               native = FALSE,
                               cover_weighted = TRUE,
-                              cover_metric,
+                              cover_class,
                               allow_duplicates = TRUE,
                               allow_non_veg = FALSE,
                               wetland_warning = TRUE)
@@ -255,11 +255,11 @@ transect_summary <- function(x, key = "name", db, cover_metric = "percent_cover"
 #' quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' plot_summary(transect, key = "acronym", db = "michigan_2014",
-#' cover_metric = "percent_cover", plot_id = "quad_id")
+#' cover_class = "percent_cover", plot_id = "quad_id")
 
 
 plot_summary <- function(x, key = "name", db,
-                         cover_metric = "percent_cover", plot_id,
+                         cover_class = "percent_cover", plot_id,
                          allow_no_c = TRUE, allow_non_veg = TRUE){
 
 
@@ -267,7 +267,7 @@ plot_summary <- function(x, key = "name", db,
   accepted <- accepted_entries(x, key, db,
                                native = FALSE,
                                cover_weighted = TRUE,
-                               cover_metric,
+                               cover_class,
                                allow_duplicates = TRUE,
                                allow_no_c,
                                allow_non_veg,
@@ -307,7 +307,7 @@ plot_summary <- function(x, key = "name", db,
       = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
 
       cover_mean_c
-      = suppressMessages(cover_mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_metric,
+      = suppressMessages(cover_mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
                      allow_duplicates = FALSE)),
 
       FQI
@@ -317,11 +317,11 @@ plot_summary <- function(x, key = "name", db,
       = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
 
       cover_FQI
-      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_metric,
+      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
                   allow_duplicates = FALSE)),
 
       native_cover_FQI
-      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE, cover_metric,
+      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE, cover_class,
                   allow_duplicates = FALSE)),
 
       adjusted_FQI

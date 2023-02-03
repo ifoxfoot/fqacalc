@@ -27,7 +27,7 @@
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
 #' is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
 #' cover-weighted FQI.
-#' @param cover_metric a character string representing the cover classification used. Acceptable
+#' @param cover_class a character string representing the cover classification used. Acceptable
 #' cover classes are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`,
 #' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
@@ -92,7 +92,7 @@ accepted_entries <- function(x, key = "name", db,
                              native = c(TRUE, FALSE),
                              wetland_warning = TRUE,
                              cover_weighted = FALSE,
-                             cover_metric = "percent_cover",
+                             cover_class = "percent_cover",
                              allow_duplicates = FALSE,
                              allow_no_c = FALSE,
                              allow_non_veg = FALSE,
@@ -172,10 +172,10 @@ accepted_entries <- function(x, key = "name", db,
     stop(paste("'cover' column cannot contain missing values."))
 
   #cover metric must be defined
-  if( !cover_metric %in% c("percent_cover", "carolina_veg_survey",
+  if( !cover_class %in% c("percent_cover", "carolina_veg_survey",
                            "braun-blanquet","daubenmire",
                            "usfs_ecodata"))
-    stop(paste(cover_metric, "is not an accepted cover-method. See documentation."))
+    stop(paste(cover_class, "is not an accepted cover-method. See documentation."))
 
   #plot_id argument must be NULL or a column name in input data frame x
   if( !is.null(plot_id) && !(plot_id %in% colnames(x)) )
@@ -190,13 +190,13 @@ accepted_entries <- function(x, key = "name", db,
     dplyr::mutate(cover = as.character(x$cover))
 
   #if cover method is percent, just convert to numeric
-  if(cover_metric == "percent_cover") {
+  if(cover_class == "percent_cover") {
     cols <- cols %>%
       dplyr::mutate(cover = suppressWarnings(as.numeric(cols$cover)))
   }
 
   #if cover method is usfs_ecodata
-  if(cover_metric == "usfs_ecodata") {
+  if(cover_class == "usfs_ecodata") {
     cols <- cols %>%
       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.5,
                                              cover == "3" ~ 3,
@@ -213,7 +213,7 @@ accepted_entries <- function(x, key = "name", db,
   }
 
   #if cover method is carolina, transform to 10 classes
-  if(cover_metric == "carolina_veg_survey") {
+  if(cover_class == "carolina_veg_survey") {
     cols <- cols %>%
       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 0.1,
                                              cover == "2" ~ 0.5,
@@ -228,7 +228,7 @@ accepted_entries <- function(x, key = "name", db,
   }
 
   #if cover method is daubenmire, transform to six classes
-  if(cover_metric == "daubenmire") {
+  if(cover_class == "daubenmire") {
     cols <- cols %>%
       dplyr::mutate(cover = dplyr::case_when(cover == "1" ~ 2.5,
                                              cover == "2" ~ 15,
@@ -239,7 +239,7 @@ accepted_entries <- function(x, key = "name", db,
   }
 
   #if cover method is braun-blanquet, transform to 5 classes
-  if(cover_metric == "braun-blanquet") {
+  if(cover_class == "braun-blanquet") {
     cols <- cols %>%
       dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
                                              cover == "1" ~ 2.5,
@@ -256,11 +256,11 @@ accepted_entries <- function(x, key = "name", db,
   if( cover_weighted ) {
     if( all(is.na(cols$cover)) ){
       message(paste("NAs were introduced during the conversion to the",
-                    cover_metric, "system. Are you using the right cover class?"))
+                    cover_class, "system. Are you using the right cover class?"))
     }
     else if( any(is.na(cols$cover)) ) {
     message(paste("NAs were introduced during the conversion to the",
-                  cover_metric, "system. Species with NA cover values will be removed."))
+                  cover_class, "system. Species with NA cover values will be removed."))
     }
     #remove NAs from cover col
     cols <- cols %>%
@@ -285,7 +285,7 @@ accepted_entries <- function(x, key = "name", db,
 
   #get fqai db
   regional_fqai <- fqadata::fqai_db %>%
-    dplyr::filter(fqa_db == db)
+    dplyr::filter(.data$fqa_db == db)
 
   #error if fqai db does not have complete set of acronyms
   if( key == "acronym" &

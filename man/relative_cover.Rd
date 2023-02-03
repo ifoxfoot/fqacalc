@@ -9,7 +9,7 @@ relative_cover(
   key = "name",
   db,
   col = c("species", "family", "physiog"),
-  cover_metric = "percent_cover",
+  cover_class = "percent_cover",
   allow_no_c = TRUE,
   allow_non_veg = TRUE
 )
@@ -29,7 +29,7 @@ values for \code{key}.}
 \item{col}{A character string representing the categorical variable to calculate
 the relative cover of. Can be set to "species", "family" or "physiog" (for physiognomy).}
 
-\item{cover_metric}{a character string representing the cover classification used. Acceptable
+\item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 

@@ -9,7 +9,7 @@ cover_FQI(
   key = "name",
   db,
   native = FALSE,
-  cover_metric = "percent_cover",
+  cover_class = "percent_cover",
   allow_duplicates
 )
 }
@@ -28,7 +28,7 @@ values for \code{key}.}
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
 
-\item{cover_metric}{a character string representing the cover classification used. Acceptable
+\item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 

@@ -79,7 +79,7 @@ view_db <- function(db) {
 
   #filter system data for correct db
   df <- fqadata::fqai_db %>%
-    dplyr::filter(fqa_db == db)
+    dplyr::filter(.data$fqa_db == db)
 
   #return db
   return(df)
@@ -115,7 +115,7 @@ unassigned_plants <- function(x, key = "name", db) {
   entries_matched <- accepted_entries(x, key, db,
                                       native = FALSE,
                                       cover_weighted = FALSE,
-                                      cover_metric = "percent_cover",
+                                      cover_class = "percent_cover",
                                       allow_duplicates = FALSE,
                                       allow_no_c = TRUE,
                                       allow_non_veg = FALSE,

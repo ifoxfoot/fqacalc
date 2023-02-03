@@ -52,13 +52,13 @@ the `view_db()` function.
 ``` r
 #view a list of all available databases
 head(db_names())
-#>                                 name                    usace_status
-#> 1 atlantic_coastal_pine_barrens_2018 Approved with reservations 2021
-#> 2                chicago_region_2014            Previously Certified
-#> 3                chicago_region_2017                   Approved 2021
-#> 4                      colorado_2020                   Approved 2021
-#> 5 dakotas_excluding_black_hills_2017            Previously Certified
-#> 6                      delaware_2013 Approved with reservations 2021
+#>                                       name                    usace_status
+#> 1       atlantic_coastal_pine_barrens_2018 Approved with reservations 2021
+#> 2                      chicago_region_2017                   Approved 2021
+#> 3                            colorado_2020                   Approved 2021
+#> 4       dakotas_excluding_black_hills_2017            Previously Certified
+#> 5                            delaware_2013 Approved with reservations 2021
+#> 6 eastern_great_lakes_hudson_lowlands_2018                   Approved 2021
 
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
@@ -68,12 +68,12 @@ head(colorado)
 #> # A tibble: 6 × 12
 #>   name        name_…¹ acronym accep…² family nativ…³     c     w physi…⁴ durat…⁵
 #>   <chr>       <chr>   <chr>   <chr>   <chr>  <chr>   <dbl> <dbl> <chr>   <chr>  
-#> 1 ABIES SP.   accept… ABIES   Abies   Pinac… native      5    NA tree    <NA>   
-#> 2 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     3 tree    perenn…
-#> 3 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     3 tree    perenn…
-#> 4 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA tree    perenn…
-#> 5 ABRONIA EL… accept… ABEL    Abroni… Nycta… native      4    NA forb    perenn…
-#> 6 ABRONIA FR… accept… ABFR2   Abroni… Nycta… native      6    NA forb    perenn…
+#> 1 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     1 tree    perenn…
+#> 2 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     1 tree    perenn…
+#> 3 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA tree    perenn…
+#> 4 ABRONIA EL… accept… ABEL    Abroni… Nycta… native      4    NA forb    perenn…
+#> 5 ABRONIA FR… accept… ABFR2   Abroni… Nycta… native      6    NA forb    perenn…
+#> 6 ABRONIA GL… accept… ABAR    Abroni… Nycta… native      9    NA forb    perenn…
 #> # … with 2 more variables: common_name <chr>, fqa_db <chr>, and abbreviated
 #> #   variable names ¹​name_origin, ²​accepted_scientific_name, ³​nativity,
 #> #   ⁴​physiognomy, ⁵​duration
@@ -274,7 +274,7 @@ unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
 #> 1 Nyctaginaceae       native NA NA        <NA>     <NA>
 #> 2     Aceraceae undetermined NA NA        <NA>     <NA>
 #>                   common_name       fqa_db
-#> 1 Fragrant White Sand-verbena montana_2017
+#> 1 Fragrant White Sand-Verbena montana_2017
 #> 2              Bigtooth Maple montana_2017
 ```
 
@@ -509,7 +509,7 @@ will only be counted once and their cover values will be added together.
 
 Cover-Weighted Functions have a few additional arguments:
 
-- **cover_metric**: A character string representing the cover method
+- **cover_class**: A character string representing the cover method
   used. Acceptable cover methods are: `"percent_cover"`,
   `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
   `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended
@@ -541,19 +541,19 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
 
 #cover mean c (no duplicates allowed!)
 cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
-             native = FALSE, cover_metric = "percent_cover", 
+             native = FALSE, cover_class = "percent_cover", 
              allow_duplicates = FALSE)
 #> [1] 4.923077
 
 #transect mean c (duplicates allowed)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
-             native = FALSE, cover_metric = "percent_cover",
+             native = FALSE, cover_class = "percent_cover",
              allow_duplicates = TRUE)
 #> [1] 5.946058
 
 #cover-weighted FQI (again, you can choose to allow duplicates or not)
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
-          cover_metric = "percent_cover",
+          cover_class = "percent_cover",
           allow_duplicates = TRUE)
 #> [1] 11.89212
 
@@ -612,7 +612,7 @@ transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE"
 
 #plot summary of a transect (dplicates are not allowed)
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
-             cover_metric = "percent_cover", 
+             cover_class = "percent_cover", 
              plot_id = "quad_id")
 #>   quad_id species_richness native_species_richness mean_wetness   mean_c
 #> 1       1                4                       3     1.750000 5.750000
@@ -656,15 +656,15 @@ relative_frequency(transect, key = "acronym", db = "michigan_2014",
 relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014", 
               col = "physiog")
 #>          physiognomy relative_frequency
-#> 1               forb                 30
-#> 2              grass                 20
-#> 3               tree                 20
-#> 4 Unvegetated Ground                 20
-#> 5  Unvegetated Water                 10
+#> 1 Unvegetated Ground                 20
+#> 2  Unvegetated Water                 10
+#> 3               forb                 30
+#> 4              grass                 20
+#> 5               tree                 20
 
 #relative cover
 relative_cover(transect, key = "acronym", db = "michigan_2014", 
-               col = "family", cover_metric = "percent_cover")
+               col = "family", cover_class = "percent_cover")
 #>          family relative_cover
 #> 1     Malvaceae       42.65403
 #> 2 Melanthiaceae       14.21801
@@ -673,7 +673,7 @@ relative_cover(transect, key = "acronym", db = "michigan_2014",
 
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
-                    col = "species", cover_metric = "percent_cover")
+                    col = "species", cover_class = "percent_cover")
 #>                      name relative_importance
 #> 1  ABELMOSCHUS ESCULENTUS            35.61273
 #> 2          ABIES BALSAMEA            16.89235
@@ -682,7 +682,7 @@ relative_importance(transect, key = "acronym", db = "michigan_2014",
 
 #species summary (including ground and water)
 species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
-                cover_metric = "percent_cover")
+                cover_class = "percent_cover")
 #>                      name acronym   nativity  c  w frequency coverage
 #> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90
 #> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11
@@ -700,7 +700,7 @@ species_summary(transect_unveg, key = "acronym", db = "michigan_2014",
 
 #physiognomy summary (including ground and water)
 physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
-                cover_metric = "percent_cover")
+                cover_class = "percent_cover")
 #>          physiognomy frequency coverage relative_frequency relative_cover
 #> 1               forb         3      120                 30      38.585209
 #> 2              grass         2       80                 20      25.723473

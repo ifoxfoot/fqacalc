@@ -20,7 +20,7 @@ test_that("cover_FQI() works in perfect setting", {
 })
 
 #-------------------------------------------------------------------------------
-#testing all_cover_metrics()
+#testing all_cover_classs()
 
 test_that("transect_summary() works in perfect setting", {
   expect_equal(transect_summary(x = transect, key = "acronym", db = "michigan_2014"),
@@ -71,7 +71,7 @@ test_that("transect_summary() works in perfect setting", {
 
 test_that("plot_summary() works without bare ground", {
   expect_equal(plot_summary(transect, key = "acronym", db = "michigan_2014",
-                            cover_metric = "percent_cover", plot_id = "quad_id"),
+                            cover_class = "percent_cover", plot_id = "quad_id"),
 
                data.frame(quad_id = c(1,2),
                           species_richness = c(4,3),
@@ -89,13 +89,13 @@ test_that("plot_summary() works without bare ground", {
                           water_cover = c(NA_real_, NA_real_)))
 
   expect_error(plot_summary(transect, key = "acronym", db = "michigan_2014",
-                            cover_metric = "percent_cover", plot_id = "quad_idd"),
+                            cover_class = "percent_cover", plot_id = "quad_idd"),
                "'plot_id' must be the name of a column in x .")
 })
 
 test_that("plot_summary() works with bare ground, water, and duplicates in same plot", {
   expect_equal(plot_summary(transect_dup, key = "acronym", db = "michigan_2014",
-                            cover_metric = "percent_cover", plot_id = "quad_id"),
+                            cover_class = "percent_cover", plot_id = "quad_id"),
 
                data.frame(quad_id = c(1,2),
                           species_richness = c(4,3),
@@ -113,7 +113,7 @@ test_that("plot_summary() works with bare ground, water, and duplicates in same 
                           water_cover = c(NA_real_, 20)))
 
   expect_message(plot_summary(transect_dup, key = "acronym", db = "michigan_2014",
-                            cover_metric = "percent_cover", plot_id = "quad_id"),
+                            cover_class = "percent_cover", plot_id = "quad_id"),
                "Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
 })
 

@@ -291,7 +291,7 @@ Even if duplicate species are allowed, if a plot id column is indicated using th
 
 Cover-Weighted Functions have a few additional arguments: 
 
-* **cover_metric**: A character string representing the cover method used. Acceptable cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because it is the most accurate.
+* **cover_class**: A character string representing the cover method used. Acceptable cover methods are: `"percent_cover"`, `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended because it is the most accurate.
 
 * **allow_duplicates**: Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of the same species. If FALSE, do not allow species duplication. Setting `allow_duplicates` to TRUE is best for calculating metrics for multiple plots/quadrants which potentially contain the same species. Setting `allow_duplicates` to FALSE is best for calculating metrics for a single plot/quadrant, where each species is entered once along with its total cover value.
 
@@ -313,17 +313,17 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
 
 #cover mean c (no duplicates allowed!)
 cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
-             native = FALSE, cover_metric = "percent_cover", 
+             native = FALSE, cover_class = "percent_cover", 
              allow_duplicates = FALSE)
 
 #transect mean c (duplicates allowed)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
-             native = FALSE, cover_metric = "percent_cover",
+             native = FALSE, cover_class = "percent_cover",
              allow_duplicates = TRUE)
 
 #cover-weighted FQI (again, you can choose to allow duplicates or not)
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
-          cover_metric = "percent_cover",
+          cover_class = "percent_cover",
           allow_duplicates = TRUE)
 
 #transect summary function (allows duplicates)
@@ -350,7 +350,7 @@ transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE"
 
 #plot summary of a transect (dplicates are not allowed)
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
-             cover_metric = "percent_cover", 
+             cover_class = "percent_cover", 
              plot_id = "quad_id")
 ```
 
@@ -377,19 +377,19 @@ relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
 
 #relative cover
 relative_cover(transect, key = "acronym", db = "michigan_2014", 
-               col = "family", cover_metric = "percent_cover")
+               col = "family", cover_class = "percent_cover")
 
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
-                    col = "species", cover_metric = "percent_cover")
+                    col = "species", cover_class = "percent_cover")
 
 #species summary (including ground and water)
 species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
-                cover_metric = "percent_cover")
+                cover_class = "percent_cover")
 
 #physiognomy summary (including ground and water)
 physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
-                cover_metric = "percent_cover")
+                cover_class = "percent_cover")
 ```
 
 ## Wetness metric

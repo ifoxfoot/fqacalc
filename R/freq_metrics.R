@@ -52,7 +52,7 @@ relative_frequency <- function(x, key = "name", db,
   #join entries to database in order to get info on family, physiognomy
   entries <- accepted_entries(x, key, db, native = FALSE, allow_duplicates = TRUE,
                               cover_weighted = FALSE,
-                              cover_metric = "percent_cover",
+                              cover_class = "percent_cover",
                               allow_no_c,
                               allow_non_veg,
                               wetland_warning = FALSE)
@@ -103,7 +103,7 @@ relative_frequency <- function(x, key = "name", db,
 
 relative_cover <- function(x, key = "name", db,
                            col = c("species", "family", "physiog"),
-                           cover_metric = "percent_cover", allow_no_c = TRUE,
+                           cover_class = "percent_cover", allow_no_c = TRUE,
                            allow_non_veg = TRUE){
 
   #declaring relative_cover is null
@@ -121,7 +121,7 @@ relative_cover <- function(x, key = "name", db,
   entries <- accepted_entries(x, key, db, native = FALSE,
                               allow_duplicates = TRUE,
                               cover_weighted = TRUE,
-                              cover_metric,
+                              cover_class,
                               allow_no_c,
                               allow_non_veg,
                               wetland_warning = FALSE) %>%
@@ -171,7 +171,7 @@ relative_cover <- function(x, key = "name", db,
 
 relative_importance <- function(x, key = "name", db,
                                 col = c("species", "family", "physiog"),
-                                cover_metric = "percent_cover", allow_no_c = TRUE,
+                                cover_class = "percent_cover", allow_no_c = TRUE,
                                 allow_non_veg = TRUE){
 
   #declaring var names as null
@@ -184,7 +184,7 @@ relative_importance <- function(x, key = "name", db,
   #get mean of relative freq and relative cover
   avg <- merge(
     relative_frequency(x, key, db, col, allow_no_c, allow_non_veg),
-    relative_cover(x, key, db, col, cover_metric, allow_no_c, allow_non_veg)) %>%
+    relative_cover(x, key, db, col, cover_class, allow_no_c, allow_non_veg)) %>%
     dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2) %>%
     dplyr::select(!!as.name(name), relative_importance)
 
@@ -226,14 +226,14 @@ relative_importance <- function(x, key = "name", db,
 #'
 
 species_summary <- function(x, key = "name", db,
-                            cover_metric = "percent_cover",
+                            cover_class = "percent_cover",
                             allow_no_c = TRUE,
                             allow_non_veg = TRUE){
 
   #get accepted entries
   accepted <- accepted_entries(x, key, db, native = FALSE,
                                cover_weighted = TRUE,
-                               cover_metric,
+                               cover_class,
                                allow_duplicates = TRUE,
                                allow_no_c,
                                allow_non_veg,
@@ -255,11 +255,11 @@ species_summary <- function(x, key = "name", db,
 
   #relative cover
   relative_cover <- relative_cover(x, key, db, col = "species",
-                                   cover_metric, allow_no_c, allow_non_veg)
+                                   cover_class, allow_no_c, allow_non_veg)
 
   #relative importance
   relative_importance <- relative_importance(x, key, db, col = "species",
-                                             cover_metric, allow_no_c, allow_non_veg)
+                                             cover_class, allow_no_c, allow_non_veg)
 
 
   #merge together
@@ -306,14 +306,14 @@ species_summary <- function(x, key = "name", db,
 #'
 
 physiog_summary <- function(x, key = "name", db,
-                            cover_metric = "percent_cover",
+                            cover_class = "percent_cover",
                             allow_no_c = TRUE,
                             allow_non_veg = TRUE){
 
   #get accepted entries
   accepted <- accepted_entries(x, key, db, native = FALSE,
                                cover_weighted = TRUE,
-                               cover_metric,
+                               cover_class,
                                allow_duplicates = TRUE,
                                allow_no_c,
                                allow_non_veg,
@@ -331,11 +331,11 @@ physiog_summary <- function(x, key = "name", db,
 
   #relative cover
   relative_cover <- relative_cover(x, key, db, col = "physiog",
-                                   cover_metric, allow_no_c, allow_non_veg)
+                                   cover_class, allow_no_c, allow_non_veg)
 
   #relative importance
   relative_importance <- relative_importance(x, key, db, col = "physiog",
-                                             cover_metric, allow_no_c, allow_non_veg)
+                                             cover_class, allow_no_c, allow_non_veg)
 
   #merge together
   df <- merge(group, relative_frequency) %>%

@@ -54,9 +54,9 @@ test_that("accepted_entries() throws error if cover contains NAs", {
                "'cover' column cannot contain missing values.")
 })
 
-test_that("accepted_entries() throws error if cover_metric isn't right", {
+test_that("accepted_entries() throws error if cover_class isn't right", {
   expect_error(accepted_entries(crooked_island, key = "acronym", db = "michigan_2014", native = F,
-                                cover_metric = "percent"),
+                                cover_class = "percent"),
                "percent is not an accepted cover-method. See documentation.")
 })
 
@@ -101,13 +101,13 @@ test_that("accepted_entries() throws a message if species does not have C Value"
 
 test_that("accepted_entries() throws warning if nas are introduced to cover", {
   expect_message(accepted_entries(na_intro_cover, key = "acronym", db = "michigan_2014", native = F,
-                                  cover_weighted = TRUE, cover_metric = "braun-blanquet"),
+                                  cover_weighted = TRUE, cover_class = "braun-blanquet"),
                  "NAs were introduced during the conversion to the braun-blanquet system. Are you using the right cover class?")
 })
 
 test_that("accepted_entries() throws warning if nas are introduced to cover", {
   expect_message(accepted_entries(na_intro_cover, key = "acronym", db = "michigan_2014", native = F,
-                                  cover_weighted = TRUE, cover_metric = "percent_cover"),
+                                  cover_weighted = TRUE, cover_class = "percent_cover"),
                  "NAs were introduced during the conversion to the percent_cover system. Species with NA cover values will be removed.")
 })
 
@@ -201,7 +201,7 @@ test_that("accepted_entries works with br-bl", {
                                 native = FALSE,
                                 allow_duplicates = TRUE,
                                 cover_weighted = TRUE,
-                                cover_metric = "braun-blanquet"),
+                                cover_class = "braun-blanquet"),
 
                data.frame(acronym = c("ABEESC", "ABIBAL"),
                           cover = c(87.5, 0.1),
@@ -224,7 +224,7 @@ test_that("accepted_entries works with br-bl and dups in same plot", {
                                 native = FALSE,
                                 allow_duplicates = TRUE,
                                 cover_weighted = TRUE,
-                                cover_metric = "braun-blanquet",
+                                cover_class = "braun-blanquet",
                                 plot_id = "quad_id"),
 
                data.frame(quad_id = c(1,2),
@@ -248,7 +248,7 @@ test_that("accepted_entries works with carolina cover method", {
   expect_equal(accepted_entries(x = accepted_cover_method, key = "acronym", db = "michigan_2014",
                                 native = FALSE,
                                 cover_weighted = TRUE,
-                                cover_metric = "carolina_veg_survey"),
+                                cover_class = "carolina_veg_survey"),
 
                data.frame(
                           acronym = c("ABEESC", "ABIBAL"),
@@ -271,7 +271,7 @@ test_that("accepted_entries works with daubenmire cover method", {
   expect_equal(accepted_entries(x = accepted_cover_method, key = "acronym", db = "michigan_2014",
                                 native = FALSE,
                                 cover_weighted = TRUE,
-                                cover_metric = "daubenmire"),
+                                cover_class = "daubenmire"),
 
                data.frame(
                  acronym = c("ABEESC", "ABIBAL"),
@@ -294,7 +294,7 @@ test_that("accepted_entries works with usfs method", {
   expect_equal(accepted_entries(x = accepted_cover_method, key = "acronym", db = "michigan_2014",
                                 native = FALSE,
                                 cover_weighted = TRUE,
-                                cover_metric = "usfs_ecodata"),
+                                cover_class = "usfs_ecodata"),
 
                data.frame(
                  acronym = c("ABEESC", "ABIBAL"),

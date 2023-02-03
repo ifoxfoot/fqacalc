@@ -28,7 +28,7 @@ species_richness <- function(x, key = "name", db, native = FALSE, allow_no_c = T
   #count how many observations are unique and matched
   species_richness <- nrow(accepted_entries(x, key, db, native, allow_no_c,
                                             cover_weighted = FALSE,
-                                            cover_metric = "percent_cover",
+                                            cover_class = "percent_cover",
                                             allow_duplicates = FALSE,
                                             wetland_warning = FALSE))
 
@@ -64,7 +64,7 @@ mean_c <- function(x, key = "name", db, native = FALSE) {
   #calculate mean C Value
   mean_c <- mean(accepted_entries(x, key, db, native,
                                   cover_weighted = FALSE,
-                                  cover_metric = "percent_cover",
+                                  cover_class = "percent_cover",
                                   allow_duplicates = FALSE,
                                   allow_no_c = FALSE,
                                   wetland_warning = FALSE)$c)
@@ -105,7 +105,7 @@ FQI <- function(x, key = "name", db, native = FALSE) {
   #get accepted entries
   entries <- accepted_entries(x, key, db, native,
                               cover_weighted = FALSE,
-                              cover_metric = "percent_cover",
+                              cover_class = "percent_cover",
                               allow_duplicates = FALSE,
                               allow_no_c = FALSE,
                               allow_non_veg = FALSE,
@@ -138,17 +138,11 @@ FQI <- function(x, key = "name", db, native = FALSE) {
 
 adjusted_FQI <- function(x, key = "name", db) {
 
-  #calculate adjusted fqi
-  # fqi <- 100 * (suppressMessages(mean_c(x, key, db, native = TRUE))/10) *
-  #     sqrt(suppressMessages(species_richness(x, key, db, native = TRUE, allow_no_c = FALSE))/
-  #            species_richness(x, key, db, native = FALSE, allow_no_c = FALSE)
-  #     )
-
   #get accepted entries
   entries <- accepted_entries(x, key, db,
                               native = FALSE,
                               cover_weighted = FALSE,
-                              cover_metric = "percent_cover",
+                              cover_class = "percent_cover",
                               allow_duplicates = FALSE,
                               allow_no_c = FALSE,
                               allow_non_veg = FALSE,
@@ -184,7 +178,7 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
   entries <- accepted_entries(x, key, db, allow_no_c,
                                native = FALSE,
                                cover_weighted = FALSE,
-                               cover_metric = "percent_cover",
+                               cover_class = "percent_cover",
                                allow_duplicates = FALSE,
                                allow_non_veg = FALSE,
                                wetland_warning = TRUE)
