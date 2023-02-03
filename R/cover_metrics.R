@@ -292,40 +292,40 @@ plot_summary <- function(x, key = "name", db,
     dplyr::summarise(
 
       species_richness
-      = suppressMessages(species_richness(dplyr::cur_data(), key, db, native = FALSE, allow_no_c)),
+      = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
 
       native_species_richness
-      = suppressMessages(species_richness(dplyr::cur_data(), key, db, native = TRUE, allow_no_c)),
+      = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = TRUE, allow_no_c)),
 
       mean_wetness
-      = suppressMessages(mean_w(dplyr::cur_data(), key, db, native = FALSE, allow_no_c)),
+      = suppressMessages(mean_w(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
 
       mean_c
-      = suppressMessages(mean_c(dplyr::cur_data(), key, db, native = FALSE)),
+      = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
 
       native_mean_c
-      = suppressMessages(mean_c(dplyr::cur_data(), key, db, native = TRUE)),
+      = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
 
       cover_mean_c
-      = suppressMessages(cover_mean_c(dplyr::cur_data(), key, db, native = FALSE, cover_metric,
+      = suppressMessages(cover_mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_metric,
                      allow_duplicates = FALSE)),
 
       FQI
-      = suppressMessages(FQI(dplyr::cur_data(), key, db, native = FALSE)),
+      = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
 
       native_FQI
-      = suppressMessages(FQI(dplyr::cur_data(), key, db, native = TRUE)),
+      = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
 
       cover_FQI
-      = suppressMessages(cover_FQI(dplyr::cur_data(), key, db, native = FALSE, cover_metric,
+      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_metric,
                   allow_duplicates = FALSE)),
 
       native_cover_FQI
-      = suppressMessages(cover_FQI(dplyr::cur_data(), key, db, native = TRUE, cover_metric,
+      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE, cover_metric,
                   allow_duplicates = FALSE)),
 
       adjusted_FQI
-      = suppressMessages(adjusted_FQI(dplyr::cur_data(), key, db))
+      = suppressMessages(adjusted_FQI(dplyr::pick(dplyr::everything()), key, db))
     )
 
   df <- as.data.frame(dplyr::left_join(plot_sum, ground, by = plot_id)) %>%

@@ -253,9 +253,15 @@ accepted_entries <- function(x, key = "name", db,
              dplyr::select({{plot_id}}, {{key}}) )
 
   #warning if NAs get introduced after converting cover metric
-  if( cover_weighted && any(is.na(cols$cover)) ) {
+  if( cover_weighted ) {
+    if( all(is.na(cols$cover)) ){
+      message(paste("NAs were introduced during the conversion to the",
+                    cover_metric, "system. Are you using the right cover class?"))
+    }
+    else if( any(is.na(cols$cover)) ) {
     message(paste("NAs were introduced during the conversion to the",
                   cover_metric, "system. Species with NA cover values will be removed."))
+    }
     #remove NAs from cover col
     cols <- cols %>%
       dplyr::filter(!is.na(cols$cover))
@@ -317,7 +323,8 @@ accepted_entries <- function(x, key = "name", db,
                        dplyr::mutate({{key}} := toupper(!!as.name(key))) %>%
                        dplyr::mutate(row = dplyr::row_number()),
                      regional_fqai,
-                     by = key)
+                     by = key,
+                     multiple = "all")
 
   #if a species is not present in regional list
   if( any(is.na(entries_joined$accepted_scientific_name)) ) {

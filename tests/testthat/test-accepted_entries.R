@@ -102,7 +102,13 @@ test_that("accepted_entries() throws a message if species does not have C Value"
 test_that("accepted_entries() throws warning if nas are introduced to cover", {
   expect_message(accepted_entries(na_intro_cover, key = "acronym", db = "michigan_2014", native = F,
                                   cover_weighted = TRUE, cover_metric = "braun-blanquet"),
-                 "NAs were introduced during the conversion to the braun-blanquet system. Species with NA cover values will be removed.")
+                 "NAs were introduced during the conversion to the braun-blanquet system. Are you using the right cover class?")
+})
+
+test_that("accepted_entries() throws warning if nas are introduced to cover", {
+  expect_message(accepted_entries(na_intro_cover, key = "acronym", db = "michigan_2014", native = F,
+                                  cover_weighted = TRUE, cover_metric = "percent_cover"),
+                 "NAs were introduced during the conversion to the percent_cover system. Species with NA cover values will be removed.")
 })
 
 test_that("accepted_entries() throws a message if two species entered have same id", {
