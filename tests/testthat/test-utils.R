@@ -38,6 +38,6 @@ test_that("unassigned plants works in perfect setting", {
                           w = c(NA_real_, NA_real_),
                           physiognomy = c(NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_),
-                          common_name = c("Fragrant White Sand-verbena", "Bigtooth Maple"),
+                          common_name = c("Fragrant White Sand-Verbena", "Bigtooth Maple"),
                           fqa_db = c("montana_2017", "montana_2017")))
 })

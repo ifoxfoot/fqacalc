@@ -20,7 +20,7 @@
 db_names <- function() {
 
   #filter system data for db names
-  df <- data.frame(name = c(unique(fqa_db$fqa_db))) %>%
+  df <- data.frame(name = c(unique(fqadata::fqai_db$fqa_db))) %>%
     dplyr::mutate(usace_status = "Approved 2021") %>%
     #note approval status
     dplyr::mutate(usace_status = dplyr::case_when(name %in%
@@ -78,7 +78,7 @@ view_db <- function(db) {
     stop(paste0(db," is not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #filter system data for correct db
-  df <- fqa_db %>%
+  df <- fqadata::fqai_db %>%
     dplyr::filter(fqa_db == db)
 
   #return db

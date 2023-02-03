@@ -284,7 +284,7 @@ accepted_entries <- function(x, key = "name", db,
   #PREPARING REGIONAL LIST FOR JOINING
 
   #get fqai db
-  regional_fqai <- fqa_db %>%
+  regional_fqai <- fqadata::fqai_db %>%
     dplyr::filter(fqa_db == db)
 
   #error if fqai db does not have complete set of acronyms

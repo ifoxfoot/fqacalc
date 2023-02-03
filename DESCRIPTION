@@ -15,7 +15,8 @@ LazyData: true
 Imports: 
     magrittr,
     dplyr,
-    rlang
+    rlang,
+    fqadata
 URL: https://github.com/ifoxfoot/fqacalc
 BugReports: https://github.com/ifoxfoot/fqacalc/issues
 Suggests: 

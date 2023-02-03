@@ -150,7 +150,7 @@ test_that("accepted_entries works in perfect setting", {
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 
 })
@@ -169,7 +169,7 @@ test_that("accepted_entries works in perfect setting with native = TRUE", {
                           w = c(0),
                           physiognomy = c("tree"),
                           duration = c("perennial"),
-                          common_name = c("balsam fir"),
+                          common_name = c("Balsam Fir"),
                           fqa_db = c("michigan_2014")))
 })
 
@@ -189,7 +189,7 @@ test_that("accepted_entries works in perfect setting with cover_weighted = TRUE"
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -214,7 +214,7 @@ test_that("accepted_entries works with br-bl", {
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -239,7 +239,7 @@ test_that("accepted_entries works with br-bl and dups in same plot", {
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -262,7 +262,7 @@ test_that("accepted_entries works with carolina cover method", {
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -285,7 +285,7 @@ test_that("accepted_entries works with daubenmire cover method", {
                  w = c(5, 0),
                  physiognomy = c("forb", "tree"),
                  duration = c("annual", "perennial"),
-                 common_name = c("okra; gumbo", "balsam fir"),
+                 common_name = c("Okra; Gumbo", "Balsam Fir"),
                  fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -308,7 +308,7 @@ test_that("accepted_entries works with usfs method", {
                  w = c(5, 0),
                  physiognomy = c("forb", "tree"),
                  duration = c("annual", "perennial"),
-                 common_name = c("okra; gumbo", "balsam fir"),
+                 common_name = c("Okra; Gumbo", "Balsam Fir"),
                  fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -330,7 +330,7 @@ test_that("accepted_entries works in perfect setting with allow_duplicates = TRU
                           w = c(5, 0, 0),
                           physiognomy = c("forb", "tree", "tree"),
                           duration = c("annual", "perennial", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014", "michigan_2014")))
 })
 
@@ -350,7 +350,7 @@ test_that("accepted_entries with allow_duplicates = TRUE, plot_id set", {
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -371,7 +371,7 @@ test_that("accepted_entries with allow_duplicates = TRUE, cover_weighted = TRUE,
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -391,7 +391,7 @@ test_that("accepted_entries with allow_duplicates = FALSE, cover_weighted = TRUE
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -410,7 +410,7 @@ test_that("accepted_entries with allow_duplicates = FALSE, cover_weighted = FALS
                           w = c(5, 0),
                           physiognomy = c("forb", "tree"),
                           duration = c("annual", "perennial"),
-                          common_name = c("okra; gumbo", "balsam fir"),
+                          common_name = c("Okra; Gumbo", "Balsam Fir"),
                           fqa_db = c("michigan_2014", "michigan_2014")))
 })
 
@@ -430,7 +430,7 @@ test_that("accepted_entries with allow_no_c = TRUE", {
                           w = c(NA_real_, NA_real_),
                           physiognomy = c(NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_),
-                          common_name = c("Fragrant White Sand-verbena", "Rocky Mountain Maple"),
+                          common_name = c("Fragrant White Sand-Verbena", "Rocky Mountain Maple"),
                           fqa_db = c("montana_2017", "montana_2017")))
 })
 
@@ -469,7 +469,7 @@ test_that("accepted_entries with allow_non_veg = TRUE", {
                           w = c(5, 0, 0),
                           physiognomy = c("forb", "Unvegetated Ground", "Unvegetated Water"),
                           duration = c("annual", "Unvegetated Ground", "Unvegetated Water"),
-                          common_name = c("okra; gumbo", NA, NA),
+                          common_name = c("Okra; Gumbo", NA, NA),
                           fqa_db = c("michigan_2014", "michigan_2014", "michigan_2014")))
 })
 
@@ -488,7 +488,7 @@ test_that("accepted_entries with allow_non_veg = FALSE", {
                           w = c(5),
                           physiognomy = c("forb"),
                           duration = c("annual"),
-                          common_name = c("okra; gumbo"),
+                          common_name = c("Okra; Gumbo"),
                           fqa_db = c("michigan_2014")))
 })
 
@@ -505,10 +505,10 @@ test_that("accepted_entries deletes observations that are synonyms to > 1 specie
                           family = c("Pinaceae"),
                           nativity = c("native"),
                           c = c(6),
-                          w = c(3),
+                          w = c(1),
                           physiognomy = c(NA_character_),
                           duration = c(NA_character_),
-                          common_name = c("subalpine fir"),
+                          common_name = c("Subalpine Fir"),
                           fqa_db = c("wyoming_2017")))
 })
 
@@ -523,10 +523,10 @@ test_that("accepted_entries keeps sci name if name is both syn and sci name", {
                           family = c("Cyperaceae", "Pinaceae"),
                           nativity = c("native", "native"),
                           c = c(6, 6),
-                          w = c(3, 3),
+                          w = c(1, 1),
                           physiognomy = c(NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_),
-                          common_name = c("bronze sedge", "subalpine fir"),
+                          common_name = c("Bronze Sedge", "Subalpine Fir"),
                           fqa_db = c("wyoming_2017", "wyoming_2017")))
 })
 
@@ -542,10 +542,10 @@ test_that("accepted_entries keeps sci name if name is both syn and sci name, als
                           family = c("Cyperaceae", "Cyperaceae", "Pinaceae", "Pinaceae"),
                           nativity = c("native", "native", "native", "native"),
                           c = c(6, 6, 6, 6),
-                          w = c(3, 3, 3, 3),
+                          w = c(1, 1, 1, 1),
                           physiognomy = c(NA_character_, NA_character_, NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_, NA_character_, NA_character_),
-                          common_name = c("bronze sedge","bronze sedge", "Rocky Mountain Douglas-fir", "Rocky Mountain Douglas-fir"),
+                          common_name = c("Bronze Sedge","Bronze Sedge", "Rocky Mountain Douglas-Fir", "Rocky Mountain Douglas-Fir"),
                           fqa_db = c("wyoming_2017", "wyoming_2017", "wyoming_2017", "wyoming_2017")))
 })
 
@@ -560,10 +560,10 @@ test_that("accepted_entries considers two names names associated with same ID to
                           family = c("Pinaceae", "Pinaceae"),
                           nativity = c("native", "native"),
                           c = c(6, 6),
-                          w = c(3, 3),
+                          w = c(1, 1),
                           physiognomy = c(NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_),
-                          common_name = c("subalpine fir", "Rocky Mountain Douglas-fir"),
+                          common_name = c("Subalpine Fir", "Rocky Mountain Douglas-Fir"),
                           fqa_db = c("wyoming_2017", "wyoming_2017")))
 })
 
@@ -578,10 +578,10 @@ test_that("accepted_entries considers two names names associated with same ID to
                           family = c("Pinaceae", "Pinaceae", "Pinaceae", "Pinaceae"),
                           nativity = c("native", "native", "native", "native"),
                           c = c(6, 6, 6, 6),
-                          w = c(3, 3, 3, 3),
+                          w = c(1, 1, 1, 1),
                           physiognomy = c(NA_character_, NA_character_, NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_, NA_character_, NA_character_),
-                          common_name = c("subalpine fir", "subalpine fir", "subalpine fir", "Rocky Mountain Douglas-fir"),
+                          common_name = c("Subalpine Fir", "Subalpine Fir", "Subalpine Fir", "Rocky Mountain Douglas-Fir"),
                           fqa_db = c("wyoming_2017", "wyoming_2017", "wyoming_2017", "wyoming_2017")))
 })
 
@@ -596,9 +596,9 @@ test_that("accepted_entries considers two names names associated with same ID to
                           family = c("Pinaceae", "Pinaceae"),
                           nativity = c("native",  "native"),
                           c = c(6, 6),
-                          w = c(3, 3),
+                          w = c(1, 1),
                           physiognomy = c(NA_character_, NA_character_),
                           duration = c(NA_character_,  NA_character_),
-                          common_name = c("subalpine fir", "Rocky Mountain Douglas-fir"),
+                          common_name = c("Subalpine Fir", "Rocky Mountain Douglas-Fir"),
                           fqa_db = c("wyoming_2017", "wyoming_2017")))
 })
