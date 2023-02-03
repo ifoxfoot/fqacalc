@@ -10,8 +10,7 @@
 
 This package provides functions for calculating Floristic Quality
 Assessment (FQA) metrics using regional Floristic Quality Assessment
-Index (FQAI) databases that have been approved by the US Army Corps of
-Engineers.
+databases that have been approved by the US Army Corps of Engineers.
 
 ## Installation
 
@@ -41,11 +40,11 @@ library(readxl) #for reading in excel files
 
 ## Package Data
 
-`fqacalc` contains all regional FQAI databases that have been either
+`fqacalc` contains all regional FQA databases that have been either
 fully approved or approved with reservations for use by the US Army
 Corps of Engineers. By referencing these databases, the package can
 assign a Coefficient of Conservatism (or C Value) to each plant that the
-user inputs. A list of regional FQAI databases can be viewed using the
+user inputs. A list of regional FQA databases can be viewed using the
 `db_names()` function, and specific FQA databases can be accessed using
 the `view_db()` function.
 
@@ -123,7 +122,7 @@ data must be in a certain format.
     don’t have acronyms!) so be sure to look at the regional database to
     check that the site assessment is using the same conventions.
     Names/acronyms do not have to be in the same case, but otherwise
-    must be exactly the same as their counterpart in the regional FQAI
+    must be exactly the same as their counterpart in the regional FQA
     database in order to be recognized by `fqacalc` functions.
 
 2.  If the user is calculating cover-weighted metrics, the data must
@@ -375,7 +374,7 @@ the native argument)
 
 Additionally, `species_richness()` and `all_metrics()` have an argument
 called `allow_no_c`. If `allow_no_c = TRUE` than species that are in the
-regional FQAI database but don’t have C Values will be included. If
+regional FQA database but don’t have C Values will be included. If
 `allow_no_c` is FALSE, then these species will be omitted. This argument
 is also found in `mean_w()` and all of the relative functions.
 

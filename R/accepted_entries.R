@@ -283,21 +283,21 @@ accepted_entries <- function(x, key = "name", db,
 
   #PREPARING REGIONAL LIST FOR JOINING
 
-  #get fqai db
-  regional_fqai <- fqadata::fqai_db %>%
+  #get fqa db
+  regional_fqa <- fqadata::fqai_db %>%
     dplyr::filter(.data$fqa_db == db)
 
-  #error if fqai db does not have complete set of acronyms
+  #error if fqa db does not have complete set of acronyms
   if( key == "acronym" &
-      any(is.na(regional_fqai$acronym) & regional_fqai$name_origin == "accepted_scientific_name"))
+      any(is.na(regional_fqa$acronym) & regional_fqa$name_origin == "accepted_scientific_name"))
     stop(paste(db, "does not have a complete set of acronyms, please set key to 'name'."))
 
-  #warning if fqai db does not wetland scores
-  if( wetland_warning & all(is.na(regional_fqai$w)))
+  #warning if fqa db does not wetland scores
+  if( wetland_warning & all(is.na(regional_fqa$w)))
     message(paste(db, "does not have wetland coefficients, wetland metrics cannot be calculated."))
 
   if (allow_non_veg) {
-    regional_fqai <- rbind(
+    regional_fqa <- rbind(
       #create df with water and ground
       data.frame(name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  name_origin = c(NA, NA),
@@ -311,18 +311,18 @@ accepted_entries <- function(x, key = "name", db,
                  duration = c("Unvegetated Ground", "Unvegetated Water"),
                  common_name = c(NA, NA),
                  fqa_db = c({{db}}, {{db}})),
-      #bind to regional fqai
-      regional_fqai)
+      #bind to regional fqa
+      regional_fqa)
   }
 
   #JOINING DATA ENTERED TO REGIONAL LIST
 
-  #join scores from FQAI to user's assessment
+  #join scores from FQA to user's assessment
   entries_joined <-
     dplyr::left_join(cols %>%
                        dplyr::mutate({{key}} := toupper(!!as.name(key))) %>%
                        dplyr::mutate(row = dplyr::row_number()),
-                     regional_fqai,
+                     regional_fqa,
                      by = key,
                      multiple = "all")
 
