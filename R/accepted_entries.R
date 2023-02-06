@@ -34,7 +34,7 @@
 #' duplicate observations for the same species. This is only recommended for
 #' calculating transect and frequency/abundance metrics.
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
-#' regional database but have not been assigned a C Values. If FALSE, omit species that have not
+#' regional FQA database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
 #' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
 #' ground and un-vegetated water.
@@ -159,7 +159,7 @@ accepted_entries <- function(x, key = "name", db,
   if( !is.logical(cover_weighted) )
     stop("'cover_weighted' can only be set to TRUE or FALSE")
 
-  #allow_duplicates must be T or F
+  #allow_duplicates must be TRUE or FALSE
   if( !is.logical(allow_duplicates) )
     stop("'allow_duplicates' can only be set to TRUE or FALSE")
 
@@ -238,7 +238,7 @@ accepted_entries <- function(x, key = "name", db,
                                              cover == "6" ~ 97.5))
   }
 
-  #if cover method is braun-blanquet, transform to 5 classes
+  #if cover method is braun-blanquet, transform to 6 classes
   if(cover_class == "braun-blanquet") {
     cols <- cols %>%
       dplyr::mutate(cover = dplyr::case_when(cover == "+" ~ 0.1,
@@ -281,7 +281,7 @@ accepted_entries <- function(x, key = "name", db,
   if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(cols, {{key}}, {{plot_id}}))) )
     message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
 
-  #PREPARING REGIONAL LIST FOR JOINING
+  #PREPARING REGIONAL DATABASE FOR JOINING
 
   #get fqa db
   regional_fqa <- fqadata::fqa_db %>%
@@ -315,7 +315,7 @@ accepted_entries <- function(x, key = "name", db,
       regional_fqa)
   }
 
-  #JOINING DATA ENTERED TO REGIONAL LIST
+  #JOINING DATA ENTERED TO REGIONAL DATABASE
 
   #join scores from FQA to user's assessment
   entries_joined <-
@@ -326,19 +326,19 @@ accepted_entries <- function(x, key = "name", db,
                      by = key,
                      multiple = "all")
 
-  #if a species is not present in regional list
+  #if a species is not present in regional db
   if( any(is.na(entries_joined$accepted_scientific_name)) ) {
 
     #send message to user
     message(paste("Species", unique(entries_joined[is.na(entries_joined$accepted_scientific_name), key]),
                   "not listed in database. It will be discarded."))
 
-    #get rid of observations not in regional list
+    #get rid of observations not in regional db
     entries_joined <- entries_joined %>%
       dplyr::filter(!is.na(.data$accepted_scientific_name))
   }
 
-  #SAME NAME, DIFFERENT accepted_scientific_nameS
+  #SAME NAME, DIFFERENT ACCEPTED NAMES
 
   #get duplicated names associated with diff accepted_scientific_names
   same_name_diff_accepted_scientific_name <- entries_joined %>%
@@ -377,7 +377,7 @@ accepted_entries <- function(x, key = "name", db,
       dplyr::select(-"dup")
   }
 
-  #DIFFERENT NAMES, SAME accepted_scientific_nameS
+  #DIFFERENT NAMES, SAME ACCEPTED NAME
 
   #get synonyms
   synonyms <- entries_joined %>%

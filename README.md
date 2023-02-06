@@ -224,9 +224,9 @@ mistake_island <- crooked_island %>%
 #store accepted entries
 accepted_entries <- accepted_entries(#this is the data
                                      mistake_island, 
-                                     #'key' to join the data to regional list
+                                     #'key' to join the data to regional database
                                      key = "name", 
-                                     #this is the regional list
+                                     #this is the regional database
                                      db = "michigan_2014", 
                                      #include native AND non-native entries
                                      native = F) 

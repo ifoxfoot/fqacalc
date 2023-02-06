@@ -51,7 +51,7 @@ duplicate observations for the same species. This is only recommended for
 calculating transect and frequency/abundance metrics.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
-regional database but have not been assigned a C Values. If FALSE, omit species that have not
+regional FQA database but have not been assigned a C Values. If FALSE, omit species that have not
 been assigned C Values.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
