@@ -24,7 +24,8 @@ default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only accept
 values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
-\code{db_names()} for a list of potential values.}
+\code{db_names} for a list of potential values and the \code{fqadata} R package
+where the databases are hosted.}
 
 \item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},

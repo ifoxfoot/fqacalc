@@ -8,7 +8,8 @@ view_db(db)
 }
 \arguments{
 \item{db}{A character string representing the regional FQA database to use. See
-\code{db_names()} for a list of potential values.}
+\code{db_names} for a list of potential values and the \code{fqadata} R package
+where the databases are hosted.}
 }
 \value{
 A data frame with 12 variables:

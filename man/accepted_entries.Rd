@@ -29,7 +29,8 @@ default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only accept
 values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
-\code{db_names()} for a list of potential values.}
+\code{db_names} for a list of potential values and the \code{fqadata} R package
+where the databases are hosted.}
 
 \item{native}{Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 native species.}
@@ -69,8 +70,9 @@ These columns include \code{family}, \code{native}, \code{c} (which represents t
 \description{
 \code{accepted_entries} takes a data frame of user-entered plant species and returns
 a data frame of plant species that are successfully matched to the regional FQA
-database of choice. \code{accepted_entries} is a utility function that is used in all
-other metric-calculating functions in this package.
+database of choice. Regional databases are stored in the \code{fqadata} R package.
+\code{accepted_entries} is a utility function that is used in all other metric-calculating
+functions in this package.
 }
 \examples{
 plant_list <- crooked_island

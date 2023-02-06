@@ -16,7 +16,8 @@ default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only accept
 values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
-\code{db_names()} for a list of potential values.}
+\code{db_names} for a list of potential values and the \code{fqadata} R package
+where the databases are hosted.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional FQA database but have not been assigned a C Values. If FALSE, omit species that have not

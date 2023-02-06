@@ -23,7 +23,8 @@ default is \code{"name"}. \code{"name"} and \code{"acronym"} are the only accept
 values for \code{key}.}
 
 \item{db}{A character string representing the regional FQA database to use. See
-\code{db_names()} for a list of potential values.}
+\code{db_names} for a list of potential values and the \code{fqadata} R package
+where the databases are hosted.}
 
 \item{col}{A character string representing the categorical variable to calculate
 the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).}

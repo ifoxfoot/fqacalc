@@ -8,8 +8,9 @@
 #'
 #' `accepted_entries` takes a data frame of user-entered plant species and returns
 #' a data frame of plant species that are successfully matched to the regional FQA
-#' database of choice. `accepted_entries` is a utility function that is used in all
-#' other metric-calculating functions in this package.
+#' database of choice. Regional databases are stored in the `fqadata` R package.
+#' `accepted_entries` is a utility function that is used in all other metric-calculating
+#' functions in this package.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `name` or `acronym`.
@@ -18,7 +19,8 @@
 #' default is `"name"`. `"name"` and `"acronym"` are the only acceptable
 #' values for `key`.
 #' @param db A character string representing the regional FQA database to use. See
-#' `db_names()` for a list of potential values.
+#' `db_names` for a list of potential values and the `fqadata` R package
+#' where the databases are hosted.
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #' @param wetland_warning Boolean (TRUE or FALSE). If TRUE, show user messages regarding
