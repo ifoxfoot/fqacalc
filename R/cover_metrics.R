@@ -286,47 +286,106 @@ plot_summary <- function(x, key = "name", db,
     dplyr::rename(water_cover = "cover") %>%
     dplyr::select("water_cover", !!as.name(plot_id))
 
-  #group by plot ID and calc metrics
-  plot_sum <- accepted %>%
+  #get acccepted no veg
+  accepted_no_veg <- accepted %>%
+    dplyr::filter(!.data$name %in% c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
+                  !.data$acronym %in% c("GROUND", "WATER"))
+
+
+  #group by plot id and calc metrics
+  plot_sum <- accepted_no_veg %>%
     dplyr::group_by(!!as.name(plot_id)) %>%
     dplyr::summarise(
+      #species richness
+      species_richness = nrow(dplyr::pick(dplyr::everything())),
 
-      species_richness
-      = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
+      #native species richness
+      native_species_richness = nrow(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")),
 
-      native_species_richness
-      = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = TRUE, allow_no_c)),
+      #mean wetness
+      mean_wetness = mean(dplyr::pick(dplyr::everything())$w, na.rm = TRUE),
 
-      mean_wetness
-      = suppressMessages(mean_w(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
+      #mean c
+      mean_c = mean(dplyr::pick(dplyr::everything())$c, na.rm = TRUE),
 
-      mean_c
-      = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
+      #native mean c
+      native_mean_c = mean(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")$c, na.rm = TRUE),
 
-      native_mean_c
-      = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
+      #cover mean c
+      cover_mean_c = sum(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c))$c *
+                           dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c))$cover)/
+        sum(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c))$cover),
 
-      cover_mean_c
-      = suppressMessages(cover_mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
-                     allow_duplicates = FALSE)),
+      #FQI
+      FQI = mean_c * sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c)))),
 
-      FQI
-      = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
+      #native FQI
+      native_FQI = mean(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")$c, na.rm = TRUE) *
+        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c), .data$nativity == "native"))),
 
-      native_FQI
-      = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
+      #cover FQI
+      cover_FQI = cover_mean_c *
+        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c)))),
 
-      cover_FQI
-      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
-                  allow_duplicates = FALSE)),
+      #native cover FQI
+      native_cover_FQI = (
+        sum(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c))$c *
+                               dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c))$cover)/
+         sum(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c))$cover)
+        ) *
+        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c), .data$nativity == "native"))),
 
-      native_cover_FQI
-      = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE, cover_class,
-                  allow_duplicates = FALSE)),
 
-      adjusted_FQI
-      = suppressMessages(adjusted_FQI(dplyr::pick(dplyr::everything()), key, db))
-    )
+      #adjusted FQI
+      adjusted_FQI = 100 * (mean(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")$c,
+                                 na.rm = TRUE)/10) *
+        sqrt(
+          nrow(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c)))/
+            nrow(dplyr::filter(dplyr::pick(dplyr::everything()),!is.na(c)))
+        )
+      )
+
+  # #group by plot ID and calc metrics
+  # plot_sum <- accepted %>%
+  #   dplyr::group_by(!!as.name(plot_id)) %>%
+  #   dplyr::summarise(
+  #
+  #     species_richness
+  #     = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
+  #
+  #     native_species_richness
+  #     = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = TRUE, allow_no_c)),
+  #
+  #     mean_wetness
+  #     = suppressMessages(mean_w(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
+  #
+  #     mean_c
+  #     = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
+  #
+  #     native_mean_c
+  #     = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
+  #
+  #     cover_mean_c
+  #     = suppressMessages(cover_mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
+  #                    allow_duplicates = FALSE)),
+  #
+  #     FQI
+  #     = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
+  #
+  #     native_FQI
+  #     = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
+  #
+  #     cover_FQI
+  #     = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
+  #                 allow_duplicates = FALSE)),
+  #
+  #     native_cover_FQI
+  #     = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE, cover_class,
+  #                 allow_duplicates = FALSE)),
+  #
+  #     adjusted_FQI
+  #     = suppressMessages(adjusted_FQI(dplyr::pick(dplyr::everything()), key, db))
+  #   )
 
   df <- as.data.frame(dplyr::left_join(plot_sum, ground, by = plot_id)) %>%
     dplyr::left_join(water, by = plot_id)
