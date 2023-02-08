@@ -46,7 +46,7 @@ relative_frequency <- function(x, key = "name", db,
     stop("'col' argument can only be set to 'species', 'family', or 'physiog'")
 
   #which column is being called?
-  name <- if(col == "species")  {"name"}
+  col_name <- if(col == "species")  {"name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #join entries to database in order to get info on family, physiognomy
@@ -58,7 +58,7 @@ relative_frequency <- function(x, key = "name", db,
                               wetland_warning = FALSE)
 
   #calculate relative frequency--fre/num observations
-  df <- data.frame(dplyr::count(entries, !!as.name(name), name = "relative_frequency")) %>%
+  df <- data.frame(dplyr::count(entries, !!as.name(col_name), name = "relative_frequency")) %>%
     dplyr::mutate(relative_frequency = 100*relative_frequency/nrow(entries))
 
   #return result
@@ -114,7 +114,7 @@ relative_cover <- function(x, key = "name", db,
     stop("'col' argument can only be set to 'species', 'family', or 'physiog'")
 
   #which column is being called?
-  name <- if(col == "species")  {"name"}
+  col_name <- if(col == "species")  {"name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
   #bind to regional fqa list to get info about taxonomy, physiognomy
@@ -125,12 +125,12 @@ relative_cover <- function(x, key = "name", db,
                               allow_no_c,
                               allow_non_veg,
                               wetland_warning = FALSE) %>%
-    dplyr::group_by(!!as.name(name)) %>%
+    dplyr::group_by(!!as.name(col_name)) %>%
     #caclulate cover per group
     dplyr::summarise(sum = sum(.data$cover)) %>%
     as.data.frame() %>%
     dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
-    dplyr::select(!!as.name(name), relative_cover)
+    dplyr::select(!!as.name(col_name), relative_cover)
 
   #return the result
   return(entries)
@@ -177,16 +177,42 @@ relative_importance <- function(x, key = "name", db,
   #declaring var names as null
   relative_importance <- NULL
 
+  #col argument must be right
+  if( !col %in% c("species", "family", "physiog"))
+    stop("'col' argument can only be set to 'species', 'family', or 'physiog'")
+
   #which column is being called?
-  name <- if(col == "species")  {"name"}
+  col_name <- if(col == "species")  {"name"}
   else if(col == "family") {"family"} else if (col == "physiog") {"physiognomy"}
 
+  #get accepted entries
+  entries <- accepted_entries(x, key, db, native = FALSE,
+                              allow_duplicates = TRUE,
+                              cover_weighted = TRUE,
+                              cover_class,
+                              allow_no_c,
+                              allow_non_veg,
+                              wetland_warning = FALSE)
+
+  #get relative cover
+  relative_cov <- entries %>%
+    dplyr::group_by(!!as.name(col_name)) %>%
+    #caclulate cover per group
+    dplyr::summarise(sum = sum(.data$cover)) %>%
+    as.data.frame() %>%
+    dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
+    dplyr::select(!!as.name(col_name), relative_cover)
+
+  #calculate relative frequency--fre/num observations
+  relative_freq <- data.frame(dplyr::count(entries, !!as.name(col_name),
+                                           name = "relative_frequency")) %>%
+    dplyr::mutate(relative_frequency = 100*relative_frequency/nrow(entries))
+
+
   #get mean of relative freq and relative cover
-  avg <- merge(
-    relative_frequency(x, key, db, col, allow_no_c, allow_non_veg),
-    relative_cover(x, key, db, col, cover_class, allow_no_c, allow_non_veg)) %>%
+  avg <- merge(relative_freq,relative_cov) %>%
     dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2) %>%
-    dplyr::select(!!as.name(name), relative_importance)
+    dplyr::select(!!as.name(col_name), relative_importance)
 
   #return value
   return(avg)
@@ -231,7 +257,7 @@ species_summary <- function(x, key = "name", db,
                             allow_non_veg = TRUE){
 
   #get accepted entries
-  accepted <- accepted_entries(x, key, db, native = FALSE,
+  entries <- accepted_entries(x, key, db, native = FALSE,
                                cover_weighted = TRUE,
                                cover_class,
                                allow_duplicates = TRUE,
@@ -239,34 +265,37 @@ species_summary <- function(x, key = "name", db,
                                allow_non_veg,
                                wetland_warning = FALSE)
 
-  c_score <- accepted %>%
+  c_score <- entries %>%
     dplyr::select("name", "acronym", "nativity", "c", "w") %>%
     dplyr::distinct()
 
   #getting freq and coverage
-  group <- accepted %>%
+  group <- entries %>%
     dplyr::group_by(!!as.name(key)) %>%
     dplyr::summarise(frequency = dplyr::n(),
                      coverage = sum(.data$cover))
 
   #relative frequency
-  relative_frequency <- relative_frequency(x, key, db, col = "species",
-                                           allow_no_c, allow_non_veg)
+  relative_freq <-
+    as.data.frame(dplyr::count(entries, !!as.name(key), name = "relative_frequency")) %>%
+    dplyr::mutate(relative_frequency = 100*relative_frequency/nrow(entries))
 
-  #relative cover
-  relative_cover <- relative_cover(x, key, db, col = "species",
-                                   cover_class, allow_no_c, allow_non_veg)
 
-  #relative importance
-  relative_importance <- relative_importance(x, key, db, col = "species",
-                                             cover_class, allow_no_c, allow_non_veg)
+  #get relative cover
+  relative_cov <- entries %>%
+    dplyr::group_by(!!as.name(key)) %>%
+    #caclulate cover per group
+    dplyr::summarise(sum = sum(.data$cover)) %>%
+    as.data.frame() %>%
+    dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
+    dplyr::select(!!as.name(key), relative_cover)
 
 
   #merge together
   df <- merge(c_score, group) %>%
-    merge(relative_frequency) %>%
-    merge(relative_cover) %>%
-    merge(relative_importance)
+    merge(relative_freq) %>%
+    merge(relative_cov) %>%
+    dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2)
 
 
   return(df)
@@ -311,7 +340,7 @@ physiog_summary <- function(x, key = "name", db,
                             allow_non_veg = TRUE){
 
   #get accepted entries
-  accepted <- accepted_entries(x, key, db, native = FALSE,
+  entries <- accepted_entries(x, key, db, native = FALSE,
                                cover_weighted = TRUE,
                                cover_class,
                                allow_duplicates = TRUE,
@@ -320,27 +349,32 @@ physiog_summary <- function(x, key = "name", db,
                                wetland_warning = FALSE)
 
   #getting freq and coverage
-  group <- accepted %>%
+  group <- entries %>%
     dplyr::group_by(.data$physiognomy) %>%
     dplyr::summarise(frequency = dplyr::n(),
                      coverage = sum(.data$cover))
 
+
   #relative frequency
-  relative_frequency <- relative_frequency(x, key, db, col = "physiog",
-                                           allow_no_c, allow_non_veg)
+  relative_freq <-
+    as.data.frame(dplyr::count(entries, .data$physiognomy, name = "relative_frequency")) %>%
+    dplyr::mutate(relative_frequency = 100*relative_frequency/nrow(entries))
 
-  #relative cover
-  relative_cover <- relative_cover(x, key, db, col = "physiog",
-                                   cover_class, allow_no_c, allow_non_veg)
 
-  #relative importance
-  relative_importance <- relative_importance(x, key, db, col = "physiog",
-                                             cover_class, allow_no_c, allow_non_veg)
+  #get relative cover
+  relative_cov <- entries %>%
+    dplyr::group_by(.data$physiognomy) %>%
+    #caclulate cover per group
+    dplyr::summarise(sum = sum(.data$cover)) %>%
+    as.data.frame() %>%
+    dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
+    dplyr::select(.data$physiognomy, relative_cover)
+
 
   #merge together
-  df <- merge(group, relative_frequency) %>%
-    merge(relative_cover) %>%
-    merge(relative_importance)
+  df <- merge(group, relative_freq) %>%
+    merge(relative_cov) %>%
+    dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2)
 
 
   return(df)
