@@ -197,7 +197,8 @@ test_that("all_metrics() calculates total species richness", {
                                       "Native FQI",
                                       "Adjusted FQI",
                                       "Mean Wetness",
-                                      "Native Mean Wetness"),
+                                      "Native Mean Wetness",
+                                      "% Hydrophytes"),
                           values = c(35,
                                      28,
                                      7,
@@ -212,6 +213,7 @@ test_that("all_metrics() calculates total species richness", {
                                      35.52866046,
                                      60.05439711,
                                      0.71428571,
-                                     0.85714286
+                                     0.85714286,
+                                     37.1428571
                                      )))
 })

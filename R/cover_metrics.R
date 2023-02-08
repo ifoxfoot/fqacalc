@@ -174,7 +174,8 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
                "Cover-Weighted Native FQI",
                "Adjusted FQI",
                "Mean Wetness",
-               "Native Mean Wetness"
+               "Native Mean Wetness",
+               "% Hydrophytes"
                )
 
   values <- c(
@@ -222,7 +223,14 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     # Mean Wetness
     mean(unique_entries$w, na.rm = TRUE),
     # Native Mean Wetness
-    mean(dplyr::filter(unique_entries, .data$nativity == "native")$w, na.rm = TRUE)
+    mean(dplyr::filter(unique_entries, .data$nativity == "native")$w, na.rm = TRUE),
+    #% hydrophytes
+    if(db %in% c("dakotas_excluding_black_hills_2017", "delaware_2013", "illinois_2020",
+                 "iowa_2001","louisiana_coastal_prairie_2006", "mid_atlantic_allegheny_plateau_glaciated_2012",
+                 "mid_atlantic_allegheny_plateau_nonglaciated_2012", "mid_atlantic_ridge_valley_2012",
+                 "minnesota_wetlands_2007", "pennsylvania_piedmont_2013")) {
+      (sum(entries$w < -1, na.rm = TRUE )/length(entries$w))*100
+    } else {(sum(entries$w < 0, na.rm = TRUE )/length(entries$w))*100}
   )
 
   #bind metrics and values into data frame

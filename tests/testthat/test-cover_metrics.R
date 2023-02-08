@@ -43,7 +43,8 @@ test_that("transect_summary() works in perfect setting", {
                                       "Cover-Weighted Native FQI",
                                       "Adjusted FQI",
                                       "Mean Wetness",
-                                      "Native Mean Wetness"),
+                                      "Native Mean Wetness",
+                                      "% Hydrophytes"),
                           values = c(4,
                                      3,
                                      1,
@@ -62,7 +63,8 @@ test_that("transect_summary() works in perfect setting", {
                                      16.437277,
                                      66.395281,
                                      1.75,
-                                     0.6666667
+                                     0.6666667,
+                                     14.2857143
                           )))
 })
 
