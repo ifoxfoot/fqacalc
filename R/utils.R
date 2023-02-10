@@ -8,10 +8,19 @@
 #' Create a data frame containing the names of regional FQA databases contained in
 #' this package as well as their certification status.
 #'
-#' @return A data frame of regional FQA database names. The column `name` contains
-#' the names of the databases. These are acceptable values for `db` in other `fqacalc`
-#' functions. The column `status` notes whether the database has been fully approved or
-#' approved with reservations by the US Army Corps of Engineers.
+#' @return A data frame of regional FQA database names, approval status, notes, and citations.
+#' The column `fqa_db` contains the names of the databases. These are acceptable values for `db`
+#' in other `fqacalc` functions.
+#'
+#' @format A data frame with 44 rows and 4 variables:
+#' \describe{
+#'   \item{fqa_db}{Regional FQA database}
+#'   \item{recommendation}{Indicates if the regional FQA database was recommended for use by the US Army Corps of Engineers in 2020}
+#'   \item{notes}{Notes on the limitations or recommended useage of the regional FQA database}
+#'   \item{citation}{A citation for the regional FQA database}
+#'   ...
+#' }
+#'
 #' @export
 #'
 #' @examples
@@ -19,25 +28,8 @@
 
 db_names <- function() {
 
-  #filter system data for db names
-  df <- data.frame(name = c(unique(fqadata::fqa_db$fqa_db))) %>%
-    dplyr::mutate(usace_status = "Approved 2021") %>%
-    #note approval status
-    dplyr::mutate(usace_status = dplyr::case_when(name %in%
-                                              c("atlantic_coastal_pine_barrens_2018",
-                                                "delaware_2013",
-                                                "maine_new_brunswick_2018")
-                                            ~ "Approved with reservations 2021",
-                                            TRUE ~ usace_status)) %>%
-    dplyr::mutate(usace_status = dplyr::case_when(name %in%
-                                              c("chicago_region_2014",
-                                                "dakotas_excluding_black_hills_2017",
-                                                "kansas_2014")
-                                            ~ "Previously Certified",
-                                            TRUE ~ usace_status))
-
   #return names
-  return(df)
+  return(fqadata::fqa_citations)
 
 }
 
@@ -68,13 +60,15 @@ db_names <- function() {
 #' }
 #' @export
 #'
+#' @source See `db_names` function for citations
+#'
 #' @examples
 #' view_db("michigan_2014")
 
 view_db <- function(db) {
 
   #error if db is not a legit db
-  if( !db %in% db_names()$name )
+  if( !db %in% db_names()$fqa_db )
     stop(paste0(db," is not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #filter system data for correct db

@@ -3,6 +3,9 @@
 \name{view_db}
 \alias{view_db}
 \title{View a Regional FQA Database}
+\source{
+See \code{db_names} function for citations
+}
 \usage{
 view_db(db)
 }

@@ -3,14 +3,23 @@
 \name{db_names}
 \alias{db_names}
 \title{Look Up the Names of Regional FQA Databases}
+\format{
+A data frame with 44 rows and 4 variables:
+\describe{
+\item{fqa_db}{Regional FQA database}
+\item{recommendation}{Indicates if the regional FQA database was recommended for use by the US Army Corps of Engineers in 2020}
+\item{notes}{Notes on the limitations or recommended useage of the regional FQA database}
+\item{citation}{A citation for the regional FQA database}
+...
+}
+}
 \usage{
 db_names()
 }
 \value{
-A data frame of regional FQA database names. The column \code{name} contains
-the names of the databases. These are acceptable values for \code{db} in other \code{fqacalc}
-functions. The column \code{status} notes whether the database has been fully approved or
-approved with reservations by the US Army Corps of Engineers.
+A data frame of regional FQA database names, approval status, notes, and citations.
+The column \code{fqa_db} contains the names of the databases. These are acceptable values for \code{db}
+in other \code{fqacalc} functions.
 }
 \description{
 Create a data frame containing the names of regional FQA databases contained in

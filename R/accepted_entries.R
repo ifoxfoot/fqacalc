@@ -127,7 +127,7 @@ accepted_entries <- function(x, key = "name", db,
     stop(paste(deparse(substitute(x)), "does not have a column named", key, "."))
 
   #error if db is not a legit db
-  if( !db %in% db_names()$name )
+  if( !db %in% db_names()$fqa_db )
     stop(paste(db, "not recognized. Run 'db_names()' for a list of acceptable db values."))
 
   #native must be TRUE or FALSE
