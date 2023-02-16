@@ -9,8 +9,11 @@
 <!-- badges: end -->
 
 This package provides functions for calculating Floristic Quality
-Assessment (FQA) metrics using regional Floristic Quality Assessment
-databases that have been approved by the US Army Corps of Engineers.
+Assessment (FQA) metrics using regional FQA databases that have been
+reviewed and certified by the U.S. Army Corps of Engineers (USACE).
+These databases are stored in a sister R package, ‘fqadata’. Both
+packages were developed for the USACE by the U.S. Army Engineer Research
+and Development Center’s Environmental Laboratory.
 
 ## Installation
 
@@ -46,18 +49,28 @@ Corps of Engineers. By referencing these databases, the package can
 assign a Coefficient of Conservatism (or C Value) to each plant that the
 user inputs. A list of regional FQA databases can be viewed using the
 `db_names()` function, and specific FQA databases can be accessed using
-the `view_db()` function.
+the `view_db()` function. Below is an example of how to view one of the
+regional databases.
+
+To complete this tutorial, follow along in R studio.
 
 ``` r
 #view a list of all available databases
 head(db_names())
-#>                                       name                    usace_status
-#> 1       atlantic_coastal_pine_barrens_2018 Approved with reservations 2021
-#> 2                      chicago_region_2017                   Approved 2021
-#> 3                            colorado_2020                   Approved 2021
-#> 4       dakotas_excluding_black_hills_2017            Previously Certified
-#> 5                            delaware_2013 Approved with reservations 2021
-#> 6 eastern_great_lakes_hudson_lowlands_2018                   Approved 2021
+#>                                     fqa_db         recommendation         notes
+#> 1       atlantic_coastal_pine_barrens_2018 Yes, with reservations          <NA>
+#> 2                      chicago_region_2017                    YES          <NA>
+#> 3                            colorado_2020                    YES          <NA>
+#> 4       dakotas_excluding_black_hills_2017   Previously Certified          <NA>
+#> 5                            delaware_2013 Yes, with reservations          <NA>
+#> 6 eastern_great_lakes_hudson_lowlands_2018                    YES Wetlands Only
+#>                                                                                                                                                                                                                                                                                 citation
+#> 1                                    Faber-Langendoen, D., Cameron, D., Gilman, A. V., Metzler, K. J., Ring, R. M., & Sneddon, L. (2019). Development of an Ecoregional Floristic Quality Assessment Method for the Northeastern United States. Northeastern Naturalist, 26(3), 593-608.
+#> 2                                                                                                                              Herman, B., Sliwinski, R. and S. Whitaker. 2017. Chicago Region FQA (Floristic Quality Assessment) Calculator. U.S. Army Corps of Engineers, Chicago, IL.
+#> 3                                                                                           Smith, P., G. Doyle, and J. Lemly. 2020. Revision of Colorado’s Floristic Quality Assessment\nIndices. Colorado Natural Heritage Program, Colorado State University, Fort Collins, Colorado.
+#> 4 The Northern Great Plains Floristic Quality Assessment Panel. 2001. Coefficients of conservatism for the vascular flora of the Dakotas and adjacent grasslands. U.S. Geological Survey, Biological Resources Division, Information and Technology Report USGS/BRD/ITR-2001-0001, 32 p.
+#> 5                                                                  Chamberlain, S. J., & Ingram, H. M. (2012). Developing coefficients of conservatism to advance floristic quality assessment in the Mid-Atlantic region. The Journal of the Torrey Botanical Society, 139(4), 416-427.
+#> 6                                    Faber-Langendoen, D., Cameron, D., Gilman, A. V., Metzler, K. J., Ring, R. M., & Sneddon, L. (2019). Development of an Ecoregional Floristic Quality Assessment Method for the Northeastern United States. Northeastern Naturalist, 26(3), 593-608.
 
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
@@ -84,7 +97,7 @@ Calculator](https://universalfqa.org/). The data set is called
 `crooked_island` and can be used to demonstrate how the package works.
 
 ``` r
-#take a look at crooked island's plants
+#this is an example assessment from Crooked Island, MI. When calculating metrics, use the michigan_2014 regional database
 head(crooked_island)
 #>   acronym  common_name                    name
 #> 1  ABIBAL   balsam fir          Abies balsamea
@@ -94,7 +107,11 @@ head(crooked_island)
 #> 5  ARTCAM     wormwood    Artemisia campestris
 #> 6  CALEPI    reedgrass  Calamagrostis epigeios
 
-#view at the documentation for the data (bottom right pane of R studio)
+#view the dimensions (35 rows and 3 columns)
+dim(crooked_island)
+#> [1] 35  3
+
+#view the documentation for the data set (bottom right pane of R studio)
 ?crooked_island
 
 #load the data set into local environment
@@ -115,27 +132,27 @@ in an Excel file, it can be read in with the same code, but replace
 In order to calculate FQA metrics using `fqacalc`, the site assessment
 data must be in a certain format.
 
-1.  The data should have either a column named `name` containing Latin
-    names of plants, or a column named `acronym` containing acronyms of
-    plants. Different regional FQA databases use different naming
-    conventions and have different ways of creating acronyms (and some
-    don’t have acronyms!) so be sure to look at the regional database to
-    check that the site assessment is using the same conventions.
-    Names/acronyms do not have to be in the same case, but otherwise
-    must be exactly the same as their counterpart in the regional FQA
-    database in order to be recognized by `fqacalc` functions.
+1.  The data should have either a column named `name` containing
+    scientific names of plants, or a column named `acronym` containing
+    acronyms of plants. Different regional FQA databases use different
+    naming conventions and have different ways of creating acronyms (and
+    some don’t have acronyms!) so be sure to look at the regional
+    database to check that the site assessment is using the same
+    conventions. Names/acronyms do not have to be in the same case, but
+    otherwise must be exactly the same as their counterpart in the
+    regional FQA database in order to be recognized by `fqacalc`
+    functions.
 
 2.  If the user is calculating cover-weighted metrics, the data must
     have another column containing cover values and it must be called
     `cover`. If the cover values are in percent cover, they must be
     between 0-100. If they are in a class, they must be correct for that
     class or else they won’t be recognized. See the section on
-    cover-weighted functions to learn more about cover classes.
-
-3.  If the user is calculating plot metrics, the data must have another
-    column containing the plot ID. In this case, each observation is one
-    row, containing the species name or acronym, the cover value, and
-    the plot ID.
+    cover-weighted functions to learn more about cover classes. If the
+    user is calculating plot metrics, the data must have another column
+    containing the plot ID. In this case, each observation is one row,
+    containing the species name or acronym, the cover value, and the
+    plot ID.
 
 It might look something like this:
 
@@ -243,13 +260,12 @@ expected 35 entries.
 
 In some cases, plants from the site assessment can be matched to the
 regional database, but the plant is not associated with any C Value.
-This is usually because not enough is known about that plant. Plants
-that are matched but have no C Value will be excluded from FQI metric
-calculation but they can *optionally* be included in other metrics like
-species richness, relative cover, relative frequency, relative
-importance, and mean wetness, as well as any summarizing functions
-containing these metrics. This option is denoted with the `allow_no_c`
-argument.
+Plants that are matched but have no C Value will be excluded from FQA
+metric calculation but they can *optionally* be included in other
+metrics like species richness, relative cover, relative frequency,
+relative importance, and mean wetness, as well as any summarizing
+functions containing these metrics. This option is denoted with the
+`allow_no_c` argument.
 
 `unassigned_plants()` is a function that shows the user which plants
 have not been assigned a C Value.
@@ -289,8 +305,8 @@ optionally be included in cover-weighted metrics unless they are in the
 same plot. Duplicate behavior in cover-weighted functions is controlled
 by the `allow_duplicates` argument. If there are duplicates, and the
 user is attempting to perform a cover-weighted calculation where
-duplicates are not allowed, the they will be condensed into one species
-with an aggregate cover value. Duplicates can always be included in all
+duplicates are not allowed, they will be condensed into one species with
+an aggregate cover value. Duplicates are always be included in all
 frequency metrics.
 
 If there is a duplicate species and `allow_duplicates = FALSE`, a
@@ -349,13 +365,12 @@ mean_c(synonyms, key = "name", db = "wyoming_2017", native = F)
 Species Richness, Native Species Richness, Mean C, Native Mean C, Total
 FQI, Native FQI, and Adjusted FQI. All of these functions eliminate
 duplicate species and species that cannot be found in the regional
-database. All but Total Species Richness automatically eliminate species
-that are not associated with a C Value.
+database. All but Total Species Richness and Native Species Richness
+automatically eliminate species that are not associated with a C Value.
 
 #### Function Arguments
 
-All of the metric functions have the same arguments (and two don’t have
-the native argument)
+In general, all of the metric functions have the same arguments.
 
 - **x**: A data frame containing a list of plant species. This data
   frame *must* have one of the following columns: `scientific_name` or
@@ -423,6 +438,7 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 #> 13                   Adjusted FQI 60.0543971
 #> 14                   Mean Wetness  0.7142857
 #> 15            Native Mean Wetness  0.8571429
+#> 16                  % Hydrophytes 37.1428571
 ```
 
 All of the functions are documented with help pages.
@@ -434,15 +450,15 @@ All of the functions are documented with help pages.
 ## Cover-Weighted Functions
 
 Cover-Weighted Functions calculate the same metrics but they are
-weighted by how abundant each species is. Therefore, the input data
-frame must also have a column named `cover` containing cover values.
-Cover values can be continuous (i.e. percent cover) or classed
-(i.e. using the Braun-Blanquet method).
+weighted by species abundance. Therefore, the input data frame must also
+have a column named `cover` containing cover values. Cover values can be
+continuous (i.e. percent cover) or classed (e.g. using the
+Braun-Blanquet method).
 
 The following tables describe how cover classes are converted to percent
 cover. Internally, cover-weighted functions convert cover classes to the
-percent cover midpoint, which reduces accuracy. For this reason using
-percent cover is recommended over using cover classes.
+percent cover midpoint. For this reason using percent cover is
+recommended over using cover classes.
 
 | Braun-Blanquet Classes | % Cover Range | Midpoint |
 |------------------------|---------------|----------|
@@ -491,18 +507,20 @@ percent cover is recommended over using cover classes.
 | 98                   | 95.1-100%     | 98       |
 
 Cover-Weighted Functions come in two flavors: those that allow duplicate
-entries and those that don’t. Not allowing duplicate species
-observations works best for calculating plot-level metrics, where each
-species is counted once along with its total cover value. Allowing
-duplicates work best for transect-level metrics, where repeated plots
-along a transect may contain the same species. As a note, if
-`allow_duplicates = FALSE` in a cover-weighted function, any duplicated
-species will be counted once and their cover values will be added
-together.
+entries and those that don’t. Duplicates species observations are not
+allowed when calculating plot-level metrics, where each species is
+counted once along with its total cover value. Duplicates are allowed
+for transect-level metrics, where repeated plots along a transect may
+contain the same species. However, when calculating a transect level
+metric, species that are in the same plot as indicated by the plot_id
+will be removed. As a note, if `allow_duplicates = FALSE` in a
+cover-weighted function, any duplicated species will be counted once and
+their cover values will be added together.
 
 Even if duplicate species are allowed, if a plot id column is indicated
 using the `plot_id` argument then duplicated species in the same plots
 will only be counted once and their cover values will be added together.
+(GET RID )
 
 #### Function Arguments
 
@@ -511,16 +529,16 @@ Cover-Weighted Functions have a few additional arguments:
 - **cover_class**: A character string representing the cover method
   used. Acceptable cover methods are: `"percent_cover"`,
   `"carolina_veg_survey"`, `"braun-blanquet"`, `"doubinmire"`, and
-  `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended
-  because it is the most accurate.
+  `"usfs_ecodata"`. `"percent_cover"` is the default and is recommended.
 
 - **allow_duplicates**: Boolean (TRUE or FALSE). If TRUE, allow
   duplicate entries of the same species. If FALSE, do not allow species
-  duplication. Setting `allow_duplicates` to TRUE is best for
-  calculating metrics for multiple plots/quadrants which potentially
-  contain the same species. Setting `allow_duplicates` to FALSE is best
-  for calculating metrics for a single plot/quadrant, where each species
-  is entered once along with its total cover value.
+  duplication. See cover-weighted function description. Setting
+  `allow_duplicates` to TRUE is best for calculating metrics for
+  multiple plots which potentially contain the same species. Setting
+  `allow_duplicates` to FALSE is best for calculating metrics for a
+  single plot, where each species is entered once along with its total
+  cover value.
 
 #### Functions
 
@@ -538,19 +556,19 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE",
                       cover = c(50, 4, 20, 30, 40, 7, 60),
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 
-#cover mean c (no duplicates allowed!)
+#plot cover mean c (no duplicates allowed for one plot)
 cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
              native = FALSE, cover_class = "percent_cover", 
              allow_duplicates = FALSE)
 #> [1] 4.923077
 
-#transect mean c (duplicates allowed)
+#transect cover mean c (duplicates allowed along a transect)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
              native = FALSE, cover_class = "percent_cover",
              allow_duplicates = TRUE)
 #> [1] 5.946058
 
-#cover-weighted FQI (again, you can choose to allow duplicates or not)
+#cover-weighted FQI (again, you can choose to allow duplicates or not depending on if species are in a plot or transecg)
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
           cover_class = "percent_cover",
           allow_duplicates = TRUE)
@@ -578,13 +596,14 @@ transect_summary(transect, key = "acronym", db = "michigan_2014")
 #> 17                   Adjusted FQI 66.3952810
 #> 18                   Mean Wetness  1.7500000
 #> 19            Native Mean Wetness  0.6666667
+#> 20                  % Hydrophytes 14.2857143
 ```
 
 There is also a plot summary function that summarizes plots along a
 transect. Data is input as a single data frame containing species per
 plot. This data frame must also have a column representing the plot that
 the species was observed in. This column is then passed to an additional
-argument
+argument (MAKE CLEAR THAT PLOTS ARE NO LONGER OPTIONAL)
 
 - **plot_id**: A character string representing the name of the column in
   `x` that indicates which plot the species was observed in.
@@ -597,9 +616,9 @@ set another argument:
 - **allow_non_veg**: Boolean (TRUE or FALSE). If TRUE, allow input to
   contain un-vegetated ground and un-vegetated water.
 
-If `allow_non_veg` is true, the user can include species “UNVEGETATED
-GROUND” or “UNVEGETATED WATER” along with plant species. They can also
-use acronyms “GROUND” or “WATER”.
+If `allow_non_veg` is true, the user can include “UNVEGETATED GROUND” or
+“UNVEGETATED WATER” along with plant species. They can also use acronyms
+“GROUND” or “WATER”.
 
 ``` r
 #print transect to view structure of data
@@ -626,11 +645,12 @@ plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014",
 
 ## Relative Functions
 
-Relative functions calculate relative frequency, coverage, and
-importance for each category. `fqacalc` also contains a species summary
-function that produces a summary of each species’ relative metrics in a
-data frame. Relative functions always allow duplicate species
-observations. They also always allow ground and water to be included.
+Relative functions calculate relative frequency, relative coverage, and
+relative importance for each species, phyiognomic group, or family.
+`fqacalc` also contains a species summary function that produces a
+summary of each species’ relative metrics in a data frame. Relative
+functions always allow duplicate species observations. They also always
+allow “ground” and “water” to be included.
 
 Relative functions have one additional argument which tells the
 functions what to calculate the relative value of:
@@ -638,7 +658,7 @@ functions what to calculate the relative value of:
 - **col**: A character string equal to ‘species’, ‘family’, or
   ‘physiog’.
 
-Relative functions do not have a native argument.
+Relative functions do not distinguish between native and introduced.
 
 ``` r
 #To calculate the relative value of a tree
@@ -679,16 +699,16 @@ relative_importance(transect, key = "acronym", db = "michigan_2014",
 #> 3 AMMOPHILA BREVILIGULATA            33.24306
 #> 4        ANTICLEA ELEGANS            14.25186
 
-#species summary (including ground and water)
+#species summary (including ground and water in transect_unveg data)
 species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_class = "percent_cover")
-#>                      name acronym   nativity  c  w frequency coverage
-#> 1  ABELMOSCHUS ESCULENTUS  ABEESC non-native  0  5         2       90
-#> 2          ABIES BALSAMEA  ABIBAL     native  3  0         2       11
-#> 3 AMMOPHILA BREVILIGULATA  AMMBRE     native 10  5         2       80
-#> 4        ANTICLEA ELEGANS  ANTELE     native 10 -3         1       30
-#> 5      UNVEGETATED GROUND  GROUND       <NA>  0  0         2       80
-#> 6       UNVEGETATED WATER   WATER       <NA>  0  0         1       20
+#>   acronym                    name   nativity  c  w frequency coverage
+#> 1  ABEESC  ABELMOSCHUS ESCULENTUS non-native  0  5         2       90
+#> 2  ABIBAL          ABIES BALSAMEA     native  3  0         2       11
+#> 3  AMMBRE AMMOPHILA BREVILIGULATA     native 10  5         2       80
+#> 4  ANTELE        ANTICLEA ELEGANS     native 10 -3         1       30
+#> 5  GROUND      UNVEGETATED GROUND       <NA>  0  0         2       80
+#> 6   WATER       UNVEGETATED WATER       <NA>  0  0         1       20
 #>   relative_frequency relative_cover relative_importance
 #> 1                 20      28.938907           24.469453
 #> 2                 20       3.536977           11.768489
@@ -717,10 +737,10 @@ physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014",
 ## Wetness metric
 
 `fqacalc` has one wetness metric, which calculates the mean wetness
-coefficient per site. The wetness coefficient is based off of the
-Wetland Indicator Status. Negative wetness coefficients indicate a
-stronger affinity for wetlands, while positive wetland coefficients
-indicate an affinity for uplands.
+coefficient. The wetness coefficient is based off of the wetland
+indicator status. Negative wetness coefficients indicate a stronger
+affinity for wetlands, while positive wetness coefficients indicate an
+affinity for uplands.
 
 ``` r
 #mean wetness
