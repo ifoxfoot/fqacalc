@@ -13,12 +13,12 @@ test_that("mean_w() throws message for state with multiple wetland indicator reg
 
 test_that("mean_w() throws message for when db doesn't have wetland scores", {
   expect_message(mean_w(same_syn_sci, key = "name", db = "montana_2017", native = FALSE),
-                 "montana_2017 does not have wetland coefficients, wetland metrics cannot be calculated.")
+                 "montana_2017 does not have wetness coefficients, wetland metrics cannot be calculated.")
 })
 
 test_that("mean_w() throws message for when db doesn't have wetland scores", {
   expect_message(mean_w(partial_wetland, key = "name", db = "colorado_2020", native = FALSE),
-                 "Species ABIES CONCOLOR does not have a wetland coefficient. It will be omitted from wetness metric calculations.")
+                 "Species ABIES CONCOLOR does not have a wetness coefficient. It will be omitted from wetness metric calculations.")
 })
 
 test_that("mean_w() works for all species", {

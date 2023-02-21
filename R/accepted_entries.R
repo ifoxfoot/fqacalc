@@ -24,7 +24,7 @@
 #' @param native Boolean (TRUE or FALSE). If TRUE, calculate metrics using only
 #' native species.
 #' @param wetland_warning Boolean (TRUE or FALSE). If TRUE, show user messages regarding
-#' issues with wetland coefficients.
+#' issues with wetness coefficients.
 #' @param cover_weighted Boolean (TRUE or FALSE). If TRUE, keep `cover` column in output.
 #' Note: if `cover_weighted = TRUE`, `x` must have a column named `cover`. This parameter
 #' is used to calculate cover-weighted metrics such as plot mean c, transect mean c, and
@@ -296,7 +296,7 @@ accepted_entries <- function(x, key = "name", db,
 
   #warning if fqa db does not wetland scores
   if( wetland_warning & all(is.na(regional_fqa$w)))
-    message(paste(db, "does not have wetland coefficients, wetland metrics cannot be calculated."))
+    message(paste(db, "does not have wetness coefficients, wetland metrics cannot be calculated."))
 
   if (allow_non_veg) {
     regional_fqa <- rbind(
@@ -466,7 +466,7 @@ accepted_entries <- function(x, key = "name", db,
 
     #sent message to user
     message(paste("Species", entries_joined[is.na(entries_joined$w), key],
-                  "does not have a wetland coefficient. It will be omitted from wetness metric calculations."))
+                  "does not have a wetness coefficient. It will be omitted from wetness metric calculations."))
   }
 
   #return accepted entries df

@@ -36,7 +36,7 @@ where the databases are hosted.}
 native species.}
 
 \item{wetland_warning}{Boolean (TRUE or FALSE). If TRUE, show user messages regarding
-issues with wetland coefficients.}
+issues with wetness coefficients.}
 
 \item{cover_weighted}{Boolean (TRUE or FALSE). If TRUE, keep \code{cover} column in output.
 Note: if \code{cover_weighted = TRUE}, \code{x} must have a column named \code{cover}. This parameter
