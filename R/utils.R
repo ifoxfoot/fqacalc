@@ -48,7 +48,7 @@ db_names <- function() {
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
 #'   \item{accepted_scientific_name}{The accepted/official scientific name}
 #'   \item{family}{Taxonomic family of species}
-#'   \item{nativity}{Nativity status. native, non-native, and undetermined are values}
+#'   \item{nativity}{Nativity status. Native, Introduced, and undetermined are values}
 #'   \item{c}{Coefficient of Conservatism (C Value)}
 #'   \item{w}{Wetland Indicator Rating}
 #'   \item{physiognomy}{Categories based on plant habit (architectural characteristics),

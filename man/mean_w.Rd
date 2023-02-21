@@ -38,7 +38,7 @@ positive wetness coefficients indicate an affinity for upland.
 \examples{
 plant_list <- crooked_island
 
-#mean wetness of all species (native and non-native)
+#mean wetness of all species (native and introduced)
 mean_w(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #mean wetness of native species

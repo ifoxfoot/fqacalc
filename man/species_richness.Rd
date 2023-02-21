@@ -35,7 +35,7 @@ A non-negative integer
 \examples{
 plant_list <- crooked_island
 
-#number of species (native and exotic)
+#number of species (native and introduced)
 species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #number of native species

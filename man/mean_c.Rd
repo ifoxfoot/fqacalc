@@ -26,13 +26,13 @@ native species.}
 A non-negative integer
 }
 \description{
-\code{mean_c} calculates the mean conservation coefficient for all species in the inventory
+\code{mean_c} calculates the mean coefficient of conservatism for all species in the inventory
 or along the transect.
 }
 \examples{
 plant_list <- crooked_island
 
-#mean c of all species (native and exotic)
+#mean c of all species (native and introduced)
 mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #mean c of native species

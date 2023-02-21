@@ -158,7 +158,7 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
                "Native Species Richness",
-               "Non-native Species Richness",
+               "Introduced Species Richness",
                "% of Species with no C Value",
                "% of Species with 0 C Value",
                "% of Species with 1-3 C Value",
@@ -183,7 +183,7 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     nrow(unique_entries),
     # Native Species Richness,
     nrow(dplyr::filter(unique_entries, .data$nativity == "native")),
-    # Non-native Species Richness
+    # Introduced Species Richness
     nrow(dplyr::filter(unique_entries, .data$nativity == "non-native")),
     # % of Species with no C Value
     (sum(is.na(unique_entries$c))/length(unique_entries$c))*100,
@@ -285,14 +285,14 @@ plot_summary <- function(x, key = "name", db,
   #get ground columns
   ground <- accepted %>%
     dplyr::filter(!!as.name(key) %in% c("GROUND", "UNVEGETATED GROUND")) %>%
-    dplyr::rename(ground_cover = "cover") %>%
-    dplyr::select("ground_cover", !!as.name(plot_id))
+    dplyr::rename(percent_ground_cover = "cover") %>%
+    dplyr::select("percent_ground_cover", !!as.name(plot_id))
 
   #get water columns
   water <- accepted %>%
     dplyr::filter(!!as.name(key) %in% c("WATER", "UNVEGETATED WATER")) %>%
-    dplyr::rename(water_cover = "cover") %>%
-    dplyr::select("water_cover", !!as.name(plot_id))
+    dplyr::rename(percent_water_cover = "cover") %>%
+    dplyr::select("percent_water_cover", !!as.name(plot_id))
 
   #get acccepted no veg
   accepted_no_veg <- accepted %>%

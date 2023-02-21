@@ -17,7 +17,7 @@
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #number of species (native and exotic)
+#' #number of species (native and introduced)
 #' species_richness(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #number of native species
@@ -41,7 +41,7 @@ species_richness <- function(x, key = "name", db, native = FALSE, allow_no_c = T
 
 #' Calculate Mean C
 #'
-#' `mean_c` calculates the mean conservation coefficient for all species in the inventory
+#' `mean_c` calculates the mean coefficient of conservatism for all species in the inventory
 #' or along the transect.
 #'
 #' @inheritParams accepted_entries
@@ -53,7 +53,7 @@ species_richness <- function(x, key = "name", db, native = FALSE, allow_no_c = T
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #mean c of all species (native and exotic)
+#' #mean c of all species (native and introduced)
 #' mean_c(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #mean c of native species
@@ -90,7 +90,7 @@ mean_c <- function(x, key = "name", db, native = FALSE) {
 #' @examples
 #' plant_list <- crooked_island
 #'
-#' #FQI of all species (native and exotic)
+#' #FQI of all species (native and introduced)
 #' FQI(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 #'
 #' #FQI of native species
@@ -186,7 +186,7 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
   #create list of all metrics that will be included in the output
   metrics <- c("Total Species Richness",
             "Native Species Richness",
-            "Non-native Species Richness",
+            "Introduced Species Richness",
             "% of Species with no C Value",
             "% of Species with 0 C Value",
             "% of Species with 1-3 C Value",
@@ -206,7 +206,7 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
     nrow(entries),
     # Native Species Richness,
     nrow(dplyr::filter(entries, .data$nativity == "native")),
-    # Non-native Species Richness
+    # Introduced Species Richness
     nrow(dplyr::filter(entries, .data$nativity == "non-native")),
     # % of Species with no C Value
     (sum(is.na(entries$c))/length(entries$c))*100,
