@@ -10,10 +10,10 @@
 
 This package provides functions for calculating Floristic Quality
 Assessment (FQA) metrics using regional FQA databases that have been
-reviewed and certified by the U.S. Army Corps of Engineers (USACE).
-These databases are stored in a sister R package,
-[fqadata](https://github.com/ifoxfoot/fqadata). Both packages were
-developed for the USACE by the U.S. Army Engineer Research and
+reviewed and certified as ecological planning models by the U.S. Army
+Corps of Engineers (USACE). These databases are stored in a sister R
+package, [fqadata](https://github.com/ifoxfoot/fqadata). Both packages
+were developed for the USACE by the U.S. Army Engineer Research and
 Development Center’s Environmental Laboratory.
 
 To complete this tutorial interactively, follow along in R studio.

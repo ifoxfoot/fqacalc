@@ -1,10 +1,17 @@
 Package: fqacalc
-Title: Calculate FQA Metrics
+Title: Calculate Florisitic Quality Assessment Metrics
 Version: 0.0.0.9000
 Authors@R: 
-    person("Iris", "Foxfoot", , "ifoxfoot@gmail.com", role = c("aut", "cre"),
+    person("Iris", "Foxfoot", , , role = c("aut"),
+           ),
+    person("Ecological Modeling Team", , ,"ecomodteam@usace.army.mil", role = c("cre"),
            )
-Description: Provides functions for calculating Floristic Quality Assessment (FQA) metrics using regional FQA databases that have been reviewed and certified by the U.S. Army Corps of Engineers (USACE). These databases are stored in a sister R package, 'fqadata'. Both packages were developed for the USACE by the U.S. Army Engineer Research and Development Center’s Environmental Laboratory. 
+Description: A collection of functions for calculating Floristic Quality 
+    Assessment (FQA) metrics using regional FQA databases that have been reviewed 
+    and certified as ecological planning models by the U.S. Army Corps of Engineers 
+    (USACE). These databases are stored in a sister R package, `fqadata`. 
+    Both packages were developed for the USACE by the U.S. Army Engineer Research 
+    and Development Center’s Environmental Laboratory.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
