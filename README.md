@@ -11,9 +11,12 @@
 This package provides functions for calculating Floristic Quality
 Assessment (FQA) metrics using regional FQA databases that have been
 reviewed and certified by the U.S. Army Corps of Engineers (USACE).
-These databases are stored in a sister R package, ‘fqadata’. Both
-packages were developed for the USACE by the U.S. Army Engineer Research
-and Development Center’s Environmental Laboratory.
+These databases are stored in a sister R package,
+[fqadata](https://github.com/ifoxfoot/fqadata). Both packages were
+developed for the USACE by the U.S. Army Engineer Research and
+Development Center’s Environmental Laboratory.
+
+To complete this tutorial interactively, follow along in R studio.
 
 ## Installation
 
@@ -38,21 +41,18 @@ library(dplyr) #for data manipulation
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-library(readxl) #for reading in excel files
 ```
 
 ## Package Data
 
 `fqacalc` contains all regional FQA databases that have been either
-fully approved or approved with reservations for use by the US Army
+fully approved or approved with reservations for use by the U.S. Army
 Corps of Engineers. By referencing these databases, the package can
-assign a Coefficient of Conservatism (or C Value) to each plant that the
-user inputs. A list of regional FQA databases can be viewed using the
-`db_names()` function, and specific FQA databases can be accessed using
-the `view_db()` function. Below is an example of how to view one of the
-regional databases.
-
-To complete this tutorial, follow along in R studio.
+assign a Coefficient of Conservatism (or C Value) to each plant species
+that the user inputs. A list of regional FQA databases can be viewed
+using the `db_names()` function, and specific FQA databases can be
+accessed using the `view_db()` function. Below is an example of how to
+view one of the regional databases.
 
 ``` r
 #view a list of all available databases
@@ -94,10 +94,12 @@ head(colorado)
 `fqacalc` also comes with a site assessment from Crooked Island,
 Michigan, downloaded from the [Universal FQA
 Calculator](https://universalfqa.org/). The data set is called
-`crooked_island` and can be used to demonstrate how the package works.
+`crooked_island` and is used in this tutorial to demonstrate how the
+package works.
 
 ``` r
-#this is an example assessment from Crooked Island, MI. When calculating metrics, use the michigan_2014 regional database
+#this is an example assessment from Crooked Island, MI. 
+#When calculating metrics for crooked_island, use the michigan_2014 regional database
 head(crooked_island)
 #>   acronym  common_name                    name
 #> 1  ABIBAL   balsam fir          Abies balsamea
@@ -107,7 +109,7 @@ head(crooked_island)
 #> 5  ARTCAM     wormwood    Artemisia campestris
 #> 6  CALEPI    reedgrass  Calamagrostis epigeios
 
-#view the dimensions (35 rows and 3 columns)
+#print the dimensions (35 rows and 3 columns)
 dim(crooked_island)
 #> [1] 35  3
 
@@ -130,31 +132,34 @@ in an Excel file, it can be read in with the same code, but replace
 `read.csv()` with `read_excel()`.
 
 In order to calculate FQA metrics using `fqacalc`, the site assessment
-data must be in a certain format.
+data must be in the following format:
 
-1.  The data should have either a column named `name` containing
-    scientific names of plants, or a column named `acronym` containing
-    acronyms of plants. Different regional FQA databases use different
-    naming conventions and have different ways of creating acronyms (and
-    some don’t have acronyms!) so be sure to look at the regional
-    database to check that the site assessment is using the same
-    conventions. Names/acronyms do not have to be in the same case, but
-    otherwise must be exactly the same as their counterpart in the
-    regional FQA database in order to be recognized by `fqacalc`
-    functions.
+1.  The data must have either a column named `name` containing
+    scientific names of plant species, or a column named `acronym`
+    containing acronyms of plant species. Different regional FQA
+    databases use different naming conventions and have different ways
+    of creating acronyms (and some don’t have acronyms!) so be sure to
+    look at the relevant regional database to check that the site
+    assessment is using the same conventions. Names/acronyms do not have
+    to be in the same case, but otherwise must exactly match their
+    counterpart in the regional FQA database in order to be recognized
+    by `fqacalc` functions.
 
 2.  If the user is calculating cover-weighted metrics, the data must
     have another column containing cover values and it must be called
     `cover`. If the cover values are in percent cover, they must be
-    between 0-100. If they are in a class, they must be correct for that
+    between 0-100. If they are in a cover class, such as the
+    Braun-Blanquet classification system, they must be correct for that
     class or else they won’t be recognized. See the section on
-    cover-weighted functions to learn more about cover classes. If the
-    user is calculating plot metrics, the data must have another column
-    containing the plot ID. In this case, each observation is one row,
-    containing the species name or acronym, the cover value, and the
-    plot ID.
+    cover-weighted functions to learn more about cover classes.
 
-It might look something like this:
+*3*. If the user is calculating cover-weighted metrics for a transect,
+the data should also have a column containing the plot ID. The plot ID
+column can have any name, and it can contain numbers or characters as
+long as the IDs are exactly the same within plots but distinct between
+plots. In this case, each observation is one row, containing the species
+name or acronym, the cover value, and the plot ID. It might look
+something like this:
 
 <table>
 <thead>
@@ -218,16 +223,17 @@ Plant D
 </tbody>
 </table>
 
-## Functions that Match Plants from Site Assessments to Regional FQA Databases
+## Functions that Match Plant Species from Site Assessments to Regional FQA Databases
 
 `fqacalc` contains two functions that help the user understand how the
-data they input relates to the regional database: `accepted_entries()`
-and `unassigned_plants()`. `accepted_entries()` is a function that shows
-which plants in the input data frame are successfully matched to plants
-in the regional database, and `unassigned_plants()` shows which species
-are matched but don’t have a C value stored in the regional database.
+data they input matches up to the regional database:
+`accepted_entries()` and `unassigned_plants()`. `accepted_entries()` is
+a function that shows which plant species in the input data frame are
+successfully matched to species in the regional database, and
+`unassigned_plants()` shows which species are matched but don’t have a C
+value stored in the regional database.
 
-### What happens when a plant is not in the regional FQA database?
+### What happens when a plant species is not in the regional FQA database?
 
 `accepted_enteries` shows which species are recognized, but it also
 provides warnings when a species is not recognized. To demonstrate this
@@ -245,30 +251,30 @@ accepted_entries <- accepted_entries(#this is the data
                                      key = "name", 
                                      #this is the regional database
                                      db = "michigan_2014", 
-                                     #include native AND non-native entries
+                                     #include native AND introduced entries
                                      native = F) 
 #> Species ABIES BLAHBLAH not listed in database. It will be discarded.
 ```
 
 Now, when we use `accepted_entries()` to see which species were matched
-to the regional dataset, we can see that we recieved a message about the
-species ‘ABIES BLAHBLAH’ being discarded and we can also see that the
-accepted entries dataset we created only has 34 entries instead of the
-expected 35 entries.
+to the regional data set, we can see that we received a message about
+the species ‘ABIES BLAHBLAH’ being discarded and we can also see that
+the accepted entries data set we created only has 34 entries instead of
+the expected 35 entries.
 
-### What happens when plants don’t have C values?
+### What happens when plant species don’t have C values?
 
-In some cases, plants from the site assessment can be matched to the
-regional database, but the plant is not associated with any C Value.
-Plants that are matched but have no C Value will be excluded from FQA
-metric calculation but they can *optionally* be included in other
-metrics like species richness, relative cover, relative frequency,
-relative importance, and mean wetness, as well as any summarizing
-functions containing these metrics. This option is denoted with the
-`allow_no_c` argument.
+In some cases, a plant species from the site assessment can be matched
+to the regional database, but the species is not associated with any C
+Value. Plant species that are matched but have no C Value will be
+excluded from FQA metric calculation but they can *optionally* be
+included in other metrics like species richness, relative cover,
+relative frequency, relative importance, and mean wetness, as well as
+any summarizing functions containing these metrics. This option is
+denoted with the `allow_no_c` argument.
 
-`unassigned_plants()` is a function that shows the user which plants
-have not been assigned a C Value.
+`unassigned_plants()` is a function that shows the user which plant
+species have not been assigned a C Value.
 
 ``` r
 #To see unassigned_plants in action we're going to Montana! 
@@ -293,7 +299,8 @@ unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
 #> 2              Bigtooth Maple montana_2017
 ```
 
-Two of these species have no C Values.
+The function returns two species that are in the montana_2017 databases
+but aren’t assigned a C Value.
 
 ### How will duplicates be treated?
 
@@ -306,7 +313,7 @@ same plot. Duplicate behavior in cover-weighted functions is controlled
 by the `allow_duplicates` argument. If there are duplicates, and the
 user is attempting to perform a cover-weighted calculation where
 duplicates are not allowed, they will be condensed into one species with
-an aggregate cover value. Duplicates are always be included in all
+an aggregate cover value. Duplicates are always included in all
 frequency metrics.
 
 If there is a duplicate species and `allow_duplicates = FALSE`, a
@@ -337,9 +344,9 @@ few important rules regarding synonyms.
     assessment, the synonym will be converted to the accepted name and
     both observations will only count as *one* species.
 
-2.  Similarly, if the site assessment data contains a name that is
-    listed as a synonym to one species and an accepted name to a
-    different species, it will default to the accepted name.
+2.  If the site assessment data contains a name that is listed as a
+    synonym to one species and an accepted name to a different species,
+    it will default to the species with the matching accepted name.
 
 3.  If the site assessment contains a species that is listed as a
     synonym to multiple species in the regional FQA database, this entry
@@ -350,7 +357,7 @@ In all of these cases, `fqacalc` functions will print messages to warn
 the user about synonym issues. See this example:
 
 ``` r
-#df where some entries are listed as main name, and synonym of another species
+#df where some entries are listed as accepted name, and synonym of another species
 synonyms <- data.frame(name = c("CAREX FOENEA", "ABIES BIFOLIA"),
                        cover = c(60, 10))
 
@@ -359,22 +366,21 @@ mean_c(synonyms, key = "name", db = "wyoming_2017", native = F)
 #> [1] 6
 ```
 
-## Unweighted FQI Metrics
+## Unweighted (Inventory) FQI Metrics
 
-`fqacalc` also contains a variety of functions that calculate Total
-Species Richness, Native Species Richness, Mean C, Native Mean C, Total
-FQI, Native FQI, and Adjusted FQI. All of these functions eliminate
-duplicate species and species that cannot be found in the regional
-database. All but Total Species Richness and Native Species Richness
-automatically eliminate species that are not associated with a C Value.
+`fqacalc` contains a variety of functions that calculate Total Species
+Richness, Native Species Richness, Mean C, Native Mean C, Total FQI,
+Native FQI, and Adjusted FQI. All of these functions eliminate duplicate
+species and species that cannot be found in the regional database. All
+but Total Species Richness and Native Species Richness automatically
+eliminate species that are not associated with a C Value.
 
 #### Function Arguments
 
-In general, all of the metric functions have the same arguments.
+In general, all of these metric functions have the same arguments.
 
 - **x**: A data frame containing a list of plant species. This data
-  frame *must* have one of the following columns: `scientific_name` or
-  `acronym`.
+  frame *must* have one of the following columns: `name` or `acronym`.
 
 - **key**: A character string representing the column that will be used
   to join the input `x` with the regional FQA database. If a value is
@@ -412,7 +418,7 @@ FQI(crooked_island, key = "acronym", db = "michigan_2014", native = FALSE)
 FQI(crooked_island, key = "acronym", db = "michigan_2014", native = TRUE)
 #> [1] 35.52866
 
-#adjusted FQI (always includes both natives and non-natives)
+#adjusted FQI (always includes both native and introduced species)
 adjusted_FQI(crooked_island, key = "acronym", db = "michigan_2014")
 #> [1] 60.0544
 ```
@@ -421,6 +427,7 @@ And finally, `all_metrics()` prints all of the metrics in a data frame
 format.
 
 ``` r
+#a summary of all metrics (always includes both native and introduced)
 all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 #>                           metrics     values
 #> 1          Total Species Richness 35.0000000
@@ -444,6 +451,7 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
 All of the functions are documented with help pages.
 
 ``` r
+#if in R studio, running this line of code should bring up a help page in bottom right pane
 ?all_metrics
 ```
 
@@ -457,7 +465,7 @@ Braun-Blanquet method).
 
 The following tables describe how cover classes are converted to percent
 cover. Internally, cover-weighted functions convert cover classes to the
-percent cover midpoint. For this reason using percent cover is
+percent cover midpoint. For this reason, using percent cover is
 recommended over using cover classes.
 
 | Braun-Blanquet Classes | % Cover Range | Midpoint |
@@ -517,11 +525,6 @@ will be removed. As a note, if `allow_duplicates = FALSE` in a
 cover-weighted function, any duplicated species will be counted once and
 their cover values will be added together.
 
-Even if duplicate species are allowed, if a plot id column is indicated
-using the `plot_id` argument then duplicated species in the same plots
-will only be counted once and their cover values will be added together.
-(GET RID )
-
 #### Function Arguments
 
 Cover-Weighted Functions have a few additional arguments:
@@ -543,7 +546,7 @@ Cover-Weighted Functions have a few additional arguments:
 #### Functions
 
 ``` r
-#firstmake a hypothetical plot with cover values
+#first make a hypothetical plot with cover values
 plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
                    name = c("Abelmoschus esculentus", 
                             "Abies balsamea", "Ammophila breviligulata", 
@@ -574,7 +577,7 @@ cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE,
           allow_duplicates = TRUE)
 #> [1] 11.89212
 
-#transect summary function (allows duplicates)
+#transect summary function (always allows duplicates)
 transect_summary(transect, key = "acronym", db = "michigan_2014")
 #>                           metrics     values
 #> 1          Total Species Richness  4.0000000
@@ -603,7 +606,7 @@ There is also a plot summary function that summarizes plots along a
 transect. Data is input as a single data frame containing species per
 plot. This data frame must also have a column representing the plot that
 the species was observed in. This column is then passed to an additional
-argument (MAKE CLEAR THAT PLOTS ARE NO LONGER OPTIONAL)
+argument.
 
 - **plot_id**: A character string representing the name of the column in
   `x` that indicates which plot the species was observed in.
@@ -628,7 +631,7 @@ transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE"
                              cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
                              quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
-#plot summary of a transect (dplicates are not allowed)
+#plot summary of a transect (duplicates are allowed, unless they are in the same plot)
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
              cover_class = "percent_cover", 
              plot_id = "quad_id")
@@ -671,7 +674,8 @@ relative_frequency(transect, key = "acronym", db = "michigan_2014",
 #> 2       grass           28.57143
 #> 3        tree           28.57143
 
-#can also include bare ground and water
+#can also include bare ground and water in the data 
+#here transect_unveg is data containing ground and water defined previously
 relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014", 
               col = "physiog")
 #>          physiognomy relative_frequency
@@ -699,7 +703,7 @@ relative_importance(transect, key = "acronym", db = "michigan_2014",
 #> 3 AMMOPHILA BREVILIGULATA            33.24306
 #> 4        ANTICLEA ELEGANS            14.25186
 
-#species summary (including ground and water in transect_unveg data)
+#species summary (including ground and water)
 species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_class = "percent_cover")
 #>   acronym                    name   nativity  c  w frequency coverage
