@@ -5,20 +5,18 @@
 
 #' Look Up the Names of Regional FQA Databases
 #'
-#' Create a data frame containing the names of regional FQA databases contained in
-#' this package as well as their certification status.
-#'
-#' @return A data frame of regional FQA database names, approval status, notes, and citations.
+#' Create a data frame of regional FQA database names, approval status, notes, and citations.
 #' The column `fqa_db` contains the names of the databases. These are acceptable values for `db`
 #' in other `fqacalc` functions.
+#'
+#' @return A data frame.
 #'
 #' @format A data frame with 44 rows and 4 variables:
 #' \describe{
 #'   \item{fqa_db}{Regional FQA database}
-#'   \item{recommendation}{Indicates if the regional FQA database was recommended for use by the US Army Corps of Engineers in 2020}
+#'   \item{recommendation}{Indicates if the regional FQA database was recommended for use by the U.S. Army Corps of Engineers in 2020}
 #'   \item{notes}{Notes on the limitations or recommended useage of the regional FQA database}
 #'   \item{citation}{A citation for the regional FQA database}
-#'   ...
 #' }
 #'
 #' @export
@@ -46,17 +44,16 @@ db_names <- function() {
 #'   \item{name}{Latin name, either proper name or synonym}
 #'   \item{name_origin}{Indicates if the name is the accepted scientific name--"accepted_scientific_name"--or a synonym}
 #'   \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
-#'   \item{accepted_scientific_name}{The accepted/official scientific name}
+#'   \item{accepted_scientific_name}{The accepted botanical nomenclature name}
 #'   \item{family}{Taxonomic family of species}
 #'   \item{nativity}{Nativity status. Native, Introduced, and undetermined are values}
 #'   \item{c}{Coefficient of Conservatism (C Value)}
-#'   \item{w}{Wetland Indicator Rating}
+#'   \item{w}{Wetness coefficient}
 #'   \item{physiognomy}{Categories based on plant habit (architectural characteristics),
 #'   life history, and certain taxonomic classes}
 #'   \item{duration}{Categories based on life cycle}
 #'   \item{common_name}{Common name(s) for plant}
 #'   \item{fqa_db}{Regional FQA database}
-#'   ...
 #' }
 #' @export
 #'
@@ -85,11 +82,9 @@ view_db <- function(db) {
 #' Return Data Frame of Plant Species That Have No C Value
 #'
 #' Some regional FQA lists contain species which have not been assigned a C Value.
-#' This is usually because the plant is unfamiliar to the botanists who assigned
-#' the C Values or because there is little known about the plant. `unassigned_plants`
-#' returns a data frame of plants in `x` that can be matched to a regional FQA database
-#' but have no C Value. These observations can optionally be discarded in other `fqacalc`
-#' functions.
+#' `unassigned_plants` returns a data frame of plants in `x` that can be matched
+#' to a regional FQA database but have no C Value. These observations can optionally
+#' be discarded in other `fqacalc` functions.
 #'
 #' @inheritParams accepted_entries
 #'

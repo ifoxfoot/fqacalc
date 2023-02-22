@@ -20,15 +20,15 @@
 #' transect <- data.frame(
 #' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "physiog")
 #'
-#' #can also include bare ground and unveg water
+#' #can also include bare ground and unvegetated water
 #' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 #' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
 #' relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
 #' col = "physiog")
@@ -88,15 +88,15 @@ relative_frequency <- function(x, key = "name", db,
 #' transect <- data.frame(
 #' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species")
 #'
-#' #can also include bare ground and unveg water
+#' #can also include bare ground and unvegetated water
 #' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 #' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
 #' relative_cover(transect_unveg, key = "acronym", db = "michigan_2014",
 #' col = "species")
@@ -141,7 +141,8 @@ relative_cover <- function(x, key = "name", db,
 
 #' Calculate Relative Importance
 #'
-#' `relative_importance` calculates the average of relative frequency and relative cover.
+#' `relative_importance` calculates relative frequency added to relative cover,
+#' and divided by two
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
@@ -307,12 +308,13 @@ species_summary <- function(x, key = "name", db,
 #' Create a cover-Weighted Summary of Physiognomic Groups
 #'
 #' `physiog_summary` produces a table summarizing physiognomic groups' frequency, total cover,
-#' relative frequency, relative cover, and relative importance.
+#' relative frequency, relative cover, and relative importance. Physiognomic groups
+#' include shrub, tree, forb, sedge, grass, rush, fern, vine, and bryophyte.
 #'
 #' @inheritParams accepted_entries
 #'
-#' @return A data frame where each row is a physiognomic group and each column is a metric about that species
-#' based on the input data frame.
+#' @return A data frame where each row is a physiognomic group and each column is a metric
+#' about that species based on the input data frame.
 #' @export
 #' @importFrom rlang .data
 #'
@@ -325,11 +327,11 @@ species_summary <- function(x, key = "name", db,
 #' physiog_summary(transect, key = "acronym", db = "michigan_2014")
 #'
 #'
-#' #can also include bare ground and unveg water
+#' #can also include bare ground and unvegetated water
 #' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 #' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
 #' physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014")
 #'
@@ -368,7 +370,7 @@ physiog_summary <- function(x, key = "name", db,
     dplyr::summarise(sum = sum(.data$cover)) %>%
     as.data.frame() %>%
     dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
-    dplyr::select(.data$physiognomy, relative_cover)
+    dplyr::select("physiognomy", "relative_cover")
 
 
   #merge together

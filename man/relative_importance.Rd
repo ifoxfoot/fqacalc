@@ -45,7 +45,8 @@ ground and un-vegetated water.}
 A data frame with categorical variables set by the col argument and their relative importance.
 }
 \description{
-\code{relative_importance} calculates the average of relative frequency and relative cover.
+\code{relative_importance} calculates relative frequency added to relative cover,
+and divided by two
 }
 \examples{
 transect <- data.frame(

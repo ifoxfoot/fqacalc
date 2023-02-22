@@ -27,7 +27,7 @@ test_that("transect_summary() works in perfect setting", {
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
-                                      "Non-native Species Richness",
+                                      "Introduced Species Richness",
                                       "% of Species with no C Value",
                                       "% of Species with 0 C Value",
                                       "% of Species with 1-3 C Value",
@@ -87,8 +87,8 @@ test_that("plot_summary() works without bare ground", {
                           cover_FQI = c(9.8461538, 10.0523696 ),
                           native_cover_FQI = c(16.42240766, 13.10786003),
                           adjusted_FQI = c(66.3952810, 53.0722778),
-                          ground_cover = c(NA_real_, NA_real_),
-                          water_cover = c(NA_real_, NA_real_)))
+                          percent_ground_cover = c(NA_real_, NA_real_),
+                          percent_water_cover = c(NA_real_, NA_real_)))
 
   expect_error(plot_summary(transect, key = "acronym", db = "michigan_2014",
                             cover_class = "percent_cover", plot_id = "quad_idd"),
@@ -111,8 +111,8 @@ test_that("plot_summary() works with bare ground, water, and duplicates in same 
                           cover_FQI = c(9.8461538, 10.0523696 ),
                           native_cover_FQI = c(16.42240766, 13.10786003),
                           adjusted_FQI = c(66.3952810, 53.0722778),
-                          ground_cover = c(100, 20),
-                          water_cover = c(NA_real_, 20)))
+                          percent_ground_cover = c(100, 20),
+                          percent_water_cover = c(NA_real_, 20)))
 
   expect_message(plot_summary(transect_dup, key = "acronym", db = "michigan_2014",
                             cover_class = "percent_cover", plot_id = "quad_id"),

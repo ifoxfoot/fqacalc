@@ -35,13 +35,15 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency/abundance metrics.}
+calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
+assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
+can be set to TRUE for transect level metrics or FALSE for plot level metrics.}
 }
 \value{
 A non-negative number
 }
 \description{
-\code{cover_mean_c} calculates the sum of cover times the C value per each species,
+\code{cover_mean_c} calculates the sum of cover multiplied by the C value per each species,
 divided by the sum of cover values for all species.
 }
 \examples{

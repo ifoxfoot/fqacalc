@@ -20,17 +20,16 @@ A data frame with 12 variables:
 \item{name}{Latin name, either proper name or synonym}
 \item{name_origin}{Indicates if the name is the accepted scientific name--"accepted_scientific_name"--or a synonym}
 \item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
-\item{accepted_scientific_name}{The accepted/official scientific name}
+\item{accepted_scientific_name}{The accepted botanical nomenclature name}
 \item{family}{Taxonomic family of species}
 \item{nativity}{Nativity status. Native, Introduced, and undetermined are values}
 \item{c}{Coefficient of Conservatism (C Value)}
-\item{w}{Wetland Indicator Rating}
+\item{w}{Wetness coefficient}
 \item{physiognomy}{Categories based on plant habit (architectural characteristics),
 life history, and certain taxonomic classes}
 \item{duration}{Categories based on life cycle}
 \item{common_name}{Common name(s) for plant}
 \item{fqa_db}{Regional FQA database}
-...
 }
 }
 \description{

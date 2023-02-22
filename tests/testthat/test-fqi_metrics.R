@@ -185,7 +185,7 @@ test_that("all_metrics() calculates total species richness", {
 
                data.frame(metrics = c("Total Species Richness",
                                       "Native Species Richness",
-                                      "Non-native Species Richness",
+                                      "Introduced Species Richness",
                                       "% of Species with no C Value",
                                       "% of Species with 0 C Value",
                                       "% of Species with 1-3 C Value",

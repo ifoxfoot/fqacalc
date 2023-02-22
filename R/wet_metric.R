@@ -6,9 +6,9 @@
 #' Calculate the Mean Wetness Coefficient
 #'
 #'`mean_w` calculates the mean wetness coefficient for all species in
-#' the site assessment. The wetness coefficient is based on USFWS Wetland Indicator
-#' Status. Negative wetness coefficients indicate a stronger affinity for wetlands, while
-#' positive wetness coefficients indicate an affinity for upland.
+#' the site assessment. The wetness coefficient is based on wetland indicator
+#' status. Negative wetness coefficients indicate a stronger affinity for wetlands, while
+#' positive wetness coefficients indicate an affinity for uplands.
 #'
 #' @inheritParams accepted_entries
 #'

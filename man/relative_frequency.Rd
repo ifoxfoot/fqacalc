@@ -47,15 +47,15 @@ or physiognomic group, divided by the frequency of all observations, then multip
 transect <- data.frame(
 acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(50, 4, 20, 30, 40, 7, 60),
-quad_id = c(1, 1, 1, 1, 2, 2, 2))
+plot_id = c(1, 1, 1, 1, 2, 2, 2))
 
 relative_frequency(transect, key = "acronym", db = "michigan_2014", col = "physiog")
 
-#can also include bare ground and unveg water
+#can also include bare ground and unvegetated water
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
 col = "physiog")

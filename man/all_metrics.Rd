@@ -27,7 +27,10 @@ been assigned C Values.}
 A data frame
 }
 \description{
-\code{all_metrics} calculates and prints a summary of all non cover-weighted metrics
+\code{all_metrics} calculates and prints a summary of all non cover-weighted metrics,
+including Species Richness, Native Species Richness, Introduced Species Richness,
+\% of species within C value ranges, Mean C, Native Mean C, Total FQI, Native FQI,
+Adjusted FQI, Mean Wetness, Native Mean Wetness and \% Hydrophytes.
 }
 \examples{
 plant_list <- crooked_island

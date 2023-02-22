@@ -161,7 +161,10 @@ adjusted_FQI <- function(x, key = "name", db) {
 
 #' Print a Summary of Non-Weighted FQA Metrics
 #'
-#' `all_metrics` calculates and prints a summary of all non cover-weighted metrics
+#' `all_metrics` calculates and prints a summary of all non cover-weighted metrics,
+#' including Species Richness, Native Species Richness, Introduced Species Richness,
+#' % of species within C value ranges, Mean C, Native Mean C, Total FQI, Native FQI,
+#' Adjusted FQI, Mean Wetness, Native Mean Wetness and % Hydrophytes.
 #'
 #' @inheritParams accepted_entries
 #'

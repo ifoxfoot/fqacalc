@@ -38,12 +38,13 @@ been assigned C Values.}
 ground and un-vegetated water.}
 }
 \value{
-A data frame where each row is a physiognomic group and each column is a metric about that species
-based on the input data frame.
+A data frame where each row is a physiognomic group and each column is a metric
+about that species based on the input data frame.
 }
 \description{
 \code{physiog_summary} produces a table summarizing physiognomic groups' frequency, total cover,
-relative frequency, relative cover, and relative importance.
+relative frequency, relative cover, and relative importance. Physiognomic groups
+include shrub, tree, forb, sedge, grass, rush, fern, vine, and bryophyte.
 }
 \examples{
 transect <- data.frame(
@@ -54,11 +55,11 @@ quad_id = c(1, 1, 1, 1, 2, 2, 2))
 physiog_summary(transect, key = "acronym", db = "michigan_2014")
 
 
-#can also include bare ground and unveg water
+#can also include bare ground and unvegetated water
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014")
 

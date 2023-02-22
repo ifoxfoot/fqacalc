@@ -9,7 +9,6 @@
 #'   \item{name}{Latin names for each plant}
 #'   \item{acronym}{Unique acronyms for each plant}
 #'   \item{common_name}{Common names for each plant}
-#'   ...
 #' }
 #' @source \url{https://universalfqa.org/}
 "crooked_island"

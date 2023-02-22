@@ -34,7 +34,9 @@
 #' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
-#' calculating transect and frequency/abundance metrics.
+#' calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
+#' assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
+#' can be set to TRUE for transect level metrics or FALSE for plot level metrics.
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 #' regional FQA database but have not been assigned a C Values. If FALSE, omit species that have not
 #' been assigned C Values.
@@ -60,8 +62,7 @@
 #'
 #' #an example with duplicates allowed
 #' duplicate_df <- data.frame(acronym  = c("ABEESC", "ABIBAL", "ABIBAL"),
-#' cover = c(60, 50, 50),
-#' quad_id = c(1, 2, 2))
+#' cover = c(60, 50, 50))
 #'
 #' accepted_entries(x = duplicate_df, key = "acronym",
 #' db = "michigan_2014", native = FALSE, allow_duplicates = TRUE)
@@ -79,13 +80,17 @@
 #' same_syn <- data.frame(name = c("CAREX MURICATA", "POTENTILLA NANA", "ABIES BIFOLIA"),
 #' cover = c(80, 60, 10))
 #'
+#' #produces a warning saying CAREX MURICATA is a synonym to multiple species and will be omitted.
+#' #To include this species, use the accepted scientific name.
 #' accepted_entries(x = same_syn, key = "name",
 #' db = "wyoming_2017", native = FALSE)
 #'
 #' #an example where species is both a synonym and an accepted name
-#' same_syn2 <- data.frame(name = c("CAREX FOENEA", "CAREX FOENEA", "ABIES BIFOLIA"),
-#' cover = c(80, 60, 10))
+#' same_syn2 <- data.frame(name = c("CAREX FOENEA", "ABIES BIFOLIA"),
+#' cover = c(80, 10))
 #'
+#' #produces a warning saying CAREX FOENEA is an accepted scientific name and a synonym.
+#' #It will default to accepted scientific name.
 #' accepted_entries(x = same_syn2, key = "name",
 #' db = "wyoming_2017", native = FALSE)
 #'

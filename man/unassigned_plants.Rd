@@ -24,11 +24,9 @@ A data frame
 }
 \description{
 Some regional FQA lists contain species which have not been assigned a C Value.
-This is usually because the plant is unfamiliar to the botanists who assigned
-the C Values or because there is little known about the plant. \code{unassigned_plants}
-returns a data frame of plants in \code{x} that can be matched to a regional FQA database
-but have no C Value. These observations can optionally be discarded in other \code{fqacalc}
-functions.
+\code{unassigned_plants} returns a data frame of plants in \code{x} that can be matched
+to a regional FQA database but have no C Value. These observations can optionally
+be discarded in other \code{fqacalc} functions.
 }
 \examples{
 no_c_test <- data.frame(name = c("ABRONIA FRAGRANS", "ACER GLABRUM",

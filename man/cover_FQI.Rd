@@ -35,7 +35,9 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency/abundance metrics.}
+calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
+assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
+can be set to TRUE for transect level metrics or FALSE for plot level metrics.}
 }
 \value{
 A non-negative number
@@ -48,7 +50,7 @@ of species richness.
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
 "ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(50, 4, 20, 30, 40, 7, 60),
-quad_id = c(1, 1, 1, 1, 2, 2, 2))
+plot_id = c(1, 1, 1, 1, 2, 2, 2))
 
 cover_FQI(x = transect, key = "acronym", db = "michigan_2014",
 native = FALSE, allow_duplicates = TRUE)

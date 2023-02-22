@@ -5,7 +5,7 @@
 
 #' Calculate Cover-Weighted Mean C
 #'
-#' `cover_mean_c` calculates the sum of cover times the C value per each species,
+#' `cover_mean_c` calculates the sum of cover multiplied by the C value per each species,
 #' divided by the sum of cover values for all species.
 #'
 #' @inheritParams accepted_entries
@@ -68,7 +68,7 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 #' transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE",
 #' "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014",
 #' native = FALSE, allow_duplicates = TRUE)
@@ -109,8 +109,13 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 
 #' Print a Summary of Cover-Weighted FQA Metrics
 #'
-#' `transect_summary` calculates and prints a summary of both non cover-weighted
-#' metrics and cover-weighted metrics. Cover-weighted metrics allow duplicate entries.
+#' `transect_summary` calculates and prints a summary of both inventory
+#' metrics and cover-weighted metrics, including Species Richness, Native Species Richness,
+#' Introduced Species Richness, % of species within C value ranges, Mean C, Native
+#' Mean C, Cover-weighted Mean C, Native Cover-Weighted Mean C, Total FQI, Native FQI,
+#' Cover-Weighted FQI, Native Cover-weighted FQI, Adjusted FQI, Mean Wetness,
+#' Native Mean Wetness and % Hydrophytes. Cover-weighted metrics allow duplicate entries
+#' for transect level summary metrics.
 #'
 #' @inheritParams accepted_entries
 #'
@@ -121,7 +126,7 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 #' transect <- data.frame(
 #' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' transect_summary(x = transect, key = "acronym", db = "michigan_2014")
 
@@ -260,10 +265,10 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
 #' transect <- transect <- data.frame(
 #' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' plot_summary(transect, key = "acronym", db = "michigan_2014",
-#' cover_class = "percent_cover", plot_id = "quad_id")
+#' cover_class = "percent_cover", plot_id = "plot_id")
 
 
 plot_summary <- function(x, key = "name", db,
@@ -352,48 +357,6 @@ plot_summary <- function(x, key = "name", db,
             nrow(dplyr::filter(dplyr::pick(dplyr::everything()),!is.na(c)))
         )
       )
-
-  # #group by plot ID and calc metrics
-  # plot_sum <- accepted %>%
-  #   dplyr::group_by(!!as.name(plot_id)) %>%
-  #   dplyr::summarise(
-  #
-  #     species_richness
-  #     = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
-  #
-  #     native_species_richness
-  #     = suppressMessages(species_richness(dplyr::pick(dplyr::everything()), key, db, native = TRUE, allow_no_c)),
-  #
-  #     mean_wetness
-  #     = suppressMessages(mean_w(dplyr::pick(dplyr::everything()), key, db, native = FALSE, allow_no_c)),
-  #
-  #     mean_c
-  #     = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
-  #
-  #     native_mean_c
-  #     = suppressMessages(mean_c(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
-  #
-  #     cover_mean_c
-  #     = suppressMessages(cover_mean_c(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
-  #                    allow_duplicates = FALSE)),
-  #
-  #     FQI
-  #     = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE)),
-  #
-  #     native_FQI
-  #     = suppressMessages(FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE)),
-  #
-  #     cover_FQI
-  #     = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = FALSE, cover_class,
-  #                 allow_duplicates = FALSE)),
-  #
-  #     native_cover_FQI
-  #     = suppressMessages(cover_FQI(dplyr::pick(dplyr::everything()), key, db, native = TRUE, cover_class,
-  #                 allow_duplicates = FALSE)),
-  #
-  #     adjusted_FQI
-  #     = suppressMessages(adjusted_FQI(dplyr::pick(dplyr::everything()), key, db))
-  #   )
 
   df <- as.data.frame(dplyr::left_join(plot_sum, ground, by = plot_id)) %>%
     dplyr::left_join(water, by = plot_id)

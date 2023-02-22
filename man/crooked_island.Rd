@@ -10,7 +10,6 @@ A data frame with 35 rows and 3 variables:
 \item{name}{Latin names for each plant}
 \item{acronym}{Unique acronyms for each plant}
 \item{common_name}{Common names for each plant}
-...
 }
 }
 \source{

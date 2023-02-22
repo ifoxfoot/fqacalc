@@ -7,23 +7,21 @@
 A data frame with 44 rows and 4 variables:
 \describe{
 \item{fqa_db}{Regional FQA database}
-\item{recommendation}{Indicates if the regional FQA database was recommended for use by the US Army Corps of Engineers in 2020}
+\item{recommendation}{Indicates if the regional FQA database was recommended for use by the U.S. Army Corps of Engineers in 2020}
 \item{notes}{Notes on the limitations or recommended useage of the regional FQA database}
 \item{citation}{A citation for the regional FQA database}
-...
 }
 }
 \usage{
 db_names()
 }
 \value{
-A data frame of regional FQA database names, approval status, notes, and citations.
-The column \code{fqa_db} contains the names of the databases. These are acceptable values for \code{db}
-in other \code{fqacalc} functions.
+A data frame.
 }
 \description{
-Create a data frame containing the names of regional FQA databases contained in
-this package as well as their certification status.
+Create a data frame of regional FQA database names, approval status, notes, and citations.
+The column \code{fqa_db} contains the names of the databases. These are acceptable values for \code{db}
+in other \code{fqacalc} functions.
 }
 \examples{
 db_names()
