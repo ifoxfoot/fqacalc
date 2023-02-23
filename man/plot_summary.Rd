@@ -31,8 +31,12 @@ where the databases are hosted.}
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
 \code{"daubenmire"}, and \code{"usfs_ecodata"}. \code{"percent_cover"} is the default.}
 
-\item{plot_id}{(optional) A character string representing the column in \code{x} that contains plot
-identification values.}
+\item{plot_id}{A character string representing the column in \code{x} that contains plot
+identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
+as a grouping variable. \code{plot-id} is optional for cover-weighted functions and frequency
+functions. If \code{plot_id} is set in a cover-weighted function or a frequency function,
+it only prevents duplicates from occurring in the same plot. It does not act as a
+grouping variable.}
 
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional FQA database but have not been assigned a C Values. If FALSE, omit species that have not

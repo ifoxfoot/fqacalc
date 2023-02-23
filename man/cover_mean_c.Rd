@@ -10,7 +10,8 @@ cover_mean_c(
   db,
   native = FALSE,
   cover_class = "percent_cover",
-  allow_duplicates
+  allow_duplicates,
+  plot_id = NULL
 )
 }
 \arguments{
@@ -38,6 +39,13 @@ duplicate observations for the same species. This is only recommended for
 calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
 assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
 can be set to TRUE for transect level metrics or FALSE for plot level metrics.}
+
+\item{plot_id}{A character string representing the column in \code{x} that contains plot
+identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
+as a grouping variable. \code{plot-id} is optional for cover-weighted functions and frequency
+functions. If \code{plot_id} is set in a cover-weighted function or a frequency function,
+it only prevents duplicates from occurring in the same plot. It does not act as a
+grouping variable.}
 }
 \value{
 A non-negative number

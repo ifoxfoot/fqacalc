@@ -42,8 +42,12 @@
 #' been assigned C Values.
 #' @param allow_non_veg Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
 #' ground and un-vegetated water.
-#' @param plot_id (optional) A character string representing the column in `x` that contains plot
-#' identification values.
+#' @param plot_id A character string representing the column in `x` that contains plot
+#' identification values. `plot_id` is a required argument in `plot_summary`, where it acts
+#' as a grouping variable. `plot-id` is optional for cover-weighted functions and frequency
+#' functions. If `plot_id` is set in a cover-weighted function or a frequency function,
+#' it only prevents duplicates from occurring in the same plot. It does not act as a
+#' grouping variable.
 #'
 #' @return A data frame containing the `key` column--either `acronym` or
 #' `name`--as well as columns from the relevant FQA database.

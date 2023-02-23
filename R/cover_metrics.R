@@ -22,7 +22,8 @@
 #' allow_duplicates = FALSE)
 
 cover_mean_c <- function(x, key = "name", db, native = FALSE,
-                           cover_class = "percent_cover", allow_duplicates) {
+                         cover_class = "percent_cover", allow_duplicates,
+                         plot_id = NULL) {
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native, cover_class, allow_duplicates,
@@ -30,7 +31,7 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
                               allow_no_c = FALSE,
                               allow_non_veg = FALSE,
                               wetland_warning = FALSE,
-                              plot_id = NULL)
+                              plot_id)
 
   #calculate mean C Value
   if(allow_duplicates == FALSE){
@@ -74,7 +75,8 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 #' native = FALSE, allow_duplicates = TRUE)
 
 cover_FQI <- function(x, key = "name", db, native = FALSE,
-                      cover_class = "percent_cover", allow_duplicates) {
+                      cover_class = "percent_cover", allow_duplicates,
+                      plot_id = NULL) {
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native, cover_class, allow_duplicates,
@@ -82,7 +84,7 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
                               allow_no_c = FALSE,
                               allow_non_veg = FALSE,
                               wetland_warning = FALSE,
-                              plot_id = NULL)
+                              plot_id)
 
   #calculate mean c
   if(allow_duplicates == FALSE){
@@ -131,13 +133,14 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 #' transect_summary(x = transect, key = "acronym", db = "michigan_2014")
 
 transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
-                             allow_no_c = TRUE) {
+                             allow_no_c = TRUE, plot_id = NULL) {
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, allow_no_c = allow_no_c,
                               native = FALSE,
                               cover_weighted = TRUE,
                               cover_class,
+                              plot_id,
                               allow_duplicates = TRUE,
                               allow_non_veg = FALSE,
                               wetland_warning = TRUE)

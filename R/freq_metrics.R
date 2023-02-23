@@ -36,7 +36,8 @@
 relative_frequency <- function(x, key = "name", db,
                           col = c("species", "family", "physiog"),
                           allow_no_c = TRUE,
-                          allow_non_veg = TRUE) {
+                          allow_non_veg = TRUE,
+                          plot_id = NULL) {
 
   #declaring relative_frequency as null so I can use as a veriable name
   relative_frequency <- NULL
@@ -55,6 +56,7 @@ relative_frequency <- function(x, key = "name", db,
                               cover_class = "percent_cover",
                               allow_no_c,
                               allow_non_veg,
+                              plot_id,
                               wetland_warning = FALSE)
 
   #calculate relative frequency--fre/num observations
@@ -104,7 +106,8 @@ relative_frequency <- function(x, key = "name", db,
 relative_cover <- function(x, key = "name", db,
                            col = c("species", "family", "physiog"),
                            cover_class = "percent_cover", allow_no_c = TRUE,
-                           allow_non_veg = TRUE){
+                           allow_non_veg = TRUE,
+                           plot_id = NULL){
 
   #declaring relative_cover is null
   relative_cover <- NULL
@@ -124,6 +127,7 @@ relative_cover <- function(x, key = "name", db,
                               cover_class,
                               allow_no_c,
                               allow_non_veg,
+                              plot_id,
                               wetland_warning = FALSE) %>%
     dplyr::group_by(!!as.name(col_name)) %>%
     #caclulate cover per group
@@ -173,7 +177,8 @@ relative_cover <- function(x, key = "name", db,
 relative_importance <- function(x, key = "name", db,
                                 col = c("species", "family", "physiog"),
                                 cover_class = "percent_cover", allow_no_c = TRUE,
-                                allow_non_veg = TRUE){
+                                allow_non_veg = TRUE,
+                                plot_id = NULL){
 
   #declaring var names as null
   relative_importance <- NULL
@@ -193,6 +198,7 @@ relative_importance <- function(x, key = "name", db,
                               cover_class,
                               allow_no_c,
                               allow_non_veg,
+                              plot_id,
                               wetland_warning = FALSE)
 
   #get relative cover
@@ -255,7 +261,8 @@ relative_importance <- function(x, key = "name", db,
 species_summary <- function(x, key = "name", db,
                             cover_class = "percent_cover",
                             allow_no_c = TRUE,
-                            allow_non_veg = TRUE){
+                            allow_non_veg = TRUE,
+                            plot_id = NULL){
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native = FALSE,
@@ -264,6 +271,7 @@ species_summary <- function(x, key = "name", db,
                                allow_duplicates = TRUE,
                                allow_no_c,
                                allow_non_veg,
+                              plot_id,
                                wetland_warning = FALSE)
 
   c_score <- entries %>%
@@ -339,7 +347,8 @@ species_summary <- function(x, key = "name", db,
 physiog_summary <- function(x, key = "name", db,
                             cover_class = "percent_cover",
                             allow_no_c = TRUE,
-                            allow_non_veg = TRUE){
+                            allow_non_veg = TRUE,
+                            plot_id = NULL){
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native = FALSE,
@@ -348,6 +357,7 @@ physiog_summary <- function(x, key = "name", db,
                                allow_duplicates = TRUE,
                                allow_no_c,
                                allow_non_veg,
+                               plot_id,
                                wetland_warning = FALSE)
 
   #getting freq and coverage

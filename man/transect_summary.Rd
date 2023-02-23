@@ -9,7 +9,8 @@ transect_summary(
   key = "name",
   db,
   cover_class = "percent_cover",
-  allow_no_c = TRUE
+  allow_no_c = TRUE,
+  plot_id = NULL
 )
 }
 \arguments{
@@ -32,6 +33,13 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 \item{allow_no_c}{Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
 regional FQA database but have not been assigned a C Values. If FALSE, omit species that have not
 been assigned C Values.}
+
+\item{plot_id}{A character string representing the column in \code{x} that contains plot
+identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
+as a grouping variable. \code{plot-id} is optional for cover-weighted functions and frequency
+functions. If \code{plot_id} is set in a cover-weighted function or a frequency function,
+it only prevents duplicates from occurring in the same plot. It does not act as a
+grouping variable.}
 }
 \value{
 A data frame

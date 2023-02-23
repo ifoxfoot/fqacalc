@@ -10,7 +10,8 @@ relative_frequency(
   db,
   col = c("species", "family", "physiog"),
   allow_no_c = TRUE,
-  allow_non_veg = TRUE
+  allow_non_veg = TRUE,
+  plot_id = NULL
 )
 }
 \arguments{
@@ -35,6 +36,13 @@ been assigned C Values.}
 
 \item{allow_non_veg}{Boolean (TRUE or FALSE). If TRUE, allow input to contain un-vegetated
 ground and un-vegetated water.}
+
+\item{plot_id}{A character string representing the column in \code{x} that contains plot
+identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
+as a grouping variable. \code{plot-id} is optional for cover-weighted functions and frequency
+functions. If \code{plot_id} is set in a cover-weighted function or a frequency function,
+it only prevents duplicates from occurring in the same plot. It does not act as a
+grouping variable.}
 }
 \value{
 A data frame with categorical variables set by the col argument and their relative frequency.
