@@ -210,7 +210,7 @@ all_metrics <- function(x, key = "name", db, allow_no_c = TRUE) {
     # Native Species Richness,
     nrow(dplyr::filter(entries, .data$nativity == "native")),
     # Introduced Species Richness
-    nrow(dplyr::filter(entries, .data$nativity == "non-native")),
+    nrow(dplyr::filter(entries, .data$nativity == "introduced")),
     # % of Species with no C Value
     (sum(is.na(entries$c))/length(entries$c))*100,
     # % of Species with 0 C Value

@@ -44,7 +44,7 @@ test_that("species_summary() works in perfect setting", {
                                               "ABIES BALSAMEA",
                                               "AMMOPHILA BREVILIGULATA",
                                               "ANTICLEA ELEGANS"),
-                          nativity = c("non-native", "native", "native", "native"),
+                          nativity = c("introduced", "native", "native", "native"),
                           c = c(0, 3, 10, 10),
                           w = c(5, 0, 5, -3),
                           frequency = c(2,2,2,1),

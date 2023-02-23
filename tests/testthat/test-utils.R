@@ -10,14 +10,14 @@ test_that("view_db() throws error if db is not recognized", {
 #test that output has the right dimensions
 test_that("view_db() throws error if db is not recognized", {
   expect_equal(dim(view_db("michigan_2014")),
-                   c(3356, 12))
+                   c(3356, 13))
 })
 
 #test that output has the right column names
 test_that("view_db() throws error if db is not recognized", {
   expect_equal(names(view_db("michigan_2014")),
                c("name", "name_origin", "acronym", "accepted_scientific_name",
-                 "family", "nativity", "c", "w", "physiognomy", "duration",
+                 "family", "nativity", "c", "w", "wetland_indicator", "physiognomy", "duration",
                  "common_name", "fqa_db"))
 })
 
@@ -36,6 +36,7 @@ test_that("unassigned plants works in perfect setting", {
                           nativity = c("native", "undetermined"),
                           c = c(NA_real_, NA_real_),
                           w = c(NA_real_, NA_real_),
+                          wetland_indicator = c(NA_character_, NA_character_),
                           physiognomy = c(NA_character_, NA_character_),
                           duration = c(NA_character_, NA_character_),
                           common_name = c("Fragrant White Sand-Verbena", "Bigtooth Maple"),

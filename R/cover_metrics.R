@@ -193,7 +193,7 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     # Native Species Richness,
     nrow(dplyr::filter(unique_entries, .data$nativity == "native")),
     # Introduced Species Richness
-    nrow(dplyr::filter(unique_entries, .data$nativity == "non-native")),
+    nrow(dplyr::filter(unique_entries, .data$nativity == "introduced")),
     # % of Species with no C Value
     (sum(is.na(unique_entries$c))/length(unique_entries$c))*100,
     # % of Species with 0 C Value

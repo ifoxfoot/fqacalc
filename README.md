@@ -30,7 +30,7 @@ devtools::install_github("ifoxfoot/fqacalc")
 
 ``` r
 #attach packages required for this tutorial
-library(fqacalc) #for FQA 
+library(fqacalc) #for FQA calculations
 library(stringr) #for string manipulation
 library(dplyr) #for data manipulation
 #> 
@@ -77,18 +77,18 @@ colorado <- view_db("colorado_2020")
 
 #view it
 head(colorado)
-#> # A tibble: 6 × 12
-#>   name        name_…¹ acronym accep…² family nativ…³     c     w physi…⁴ durat…⁵
+#> # A tibble: 6 × 13
+#>   name        name_…¹ acronym accep…² family nativ…³     c     w wetla…⁴ physi…⁵
 #>   <chr>       <chr>   <chr>   <chr>   <chr>  <chr>   <dbl> <dbl> <chr>   <chr>  
-#> 1 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     1 tree    perenn…
-#> 2 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     1 tree    perenn…
-#> 3 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA tree    perenn…
-#> 4 ABRONIA EL… accept… ABEL    Abroni… Nycta… native      4    NA forb    perenn…
-#> 5 ABRONIA FR… accept… ABFR2   Abroni… Nycta… native      6    NA forb    perenn…
-#> 6 ABRONIA GL… accept… ABAR    Abroni… Nycta… native      9    NA forb    perenn…
-#> # … with 2 more variables: common_name <chr>, fqa_db <chr>, and abbreviated
-#> #   variable names ¹​name_origin, ²​accepted_scientific_name, ³​nativity,
-#> #   ⁴​physiognomy, ⁵​duration
+#> 1 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     1 FACU    tree   
+#> 2 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     1 FACU    tree   
+#> 3 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA <NA>    tree   
+#> 4 ABRONIA EL… accept… ABEL    Abroni… Nycta… native      4    NA <NA>    forb   
+#> 5 ABRONIA FR… accept… ABFR2   Abroni… Nycta… native      6    NA <NA>    forb   
+#> 6 ABRONIA GL… accept… ABAR    Abroni… Nycta… native      9    NA <NA>    forb   
+#> # … with 3 more variables: duration <chr>, common_name <chr>, fqa_db <chr>, and
+#> #   abbreviated variable names ¹​name_origin, ²​accepted_scientific_name,
+#> #   ³​nativity, ⁴​wetland_indicator, ⁵​physiognomy
 ```
 
 `fqacalc` also comes with a site assessment from Crooked Island,
@@ -293,9 +293,9 @@ unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
 #>                  name              name_origin acronym accepted_scientific_name
 #> 1    ABRONIA FRAGRANS accepted_scientific_name    <NA>         Abronia fragrans
 #> 2 ACER GRANDIDENTATUM accepted_scientific_name    <NA>      Acer grandidentatum
-#>          family     nativity  c  w physiognomy duration
-#> 1 Nyctaginaceae       native NA NA        <NA>     <NA>
-#> 2     Aceraceae undetermined NA NA        <NA>     <NA>
+#>          family     nativity  c  w wetland_indicator physiognomy duration
+#> 1 Nyctaginaceae       native NA NA              <NA>        <NA>     <NA>
+#> 2     Aceraceae undetermined NA NA              <NA>        <NA>     <NA>
 #>                   common_name       fqa_db
 #> 1 Fragrant White Sand-Verbena montana_2017
 #> 2              Bigtooth Maple montana_2017
@@ -446,7 +446,7 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014", allow_no_c = 
 #>                           metrics     values
 #> 1          Total Species Richness 35.0000000
 #> 2         Native Species Richness 28.0000000
-#> 3     Introduced Species Richness  0.0000000
+#> 3     Introduced Species Richness  7.0000000
 #> 4    % of Species with no C Value  0.0000000
 #> 5     % of Species with 0 C Value 20.0000000
 #> 6   % of Species with 1-3 C Value  8.5714286
@@ -620,7 +620,7 @@ transect_summary(transect, key = "acronym", db = "michigan_2014")
 #>                           metrics     values
 #> 1          Total Species Richness  4.0000000
 #> 2         Native Species Richness  3.0000000
-#> 3     Introduced Species Richness  0.0000000
+#> 3     Introduced Species Richness  1.0000000
 #> 4    % of Species with no C Value  0.0000000
 #> 5     % of Species with 0 C Value 25.0000000
 #> 6   % of Species with 1-3 C Value 25.0000000
@@ -669,6 +669,7 @@ transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE"
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
              cover_class = "percent_cover", 
              plot_id = "quad_id")
+#> Species c("GROUND", "WATER", "GROUND") does not have a wetness coefficient. It will be omitted from wetness metric calculations.
 #>   quad_id species_richness native_species_richness mean_wetness   mean_c
 #> 1       1                4                       3     1.750000 5.750000
 #> 2       2                3                       2     3.333333 4.333333
@@ -747,8 +748,8 @@ species_summary(transect_unveg, key = "acronym", db = "michigan_2014",
 #> 2  ABIBAL          ABIES BALSAMEA     native  3  0         2       11
 #> 3  AMMBRE AMMOPHILA BREVILIGULATA     native 10  5         2       80
 #> 4  ANTELE        ANTICLEA ELEGANS     native 10 -3         1       30
-#> 5  GROUND      UNVEGETATED GROUND       <NA>  0  0         2       80
-#> 6   WATER       UNVEGETATED WATER       <NA>  0  0         1       20
+#> 5  GROUND      UNVEGETATED GROUND       <NA>  0 NA         2       80
+#> 6   WATER       UNVEGETATED WATER       <NA>  0 NA         1       20
 #>   relative_frequency relative_cover relative_importance
 #> 1                 20      28.938907           24.469453
 #> 2                 20       3.536977           11.768489

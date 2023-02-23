@@ -17,18 +17,18 @@ where the databases are hosted.}
 \value{
 A data frame with 12 variables:
 \describe{
-\item{name}{Latin name, either proper name or synonym}
-\item{name_origin}{Indicates if the name is the accepted scientific name--"accepted_scientific_name"--or a synonym}
-\item{acronym}{A unique acronym for each species. Not always consistent between FQA data bases}
-\item{accepted_scientific_name}{The accepted botanical nomenclature name}
+\item{name}{Latin name for species, either accepted name or synonym}
+\item{name_origin}{Indicates if the name is the accepted scientific name or a synonym}
+\item{acronym}{A unique acronym for each species. Not always consistent between FQA databases}
+\item{accepted_scientific_name}{The accepted botanical nomenclature}
 \item{family}{Taxonomic family of species}
-\item{nativity}{Nativity status. Native, Introduced, and undetermined are values}
+\item{nativity}{Nativity status. Native, introduced, and undetermined are possible values}
 \item{c}{Coefficient of Conservatism (C Value)}
-\item{w}{Wetness coefficient}
-\item{physiognomy}{Categories based on plant habit (architectural characteristics),
-life history, and certain taxonomic classes}
-\item{duration}{Categories based on life cycle}
-\item{common_name}{Common name(s) for plant}
+\item{w}{Wetness Coefficient}
+\item{wetland_indicator}{Wetland indicator status}
+\item{physiognomy}{Structure or physical appearance of species}
+\item{duration}{Lifespan of species}
+\item{common_name}{Common name(s) for species}
 \item{fqa_db}{Regional FQA database}
 }
 }
