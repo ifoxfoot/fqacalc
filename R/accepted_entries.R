@@ -13,7 +13,9 @@
 #' functions in this package.
 #'
 #' @param x A data frame containing a list of plant species. This data frame
-#' must have one of the following columns: `name` or `acronym`.
+#' must have one of the following columns: `name` or `acronym`. For cover-weighted or
+#' relative functions, this data frame must also have a column called `cover` containing
+#' cover values and optionally a column containing plot IDs.
 #' @param key A character string representing the column that will be used to join
 #' the input data frame `x` with the regional FQA database. If a value is not specified, the
 #' default is `"name"`. `"name"` and `"acronym"` are the only acceptable
@@ -34,7 +36,7 @@
 #' `"daubenmire"`, and `"usfs_ecodata"`. `"percent_cover"` is the default.
 #' @param allow_duplicates Boolean (TRUE or FALSE). If TRUE, allow `x` to have
 #' duplicate observations for the same species. This is only recommended for
-#' calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
+#' calculating transect and relative frequency/abundance metrics. For non cover-weighted (inventory)
 #' assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
 #' can be set to TRUE for transect level metrics or FALSE for plot level metrics.
 #' @param allow_no_c Boolean (TRUE or FALSE). If TRUE, allow species that are found in the
@@ -44,14 +46,14 @@
 #' ground and un-vegetated water.
 #' @param plot_id A character string representing the column in `x` that contains plot
 #' identification values. `plot_id` is a required argument in `plot_summary`, where it acts
-#' as a grouping variable. `plot-id` is optional for cover-weighted functions and frequency
-#' functions. If `plot_id` is set in a cover-weighted function or a frequency function,
+#' as a grouping variable. `plot_id` is optional for cover-weighted functions and relative
+#' functions. If `plot_id` is set in a cover-weighted function or a relative function,
 #' it only prevents duplicates from occurring in the same plot. It does not act as a
 #' grouping variable.
 #'
 #' @return A data frame containing the `key` column--either `acronym` or
 #' `name`--as well as columns from the relevant FQA database.
-#' These columns include `family`, `native`, `c` (which represents the C Value),
+#' These columns include `name_origin` `accepted_name`, `family`, `nativity`, `c` (which represents the C Value),
 #' `w` (which represents wetness score), `physiognomy`, `duration`, and `common_name`
 #' @export
 #'

@@ -16,7 +16,9 @@ cover_mean_c(
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{name} or \code{acronym}.}
+must have one of the following columns: \code{name} or \code{acronym}. For cover-weighted or
+relative functions, this data frame must also have a column called \code{cover} containing
+cover values and optionally a column containing plot IDs.}
 
 \item{key}{A character string representing the column that will be used to join
 the input data frame \code{x} with the regional FQA database. If a value is not specified, the
@@ -36,14 +38,14 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
+calculating transect and relative frequency/abundance metrics. For non cover-weighted (inventory)
 assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
 can be set to TRUE for transect level metrics or FALSE for plot level metrics.}
 
 \item{plot_id}{A character string representing the column in \code{x} that contains plot
 identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
-as a grouping variable. \code{plot-id} is optional for cover-weighted functions and frequency
-functions. If \code{plot_id} is set in a cover-weighted function or a frequency function,
+as a grouping variable. \code{plot_id} is optional for cover-weighted functions and relative
+functions. If \code{plot_id} is set in a cover-weighted function or a relative function,
 it only prevents duplicates from occurring in the same plot. It does not act as a
 grouping variable.}
 }
@@ -56,8 +58,9 @@ divided by the sum of cover values for all species.
 }
 \examples{
 plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-cover = c(50, 4, 20, 30))
+cover = c(50, 4, 20, 30),
+plot_id = c(1, 1, 2, 2))
 
 cover_mean_c(x = plot, key = "acronym", db = "michigan_2014", native = FALSE,
-allow_duplicates = FALSE)
+allow_duplicates = FALSE, plot_id = "plot_id")
 }

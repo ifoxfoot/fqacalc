@@ -95,11 +95,11 @@ head(colorado)
 Michigan, downloaded from the [Universal FQA
 Calculator](https://universalfqa.org/). The data set is called
 `crooked_island` and is used in this tutorial to demonstrate how the
-package works.
+package works. When calculating metrics for crooked_island, use the
+‘michigan_2014’ regional database.
 
 ``` r
-#this is an example assessment from Crooked Island, MI. 
-#When calculating metrics for crooked_island, use the michigan_2014 regional database
+#view the data
 head(crooked_island)
 #>   acronym  common_name                    name
 #> 1  ABIBAL   balsam fir          Abies balsamea
@@ -153,13 +153,15 @@ data must be in the following format:
     class or else they won’t be recognized. See the section on
     cover-weighted functions to learn more about cover classes.
 
-*3*. If the user is calculating cover-weighted metrics for a transect,
-the data should also have a column containing the plot ID. The plot ID
-column can have any name, and it can contain numbers or characters as
-long as the IDs are exactly the same within plots but distinct between
-plots. In this case, each observation is one row, containing the species
-name or acronym, the cover value, and the plot ID. It might look
-something like this:
+3.  If the user is calculating cover-weighted metrics for a transect
+    containing multiple plots, the data should also have a column
+    containing the plot ID. The plot ID column can have any name, and it
+    can contain numbers or characters, as long as the IDs are exactly
+    the same within plots but distinct between plots.
+
+In this case, each observation is one row, containing the species name
+or acronym, the cover value, and the plot ID. It might look something
+like this:
 
 <table>
 <thead>
@@ -252,7 +254,7 @@ accepted_entries <- accepted_entries(#this is the data
                                      #this is the regional database
                                      db = "michigan_2014", 
                                      #include native AND introduced entries
-                                     native = F) 
+                                     native = FALSE) 
 #> Species ABIES BLAHBLAH not listed in database. It will be discarded.
 ```
 
@@ -287,7 +289,7 @@ no_c_plants<- data.frame(name = c("ABRONIA FRAGRANS",
 
 #then create a df of unassigned plants
 unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
-#> montana_2017 does not have wetland coefficients, wetland metrics cannot be calculated.
+#> montana_2017 does not have wetness coefficients, wetland metrics cannot be calculated.
 #>                  name              name_origin acronym accepted_scientific_name
 #> 1    ABRONIA FRAGRANS accepted_scientific_name    <NA>         Abronia fragrans
 #> 2 ACER GRANDIDENTATUM accepted_scientific_name    <NA>      Acer grandidentatum
@@ -299,38 +301,48 @@ unassigned_plants(no_c_plants, key = "name", db = "montana_2017")
 #> 2              Bigtooth Maple montana_2017
 ```
 
-The function returns two species that are in the montana_2017 databases
-but aren’t assigned a C Value.
+The function returns two species that are in the ‘montana_2017’
+databases but aren’t assigned a C Value.
 
 ### How will duplicates be treated?
 
 If the site assessment data contains duplicate species, they will be
 excluded from certain FQA metrics. For example, species richness counts
 the number of unique species, so duplicates are not allowed. Generally,
-duplicates are excluded for all non-cover-weighted metrics but can
-optionally be included in cover-weighted metrics unless they are in the
-same plot. Duplicate behavior in cover-weighted functions is controlled
-by the `allow_duplicates` argument. If there are duplicates, and the
-user is attempting to perform a cover-weighted calculation where
-duplicates are not allowed, they will be condensed into one species with
-an aggregate cover value. Duplicates are always included in all
-frequency metrics.
+duplicates are excluded for all unweighted (inventory) metrics but can
+optionally be included in cover-weighted metrics and are always included
+in relative metrics.
 
-If there is a duplicate species and `allow_duplicates = FALSE`, a
-message will warn the user that the duplicate will be removed. See this
+Duplicate behavior in cover-weighted functions is controlled by the
+`allow_duplicates` argument and the `plot_id` argument. If
+`allow_duplicates = FALSE`, no duplicate species will be allowed at all,
+no matter how `plot_id` is set. If `allow_duplicates = TRUE` and the
+`plot_id` argument is set, duplicate species will be allowed *if they
+are in different plots*.
+
+If there are duplicates, and the user is attempting to perform a
+cover-weighted calculation where duplicates are not allowed, the
+duplicated species will be condensed into one entry with an aggregate
+cover value. A message will notify the user if this occurs. See this
 example.
 
 ``` r
 #write a dataframe with duplicates
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
-                                    "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
-                      cover = c(50, 4, 20, 30, 40, 7, 60),
-                      quad_id = c(1, 1, 1, 1, 2, 2, 2))
+                                    "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                      cover = c(50, 4, 20, 30, 30, 40, 7, 60),
+                      plot_id = c(1, 1, 1, 1, 2, 2, 2, 2))
 
 #set allow_duplicates to FALSE
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, allow_duplicates = FALSE)
 #> Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.
-#> [1] 10.73934
+#> [1] 11.89212
+
+#set allow_duplicates to TRUE, but set plot_id so duplicates will not be allowed within the same plot
+cover_FQI(transect, key = "acronym", db = "michigan_2014", 
+          native = FALSE, allow_duplicates = FALSE, plot_id = "plot_id")
+#> Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.
+#> [1] 11.35398
 ```
 
 ### Will synonyms be recognized?
@@ -428,11 +440,13 @@ format.
 
 ``` r
 #a summary of all metrics (always includes both native and introduced)
-all_metrics(crooked_island, key = "acronym", db = "michigan_2014")
+#can optionally include species with no C value
+#--if TRUE, this species will count in species richness and mean wetness metrics
+all_metrics(crooked_island, key = "acronym", db = "michigan_2014", allow_no_c = TRUE)
 #>                           metrics     values
 #> 1          Total Species Richness 35.0000000
 #> 2         Native Species Richness 28.0000000
-#> 3     Non-native Species Richness  7.0000000
+#> 3     Introduced Species Richness  0.0000000
 #> 4    % of Species with no C Value  0.0000000
 #> 5     % of Species with 0 C Value 20.0000000
 #> 6   % of Species with 1-3 C Value  8.5714286
@@ -514,16 +528,31 @@ recommended over using cover classes.
 | 90                   | 85.1-95%      | 90       |
 | 98                   | 95.1-100%     | 98       |
 
-Cover-Weighted Functions come in two flavors: those that allow duplicate
-entries and those that don’t. Duplicates species observations are not
-allowed when calculating plot-level metrics, where each species is
-counted once along with its total cover value. Duplicates are allowed
-for transect-level metrics, where repeated plots along a transect may
-contain the same species. However, when calculating a transect level
-metric, species that are in the same plot as indicated by the plot_id
-will be removed. As a note, if `allow_duplicates = FALSE` in a
-cover-weighted function, any duplicated species will be counted once and
-their cover values will be added together.
+Cover-Weighted functions come in two flavors: Transect-level and
+plot-level. Transect-level metrics are those that calculate a metric for
+an entire transect, which typically includes multiple plots.
+`transect_summary` and `plot_summary` are both always calculated at the
+transect-level. Plot-level metrics calculate a metric for a single plot.
+`cover_mean_c` and `cover_FQI` can be transect-level or plot-level. It
+is up to the user to decide if they are calculating a transect-level or
+a plot-level metric.
+
+To calculate `cover_mean_c` and `cover_FQI` at the transect-level, set
+`allow_duplicate = TRUE`, because different plots along the transect may
+contain the same species. It is also recommended to include a plot ID
+column and set the `plot_id` argument to be equal to that column name.
+This will allow duplicate species between plots but not allow
+duplication within plots.
+
+To calculate `cover_mean_c` and `cover_FQI` at the plot-level, set
+`allow_duplicate = FALSE`. There is no need to set the `plot_id`
+argument because duplicate species will not be allowed in any
+circumstance.
+
+If duplicated species are found where they are not supposed to be, the
+duplicated entries will only be counted once and their cover values will
+be added together. The user will also recieve a message stating
+duplicates have been removed.
 
 #### Function Arguments
 
@@ -543,6 +572,14 @@ Cover-Weighted Functions have a few additional arguments:
   single plot, where each species is entered once along with its total
   cover value.
 
+- **plot_id**: A character string representing the column in `x` that
+  contains plot identification values. `plot_id` is a required argument
+  in `plot_summary`, where it acts as a grouping variable. `plot_id` is
+  optional for cover-weighted functions and frequency functions. If
+  `plot_id` is set in a cover-weighted function or a frequency function,
+  it only prevents duplicates from occurring in the same plot. It does
+  not act as a grouping variable.
+
 #### Functions
 
 ``` r
@@ -555,34 +592,35 @@ plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 
 #now make up a transect
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
-                                    "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
-                      cover = c(50, 4, 20, 30, 40, 7, 60),
-                      quad_id = c(1, 1, 1, 1, 2, 2, 2))
+                                    "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                       cover = c(50, 4, 20, 30, 30, 40, 7, 60),
+                       plot_id = c(1, 1, 1, 1, 2, 2, 2, 2))
 
-#plot cover mean c (no duplicates allowed for one plot)
+#plot cover mean c (no duplicates allowed)
 cover_mean_c(plot, key = "acronym", db = "michigan_2014", 
              native = FALSE, cover_class = "percent_cover", 
              allow_duplicates = FALSE)
 #> [1] 4.923077
 
-#transect cover mean c (duplicates allowed along a transect)
+#transect cover mean c (duplicates allowed along a transect, unless in the same plot)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
              native = FALSE, cover_class = "percent_cover",
-             allow_duplicates = TRUE)
-#> [1] 5.946058
+             allow_duplicates = TRUE, plot_id = "plot_id")
+#> Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.
+#> [1] 6.394834
 
-#cover-weighted FQI (again, you can choose to allow duplicates or not depending on if species are in a plot or transecg)
+#cover-weighted FQI (again, you can choose to allow duplicates or not depending on if species are in a plot or transect)
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
           cover_class = "percent_cover",
           allow_duplicates = TRUE)
-#> [1] 11.89212
+#> [1] 11.66145
 
 #transect summary function (always allows duplicates)
 transect_summary(transect, key = "acronym", db = "michigan_2014")
 #>                           metrics     values
 #> 1          Total Species Richness  4.0000000
 #> 2         Native Species Richness  3.0000000
-#> 3     Non-native Species Richness  1.0000000
+#> 3     Introduced Species Richness  0.0000000
 #> 4    % of Species with no C Value  0.0000000
 #> 5     % of Species with 0 C Value 25.0000000
 #> 6   % of Species with 1-3 C Value 25.0000000
@@ -590,26 +628,22 @@ transect_summary(transect, key = "acronym", db = "michigan_2014")
 #> 8  % of Species with 7-10 C Value 50.0000000
 #> 9                          Mean C  5.7500000
 #> 10                  Native Mean C  7.6666667
-#> 11          Cover-Weighted Mean C  5.9460581
-#> 12   Cover-Weighted Native Mean C  9.4900662
+#> 11          Cover-Weighted Mean C  5.8307255
+#> 12   Cover-Weighted Native Mean C  9.4665127
 #> 13                      Total FQI 11.5000000
 #> 14                     Native FQI 13.2790562
-#> 15             Cover-Weighted FQI 11.8921162
-#> 16      Cover-Weighted Native FQI 16.4372769
+#> 15             Cover-Weighted FQI 11.6614509
+#> 16      Cover-Weighted Native FQI 16.3964810
 #> 17                   Adjusted FQI 66.3952810
 #> 18                   Mean Wetness  1.7500000
 #> 19            Native Mean Wetness  0.6666667
-#> 20                  % Hydrophytes 14.2857143
+#> 20                  % Hydrophytes 12.5000000
 ```
 
 There is also a plot summary function that summarizes plots along a
 transect. Data is input as a single data frame containing species per
 plot. This data frame must also have a column representing the plot that
-the species was observed in. This column is then passed to an additional
-argument.
-
-- **plot_id**: A character string representing the name of the column in
-  `x` that indicates which plot the species was observed in.
+the species was observed in.
 
 Because it is sometimes useful to calculate the total amount of bare
 ground or un-vegetated water in a plot, the user can also choose to
@@ -641,9 +675,9 @@ plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014",
 #>   native_mean_c cover_mean_c       FQI native_FQI cover_FQI native_cover_FQI
 #> 1      7.666667     4.923077 11.500000  13.279056  9.846154         16.42241
 #> 2      6.500000     5.803738  7.505553   9.192388 10.052370         13.10786
-#>   adjusted_FQI ground_cover water_cover
-#> 1     66.39528           60          NA
-#> 2     53.07228           20          20
+#>   adjusted_FQI percent_ground_cover percent_water_cover
+#> 1     66.39528                   60                  NA
+#> 2     53.07228                   20                  20
 ```
 
 ## Relative Functions
@@ -652,7 +686,9 @@ Relative functions calculate relative frequency, relative coverage, and
 relative importance for each species, phyiognomic group, or family.
 `fqacalc` also contains a species summary function that produces a
 summary of each species’ relative metrics in a data frame. Relative
-functions always allow duplicate species observations. They also always
+functions always allow duplicate species observations. If a plot ID
+column is indicated using the `plot_id` argument, duplicates will not be
+allowed if they occur in the same plot. Relative functions also always
 allow “ground” and “water” to be included.
 
 Relative functions have one additional argument which tells the
@@ -670,9 +706,9 @@ Relative functions do not distinguish between native and introduced.
 relative_frequency(transect, key = "acronym", db = "michigan_2014", 
               col = "physiog")
 #>   physiognomy relative_frequency
-#> 1        forb           42.85714
-#> 2       grass           28.57143
-#> 3        tree           28.57143
+#> 1        forb               37.5
+#> 2       grass               37.5
+#> 3        tree               25.0
 
 #can also include bare ground and water in the data 
 #here transect_unveg is data containing ground and water defined previously
@@ -689,25 +725,25 @@ relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
 relative_cover(transect, key = "acronym", db = "michigan_2014", 
                col = "family", cover_class = "percent_cover")
 #>          family relative_cover
-#> 1     Malvaceae       42.65403
-#> 2 Melanthiaceae       14.21801
-#> 3      Pinaceae        5.21327
-#> 4       Poaceae       37.91469
+#> 1     Malvaceae      37.344398
+#> 2 Melanthiaceae      12.448133
+#> 3      Pinaceae       4.564315
+#> 4       Poaceae      45.643154
 
 #relative importance
 relative_importance(transect, key = "acronym", db = "michigan_2014", 
                     col = "species", cover_class = "percent_cover")
 #>                      name relative_importance
-#> 1  ABELMOSCHUS ESCULENTUS            35.61273
-#> 2          ABIES BALSAMEA            16.89235
-#> 3 AMMOPHILA BREVILIGULATA            33.24306
-#> 4        ANTICLEA ELEGANS            14.25186
+#> 1  ABELMOSCHUS ESCULENTUS            31.17220
+#> 2          ABIES BALSAMEA            14.78216
+#> 3 AMMOPHILA BREVILIGULATA            41.57158
+#> 4        ANTICLEA ELEGANS            12.47407
 
 #species summary (including ground and water)
 species_summary(transect_unveg, key = "acronym", db = "michigan_2014", 
                 cover_class = "percent_cover")
 #>   acronym                    name   nativity  c  w frequency coverage
-#> 1  ABEESC  ABELMOSCHUS ESCULENTUS non-native  0  5         2       90
+#> 1  ABEESC  ABELMOSCHUS ESCULENTUS introduced  0  5         2       90
 #> 2  ABIBAL          ABIES BALSAMEA     native  3  0         2       11
 #> 3  AMMBRE AMMOPHILA BREVILIGULATA     native 10  5         2       80
 #> 4  ANTELE        ANTICLEA ELEGANS     native 10 -3         1       30
@@ -740,15 +776,18 @@ physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014",
 
 ## Wetness metric
 
-`fqacalc` has one wetness metric, which calculates the mean wetness
-coefficient. The wetness coefficient is based off of the wetland
-indicator status. Negative wetness coefficients indicate a stronger
-affinity for wetlands, while positive wetness coefficients indicate an
-affinity for uplands.
+`fqacalc` has one wetness metric function called `mean_w`, which
+calculates the mean wetness coefficient. The wetness coefficient is
+based off of the wetland indicator status. Negative wetness coefficients
+indicate a stronger affinity for wetlands, while positive wetness
+coefficients indicate an affinity for uplands.
+
+`mean_w` can optionally include species without a C value, as long as
+they do have a wetness coefficient.
 
 ``` r
 #mean wetness
-mean_w(crooked_island, key = "acronym", db = "michigan_2014")
+mean_w(crooked_island, key = "acronym", db = "michigan_2014", allow_no_c = FALSE)
 #> [1] 0.7142857
 ```
 

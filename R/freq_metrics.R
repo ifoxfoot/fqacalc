@@ -8,6 +8,8 @@
 #'
 #' `relative_frequency` calculates the frequency of one species, taxonomic family,
 #' or physiognomic group, divided by the frequency of all observations, then multiplied by 100.
+#' If the regional database does not have information on species family or physiognomy,
+#' the function will return a data frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
@@ -75,7 +77,8 @@ relative_frequency <- function(x, key = "name", db,
 #'
 #' `relative_cover` calculates the total cover per group of interest (species,
 #' taxonomic family, or physiognomic group) divided by the total cover for all
-#' observations, then multiplied by 100.
+#' observations, then multiplied by 100.If the regional database does not have information
+#' on species family or physiognomy, the function will return a data frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
@@ -146,7 +149,8 @@ relative_cover <- function(x, key = "name", db,
 #' Calculate Relative Importance
 #'
 #' `relative_importance` calculates relative frequency added to relative cover,
-#' and divided by two
+#' and divided by two. If the regional database does not have information on species family or physiognomy,
+#' the function will return a data frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
@@ -317,7 +321,8 @@ species_summary <- function(x, key = "name", db,
 #'
 #' `physiog_summary` produces a table summarizing physiognomic groups' frequency, total cover,
 #' relative frequency, relative cover, and relative importance. Physiognomic groups
-#' include shrub, tree, forb, sedge, grass, rush, fern, vine, and bryophyte.
+#' include shrub, tree, forb, sedge, grass, rush, fern, vine, and bryophyte. If the regional
+#' database does not have information on species physiognomy, the function will return a data frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
 #'

@@ -21,7 +21,9 @@ accepted_entries(
 }
 \arguments{
 \item{x}{A data frame containing a list of plant species. This data frame
-must have one of the following columns: \code{name} or \code{acronym}.}
+must have one of the following columns: \code{name} or \code{acronym}. For cover-weighted or
+relative functions, this data frame must also have a column called \code{cover} containing
+cover values and optionally a column containing plot IDs.}
 
 \item{key}{A character string representing the column that will be used to join
 the input data frame \code{x} with the regional FQA database. If a value is not specified, the
@@ -49,7 +51,7 @@ cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"
 
 \item{allow_duplicates}{Boolean (TRUE or FALSE). If TRUE, allow \code{x} to have
 duplicate observations for the same species. This is only recommended for
-calculating transect and frequency/abundance metrics. For non cover-weighted (inventory)
+calculating transect and relative frequency/abundance metrics. For non cover-weighted (inventory)
 assessments allow_duplicates is always FALSE. For cover-weighted functions, allow_duplicates
 can be set to TRUE for transect level metrics or FALSE for plot level metrics.}
 
@@ -62,15 +64,15 @@ ground and un-vegetated water.}
 
 \item{plot_id}{A character string representing the column in \code{x} that contains plot
 identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
-as a grouping variable. \code{plot-id} is optional for cover-weighted functions and frequency
-functions. If \code{plot_id} is set in a cover-weighted function or a frequency function,
+as a grouping variable. \code{plot_id} is optional for cover-weighted functions and relative
+functions. If \code{plot_id} is set in a cover-weighted function or a relative function,
 it only prevents duplicates from occurring in the same plot. It does not act as a
 grouping variable.}
 }
 \value{
 A data frame containing the \code{key} column--either \code{acronym} or
 \code{name}--as well as columns from the relevant FQA database.
-These columns include \code{family}, \code{native}, \code{c} (which represents the C Value),
+These columns include \code{name_origin} \code{accepted_name}, \code{family}, \code{nativity}, \code{c} (which represents the C Value),
 \code{w} (which represents wetness score), \code{physiognomy}, \code{duration}, and \code{common_name}
 }
 \description{

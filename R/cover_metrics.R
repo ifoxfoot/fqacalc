@@ -16,10 +16,11 @@
 #'
 #' @examples
 #' plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
-#' cover = c(50, 4, 20, 30))
+#' cover = c(50, 4, 20, 30),
+#' plot_id = c(1, 1, 2, 2))
 #'
 #' cover_mean_c(x = plot, key = "acronym", db = "michigan_2014", native = FALSE,
-#' allow_duplicates = FALSE)
+#' allow_duplicates = FALSE, plot_id = "plot_id")
 
 cover_mean_c <- function(x, key = "name", db, native = FALSE,
                          cover_class = "percent_cover", allow_duplicates,
