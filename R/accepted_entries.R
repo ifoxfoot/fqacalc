@@ -465,8 +465,13 @@ accepted_entries <- function(x, key = "name", db,
   if( any(is.na(entries_joined$c)) & !allow_no_c ) {
 
     #sent message to user
-    message(paste("Species", entries_joined[is.na(entries_joined$c), key],
-                  "is recognized but has not been assigned a C Value. It can optionally be included in species richness but will not be included in any FQI metrics."))
+    message(strwrap(paste("Species", entries_joined[is.na(entries_joined$c), key],
+                    "is recognized but has not been assigned a C Value. If using the
+                    shiny web application, this species will only be included in metrics
+                    that don't require a C Value. Otherwise, the option to include
+                    species with no C Value in certain metrics can be set using the
+                    'allow_no_c' argument."),
+                    prefix = " ", initial = ""))
 
     #get rid of no C value
     entries_joined <- entries_joined %>%
