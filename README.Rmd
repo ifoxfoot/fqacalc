@@ -376,7 +376,7 @@ plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014",
 
 ## Relative Functions
 
-Relative functions calculate relative frequency, relative coverage, and relative importance for each species, phyiognomic group, or family. `fqacalc` also contains a species summary function that produces a summary of each species' relative metrics in a data frame. Relative functions always allow duplicate species observations. If a plot ID column is indicated using the `plot_id` argument, duplicates will not be allowed if they occur in the same plot. Relative functions also always allow "ground" and "water" to be included. 
+Relative functions calculate relative frequency, relative coverage, and relative importance for each species, physiognomic group, or family. `fqacalc` also contains a species summary function that produces a summary of each species' relative metrics in a data frame. Relative functions always allow duplicate species observations. If a plot ID column is indicated using the `plot_id` argument, duplicates will not be allowed if they occur in the same plot. Relative functions also always allow "ground" and "water" to be included. 
 
 Relative functions have one additional argument which tells the functions what to calculate the relative value of:
 
