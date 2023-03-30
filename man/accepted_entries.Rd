@@ -85,7 +85,7 @@ functions in this package.
 \examples{
 plant_list <- crooked_island
 
-#with native and non natives
+#with native and introduced species
 accepted_entries(x = plant_list, key = "acronym", db = "michigan_2014", native = FALSE)
 
 #with only native species

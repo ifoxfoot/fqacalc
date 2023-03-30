@@ -78,7 +78,7 @@ mean_c <- function(x, key = "name", db, native = FALSE) {
 
 #' Calculate FQI
 #'
-#' `FQI` calculates the Floristic Quality Index (FQI) for the site. FQI is found
+#' `FQI` calculates the Floristic Quality Index (FQI) for the area of concern. FQI is found
 #' by multiplying the mean C by the square root of the species richness. If `native = TRUE`,
 #' `FQI` will calculate the Native FQI.
 #'

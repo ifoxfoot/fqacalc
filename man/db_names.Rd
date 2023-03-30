@@ -8,7 +8,7 @@ A data frame with 44 rows and 4 variables:
 \describe{
 \item{fqa_db}{Regional FQA database}
 \item{recommendation}{Indicates if the regional FQA database was recommended for use by the U.S. Army Corps of Engineers in 2020}
-\item{notes}{Notes on the limitations or recommended useage of the regional FQA database}
+\item{notes}{Notes on the limitations or recommended usage of the regional FQA database}
 \item{citation}{A citation for the regional FQA database}
 }
 }
