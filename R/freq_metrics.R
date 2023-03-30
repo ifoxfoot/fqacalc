@@ -77,7 +77,7 @@ relative_frequency <- function(x, key = "name", db,
 #'
 #' `relative_cover` calculates the total cover per group of interest (species,
 #' taxonomic family, or physiognomic group) divided by the total cover for all
-#' observations, then multiplied by 100.If the regional database does not have information
+#' observations, then multiplied by 100. If the regional database does not have information
 #' on species family or physiognomy, the function will return a data frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
