@@ -10,11 +10,11 @@
 
 This package provides functions for calculating Floristic Quality
 Assessment (FQA) metrics using regional FQA databases that have been
-reviewed and certified as ecological planning models by the U.S. Army
-Corps of Engineers (USACE). These databases are stored in a sister R
-package, [fqadata](https://github.com/ifoxfoot/fqadata). Both packages
-were developed for the USACE by the U.S. Army Engineer Research and
-Development Center’s Environmental Laboratory.
+approved or approved with reservations as ecological planning models by
+the U.S. Army Corps of Engineers (USACE). These databases are stored in
+a sister R package, [fqadata](https://github.com/ifoxfoot/fqadata). Both
+packages were developed for the USACE by the U.S. Army Engineer Research
+and Development Center’s Environmental Laboratory.
 
 To complete this tutorial interactively, follow along in R studio.
 
@@ -91,7 +91,7 @@ head(colorado)
 #> #   ³​nativity, ⁴​wetland_indicator, ⁵​physiognomy
 ```
 
-`fqacalc` also comes with a site assessment from Crooked Island,
+`fqacalc` also comes with sample inventory data from Crooked Island,
 Michigan, downloaded from the [Universal FQA
 Calculator](https://universalfqa.org/). The data set is called
 `crooked_island` and is used in this tutorial to demonstrate how the
@@ -120,19 +120,19 @@ dim(crooked_island)
 crooked_island <- crooked_island
 ```
 
-## Reading Site Assessment Data into R
+## Reading Data into R
 
-Site assessments can be read into R for analysis using base R or the
-`readxl` package (for .xls or .xlsx files).
+Data (inventory or transect) can be read into R for analysis using base
+R or the `readxl` package (for .xls or .xlsx files).
 
-If the site assessment is a csv file, it can be read in using
-`read.csv()`. For example, code to read in data might look like
-`my_data <- read.csv("path/to/my/data.csv")`. If the site assessment is
-in an Excel file, it can be read in with the same code, but replace
-`read.csv()` with `read_excel()`.
+If the data is a csv file, it can be read in using `read.csv()`. For
+example, code to read in data might look like
+`my_data <- read.csv("path/to/my/data.csv")`. If the data is in an Excel
+file, it can be read in with the same code, but replace `read.csv()`
+with `read_excel()`.
 
-In order to calculate FQA metrics using `fqacalc`, the site assessment
-data must be in the following format:
+In order to calculate FQA metrics using `fqacalc`, the data must be in
+the following format:
 
 1.  The data must have either a column named `name` containing
     scientific names of plant species, or a column named `acronym`
@@ -225,7 +225,7 @@ Plant D
 </tbody>
 </table>
 
-## Functions that Match Plant Species from Site Assessments to Regional FQA Databases
+## Functions that Match Plant Species from Data to Regional FQA Databases
 
 `fqacalc` contains two functions that help the user understand how the
 data they input matches up to the regional database:
@@ -266,14 +266,14 @@ the expected 35 entries.
 
 ### What happens when plant species don’t have C values?
 
-In some cases, a plant species from the site assessment can be matched
-to the regional database, but the species is not associated with any C
-Value. Plant species that are matched but have no C Value will be
-excluded from FQA metric calculation but they can *optionally* be
-included in other metrics like species richness, relative cover,
-relative frequency, relative importance, and mean wetness, as well as
-any summarizing functions containing these metrics. This option is
-denoted with the `allow_no_c` argument.
+In some cases, a plant species can be matched to the regional database,
+but the species is not associated with any C Value. Plant species that
+are matched but have no C Value will be excluded from FQA metric
+calculation but they can *optionally* be included in other metrics like
+species richness, relative cover, relative frequency, relative
+importance, and mean wetness, as well as any summarizing functions
+containing these metrics. This option is denoted with the `allow_no_c`
+argument.
 
 `unassigned_plants()` is a function that shows the user which plant
 species have not been assigned a C Value.
@@ -306,12 +306,12 @@ databases but aren’t assigned a C Value.
 
 ### How will duplicates be treated?
 
-If the site assessment data contains duplicate species, they will be
-excluded from certain FQA metrics. For example, species richness counts
-the number of unique species, so duplicates are not allowed. Generally,
-duplicates are excluded for all unweighted (inventory) metrics but can
-optionally be included in cover-weighted metrics and are always included
-in relative metrics.
+If the data contains duplicate species, they will be excluded from
+certain FQA metrics. For example, species richness counts the number of
+unique species, so duplicates are not allowed. Generally, duplicates are
+excluded for all unweighted (inventory) metrics but can optionally be
+included in cover-weighted metrics and are always included in relative
+metrics.
 
 Duplicate behavior in cover-weighted functions is controlled by the
 `allow_duplicates` argument and the `plot_id` argument. If
@@ -352,18 +352,18 @@ commonly used synonyms. As long as these synonyms are in the regional
 database, they will be recognized by `fqacalc` functions. There are a
 few important rules regarding synonyms.
 
-1.  If both the synonym and the accepted name are used in a site
-    assessment, the synonym will be converted to the accepted name and
-    both observations will only count as *one* species.
+1.  If both the synonym and the accepted name are used in the data, the
+    synonym will be converted to the accepted name and both observations
+    will only count as *one* species.
 
-2.  If the site assessment data contains a name that is listed as a
-    synonym to one species and an accepted name to a different species,
-    it will default to the species with the matching accepted name.
+2.  If the data contains a name that is listed as a synonym to one
+    species and an accepted name to a different species, it will default
+    to the species with the matching accepted name.
 
-3.  If the site assessment contains a species that is listed as a
-    synonym to multiple species in the regional FQA database, this entry
-    will *not* be included! To include the species, enter the accepted
-    scientific name instead of the synonym.
+3.  If the data contains a species that is listed as a synonym to
+    multiple species in the regional FQA database, this entry will *not*
+    be included! To include the species, enter the accepted scientific
+    name instead of the synonym.
 
 In all of these cases, `fqacalc` functions will print messages to warn
 the user about synonym issues. See this example:
