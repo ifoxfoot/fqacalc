@@ -13,12 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# fqacalc
-
-## A Floristic Quality Assessment Calculator for R
+# fqacalc <img src="man/figures/fqacalc.png" align="right" height="138">
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+## A Floristic Quality Assessment Calculator for R
 
 This package provides functions for calculating Floristic Quality Assessment (FQA) metrics using regional FQA databases that have been approved or approved with reservations as ecological planning models by the U.S. Army Corps of Engineers (USACE). These databases are stored in a sister R package, [fqadata](https://github.com/ifoxfoot/fqadata). Both packages were developed for the USACE by the U.S. Army Engineer Research and Development Center’s Environmental Laboratory.
 

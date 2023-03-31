@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# fqacalc
-
-## A Floristic Quality Assessment Calculator for R
+# fqacalc <img src="man/figures/fqacalc.png" align="right" height="138">
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+## A Floristic Quality Assessment Calculator for R
 
 This package provides functions for calculating Floristic Quality
 Assessment (FQA) metrics using regional FQA databases that have been
