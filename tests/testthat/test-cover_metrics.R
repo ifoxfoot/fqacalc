@@ -92,7 +92,7 @@ test_that("plot_summary() works without bare ground", {
 
   expect_error(plot_summary(transect, key = "acronym", db = "michigan_2014",
                             cover_class = "percent_cover", plot_id = "quad_idd"),
-               "'plot_id' must be the name of a column in x .")
+               "'plot_id' must be the name of a column in x.")
 })
 
 test_that("plot_summary() works with bare ground, water, and duplicates in same plot", {

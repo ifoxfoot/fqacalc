@@ -46,7 +46,7 @@ test_that("accepted_entries() throws error if logical agruments aren't logical",
 
 test_that("accepted_entries() throws error if cover is not a column in x", {
   expect_error(accepted_entries(crooked_island, key = "acronym", db = "michigan_2014", native = F, cover_weighted = T),
-               "If 'cover = TRUE' crooked_island must have a column named cover.")
+               "If 'cover = TRUE', crooked_island must have a column named cover.")
 })
 
 test_that("accepted_entries() throws error if cover contains NAs", {
@@ -57,7 +57,7 @@ test_that("accepted_entries() throws error if cover contains NAs", {
 test_that("accepted_entries() throws error if cover_class isn't right", {
   expect_error(accepted_entries(crooked_island, key = "acronym", db = "michigan_2014", native = F,
                                 cover_class = "percent"),
-               "percent is not an accepted cover-method. See documentation.")
+               "percent is not an accepted cover-method. See function documentation.")
 })
 
 test_that("accepted_entries() throws error if plot_id isn't a column", {
@@ -68,7 +68,7 @@ test_that("accepted_entries() throws error if plot_id isn't a column", {
 
 test_that("accepted_entries() throws error if key = acronym and db does not have complete acronyms", {
   expect_error(accepted_entries(crooked_island, key = "acronym", db = "florida_2011", native = F),
-               "florida_2011 does not have a complete set of acronyms, please set key to 'name'.")
+               "florida_2011 does not have a complete set of acronyms, please set key equal to 'name'.")
 })
 
 #testing accepted_entries() messages-------------------------------------------
@@ -123,10 +123,10 @@ test_that("accepted_entries() throws a message if two species entered have same 
 
 test_that("accepted_entries() throws a message if one species entered returns two + matches and both are syn", {
   expect_message(accepted_entries(same_syn, db = "wyoming_2017", native = F, allow_duplicates = T),
-                 "CAREX MURICATA is a synonym to multiple species. It will be omited. To include this species, use the accepted scientific name.")
+                 "CAREX MURICATA is a synonym to multiple species. It will be omitted. To include this species, use the accepted scientific name.")
 
   expect_message(accepted_entries(same_syn, db = "wyoming_2017", native = F, allow_duplicates = T),
-                 "POTENTILLA NANA is a synonym to multiple species. It will be omited. To include this species, use the accepted scientific name.")
+                 "POTENTILLA NANA is a synonym to multiple species. It will be omitted. To include this species, use the accepted scientific name.")
 })
 
 test_that("accepted_entries() throws a message if one species entered returns two + matches and both are syn", {

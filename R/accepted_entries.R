@@ -178,7 +178,7 @@ accepted_entries <- function(x, key = "name", db,
 
   #if cover is true, then there must be a column named cover in input df
   if( cover_weighted & !("cover" %in% colnames(x)))
-    stop(paste("If 'cover = TRUE'", deparse(substitute(x)), "must have a column named cover."))
+    stop(paste("If 'cover = TRUE',", deparse(substitute(x)), "must have a column named cover."))
 
   #if cover is missing, write error
   if( cover_weighted && any(is.na(x$cover)) )
@@ -188,11 +188,11 @@ accepted_entries <- function(x, key = "name", db,
   if( !cover_class %in% c("percent_cover", "carolina_veg_survey",
                            "braun-blanquet","daubenmire",
                            "usfs_ecodata"))
-    stop(paste(cover_class, "is not an accepted cover-method. See documentation."))
+    stop(paste(cover_class, "is not an accepted cover-method. See function documentation."))
 
   #plot_id argument must be NULL or a column name in input data frame x
   if( !is.null(plot_id) && !(plot_id %in% colnames(x)) )
-    stop(paste0("'plot_id' must be the name of a column in ", deparse(substitute(x)), " ."))
+    stop(paste0("'plot_id' must be the name of a column in ", deparse(substitute(x)), "."))
 
   #CONVERTING COVER CLASSES
 
@@ -303,7 +303,7 @@ accepted_entries <- function(x, key = "name", db,
   #error if fqa db does not have complete set of acronyms
   if( key == "acronym" &
       any(is.na(regional_fqa$acronym) & regional_fqa$name_origin == "accepted_scientific_name"))
-    stop(paste(db, "does not have a complete set of acronyms, please set key to 'name'."))
+    stop(paste(db, "does not have a complete set of acronyms, please set key equal to 'name'."))
 
   #warning if fqa db does not wetland scores
   if( wetland_warning & all(is.na(regional_fqa$w)))
@@ -379,7 +379,7 @@ accepted_entries <- function(x, key = "name", db,
 
     #message if both are synonyms
     for(i in unique(both_syn$name)) {
-      message(i, " is a synonym to multiple species. It will be omited. To include this species, use the accepted scientific name.")
+      message(i, " is a synonym to multiple species. It will be omitted. To include this species, use the accepted scientific name.")
     }
 
     #if species are duplicated, keep only sci name
