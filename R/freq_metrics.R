@@ -41,7 +41,7 @@ relative_frequency <- function(x, key = "name", db,
                           allow_non_veg = TRUE,
                           plot_id = NULL) {
 
-  #declaring relative_frequency as null so I can use as a veriable name
+  #declaring relative_frequency as null so I can use as a variable name
   relative_frequency <- NULL
 
   #col argument must be right
@@ -133,7 +133,7 @@ relative_cover <- function(x, key = "name", db,
                               plot_id,
                               wetland_warning = FALSE) %>%
     dplyr::group_by(!!as.name(col_name)) %>%
-    #caclulate cover per group
+    #calculate cover per group
     dplyr::summarise(sum = sum(.data$cover)) %>%
     as.data.frame() %>%
     dplyr::mutate(relative_cover = 100*sum/sum(sum)) %>%
@@ -270,13 +270,13 @@ species_summary <- function(x, key = "name", db,
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native = FALSE,
-                               cover_weighted = TRUE,
-                               cover_class,
-                               allow_duplicates = TRUE,
-                               allow_no_c,
-                               allow_non_veg,
+                              cover_weighted = TRUE,
+                              cover_class,
+                              allow_duplicates = TRUE,
+                              allow_no_c,
+                              allow_non_veg,
                               plot_id,
-                               wetland_warning = FALSE)
+                              wetland_warning = FALSE)
 
   c_score <- entries %>%
     dplyr::select("name", "acronym", "nativity", "c", "w") %>%

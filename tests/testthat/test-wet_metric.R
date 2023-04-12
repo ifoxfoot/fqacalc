@@ -16,7 +16,7 @@ test_that("mean_w() throws message for when db doesn't have wetland scores", {
                  "montana_2017 does not have wetness coefficients, wetland metrics cannot be calculated.")
 })
 
-test_that("mean_w() throws message for when db doesn't have wetland scores", {
+test_that("mean_w() throws message for when species doesn't have wetland scores", {
   expect_message(mean_w(partial_wetland, key = "name", db = "colorado_2020", native = FALSE),
                  "Species ABIES CONCOLOR does not have a wetness coefficient. It will be omitted from wetness metric calculations.")
 })

@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-#testing plot_mean_c()
+#testing cover_mean_c()
 
 test_that("cover_mean_c() works in perfect setting", {
   expect_equal(cover_mean_c(x = quadrat, key = "acronym", db = "michigan_2014",
@@ -20,7 +20,7 @@ test_that("cover_FQI() works in perfect setting", {
 })
 
 #-------------------------------------------------------------------------------
-#testing all_cover_classs()
+#testing transect_summary()
 
 test_that("transect_summary() works in perfect setting", {
   expect_equal(transect_summary(x = transect, key = "acronym", db = "michigan_2014"),
