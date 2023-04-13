@@ -1,15 +1,17 @@
 
 #this file contains frequency  metrics
-#relative_frequency(), relative_cover(), relative_importance(), species_summary() and physiog_summary()
+#relative_frequency(), relative_cover(), relative_importance(), species_summary()
+#and physiog_summary()
 
 #-------------------------------------------------------------------------------
 
 #' Calculate Relative Frequency
 #'
 #' `relative_frequency` calculates the frequency of one species, taxonomic family,
-#' or physiognomic group, divided by the frequency of all observations, then multiplied by 100.
-#' If the regional database does not have information on species family or physiognomy,
-#' the function will return a data frame with a single NA category.
+#' or physiognomic group, divided by the frequency of all observations, then
+#' multiplied by 100. If the regional database does not have information on
+#' species family or physiognomy, the function will return a data frame with a
+#' single NA category.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
@@ -33,7 +35,7 @@
 #' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
 #' relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
-#' col = "physiog")
+#' col = "physiog", plot_id = "plot_id")
 
 relative_frequency <- function(x, key = "name", db,
                           col = c("species", "family", "physiog"),
@@ -77,15 +79,18 @@ relative_frequency <- function(x, key = "name", db,
 #'
 #' `relative_cover` calculates the total cover per group of interest (species,
 #' taxonomic family, or physiognomic group) divided by the total cover for all
-#' observations, then multiplied by 100. If the regional database does not have information
-#' on species family or physiognomy, the function will return a data frame with a single NA category.
+#' observations, then multiplied by 100. If the regional database does not have
+#' information on species family or physiognomy, the function will return a data
+#' frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
-#' the relative cover of. Can be set to "species", "family" or "physiog" (for physiognomy).
+#' the relative cover of. Can be set to "species", "family" or "physiog" (for
+#' physiognomy).
 #'
 #'
-#' @return A data frame with categorical variables set by the col argument and their relative cover.
+#' @return A data frame with categorical variables set by the col argument and
+#' their relative cover.
 #' @export
 #' @importFrom rlang .data
 #'
@@ -95,7 +100,8 @@ relative_frequency <- function(x, key = "name", db,
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species")
+#' relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species",
+#' plot_id = "plot_id")
 #'
 #' #can also include bare ground and unvegetated water
 #' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
@@ -104,7 +110,7 @@ relative_frequency <- function(x, key = "name", db,
 #' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
 #' relative_cover(transect_unveg, key = "acronym", db = "michigan_2014",
-#' col = "species")
+#' col = "species", plot_id = "plot_id")
 
 relative_cover <- function(x, key = "name", db,
                            col = c("species", "family", "physiog"),
@@ -149,14 +155,17 @@ relative_cover <- function(x, key = "name", db,
 #' Calculate Relative Importance
 #'
 #' `relative_importance` calculates relative frequency added to relative cover,
-#' and divided by two. If the regional database does not have information on species family or physiognomy,
-#' the function will return a data frame with a single NA category.
+#' and divided by two. If the regional database does not have information on
+#' species family or physiognomy, the function will return a data frame with a
+#' single NA category.
 #'
 #' @inheritParams accepted_entries
 #' @param col A character string representing the categorical variable to calculate
-#' the relative frequency of. Can be set to "species", "family" or "physiog" (for physiognomy).
+#' the relative frequency of. Can be set to "species", "family" or "physiog" (for
+#' physiognomy).
 #'
-#' @return A data frame with categorical variables set by the col argument and their relative importance.
+#' @return A data frame with categorical variables set by the col argument and
+#' their relative importance.
 #' @export
 #' @importFrom rlang .data
 #'
@@ -172,10 +181,10 @@ relative_cover <- function(x, key = "name", db,
 #' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 #' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
 #' relative_importance(transect_unveg, key = "acronym", db = "michigan_2014",
-#' col = "family")
+#' col = "family", plot_id = "plot_id")
 #'
 
 relative_importance <- function(x, key = "name", db,
@@ -240,8 +249,8 @@ relative_importance <- function(x, key = "name", db,
 #'
 #' @inheritParams accepted_entries
 #'
-#' @return A data frame where each row is a species and each column is information about that species
-#' based on the input data frame.
+#' @return A data frame where each row is a species and each column is information
+#' about that species based on the input data frame.
 #' @export
 #' @importFrom rlang .data
 #'
@@ -257,9 +266,10 @@ relative_importance <- function(x, key = "name", db,
 #' transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 #' "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
-#' species_summary(transect_unveg, key = "acronym", db = "michigan_2014")
+#' species_summary(transect_unveg, key = "acronym", db = "michigan_2014",
+#' plot_id = "plot_id")
 #'
 
 species_summary <- function(x, key = "name", db,
@@ -319,15 +329,16 @@ species_summary <- function(x, key = "name", db,
 
 #' Create a cover-Weighted Summary of Physiognomic Groups
 #'
-#' `physiog_summary` produces a table summarizing physiognomic groups' frequency, total cover,
-#' relative frequency, relative cover, and relative importance. Physiognomic groups
-#' include shrub, tree, forb, sedge, grass, rush, fern, vine, and bryophyte. If the regional
-#' database does not have information on species physiognomy, the function will return a data frame with a single NA category.
+#' `physiog_summary` produces a table summarizing physiognomic groups' frequency,
+#' total cover, relative frequency, relative cover, and relative importance.
+#' Physiognomic groups include shrub, tree, forb, sedge, grass, rush, fern, vine,
+#' and bryophyte. If the regional database does not have information on species
+#' physiognomy, the function will return a data frame with a single NA category.
 #'
 #' @inheritParams accepted_entries
 #'
-#' @return A data frame where each row is a physiognomic group and each column is a metric
-#' about that species based on the input data frame.
+#' @return A data frame where each row is a physiognomic group and each column
+#' is a metric about that species based on the input data frame.
 #' @export
 #' @importFrom rlang .data
 #'
@@ -335,9 +346,9 @@ species_summary <- function(x, key = "name", db,
 #' transect <- data.frame(
 #' acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
-#' quad_id = c(1, 1, 1, 1, 2, 2, 2))
+#' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' physiog_summary(transect, key = "acronym", db = "michigan_2014")
+#' physiog_summary(transect, key = "acronym", db = "michigan_2014", plot_id = "plot_id")
 #'
 #'
 #' #can also include bare ground and unvegetated water
@@ -346,7 +357,8 @@ species_summary <- function(x, key = "name", db,
 #' cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
 #' plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 #'
-#' physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014")
+#' physiog_summary(transect_unveg, key = "acronym", db = "michigan_2014",
+#' plot_id = "plot_id")
 #'
 
 physiog_summary <- function(x, key = "name", db,

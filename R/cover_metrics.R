@@ -1,12 +1,13 @@
 
-#this file contains fqi cover-weighted metrics cover_mean_c(), cover_fqi(), transect_summary(), and plot_summary()
+#this file contains fqi cover-weighted metrics cover_mean_c(), cover_fqi(),
+#transect_summary(), and plot_summary()
 
 #-------------------------------------------------------------------------------
 
 #' Calculate Cover-Weighted Mean C
 #'
-#' `cover_mean_c` calculates the sum of cover multiplied by the C value per each species,
-#' divided by the sum of cover values for all species.
+#' `cover_mean_c` calculates the sum of cover multiplied by the C value per each
+#' species, divided by the sum of cover values for all species.
 #'
 #' @inheritParams accepted_entries
 #'
@@ -73,7 +74,7 @@ cover_mean_c <- function(x, key = "name", db, native = FALSE,
 #' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
 #' cover_FQI(x = transect, key = "acronym", db = "michigan_2014",
-#' native = FALSE, allow_duplicates = TRUE)
+#' native = FALSE, allow_duplicates = TRUE, plot_id = "plot_id")
 
 cover_FQI <- function(x, key = "name", db, native = FALSE,
                       cover_class = "percent_cover", allow_duplicates,
@@ -113,12 +114,12 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 #' Print a Summary of Cover-Weighted FQA Metrics
 #'
 #' `transect_summary` calculates and prints a summary of both inventory
-#' metrics and cover-weighted metrics, including Species Richness, Native Species Richness,
-#' Introduced Species Richness, % of species within C value ranges, Mean C, Native
-#' Mean C, Cover-weighted Mean C, Native Cover-Weighted Mean C, Total FQI, Native FQI,
-#' Cover-Weighted FQI, Native Cover-weighted FQI, Adjusted FQI, Mean Wetness,
-#' Native Mean Wetness and % Hydrophytes. Cover-weighted metrics allow duplicate entries
-#' for transect level summary metrics.
+#' metrics and cover-weighted metrics, including Species Richness, Native Species
+#' Richness, Introduced Species Richness, % of species within C value ranges,
+#' Mean C, Native Mean C, Cover-weighted Mean C, Native Cover-Weighted Mean C,
+#' Total FQI, Native FQI, Cover-Weighted FQI, Native Cover-weighted FQI, Adjusted
+#' FQI, Mean Wetness, Native Mean Wetness and % Hydrophytes. Cover-weighted
+#' metrics allow duplicate entries for transect level summary metrics.
 #'
 #' @inheritParams accepted_entries
 #'
@@ -131,7 +132,8 @@ cover_FQI <- function(x, key = "name", db, native = FALSE,
 #' cover = c(50, 4, 20, 30, 40, 7, 60),
 #' plot_id = c(1, 1, 1, 1, 2, 2, 2))
 #'
-#' transect_summary(x = transect, key = "acronym", db = "michigan_2014")
+#' transect_summary(x = transect, key = "acronym", db = "michigan_2014",
+#' plot_id = "plot_id")
 
 transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
                              allow_no_c = TRUE, plot_id = NULL) {
@@ -254,10 +256,10 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
 
 #' Calculate Plot-level Summary Statistics
 #'
-#' Input a transect with one or more plots (designated with a unique plot ID) as a
-#' single data frame and the output will be a data frame with plot-level species richness,
-#' native species richness, mean c, native mean c, FQI, native FQI, adjusted FQI,
-#' cover-weighted FQI, and native cover-weighted FQI.
+#' Input a transect with one or more plots (designated with a unique plot ID) as
+#' a single data frame and the output will be a data frame with plot-level
+#' species richness, native species richness, mean c, native mean c, FQI, native
+#' FQI, adjusted FQI, cover-weighted FQI, and native cover-weighted FQI.
 #'
 #' @inheritParams accepted_entries
 #'
