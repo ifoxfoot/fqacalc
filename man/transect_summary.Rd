@@ -48,12 +48,12 @@ A data frame
 }
 \description{
 \code{transect_summary} calculates and prints a summary of both inventory
-metrics and cover-weighted metrics, including Species Richness, Native Species Richness,
-Introduced Species Richness, \% of species within C value ranges, Mean C, Native
-Mean C, Cover-weighted Mean C, Native Cover-Weighted Mean C, Total FQI, Native FQI,
-Cover-Weighted FQI, Native Cover-weighted FQI, Adjusted FQI, Mean Wetness,
-Native Mean Wetness and \% Hydrophytes. Cover-weighted metrics allow duplicate entries
-for transect level summary metrics.
+metrics and cover-weighted metrics, including Species Richness, Native Species
+Richness, Introduced Species Richness, \% of species within C value ranges,
+Mean C, Native Mean C, Cover-weighted Mean C, Native Cover-Weighted Mean C,
+Total FQI, Native FQI, Cover-Weighted FQI, Native Cover-weighted FQI, Adjusted
+FQI, Mean Wetness, Native Mean Wetness and \% Hydrophytes. Cover-weighted
+metrics allow duplicate entries for transect level summary metrics.
 }
 \examples{
 transect <- data.frame(
@@ -61,5 +61,6 @@ acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE
 cover = c(50, 4, 20, 30, 40, 7, 60),
 plot_id = c(1, 1, 1, 1, 2, 2, 2))
 
-transect_summary(x = transect, key = "acronym", db = "michigan_2014")
+transect_summary(x = transect, key = "acronym", db = "michigan_2014",
+plot_id = "plot_id")
 }

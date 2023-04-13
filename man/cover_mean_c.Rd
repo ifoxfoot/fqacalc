@@ -53,8 +53,8 @@ grouping variable.}
 A non-negative number
 }
 \description{
-\code{cover_mean_c} calculates the sum of cover multiplied by the C value per each species,
-divided by the sum of cover values for all species.
+\code{cover_mean_c} calculates the sum of cover multiplied by the C value per each
+species, divided by the sum of cover values for all species.
 }
 \examples{
 plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),

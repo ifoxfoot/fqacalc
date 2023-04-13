@@ -48,8 +48,8 @@ it only prevents duplicates from occurring in the same plot. It does not act as 
 grouping variable.}
 }
 \value{
-A data frame where each row is a species and each column is information about that species
-based on the input data frame.
+A data frame where each row is a species and each column is information
+about that species based on the input data frame.
 }
 \description{
 \code{species_summary} produces a table summarizing species' frequency, total cover,
@@ -67,8 +67,9 @@ species_summary(transect, key = "acronym", db = "michigan_2014")
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
 "ANTELE", "WATER", "GROUND", "ABEESC", "ABIBAL", "AMMBRE"),
 cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
-quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
+plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
-species_summary(transect_unveg, key = "acronym", db = "michigan_2014")
+species_summary(transect_unveg, key = "acronym", db = "michigan_2014",
+plot_id = "plot_id")
 
 }

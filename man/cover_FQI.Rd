@@ -63,5 +63,5 @@ cover = c(50, 4, 20, 30, 40, 7, 60),
 plot_id = c(1, 1, 1, 1, 2, 2, 2))
 
 cover_FQI(x = transect, key = "acronym", db = "michigan_2014",
-native = FALSE, allow_duplicates = TRUE)
+native = FALSE, allow_duplicates = TRUE, plot_id = "plot_id")
 }

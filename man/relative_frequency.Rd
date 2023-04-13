@@ -51,9 +51,10 @@ A data frame with categorical variables set by the col argument and their relati
 }
 \description{
 \code{relative_frequency} calculates the frequency of one species, taxonomic family,
-or physiognomic group, divided by the frequency of all observations, then multiplied by 100.
-If the regional database does not have information on species family or physiognomy,
-the function will return a data frame with a single NA category.
+or physiognomic group, divided by the frequency of all observations, then
+multiplied by 100. If the regional database does not have information on
+species family or physiognomy, the function will return a data frame with a
+single NA category.
 }
 \examples{
 transect <- data.frame(
@@ -70,5 +71,5 @@ cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
 plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 relative_frequency(transect_unveg, key = "acronym", db = "michigan_2014",
-col = "physiog")
+col = "physiog", plot_id = "plot_id")
 }

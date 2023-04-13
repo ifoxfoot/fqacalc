@@ -31,7 +31,8 @@ values for \code{key}.}
 where the databases are hosted.}
 
 \item{col}{A character string representing the categorical variable to calculate
-the relative cover of. Can be set to "species", "family" or "physiog" (for physiognomy).}
+the relative cover of. Can be set to "species", "family" or "physiog" (for
+physiognomy).}
 
 \item{cover_class}{a character string representing the cover classification used. Acceptable
 cover classes are: \code{"percent_cover"}, \code{"carolina_veg_survey"}, \code{"braun-blanquet"},
@@ -52,13 +53,15 @@ it only prevents duplicates from occurring in the same plot. It does not act as 
 grouping variable.}
 }
 \value{
-A data frame with categorical variables set by the col argument and their relative cover.
+A data frame with categorical variables set by the col argument and
+their relative cover.
 }
 \description{
 \code{relative_cover} calculates the total cover per group of interest (species,
 taxonomic family, or physiognomic group) divided by the total cover for all
-observations, then multiplied by 100. If the regional database does not have information
-on species family or physiognomy, the function will return a data frame with a single NA category.
+observations, then multiplied by 100. If the regional database does not have
+information on species family or physiognomy, the function will return a data
+frame with a single NA category.
 }
 \examples{
 transect <- data.frame(
@@ -66,7 +69,8 @@ acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE
 cover = c(50, 4, 20, 30, 40, 7, 60),
 plot_id = c(1, 1, 1, 1, 2, 2, 2))
 
-relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species")
+relative_cover(transect, key = "acronym", db = "michigan_2014", col = "species",
+plot_id = "plot_id")
 
 #can also include bare ground and unvegetated water
 transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
@@ -75,5 +79,5 @@ cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
 plot_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
 relative_cover(transect_unveg, key = "acronym", db = "michigan_2014",
-col = "species")
+col = "species", plot_id = "plot_id")
 }
