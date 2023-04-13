@@ -27,7 +27,12 @@ To complete this tutorial interactively, follow along in R studio.
 
 ## Installation
 
-You can install the development version of `fqacalc` from [GitHub](https://github.com/) with:
+``` r
+# install the package from CRAN
+install.packages("fqacalc")
+```
+
+You can also install the development version of `fqacalc` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
