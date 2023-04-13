@@ -4,6 +4,8 @@
 # fqacalc <img src="man/figures/fqacalc.png" align="right" height="138">
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## A Floristic Quality Assessment Calculator for R
@@ -78,17 +80,17 @@ colorado <- view_db("colorado_2020")
 #view it
 head(colorado)
 #> # A tibble: 6 × 13
-#>   name        name_…¹ acronym accep…² family nativ…³     c     w wetla…⁴ physi…⁵
-#>   <chr>       <chr>   <chr>   <chr>   <chr>  <chr>   <dbl> <dbl> <chr>   <chr>  
-#> 1 ABIES BIFO… accept… ABBI3   Abies … Pinac… native      5     1 FACU    tree   
-#> 2 ABIES LASI… synonym <NA>    Abies … Pinac… native      5     1 FACU    tree   
-#> 3 ABIES CONC… accept… ABCO    Abies … Pinac… native      5    NA <NA>    tree   
-#> 4 ABRONIA EL… accept… ABEL    Abroni… Nycta… native      4    NA <NA>    forb   
-#> 5 ABRONIA FR… accept… ABFR2   Abroni… Nycta… native      6    NA <NA>    forb   
-#> 6 ABRONIA GL… accept… ABAR    Abroni… Nycta… native      9    NA <NA>    forb   
-#> # … with 3 more variables: duration <chr>, common_name <chr>, fqa_db <chr>, and
-#> #   abbreviated variable names ¹​name_origin, ²​accepted_scientific_name,
-#> #   ³​nativity, ⁴​wetland_indicator, ⁵​physiognomy
+#>   name    name_origin acronym accepted_scientific_…¹ family nativity     c     w
+#>   <chr>   <chr>       <chr>   <chr>                  <chr>  <chr>    <dbl> <dbl>
+#> 1 ABIES … accepted_s… ABBI3   Abies bifolia          Pinac… native       5     1
+#> 2 ABIES … synonym     <NA>    Abies bifolia          Pinac… native       5     1
+#> 3 ABIES … accepted_s… ABCO    Abies concolor         Pinac… native       5    NA
+#> 4 ABRONI… accepted_s… ABEL    Abronia elliptica      Nycta… native       4    NA
+#> 5 ABRONI… accepted_s… ABFR2   Abronia fragrans       Nycta… native       6    NA
+#> 6 ABRONI… accepted_s… ABAR    Abronia glabrifolia    Nycta… native       9    NA
+#> # ℹ abbreviated name: ¹​accepted_scientific_name
+#> # ℹ 5 more variables: wetland_indicator <chr>, physiognomy <chr>,
+#> #   duration <chr>, common_name <chr>, fqa_db <chr>
 ```
 
 `fqacalc` also comes with sample inventory data from Crooked Island,

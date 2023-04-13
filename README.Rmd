@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # fqacalc <img src="man/figures/fqacalc.png" align="right" height="138">
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## A Floristic Quality Assessment Calculator for R
