@@ -151,10 +151,17 @@ accepted_entries <- function(x, key = "name", db,
 
   #messages about wetland status indicator defaults
   if (wetland_warning & db == "wyoming_2017")
-    message("The Wyoming FQA database is associated with multiple wetland indicator status regions. This package defaults to the Arid West wetland indicator region when calculating Wyoming metrics.")
+    message(paste(strwrap(
+    "The Wyoming FQA database is associated with multiple wetland indicator
+    status regions. This package defaults to the Arid West wetland indicator
+    region when calculating Wyoming metrics."), collapse = " "))
 
   if (wetland_warning & db == "colorado_2020")
-    message("The Colorado FQA database is associated with multiple wetland indicator status regions. This package defaults to the Western Mountains, Valleys, and Coasts indicator region when calculating Colorado metrics.")
+    message(paste(strwrap(
+    "The Colorado FQA database is associated with multiple wetland indicator
+      status regions. This package defaults to the Western Mountains, Valleys,
+      and Coasts indicator region when calculating Colorado metrics."),
+    collapse = " "))
 
   #native must be TRUE or FALSE
   if( !is.logical(native) )
@@ -178,7 +185,8 @@ accepted_entries <- function(x, key = "name", db,
 
   #if cover is true, then there must be a column named cover in input df
   if( cover_weighted & !("cover" %in% colnames(x)))
-    stop(paste("If 'cover = TRUE',", deparse(substitute(x)), "must have a column named cover."))
+    stop(paste("If 'cover = TRUE',", deparse(substitute(x)),
+               "must have a column named cover."))
 
   #if cover is missing, write error
   if( cover_weighted && any(is.na(x$cover)) )
@@ -188,11 +196,13 @@ accepted_entries <- function(x, key = "name", db,
   if( !cover_class %in% c("percent_cover", "carolina_veg_survey",
                            "braun-blanquet","daubenmire",
                            "usfs_ecodata"))
-    stop(paste(cover_class, "is not an accepted cover-method. See function documentation."))
+    stop(paste(cover_class,
+               "is not an accepted cover-method. See function documentation."))
 
   #plot_id argument must be NULL or a column name in input data frame x
   if( !is.null(plot_id) && !(plot_id %in% colnames(x)) )
-    stop(paste0("'plot_id' must be the name of a column in ", deparse(substitute(x)), "."))
+    stop(paste0("'plot_id' must be the name of a column in ",
+                deparse(substitute(x)), "."))
 
   #CONVERTING COVER CLASSES
 
@@ -273,7 +283,8 @@ accepted_entries <- function(x, key = "name", db,
     }
     else if( any(is.na(cols$cover)) ) {
     message(paste("NAs were introduced during the conversion to the",
-                  cover_class, "system. Species with NA cover values will be removed."))
+                  cover_class,
+                  "system. Species with NA cover values will be removed."))
     }
     #remove NAs from cover col
     cols <- cols %>%
@@ -285,14 +296,19 @@ accepted_entries <- function(x, key = "name", db,
   #send message to user if site assessment contains duplicate entries
   if( sum(duplicated(cols[,key])) > 0 & !allow_duplicates){
     if(cover_weighted == TRUE){
-      message("Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.")}
+      message(paste(strwrap("Duplicate entries detected. Duplicates will only be
+                      counted once. Cover values of duplicate species will be
+                      added together."), collapse = " "))}
     else{
       message("Duplicate entries detected. Duplicates will only be counted once.")}
   }
 
   #message if there are duplicates in same plot
   if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(cols, {{key}}, {{plot_id}}))) )
-    message("Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.")
+    message(paste(strwrap(
+    "Duplicate entries detected in the same plot. Duplicates in the same plot
+    will be counted once. Cover values of duplicate species will be added
+    together."), collapse = " "))
 
   #PREPARING REGIONAL DATABASE FOR JOINING
 
@@ -302,12 +318,15 @@ accepted_entries <- function(x, key = "name", db,
 
   #error if fqa db does not have complete set of acronyms
   if( key == "acronym" &
-      any(is.na(regional_fqa$acronym) & regional_fqa$name_origin == "accepted_scientific_name"))
-    stop(paste(db, "does not have a complete set of acronyms, please set key equal to 'name'."))
+      any(is.na(regional_fqa$acronym) &
+          regional_fqa$name_origin == "accepted_scientific_name"))
+    stop(paste(strwrap(paste(db, "does not have a complete set of acronyms, please set
+                       key equal to 'name'.")), collapse = " "))
 
   #warning if fqa db does not wetland scores
   if( wetland_warning & all(is.na(regional_fqa$w)))
-    message(paste(db, "does not have wetness coefficients, wetland metrics cannot be calculated."))
+    message(paste(strwrap(paste(db, "does not have wetness coefficients, wetland
+                          metrics cannot be calculated.")), collapse = " "))
 
   if (allow_non_veg) {
     regional_fqa <- rbind(
@@ -315,7 +334,8 @@ accepted_entries <- function(x, key = "name", db,
       data.frame(name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
                  name_origin = c(NA, NA),
                  acronym = c("GROUND", "WATER"),
-                 accepted_scientific_name = c("UNVEGETATED GROUND", "UNVEGETATED WATER"),
+                 accepted_scientific_name = c("UNVEGETATED GROUND",
+                                              "UNVEGETATED WATER"),
                  family = c("Unvegetated Ground", "Unvegetated Water"),
                  nativity = c(NA, NA),
                  c = c(0, 0),
@@ -338,13 +358,15 @@ accepted_entries <- function(x, key = "name", db,
                        dplyr::mutate(row = dplyr::row_number()),
                      regional_fqa,
                      by = key,
-                     multiple = "all")
+                     relationship = "many-to-many")
 
   #if a species is not present in regional db
   if( any(is.na(entries_joined$accepted_scientific_name)) ) {
 
     #send message to user
-    message(paste("Species", unique(entries_joined[is.na(entries_joined$accepted_scientific_name), key]),
+    message(paste("Species",
+                  unique(entries_joined[is.na(entries_joined$accepted_scientific_name),
+                                        key]),
                   "not listed in database. It will be discarded."))
 
     #get rid of observations not in regional db
@@ -359,7 +381,7 @@ accepted_entries <- function(x, key = "name", db,
     dplyr::group_by(.data$name) %>%
     dplyr::filter(dplyr::n_distinct(.data$accepted_scientific_name) > 1)
 
-  #If a species name is associated with two separate species with separate accepted_scientific_names
+  #If a species name is associated withseparate species with separate accepted_scientific_names
   if( nrow(same_name_diff_accepted_scientific_name) > 0 ) {
 
     #one name is main name
@@ -374,12 +396,15 @@ accepted_entries <- function(x, key = "name", db,
 
     #message if one name is a main name
     for(i in unique(one_main$name)) {
-      message(i, " is an accepted scientific name and a synonym. It will default to accepted scientific name.")
+      message(paste(strwrap(paste(i, "is an accepted scientific name and a synonym. It
+      will default to accepted scientific name.")), collapse = " "))
     }
 
     #message if both are synonyms
     for(i in unique(both_syn$name)) {
-      message(i, " is a synonym to multiple species. It will be omitted. To include this species, use the accepted scientific name.")
+      message(paste(strwrap(paste(i,
+      "is a synonym to multiple species. It will be omitted. To include this
+      species, use the accepted scientific name.")), collapse = " "))
     }
 
     #if species are duplicated, keep only sci name
@@ -408,9 +433,13 @@ accepted_entries <- function(x, key = "name", db,
     for(i in 1:length(list)) {
       #send message
       if(!cover_weighted) {
-        message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species.")
+        message("Species ", shQuote(unique(list[[i]])),
+        " are synonyms and will be treated as one species.")
       } else {
-        message("Species ", shQuote(unique(list[[i]])), " are synonyms and will be treated as one species. If allow_duplicates = FALSE, cover values of synonyms will be added together.")
+        message("Species ", shQuote(unique(list[[i]])), " ",
+                paste(strwrap("are synonyms and will be treated as one species.
+                              If allow_duplicates = FALSE, cover values of synonyms
+                              will be added together."), collapse = " "))
       }
     }
 
@@ -432,7 +461,7 @@ accepted_entries <- function(x, key = "name", db,
     if ( !cover_weighted ){
       entries_joined <- entries_joined %>%
         dplyr::distinct() }
-    #if allow dups is false but cover weight is true, add cover values for like species together
+    #if allow dups is false but cover weight is true, add cover vals together
     else(entries_joined <- entries_joined %>%
            dplyr::group_by(.data$accepted_scientific_name) %>%
            dplyr::mutate(cover = sum(as.numeric(.data$cover))) %>%
@@ -449,7 +478,8 @@ accepted_entries <- function(x, key = "name", db,
         dplyr::distinct() %>%
         dplyr::ungroup() }
     else {entries_joined <- dplyr::distinct(entries_joined,
-                                            .data$accepted_scientific_name, !!as.name(plot_id),
+                                            .data$accepted_scientific_name,
+                                            !!as.name(plot_id),
                                             .keep_all = TRUE) }
   }
 
@@ -465,13 +495,12 @@ accepted_entries <- function(x, key = "name", db,
   if( any(is.na(entries_joined$c)) & !allow_no_c ) {
 
     #sent message to user
-    message(strwrap(paste("Species", entries_joined[is.na(entries_joined$c), key],
-                    "is recognized but has not been assigned a C Value. If using the
-                    shiny web application, this species will only be included in metrics
-                    that don't require a C Value. Otherwise, the option to include
-                    species with no C Value in certain metrics can be set using the
-                    'allow_no_c' argument."),
-                    prefix = " ", initial = ""))
+    message(paste(strwrap(paste("Species", entries_joined[is.na(entries_joined$c),key],
+                  "is recognized but has not been assigned a C Value. If using
+                   the shiny web application, this species will only be included
+                  in metrics that don't require a C Value. Otherwise, the
+                    option to include species with no C Value in certain metrics
+                    can be set using the 'allow_no_c' argument.")), collapse = " "))
 
     #get rid of no C value
     entries_joined <- entries_joined %>%
@@ -479,12 +508,18 @@ accepted_entries <- function(x, key = "name", db,
   }
 
   #If site assessment contains a plant that has no W value
-  if( wetland_warning & any(is.na(entries_joined$w)) & !all(is.na(entries_joined$w)) ) {
+  if(
+    wetland_warning &
+    any(is.na(entries_joined$w)) &
+    !all(is.na(entries_joined$w))
+    )
 
+    {
     #sent message to user
-    message(paste("Species", entries_joined[is.na(entries_joined$w), key],
-                  "does not have a wetness coefficient. It will be omitted from wetness metric calculations."))
-  }
+    message(paste(strwrap(paste("Species", entries_joined[is.na(entries_joined$w), key],
+                  "does not have a wetness coefficient. It will be omitted from
+                  wetness metric calculations.")), collapse = " "))
+    }
 
   #return accepted entries df
   return(as.data.frame(entries_joined))

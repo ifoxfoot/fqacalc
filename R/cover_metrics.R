@@ -201,11 +201,14 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     # % of Species with 0 C Value
     (sum(unique_entries$c < 1, na.rm = TRUE )/length(unique_entries$c))*100,
     # % of Species with 1-3 C Value
-    (sum(unique_entries$c >= 1 & unique_entries$c < 4, na.rm = TRUE)/length(unique_entries$c))*100,
+    (sum(unique_entries$c >= 1 & unique_entries$c < 4, na.rm = TRUE)/
+       length(unique_entries$c))*100,
     # % of Species with 4-6 C Value
-    (sum(unique_entries$c >= 4 & unique_entries$c < 7, na.rm = TRUE)/length(unique_entries$c))*100,
+    (sum(unique_entries$c >= 4 & unique_entries$c < 7, na.rm = TRUE)/
+       length(unique_entries$c))*100,
     # % of Species with 7-10 C Value
-    (sum(unique_entries$c >= 7 & unique_entries$c <= 10, na.rm = TRUE)/length(unique_entries$c))*100,
+    (sum(unique_entries$c >= 7 & unique_entries$c <= 10, na.rm = TRUE)/
+       length(unique_entries$c))*100,
     # Mean C
     mean(unique_entries$c, na.rm = TRUE),
     # Native Mean C
@@ -215,7 +218,8 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     #Cover-Weighted Native Mean C
     sum(entries_n$c * entries_n$mean)/sum(entries_n$mean),
     # Total FQI
-    mean(unique_entries$c, na.rm = TRUE) * sqrt(nrow(dplyr::filter(unique_entries, !is.na(c)))),
+    mean(unique_entries$c, na.rm = TRUE) * sqrt(nrow(dplyr::filter(unique_entries,
+                                                                   !is.na(c)))),
     # Native FQI
     mean(dplyr::filter(unique_entries, .data$nativity == "native")$c, na.rm = TRUE) *
       sqrt(nrow(dplyr::filter(unique_entries, !is.na(c), .data$nativity == "native"))),
@@ -226,7 +230,8 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     (sum(entries_n$c * entries_n$mean)/sum(entries_n$mean)) *
       sqrt(nrow(dplyr::filter(unique_entries, !is.na(c), .data$nativity == "native"))),
     # Adjusted FQI
-    100 * (mean(dplyr::filter(unique_entries, .data$nativity == "native")$c, na.rm = TRUE)/10)*
+    100 * (mean(dplyr::filter(unique_entries,
+                              .data$nativity == "native")$c, na.rm = TRUE)/10)*
       sqrt(
         nrow(dplyr::filter(unique_entries, .data$nativity == "native", !is.na(c)))/
           nrow(dplyr::filter(unique_entries,!is.na(c)))
@@ -236,10 +241,15 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
     # Native Mean Wetness
     mean(dplyr::filter(unique_entries, .data$nativity == "native")$w, na.rm = TRUE),
     #% hydrophytes
-    if(db %in% c("dakotas_excluding_black_hills_2017", "delaware_2013", "illinois_2020",
-                 "iowa_2001","louisiana_coastal_prairie_2006", "mid_atlantic_allegheny_plateau_glaciated_2012",
-                 "mid_atlantic_allegheny_plateau_nonglaciated_2012", "mid_atlantic_ridge_valley_2012",
-                 "minnesota_wetlands_2007", "pennsylvania_piedmont_2013")) {
+    if(db %in% c("dakotas_excluding_black_hills_2017",
+                 "delaware_2013",
+                 "illinois_2020",
+                 "iowa_2001","louisiana_coastal_prairie_2006",
+                 "mid_atlantic_allegheny_plateau_glaciated_2012",
+                 "mid_atlantic_allegheny_plateau_nonglaciated_2012",
+                 "mid_atlantic_ridge_valley_2012",
+                 "minnesota_wetlands_2007",
+                 "pennsylvania_piedmont_2013")) {
       (sum(entries$w < -1, na.rm = TRUE )/length(entries$w))*100
     } else {(sum(entries$w < 0, na.rm = TRUE )/length(entries$w))*100}
   )
@@ -319,7 +329,8 @@ plot_summary <- function(x, key = "name", db,
       species_richness = nrow(dplyr::pick(dplyr::everything())),
 
       #native species richness
-      native_species_richness = nrow(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")),
+      native_species_richness = nrow(dplyr::filter(dplyr::pick(dplyr::everything()),
+                                                   .data$nativity == "native")),
 
       #mean wetness
       mean_wetness = mean(dplyr::pick(dplyr::everything())$w, na.rm = TRUE),
@@ -328,7 +339,8 @@ plot_summary <- function(x, key = "name", db,
       mean_c = mean(dplyr::pick(dplyr::everything())$c, na.rm = TRUE),
 
       #native mean c
-      native_mean_c = mean(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")$c, na.rm = TRUE),
+      native_mean_c = mean(dplyr::filter(dplyr::pick(dplyr::everything()),
+                                         .data$nativity == "native")$c, na.rm = TRUE),
 
       #cover mean c
       cover_mean_c = sum(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c))$c *
@@ -339,8 +351,10 @@ plot_summary <- function(x, key = "name", db,
       FQI = mean_c * sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c)))),
 
       #native FQI
-      native_FQI = mean(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")$c, na.rm = TRUE) *
-        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c), .data$nativity == "native"))),
+      native_FQI = mean(dplyr::filter(dplyr::pick(dplyr::everything()),
+                                      .data$nativity == "native")$c, na.rm = TRUE) *
+        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c),
+                                .data$nativity == "native"))),
 
       #cover FQI
       cover_FQI = cover_mean_c *
@@ -348,18 +362,24 @@ plot_summary <- function(x, key = "name", db,
 
       #native cover FQI
       native_cover_FQI = (
-        sum(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c))$c *
-                               dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c))$cover)/
-         sum(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c))$cover)
+        sum(dplyr::filter(dplyr::pick(dplyr::everything()),
+                          .data$nativity == "native", !is.na(c))$c *
+                               dplyr::filter(dplyr::pick(dplyr::everything()),
+                                             .data$nativity == "native", !is.na(c))$cover)/
+         sum(dplyr::filter(dplyr::pick(dplyr::everything()),
+                           .data$nativity == "native", !is.na(c))$cover)
         ) *
-        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c), .data$nativity == "native"))),
+        sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c),
+                                .data$nativity == "native"))),
 
 
       #adjusted FQI
-      adjusted_FQI = 100 * (mean(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native")$c,
+      adjusted_FQI = 100 * (mean(dplyr::filter(dplyr::pick(dplyr::everything()),
+                                               .data$nativity == "native")$c,
                                  na.rm = TRUE)/10) *
         sqrt(
-          nrow(dplyr::filter(dplyr::pick(dplyr::everything()), .data$nativity == "native", !is.na(c)))/
+          nrow(dplyr::filter(dplyr::pick(dplyr::everything()),
+                             .data$nativity == "native", !is.na(c)))/
             nrow(dplyr::filter(dplyr::pick(dplyr::everything()),!is.na(c)))
         )
       )

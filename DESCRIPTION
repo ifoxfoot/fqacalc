@@ -1,32 +1,30 @@
 Package: fqacalc
 Title: Calculate Floristic Quality Assessment Metrics
 Version: 0.0.0.9000
-Authors@R: 
-    c(
-    person("Iris", "Foxfoot", 
-    email = "iris.r.foxfoot@usace.army.mil", 
-    role = c("aut", "cre")),
-    person("U.S. Army Engineer Research and Development Center", 
-    role = "cph")
-    )
-Description: A collection of functions for calculating Floristic Quality 
-    Assessment (FQA) metrics using regional FQA databases that have been approved
-    or approved with reservations as ecological planning models by the U.S. Army 
-    Corps of Engineers (USACE). These databases are stored in a sister R package, 
-    'fqadata'. Both packages were developed for the USACE by the U.S. Army Engineer 
-    Research and Development Center’s Environmental Laboratory.
+Authors@R: c(
+    person("Iris", "Foxfoot", , "iris.r.foxfoot@usace.army.mil", role = c("aut", "cre")),
+    person("U.S. Army Engineer Research and Development Center", role = c("cph", "fnd"))
+  )
+Description: A collection of functions for calculating Floristic Quality
+    Assessment (FQA) metrics using regional FQA databases that have been
+    approved or approved with reservations as ecological planning models
+    by the U.S. Army Corps of Engineers (USACE). For information on FQA
+    see Spyreas (2019) <doi:10.1002/ecs2.2825>. These databases are stored
+    in a sister R package, 'fqadata'. Both packages were developed for the
+    USACE by the U.S. Army Engineer Research and Development Center’s
+    Environmental Laboratory.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)
-LazyData: true
 Imports: 
-    magrittr,
     dplyr,
-    rlang,
-    fqadata
+    fqadata,
+    magrittr,
+    rlang
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

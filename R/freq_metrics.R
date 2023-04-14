@@ -231,7 +231,8 @@ relative_importance <- function(x, key = "name", db,
 
   #get mean of relative freq and relative cover
   avg <- merge(relative_freq,relative_cov) %>%
-    dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2) %>%
+    dplyr::mutate(relative_importance = (.data$relative_frequency +
+                                           .data$relative_cover)/2) %>%
     dplyr::select(!!as.name(col_name), relative_importance)
 
   #return value
@@ -318,7 +319,8 @@ species_summary <- function(x, key = "name", db,
   df <- merge(c_score, group) %>%
     merge(relative_freq) %>%
     merge(relative_cov) %>%
-    dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2)
+    dplyr::mutate(relative_importance = (.data$relative_frequency +
+                                           .data$relative_cover)/2)
 
 
   return(df)
@@ -386,7 +388,8 @@ physiog_summary <- function(x, key = "name", db,
 
   #relative frequency
   relative_freq <-
-    as.data.frame(dplyr::count(entries, .data$physiognomy, name = "relative_frequency")) %>%
+    as.data.frame(dplyr::count(entries, .data$physiognomy,
+                               name = "relative_frequency")) %>%
     dplyr::mutate(relative_frequency = 100*relative_frequency/nrow(entries))
 
 
@@ -403,7 +406,8 @@ physiog_summary <- function(x, key = "name", db,
   #merge together
   df <- merge(group, relative_freq) %>%
     merge(relative_cov) %>%
-    dplyr::mutate(relative_importance = (.data$relative_frequency + .data$relative_cover)/2)
+    dplyr::mutate(relative_importance = (.data$relative_frequency +
+                                           .data$relative_cover)/2)
 
 
   return(df)
