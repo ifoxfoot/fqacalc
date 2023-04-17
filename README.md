@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)
 <!-- badges: end -->
 
 ## A Floristic Quality Assessment Calculator for R
@@ -64,7 +64,7 @@ view one of the regional databases.
 ``` r
 #view a list of all available databases
 head(db_names())
-#>                                     fqa_db         recommendation         notes
+#>                                     fqa_db            recommended         notes
 #> 1       atlantic_coastal_pine_barrens_2018 Yes, with reservations          <NA>
 #> 2                      chicago_region_2017                    YES          <NA>
 #> 3                            colorado_2020                    YES          <NA>
@@ -546,19 +546,19 @@ a plot-level metric.
 
 To calculate `cover_mean_c` and `cover_FQI` at the transect-level, set
 `allow_duplicate = TRUE`, because different plots along the transect may
-contain the same species. It is also recommended to include a plot ID
-column and set the `plot_id` argument to be equal to that column name.
-This will allow duplicate species between plots but not allow
+contain the same species. It is also highly recommended to include a
+plot ID column and set the `plot_id` argument to be equal to that column
+name. This will allow duplicate species between plots but not allow
 duplication within plots.
 
 To calculate `cover_mean_c` and `cover_FQI` at the plot-level, set
 `allow_duplicate = FALSE`. There is no need to set the `plot_id`
-argument because duplicate species will not be allowed in any
+argument because duplicate species will not be allowed under any
 circumstance.
 
 If duplicated species are found where they are not supposed to be, the
 duplicated entries will only be counted once and their cover values will
-be added together. The user will also recieve a message stating
+be added together. The user will also receive a message stating
 duplicates have been removed.
 
 #### Function Arguments
@@ -582,10 +582,10 @@ Cover-Weighted Functions have a few additional arguments:
 - **plot_id**: A character string representing the column in `x` that
   contains plot identification values. `plot_id` is a required argument
   in `plot_summary`, where it acts as a grouping variable. `plot_id` is
-  optional for cover-weighted functions and frequency functions. If
-  `plot_id` is set in a cover-weighted function or a frequency function,
-  it only prevents duplicates from occurring in the same plot. It does
-  not act as a grouping variable.
+  optional but recommended for cover-weighted functions and frequency
+  functions. If `plot_id` is set in a cover-weighted function or a
+  frequency function, it only prevents duplicates from occurring in the
+  same plot. It does not act as a grouping variable.
 
 #### Functions
 

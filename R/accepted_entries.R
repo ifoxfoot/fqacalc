@@ -15,7 +15,7 @@
 #' @param x A data frame containing a list of plant species. This data frame
 #' must have one of the following columns: `name` or `acronym`. For cover-weighted or
 #' relative functions, this data frame must also have a column called `cover` containing
-#' cover values and optionally a column containing plot IDs.
+#' cover values and ideally a column containing plot IDs.
 #' @param key A character string representing the column that will be used to join
 #' the input data frame `x` with the regional FQA database. If a value is not specified, the
 #' default is `"name"`. `"name"` and `"acronym"` are the only acceptable
@@ -46,10 +46,10 @@
 #' ground and un-vegetated water.
 #' @param plot_id A character string representing the column in `x` that contains plot
 #' identification values. `plot_id` is a required argument in `plot_summary`, where it acts
-#' as a grouping variable. `plot_id` is optional for cover-weighted functions and relative
-#' functions. If `plot_id` is set in a cover-weighted function or a relative function,
-#' it only prevents duplicates from occurring in the same plot. It does not act as a
-#' grouping variable.
+#' as a grouping variable. `plot_id` is optional but highly recommended for
+#' cover-weighted functions and relative functions. If `plot_id` is set in a
+#' cover-weighted function or a relative function, it only prevents duplicates
+#' from occurring in the same plot. It does not act as a grouping variable.
 #'
 #' @return A data frame containing the `key` column--either `acronym` or
 #' `name`--as well as columns from the relevant FQA database.

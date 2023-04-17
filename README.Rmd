@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 # fqacalc <img src="man/figures/fqacalc.png" align="right" height="138">
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ifoxfoot/fqacalc/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)
 <!-- badges: end -->
 
 ## A Floristic Quality Assessment Calculator for R
 
-This package provides functions for calculating Floristic Quality Assessment (FQA) metrics using regional FQA databases that have been approved or approved with reservations as ecological planning models by the U.S. Army Corps of Engineers (USACE). These databases are stored in a sister R package, [fqadata](https://github.com/ifoxfoot/fqadata). Both packages were developed for the USACE by the U.S. Army Engineer Research and Development Center’s Environmental Laboratory.
+This package provides functions for calculating Floristic Quality Assessment (FQA) metrics using regional FQA databases that have been approved or approved with reservations as ecological planning models by the U.S. Army Corps of Engineers (USACE). These databases are stored in a sister R package, [fqadata](https://github.com/ifoxfoot/fqadata). Both packages were developed for the USACE by the U.S. Army Engineer Research and Development Center's Environmental Laboratory.
 
 To complete this tutorial interactively, follow along in R studio.
 
@@ -307,11 +307,11 @@ The following tables describe how cover classes are converted to percent cover. 
 
 Cover-Weighted functions come in two flavors: Transect-level and plot-level. Transect-level metrics are those that calculate a metric for an entire transect, which typically includes multiple plots. `transect_summary` and `plot_summary` are both always calculated at the transect-level. Plot-level metrics calculate a metric for a single plot. `cover_mean_c` and `cover_FQI` can be transect-level or plot-level. It is up to the user to decide if they are calculating a transect-level or a plot-level metric.
 
-To calculate `cover_mean_c` and `cover_FQI` at the transect-level, set `allow_duplicate = TRUE`, because different plots along the transect may contain the same species. It is also recommended to include a plot ID column and set the `plot_id` argument to be equal to that column name. This will allow duplicate species between plots but not allow duplication within plots.
+To calculate `cover_mean_c` and `cover_FQI` at the transect-level, set `allow_duplicate = TRUE`, because different plots along the transect may contain the same species. It is also highly recommended to include a plot ID column and set the `plot_id` argument to be equal to that column name. This will allow duplicate species between plots but not allow duplication within plots.
 
-To calculate `cover_mean_c` and `cover_FQI` at the plot-level, set `allow_duplicate = FALSE`. There is no need to set the `plot_id` argument because duplicate species will not be allowed in any circumstance. 
+To calculate `cover_mean_c` and `cover_FQI` at the plot-level, set `allow_duplicate = FALSE`. There is no need to set the `plot_id` argument because duplicate species will not be allowed under any circumstance. 
 
-If duplicated species are found where they are not supposed to be, the duplicated entries will only be counted once and their cover values will be added together. The user will also recieve a message stating duplicates have been removed.
+If duplicated species are found where they are not supposed to be, the duplicated entries will only be counted once and their cover values will be added together. The user will also receive a message stating duplicates have been removed.
 
 #### Function Arguments
 
@@ -321,7 +321,7 @@ Cover-Weighted Functions have a few additional arguments:
 
 * **allow_duplicates**: Boolean (TRUE or FALSE). If TRUE, allow duplicate entries of the same species. If FALSE, do not allow species duplication. See cover-weighted function description. Setting `allow_duplicates` to TRUE is best for calculating metrics for multiple plots which potentially contain the same species. Setting `allow_duplicates` to FALSE is best for calculating metrics for a single plot, where each species is entered once along with its total cover value.
 
-* **plot_id**: A character string representing the column in `x` that contains plot identification values. `plot_id` is a required argument in `plot_summary`, where it acts as a grouping variable. `plot_id` is optional for cover-weighted functions and frequency functions. If `plot_id` is set in a cover-weighted function or a frequency function, it only prevents duplicates from occurring in the same plot. It does not act as a grouping variable.
+* **plot_id**: A character string representing the column in `x` that contains plot identification values. `plot_id` is a required argument in `plot_summary`, where it acts as a grouping variable. `plot_id` is optional but recommended for cover-weighted functions and frequency functions. If `plot_id` is set in a cover-weighted function or a frequency function, it only prevents duplicates from occurring in the same plot. It does not act as a grouping variable.
 
 #### Functions
 
