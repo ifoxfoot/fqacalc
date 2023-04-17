@@ -154,14 +154,15 @@ accepted_entries <- function(x, key = "name", db,
     message(paste(strwrap(
     "The Wyoming FQA database is associated with multiple wetland indicator
     status regions. This package defaults to the Arid West wetland indicator
-    region when calculating Wyoming metrics."), collapse = " "))
+    region when calculating Wyoming metrics."),
+    collapse = " "))
 
   if (wetland_warning & db == "colorado_2020")
     message(paste(strwrap(
-    "The Colorado FQA database is associated with multiple wetland indicator
+      "The Colorado FQA database is associated with multiple wetland indicator
       status regions. This package defaults to the Western Mountains, Valleys,
       and Coasts indicator region when calculating Colorado metrics."),
-    collapse = " "))
+      collapse = " "))
 
   #native must be TRUE or FALSE
   if( !is.logical(native) )
@@ -194,8 +195,8 @@ accepted_entries <- function(x, key = "name", db,
 
   #cover metric must be defined
   if( !cover_class %in% c("percent_cover", "carolina_veg_survey",
-                           "braun-blanquet","daubenmire",
-                           "usfs_ecodata"))
+                          "braun-blanquet","daubenmire",
+                          "usfs_ecodata"))
     stop(paste(cover_class,
                "is not an accepted cover-method. See function documentation."))
 
@@ -282,9 +283,9 @@ accepted_entries <- function(x, key = "name", db,
                     cover_class, "system. Are you using the right cover class?"))
     }
     else if( any(is.na(cols$cover)) ) {
-    message(paste("NAs were introduced during the conversion to the",
-                  cover_class,
-                  "system. Species with NA cover values will be removed."))
+      message(paste("NAs were introduced during the conversion to the",
+                    cover_class,
+                    "system. Species with NA cover values will be removed."))
     }
     #remove NAs from cover col
     cols <- cols %>%
@@ -304,9 +305,10 @@ accepted_entries <- function(x, key = "name", db,
   }
 
   #message if there are duplicates in same plot
-  if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(cols, {{key}}, {{plot_id}}))) )
+  if( !is.null(plot_id) && allow_duplicates && any(duplicated(dplyr::select(
+    cols, {{key}}, {{plot_id}}))) )
     message(paste(strwrap(
-    "Duplicate entries detected in the same plot. Duplicates in the same plot
+      "Duplicate entries detected in the same plot. Duplicates in the same plot
     will be counted once. Cover values of duplicate species will be added
     together."), collapse = " "))
 
@@ -381,7 +383,7 @@ accepted_entries <- function(x, key = "name", db,
     dplyr::group_by(.data$name) %>%
     dplyr::filter(dplyr::n_distinct(.data$accepted_scientific_name) > 1)
 
-  #If a species name is associated withseparate species with separate accepted_scientific_names
+  #If a species name is associated with separate accepted_scientific_names
   if( nrow(same_name_diff_accepted_scientific_name) > 0 ) {
 
     #one name is main name
@@ -403,7 +405,7 @@ accepted_entries <- function(x, key = "name", db,
     #message if both are synonyms
     for(i in unique(both_syn$name)) {
       message(paste(strwrap(paste(i,
-      "is a synonym to multiple species. It will be omitted. To include this
+                                  "is a synonym to multiple species. It will be omitted. To include this
       species, use the accepted scientific name.")), collapse = " "))
     }
 
@@ -433,10 +435,10 @@ accepted_entries <- function(x, key = "name", db,
     for(i in 1:length(list)) {
       #send message
       if(!cover_weighted) {
-        message("Species ", shQuote(unique(list[[i]])),
-        " are synonyms and will be treated as one species.")
+        message("Species ", paste(unique(list[[i]]), collapse=", "),
+                " are synonyms and will be treated as one species.")
       } else {
-        message("Species ", shQuote(unique(list[[i]])), " ",
+        message("Species ", paste(unique(list[[i]]), collapse = ", "), " ",
                 paste(strwrap("are synonyms and will be treated as one species.
                               If allow_duplicates = FALSE, cover values of synonyms
                               will be added together."), collapse = " "))
@@ -496,7 +498,7 @@ accepted_entries <- function(x, key = "name", db,
 
     #sent message to user
     message(paste(strwrap(paste("Species", entries_joined[is.na(entries_joined$c),key],
-                  "is recognized but has not been assigned a C Value. If using
+                                "is recognized but has not been assigned a C Value. If using
                    the shiny web application, this species will only be included
                   in metrics that don't require a C Value. Otherwise, the
                     option to include species with no C Value in certain metrics
@@ -512,14 +514,14 @@ accepted_entries <- function(x, key = "name", db,
     wetland_warning &
     any(is.na(entries_joined$w)) &
     !all(is.na(entries_joined$w))
-    )
+  )
 
-    {
+  {
     #sent message to user
     message(paste(strwrap(paste("Species", entries_joined[is.na(entries_joined$w), key],
-                  "does not have a wetness coefficient. It will be omitted from
+                                "does not have a wetness coefficient. It will be omitted from
                   wetness metric calculations.")), collapse = " "))
-    }
+  }
 
   #return accepted entries df
   return(as.data.frame(entries_joined))

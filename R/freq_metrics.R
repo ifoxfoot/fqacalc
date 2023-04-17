@@ -38,10 +38,10 @@
 #' col = "physiog", plot_id = "plot_id")
 
 relative_frequency <- function(x, key = "name", db,
-                          col = c("species", "family", "physiog"),
-                          allow_no_c = TRUE,
-                          allow_non_veg = TRUE,
-                          plot_id = NULL) {
+                               col = c("species", "family", "physiog"),
+                               allow_no_c = TRUE,
+                               allow_non_veg = TRUE,
+                               plot_id = NULL) {
 
   #declaring relative_frequency as null so I can use as a variable name
   relative_frequency <- NULL
@@ -371,13 +371,13 @@ physiog_summary <- function(x, key = "name", db,
 
   #get accepted entries
   entries <- accepted_entries(x, key, db, native = FALSE,
-                               cover_weighted = TRUE,
-                               cover_class,
-                               allow_duplicates = TRUE,
-                               allow_no_c,
-                               allow_non_veg,
-                               plot_id,
-                               wetland_warning = FALSE)
+                              cover_weighted = TRUE,
+                              cover_class,
+                              allow_duplicates = TRUE,
+                              allow_no_c,
+                              allow_non_veg,
+                              plot_id,
+                              wetland_warning = FALSE)
 
   #getting freq and coverage
   group <- entries %>%

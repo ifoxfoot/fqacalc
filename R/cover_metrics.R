@@ -187,7 +187,7 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
                "Mean Wetness",
                "Native Mean Wetness",
                "% Hydrophytes"
-               )
+  )
 
   values <- c(
     # Total Species Richness
@@ -364,11 +364,11 @@ plot_summary <- function(x, key = "name", db,
       native_cover_FQI = (
         sum(dplyr::filter(dplyr::pick(dplyr::everything()),
                           .data$nativity == "native", !is.na(c))$c *
-                               dplyr::filter(dplyr::pick(dplyr::everything()),
-                                             .data$nativity == "native", !is.na(c))$cover)/
-         sum(dplyr::filter(dplyr::pick(dplyr::everything()),
-                           .data$nativity == "native", !is.na(c))$cover)
-        ) *
+              dplyr::filter(dplyr::pick(dplyr::everything()),
+                            .data$nativity == "native", !is.na(c))$cover)/
+          sum(dplyr::filter(dplyr::pick(dplyr::everything()),
+                            .data$nativity == "native", !is.na(c))$cover)
+      ) *
         sqrt(nrow(dplyr::filter(dplyr::pick(dplyr::everything()), !is.na(c),
                                 .data$nativity == "native"))),
 
@@ -382,7 +382,7 @@ plot_summary <- function(x, key = "name", db,
                              .data$nativity == "native", !is.na(c)))/
             nrow(dplyr::filter(dplyr::pick(dplyr::everything()),!is.na(c)))
         )
-      )
+    )
 
   df <- as.data.frame(dplyr::left_join(plot_sum, ground, by = plot_id)) %>%
     dplyr::left_join(water, by = plot_id)
