@@ -42,7 +42,6 @@ devtools::install_github("ifoxfoot/fqacalc")
 ```{r}
 #attach packages required for this tutorial
 library(fqacalc) #for FQA calculations
-library(stringr) #for string manipulation
 library(dplyr) #for data manipulation
 ```
 
@@ -52,7 +51,7 @@ library(dplyr) #for data manipulation
 
 ```{r}
 #view a list of all available databases
-head(db_names())
+head(db_names()$fqa_db)
 
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
@@ -113,12 +112,12 @@ kableExtra::kable(data)
 ```{r}
 #introduce a typo
 mistake_island <- crooked_island %>% 
-  mutate(name = str_replace(name, "Abies balsamea", "Abies blahblah"))
+  mutate(name = sub("Abies balsamea", "Abies blahblah", name))
 
 #store accepted entries
 accepted_entries <- accepted_entries(#this is the data
                                      mistake_island, 
-                                     #'key' to join the data to regional database
+                                     #'key' to join data to regional database
                                      key = "name", 
                                      #this is the regional database
                                      db = "michigan_2014", 
@@ -161,14 +160,17 @@ If there are duplicates, and the user is attempting to perform a cover-weighted 
 ```{r}
 #write a dataframe with duplicates
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
-                                    "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                                    "AMMBRE", "ANTELE", "ABEESC", 
+                                    "ABIBAL", "AMMBRE"),
                       cover = c(50, 4, 20, 30, 30, 40, 7, 60),
                       plot_id = c(1, 1, 1, 1, 2, 2, 2, 2))
 
 #set allow_duplicates to FALSE
-cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, allow_duplicates = FALSE)
+cover_FQI(transect, key = "acronym", db = "michigan_2014", 
+          native = FALSE, allow_duplicates = FALSE)
 
-#set allow_duplicates to TRUE, but set plot_id so duplicates will not be allowed within the same plot
+#set allow_duplicates to TRUE
+#but set plot_id so duplicates will not be allowed within the same plot
 cover_FQI(transect, key = "acronym", db = "michigan_2014", 
           native = FALSE, allow_duplicates = FALSE, plot_id = "plot_id")
 
@@ -187,7 +189,7 @@ Some regional FQA databases include accepted scientific names as well as commonl
 In all of these cases, `fqacalc` functions will print messages to warn the user about synonym issues. See this example:
 
 ```{r}
-#df where some entries are listed as accepted name, and synonym of another species
+#df where some entries are listed as accepted name and synonym of other species
 synonyms <- data.frame(name = c("CAREX FOENEA", "ABIES BIFOLIA"),
                        cover = c(60, 10))
 
@@ -245,7 +247,7 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014", allow_no_c = 
 All of the functions are documented with help pages.
 
 ```{r}
-#if in R studio, running this line of code should bring up a help page in bottom right pane
+#In R studio, this line of code will bring up documentation in bottom right pane
 ?all_metrics
 ```
 
@@ -335,7 +337,8 @@ plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 
 #now make up a transect
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
-                                    "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                                    "AMMBRE", "ANTELE", "ABEESC", 
+                                    "ABIBAL", "AMMBRE"),
                        cover = c(50, 4, 20, 30, 30, 40, 7, 60),
                        plot_id = c(1, 1, 1, 1, 2, 2, 2, 2))
 
@@ -344,12 +347,13 @@ cover_mean_c(plot, key = "acronym", db = "michigan_2014",
              native = FALSE, cover_class = "percent_cover", 
              allow_duplicates = FALSE)
 
-#transect cover mean c (duplicates allowed along a transect, unless in the same plot)
+#transect cover mean c (duplicates allowed, unless in the same plot)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
              native = FALSE, cover_class = "percent_cover",
              allow_duplicates = TRUE, plot_id = "plot_id")
 
-#cover-weighted FQI (again, you can choose to allow duplicates or not depending on if species are in a plot or transect)
+#cover-weighted FQI 
+#you can choose to allow duplicates depending on if species are in a single plot
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
           cover_class = "percent_cover",
           allow_duplicates = TRUE)
@@ -368,13 +372,14 @@ If `allow_non_veg` is true, the user can include "UNVEGETATED GROUND" or "UNVEGE
 
 ```{r}
 #print transect to view structure of data
-transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+transect_unveg <- data.frame(acronym = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
                                           "ANTELE", "WATER", "GROUND", "ABEESC", 
                                           "ABIBAL", "AMMBRE"),
                              cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
                              quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
-#plot summary of a transect (duplicates are allowed, unless they are in the same plot)
+#plot summary of a transect 
+#duplicates are allowed, unless they are in the same plot
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
              cover_class = "percent_cover", 
              plot_id = "quad_id")

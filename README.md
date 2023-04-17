@@ -38,7 +38,6 @@ devtools::install_github("ifoxfoot/fqacalc")
 ``` r
 #attach packages required for this tutorial
 library(fqacalc) #for FQA calculations
-library(stringr) #for string manipulation
 library(dplyr) #for data manipulation
 #> 
 #> Attaching package: 'dplyr'
@@ -63,21 +62,13 @@ view one of the regional databases.
 
 ``` r
 #view a list of all available databases
-head(db_names())
-#>                                     fqa_db            recommended         notes
-#> 1       atlantic_coastal_pine_barrens_2018 Yes, with reservations          <NA>
-#> 2                      chicago_region_2017                    YES          <NA>
-#> 3                            colorado_2020                    YES          <NA>
-#> 4       dakotas_excluding_black_hills_2017   Previously Certified          <NA>
-#> 5                            delaware_2013 Yes, with reservations          <NA>
-#> 6 eastern_great_lakes_hudson_lowlands_2018                    YES Wetlands Only
-#>                                                                                                                                                                                                                                                                                 citation
-#> 1                                    Faber-Langendoen, D., Cameron, D., Gilman, A. V., Metzler, K. J., Ring, R. M., & Sneddon, L. (2019). Development of an Ecoregional Floristic Quality Assessment Method for the Northeastern United States. Northeastern Naturalist, 26(3), 593-608.
-#> 2                                                                                                                              Herman, B., Sliwinski, R. and S. Whitaker. 2017. Chicago Region FQA (Floristic Quality Assessment) Calculator. U.S. Army Corps of Engineers, Chicago, IL.
-#> 3                                                                                           Smith, P., G. Doyle, and J. Lemly. 2020. Revision of Colorado’s Floristic Quality Assessment\nIndices. Colorado Natural Heritage Program, Colorado State University, Fort Collins, Colorado.
-#> 4 The Northern Great Plains Floristic Quality Assessment Panel. 2001. Coefficients of conservatism for the vascular flora of the Dakotas and adjacent grasslands. U.S. Geological Survey, Biological Resources Division, Information and Technology Report USGS/BRD/ITR-2001-0001, 32 p.
-#> 5                                                                  Chamberlain, S. J., & Ingram, H. M. (2012). Developing coefficients of conservatism to advance floristic quality assessment in the Mid-Atlantic region. The Journal of the Torrey Botanical Society, 139(4), 416-427.
-#> 6                                    Faber-Langendoen, D., Cameron, D., Gilman, A. V., Metzler, K. J., Ring, R. M., & Sneddon, L. (2019). Development of an Ecoregional Floristic Quality Assessment Method for the Northeastern United States. Northeastern Naturalist, 26(3), 593-608.
+head(db_names()$fqa_db)
+#> [1] "atlantic_coastal_pine_barrens_2018"      
+#> [2] "chicago_region_2017"                     
+#> [3] "colorado_2020"                           
+#> [4] "dakotas_excluding_black_hills_2017"      
+#> [5] "delaware_2013"                           
+#> [6] "eastern_great_lakes_hudson_lowlands_2018"
 
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
@@ -251,12 +242,12 @@ we can add a mistake to the `crooked_island` data set.
 ``` r
 #introduce a typo
 mistake_island <- crooked_island %>% 
-  mutate(name = str_replace(name, "Abies balsamea", "Abies blahblah"))
+  mutate(name = sub("Abies balsamea", "Abies blahblah", name))
 
 #store accepted entries
 accepted_entries <- accepted_entries(#this is the data
                                      mistake_island, 
-                                     #'key' to join the data to regional database
+                                     #'key' to join data to regional database
                                      key = "name", 
                                      #this is the regional database
                                      db = "michigan_2014", 
@@ -336,16 +327,19 @@ example.
 ``` r
 #write a dataframe with duplicates
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
-                                    "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                                    "AMMBRE", "ANTELE", "ABEESC", 
+                                    "ABIBAL", "AMMBRE"),
                       cover = c(50, 4, 20, 30, 30, 40, 7, 60),
                       plot_id = c(1, 1, 1, 1, 2, 2, 2, 2))
 
 #set allow_duplicates to FALSE
-cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, allow_duplicates = FALSE)
+cover_FQI(transect, key = "acronym", db = "michigan_2014", 
+          native = FALSE, allow_duplicates = FALSE)
 #> Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.
 #> [1] 11.89212
 
-#set allow_duplicates to TRUE, but set plot_id so duplicates will not be allowed within the same plot
+#set allow_duplicates to TRUE
+#but set plot_id so duplicates will not be allowed within the same plot
 cover_FQI(transect, key = "acronym", db = "michigan_2014", 
           native = FALSE, allow_duplicates = FALSE, plot_id = "plot_id")
 #> Duplicate entries detected. Duplicates will only be counted once. Cover values of duplicate species will be added together.
@@ -376,7 +370,7 @@ In all of these cases, `fqacalc` functions will print messages to warn
 the user about synonym issues. See this example:
 
 ``` r
-#df where some entries are listed as accepted name, and synonym of another species
+#df where some entries are listed as accepted name and synonym of other species
 synonyms <- data.frame(name = c("CAREX FOENEA", "ABIES BIFOLIA"),
                        cover = c(60, 10))
 
@@ -472,7 +466,7 @@ all_metrics(crooked_island, key = "acronym", db = "michigan_2014", allow_no_c = 
 All of the functions are documented with help pages.
 
 ``` r
-#if in R studio, running this line of code should bring up a help page in bottom right pane
+#In R studio, this line of code will bring up documentation in bottom right pane
 ?all_metrics
 ```
 
@@ -599,7 +593,8 @@ plot <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),
 
 #now make up a transect
 transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", 
-                                    "AMMBRE", "ANTELE", "ABEESC", "ABIBAL", "AMMBRE"),
+                                    "AMMBRE", "ANTELE", "ABEESC", 
+                                    "ABIBAL", "AMMBRE"),
                        cover = c(50, 4, 20, 30, 30, 40, 7, 60),
                        plot_id = c(1, 1, 1, 1, 2, 2, 2, 2))
 
@@ -609,14 +604,15 @@ cover_mean_c(plot, key = "acronym", db = "michigan_2014",
              allow_duplicates = FALSE)
 #> [1] 4.923077
 
-#transect cover mean c (duplicates allowed along a transect, unless in the same plot)
+#transect cover mean c (duplicates allowed, unless in the same plot)
 cover_mean_c(transect, key = "acronym", db = "michigan_2014", 
              native = FALSE, cover_class = "percent_cover",
              allow_duplicates = TRUE, plot_id = "plot_id")
 #> Duplicate entries detected in the same plot. Duplicates in the same plot will be counted once. Cover values of duplicate species will be added together.
 #> [1] 6.394834
 
-#cover-weighted FQI (again, you can choose to allow duplicates or not depending on if species are in a plot or transect)
+#cover-weighted FQI 
+#you can choose to allow duplicates depending on if species are in a single plot
 cover_FQI(transect, key = "acronym", db = "michigan_2014", native = FALSE, 
           cover_class = "percent_cover",
           allow_duplicates = TRUE)
@@ -666,13 +662,14 @@ If `allow_non_veg` is true, the user can include “UNVEGETATED GROUND” or
 
 ``` r
 #print transect to view structure of data
-transect_unveg <- data.frame(acronym  = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
+transect_unveg <- data.frame(acronym = c("GROUND", "ABEESC", "ABIBAL", "AMMBRE",
                                           "ANTELE", "WATER", "GROUND", "ABEESC", 
                                           "ABIBAL", "AMMBRE"),
                              cover = c(60, 50, 4, 20, 30, 20, 20, 40, 7, 60),
                              quad_id = c(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))
 
-#plot summary of a transect (duplicates are allowed, unless they are in the same plot)
+#plot summary of a transect 
+#duplicates are allowed, unless they are in the same plot
 plot_summary(x = transect_unveg, key = "acronym", db = "michigan_2014", 
              cover_class = "percent_cover", 
              plot_id = "quad_id")
