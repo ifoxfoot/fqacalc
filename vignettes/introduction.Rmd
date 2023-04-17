@@ -34,6 +34,8 @@ library(dplyr) #for data manipulation
 #view a list of all available databases
 head(db_names()$fqa_db)
 
+#NOTE citations for lists can be viewed using db_names()$citation
+
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
 

@@ -70,6 +70,8 @@ head(db_names()$fqa_db)
 #> [5] "delaware_2013"                           
 #> [6] "eastern_great_lakes_hudson_lowlands_2018"
 
+#NOTE citations for lists can be viewed using db_names()$citation
+
 #store the Colorado database as an object
 colorado <- view_db("colorado_2020")
 
