@@ -18,7 +18,7 @@ species_summary(
 \item{x}{A data frame containing a list of plant species. This data frame
 must have one of the following columns: \code{name} or \code{acronym}. For cover-weighted or
 relative functions, this data frame must also have a column called \code{cover} containing
-cover values and optionally a column containing plot IDs.}
+cover values and ideally a column containing plot IDs.}
 
 \item{key}{A character string representing the column that will be used to join
 the input data frame \code{x} with the regional FQA database. If a value is not specified, the
@@ -42,10 +42,10 @@ ground and un-vegetated water.}
 
 \item{plot_id}{A character string representing the column in \code{x} that contains plot
 identification values. \code{plot_id} is a required argument in \code{plot_summary}, where it acts
-as a grouping variable. \code{plot_id} is optional for cover-weighted functions and relative
-functions. If \code{plot_id} is set in a cover-weighted function or a relative function,
-it only prevents duplicates from occurring in the same plot. It does not act as a
-grouping variable.}
+as a grouping variable. \code{plot_id} is optional but highly recommended for
+cover-weighted functions and relative functions. If \code{plot_id} is set in a
+cover-weighted function or a relative function, it only prevents duplicates
+from occurring in the same plot. It does not act as a grouping variable.}
 }
 \value{
 A data frame where each row is a species and each column is information

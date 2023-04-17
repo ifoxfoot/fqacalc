@@ -10,7 +10,7 @@ mean_w(x, key = "name", db, native = FALSE, allow_no_c = TRUE)
 \item{x}{A data frame containing a list of plant species. This data frame
 must have one of the following columns: \code{name} or \code{acronym}. For cover-weighted or
 relative functions, this data frame must also have a column called \code{cover} containing
-cover values and optionally a column containing plot IDs.}
+cover values and ideally a column containing plot IDs.}
 
 \item{key}{A character string representing the column that will be used to join
 the input data frame \code{x} with the regional FQA database. If a value is not specified, the
