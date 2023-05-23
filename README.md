@@ -485,6 +485,12 @@ cover. Internally, cover-weighted functions convert cover classes to the
 percent cover midpoint. For this reason, using percent cover is
 recommended over using cover classes.
 
+#### Braun-Blanquet
+
+Braun-Blanquet, Josias. “Plant sociology. The study of plant
+communities.” Plant sociology. The study of plant communities. First
+ed. (1932).
+
 | Braun-Blanquet Classes | % Cover Range | Midpoint |
 |------------------------|---------------|----------|
 | \+                     | \<1%          | 0.1      |
@@ -493,6 +499,12 @@ recommended over using cover classes.
 | 3                      | 25-50%        | 37.5     |
 | 4                      | 50-75%        | 62.5     |
 | 4                      | 75-100%       | 87.5     |
+
+#### Carolina Veg Survey
+
+Lee, Michael T., Robert K. Peet, Steven D. Roberts, and Thomas R.
+Wentworth. “CVS-EEP protocol for recording vegetation.” Carolina
+Vegetation Survey. Retrieved August 17 (2006): 2008.
 
 | Carolina Veg Survey Classes | % Cover Range | Midpoint |
 |-----------------------------|---------------|----------|
@@ -507,6 +519,11 @@ recommended over using cover classes.
 | 9                           | 75-95%        | 85       |
 | 10                          | 95-100%       | 97.5     |
 
+### Daubenmire Classes
+
+R. F. Daubenmire. “A canopy-cover method of vegetational analysis”.
+Northwest Science 33:43–46. (1959)
+
 | Daubenmire Classes | % Cover Range | Midpoint |
 |--------------------|---------------|----------|
 | 1                  | 0-5%          | 2.5      |
@@ -515,6 +532,12 @@ recommended over using cover classes.
 | 4                  | 50-75%        | 62.5     |
 | 5                  | 75-95%        | 85       |
 | 6                  | 95-100%       | 97.5     |
+
+### USFS Ecodata Classes
+
+Barber, Jim, and Dave Vanderzanden. “The Region 1 existing vegetation
+map products (VMap) release 9.1.” USDA Forest Service, Region 1 (2009):
+200.
 
 | USFS Ecodata Classes | % Cover Range | Midpoint |
 |----------------------|---------------|----------|
