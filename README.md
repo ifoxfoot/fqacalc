@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/fqacalc)](https://cran.r-project.org/package=fqacalc)
 <!-- badges: end -->
 
 ## A Floristic Quality Assessment Calculator for R
