@@ -11,6 +11,9 @@
     -   southeastern_piedmont_2014 -\> southeastern_piedmont_2013
     -   southeastern_southern_coastal_plain_2014 -\> southern_coastal_plain_2013
 
+## Misc Changes
+
+Changed aggregate functions (`all_metrics`, `transect_summary`) to be produce a % hydrophyte score of NA instead of 0 if wetland status is not available for the regional database.
 
 # fqacalc 1.0.0
 
