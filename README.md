@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)](https://github.com/ifoxfoot/fqacalc/workflows/R-CMD-check/badge.svg)
+[![R-CMD-check](https://github.com/ifoxfoot/fqacalc/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/ifoxfoot/fqacalc/actions/workflows/check-standard.yaml)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/fqacalc)](https://cran.r-project.org/package=fqacalc)
 <!-- badges: end -->
 
@@ -64,12 +64,9 @@ view one of the regional databases.
 ``` r
 #view a list of all available databases
 head(db_names()$fqa_db)
-#> [1] "atlantic_coastal_pine_barrens_2018"      
-#> [2] "chicago_region_2017"                     
-#> [3] "colorado_2020"                           
-#> [4] "dakotas_excluding_black_hills_2017"      
-#> [5] "delaware_2013"                           
-#> [6] "eastern_great_lakes_hudson_lowlands_2018"
+#> [1] "appalachian_mountains_2013"         "atlantic_coastal_pine_barrens_2018"
+#> [3] "chicago_region_2017"                "coastal_plain_southeast_2013"      
+#> [5] "colorado_2020"                      "dakotas_excluding_black_hills_2017"
 
 #NOTE citations for lists can be viewed using db_names()$citation
 
@@ -78,18 +75,27 @@ colorado <- view_db("colorado_2020")
 
 #view it
 head(colorado)
-#> # A tibble: 6 × 13
-#>   name    name_origin acronym accepted_scientific_…¹ family nativity     c     w
-#>   <chr>   <chr>       <chr>   <chr>                  <chr>  <chr>    <dbl> <dbl>
-#> 1 ABIES … accepted_s… ABBI3   Abies bifolia          Pinac… native       5     1
-#> 2 ABIES … synonym     <NA>    Abies bifolia          Pinac… native       5     1
-#> 3 ABIES … accepted_s… ABCO    Abies concolor         Pinac… native       5    NA
-#> 4 ABRONI… accepted_s… ABEL    Abronia elliptica      Nycta… native       4    NA
-#> 5 ABRONI… accepted_s… ABFR2   Abronia fragrans       Nycta… native       6    NA
-#> 6 ABRONI… accepted_s… ABAR    Abronia glabrifolia    Nycta… native       9    NA
-#> # ℹ abbreviated name: ¹​accepted_scientific_name
-#> # ℹ 5 more variables: wetland_indicator <chr>, physiognomy <chr>,
-#> #   duration <chr>, common_name <chr>, fqa_db <chr>
+#>                  name              name_origin acronym accepted_scientific_name
+#> 1       ABIES BIFOLIA accepted_scientific_name   ABBI3            Abies bifolia
+#> 2    ABIES LASIOCARPA                  synonym    <NA>            Abies bifolia
+#> 3      ABIES CONCOLOR accepted_scientific_name    ABCO           Abies concolor
+#> 4   ABRONIA ELLIPTICA accepted_scientific_name    ABEL        Abronia elliptica
+#> 5    ABRONIA FRAGRANS accepted_scientific_name   ABFR2         Abronia fragrans
+#> 6 ABRONIA GLABRIFOLIA accepted_scientific_name    ABAR      Abronia glabrifolia
+#>          family nativity c  w wetland_indicator physiognomy  duration
+#> 1      Pinaceae   native 5  1              FACU        tree perennial
+#> 2      Pinaceae   native 5  1              FACU        tree perennial
+#> 3      Pinaceae   native 5 NA              <NA>        tree perennial
+#> 4 Nyctaginaceae   native 4 NA              <NA>        forb perennial
+#> 5 Nyctaginaceae   native 6 NA              <NA>        forb perennial
+#> 6 Nyctaginaceae   native 9 NA              <NA>        forb perennial
+#>   common_name        fqa_db
+#> 1        <NA> colorado_2020
+#> 2        <NA> colorado_2020
+#> 3        <NA> colorado_2020
+#> 4        <NA> colorado_2020
+#> 5        <NA> colorado_2020
+#> 6        <NA> colorado_2020
 ```
 
 `fqacalc` also comes with sample inventory data from Crooked Island,
