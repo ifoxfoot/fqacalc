@@ -114,6 +114,54 @@ test_that("transect_summary() works in with synonyms (diff names, same ID)", {
                           )))
 })
 
+
+test_that("transect_summary() works in with duplicates", {
+  expect_equal(transect_summary(accepted_dup, "acronym", "michigan_2014"),
+
+               data.frame(metrics = c("Total Species Richness",
+                                      "Native Species Richness",
+                                      "Introduced Species Richness",
+                                      "% of Species with no C Value",
+                                      "% of Species with 0 C Value",
+                                      "% of Species with 1-3 C Value",
+                                      "% of Species with 4-6 C Value",
+                                      "% of Species with 7-10 C Value",
+                                      "Mean C",
+                                      "Native Mean C",
+                                      "Cover-Weighted Mean C",
+                                      "Cover-Weighted Native Mean C",
+                                      "Total FQI",
+                                      "Native FQI",
+                                      "Cover-Weighted FQI",
+                                      "Cover-Weighted Native FQI",
+                                      "Adjusted FQI",
+                                      "Mean Wetness",
+                                      "Native Mean Wetness",
+                                      "% Hydrophytes"),
+                          values = c(species_richness(accepted_dup, "acronym", "michigan_2014"),
+                                     species_richness(accepted_dup, "acronym", "michigan_2014", native = TRUE),
+                                     1, #introduced
+                                     0, #no c score
+                                     50.0, #0 score
+                                     50.0, #1-3 score
+                                     0, #4-6 score
+                                     0, #7-10 score
+                                     mean_c(accepted_dup, "acronym", "michigan_2014"),
+                                     mean_c(accepted_dup, "acronym", "michigan_2014", native = TRUE),
+                                     cover_mean_c(accepted_dup, "acronym", "michigan_2014", allow_duplicates = T),
+                                     cover_mean_c(accepted_dup, "acronym", "michigan_2014", native = TRUE, allow_duplicates = T),
+                                     FQI(accepted_dup, "acronym", "michigan_2014"),
+                                     FQI(accepted_dup, "acronym", "michigan_2014", native = TRUE),
+                                     cover_FQI(accepted_dup, "acronym", "michigan_2014", allow_duplicates = T),
+                                     cover_FQI(accepted_dup, "acronym", "michigan_2014", allow_duplicates = T, native = TRUE),
+                                     adjusted_FQI(accepted_dup, "acronym", "michigan_2014"),
+                                     mean_w(accepted_dup, "acronym", "michigan_2014"),
+                                     mean_w(accepted_dup, "acronym", "michigan_2014", native = TRUE),
+                                     0 #hydro
+                          )))
+})
+
+
 #-------------------------------------------------------------------------------
 #testing plot_summary()
 
