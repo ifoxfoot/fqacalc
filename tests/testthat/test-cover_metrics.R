@@ -68,6 +68,52 @@ test_that("transect_summary() works in perfect setting", {
                           )))
 })
 
+test_that("transect_summary() works in with synonyms (diff names, same ID)", {
+  expect_equal(transect_summary(x = same_id, key = "name", db = "wyoming_2017"),
+
+               data.frame(metrics = c("Total Species Richness",
+                                      "Native Species Richness",
+                                      "Introduced Species Richness",
+                                      "% of Species with no C Value",
+                                      "% of Species with 0 C Value",
+                                      "% of Species with 1-3 C Value",
+                                      "% of Species with 4-6 C Value",
+                                      "% of Species with 7-10 C Value",
+                                      "Mean C",
+                                      "Native Mean C",
+                                      "Cover-Weighted Mean C",
+                                      "Cover-Weighted Native Mean C",
+                                      "Total FQI",
+                                      "Native FQI",
+                                      "Cover-Weighted FQI",
+                                      "Cover-Weighted Native FQI",
+                                      "Adjusted FQI",
+                                      "Mean Wetness",
+                                      "Native Mean Wetness",
+                                      "% Hydrophytes"),
+                          values = c(species_richness(same_id, "name", "wyoming_2017"),
+                                     species_richness(same_id, "name", "wyoming_2017", native = TRUE),
+                                     0, #introduced
+                                     0, #no c score
+                                     0, #0 score
+                                     0, #1-3 score
+                                     100, #4-6 score
+                                     0, #7-10 score
+                                     mean_c(same_id, "name", "wyoming_2017"),
+                                     mean_c(same_id, "name", "wyoming_2017", native = TRUE),
+                                     cover_mean_c(same_id, "name", "wyoming_2017", allow_duplicates = T),
+                                     cover_mean_c(same_id, "name", "wyoming_2017", native = TRUE, allow_duplicates =T),
+                                     FQI(same_id, "name", "wyoming_2017"),
+                                     FQI(same_id, "name", "wyoming_2017", native = TRUE),
+                                     cover_FQI(same_id, "name", "wyoming_2017", allow_duplicates = T),
+                                     cover_FQI(same_id, "name", "wyoming_2017", allow_duplicates = T, native = TRUE),
+                                     adjusted_FQI(same_id, "name", "wyoming_2017"),
+                                     mean_w(same_id, "name", "wyoming_2017"),
+                                     mean_w(same_id, "name", "wyoming_2017", native = TRUE),
+                                     0 #hydro
+                          )))
+})
+
 #-------------------------------------------------------------------------------
 #testing plot_summary()
 

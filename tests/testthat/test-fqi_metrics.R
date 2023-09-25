@@ -180,7 +180,7 @@ test_that("adjusted_FQI() kind of fuzzy matches", {
 #-------------------------------------------------------------------------------
 #testing all_metrics()
 
-test_that("all_metrics() calculates total species richness", {
+test_that("all_metrics() calculates metrics correctly", {
   expect_equal(all_metrics(x = crooked_island, key = "acronym", db = "michigan_2014"),
 
                data.frame(metrics = c("Total Species Richness",
@@ -216,4 +216,96 @@ test_that("all_metrics() calculates total species richness", {
                                      0.85714286,
                                      37.1428571
                                      )))
+})
+
+
+#testing errors
+test_that("all_metrics() calculates errors correctly", {
+  expect_error(all_metrics(), "x is missing")
+  expect_error(all_metrics(character_string, db = "michigan_2014"), "must be a data frame.")
+  expect_error(all_metrics(numbers, db = "michigan_2014"), "must be a data frame.")
+  expect_error(all_metrics(bad_names, db = "michigan_2014"), "does not have a column named")
+  expect_error(all_metrics(crooked_island, key = "bad_key", db = "michigan_2014"), "'key' argument must be equal to")
+  expect_error(all_metrics(bad_names, key = "acronym", db = "michigan_2014"), "does not have a column named")
+})
+
+
+#test duplicate behavior
+test_that("all_metrics() does not count duplicates", {
+  expect_message(all_metrics(duplicate, db = "michigan_2014"), "Duplicate entries detected")
+  expect_equal(all_metrics(duplicate, db = "michigan_2014"),
+               data.frame(metrics = c("Total Species Richness",
+                                      "Native Species Richness",
+                                      "Introduced Species Richness",
+                                      "% of Species with no C Value",
+                                      "% of Species with 0 C Value",
+                                      "% of Species with 1-3 C Value",
+                                      "% of Species with 4-6 C Value",
+                                      "% of Species with 7-10 C Value",
+                                      "Mean C",
+                                      "Native Mean C",
+                                      "Total FQI",
+                                      "Native FQI",
+                                      "Adjusted FQI",
+                                      "Mean Wetness",
+                                      "Native Mean Wetness",
+                                      "% Hydrophytes"),
+                          values = c(fqacalc::species_richness(duplicate, db = "michigan_2014"),
+                                     fqacalc::species_richness(duplicate, db = "michigan_2014", native = TRUE),
+                                     1, #introduced
+                                     0, #no c score
+                                     33.333333, #0 c score
+                                     33.333333, #1-3 c sscore
+                                     0, #4-6 c score
+                                     33.333333, #7-10 c score
+                                     fqacalc::mean_c(duplicate, db = "michigan_2014"),
+                                     fqacalc::mean_c(duplicate, db = "michigan_2014", native = TRUE),
+                                     fqacalc::FQI(duplicate, db = "michigan_2014"),
+                                     fqacalc::FQI(duplicate, db = "michigan_2014", native = TRUE),
+                                     fqacalc::adjusted_FQI(duplicate, db = "michigan_2014"),
+                                     fqacalc::mean_w(duplicate, db = "michigan_2014"),
+                                     fqacalc::mean_w(duplicate, db = "michigan_2014", native = TRUE),
+                                     0 #%hydro
+                          )))
+})
+
+
+#test synonym behavior
+test_that("all_metrics() works with synonyms", {
+  expect_message(all_metrics(same_syn_sci, db = "wyoming_2017"),
+                 "CAREX FOENEA is an accepted scientific name and a synonym.")
+  expect_equal(all_metrics(same_syn_sci, db = "wyoming_2017"),
+               data.frame(metrics = c("Total Species Richness",
+                                      "Native Species Richness",
+                                      "Introduced Species Richness",
+                                      "% of Species with no C Value",
+                                      "% of Species with 0 C Value",
+                                      "% of Species with 1-3 C Value",
+                                      "% of Species with 4-6 C Value",
+                                      "% of Species with 7-10 C Value",
+                                      "Mean C",
+                                      "Native Mean C",
+                                      "Total FQI",
+                                      "Native FQI",
+                                      "Adjusted FQI",
+                                      "Mean Wetness",
+                                      "Native Mean Wetness",
+                                      "% Hydrophytes"),
+                          values = c(fqacalc::species_richness(same_syn_sci, db = "wyoming_2017"),
+                                     fqacalc::species_richness(same_syn_sci, db = "wyoming_2017", native = TRUE),
+                                     0, #introduced
+                                     0, #no c score
+                                     0, #0 c score
+                                     0, #1-3 c sscore
+                                     100, #4-6 c score
+                                     0, #7-10 c score
+                                     fqacalc::mean_c(same_syn_sci, db = "wyoming_2017"),
+                                     fqacalc::mean_c(same_syn_sci, db = "wyoming_2017", native = TRUE),
+                                     fqacalc::FQI(same_syn_sci, db = "wyoming_2017"),
+                                     fqacalc::FQI(same_syn_sci, db = "wyoming_2017", native = TRUE),
+                                     fqacalc::adjusted_FQI(same_syn_sci, db = "wyoming_2017"),
+                                     fqacalc::mean_w(same_syn_sci, db = "wyoming_2017"),
+                                     fqacalc::mean_w(same_syn_sci, db = "wyoming_2017", native = TRUE),
+                                     0 #%hydro
+                          )))
 })

@@ -22,7 +22,7 @@ duplicate <- data.frame(acronym  = c("ABIBAL", "ABIBAL", "AMMBRE", "ABEESC"),
 typo <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "typo"),
                    name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "typo"))
 
-#data frame with incorrect entries in both rows
+#data frame with bad capitalization
 fuzzy <- data.frame(acronym  = c("abeesc", "ABIBAL", "AMMBRE", "ANTELE"),
                     name = c("Abelmoschus esculentus", "Abies balsamea", "Ammophila breviligulata", "Anticlea elegans"))
 
