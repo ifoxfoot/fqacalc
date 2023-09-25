@@ -31,7 +31,8 @@ transect <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE", "ABE
                       cover = c(50, 4, 20, 30, 40, 7, 60),
                       quad_id = c(1, 1, 1, 1, 2, 2, 2))
 #na C Value
-no_c_test <- data.frame(name = c("ABRONIA FRAGRANS", "ACER GLABRUM", "ACER GRANDIDENTATUM", "BOOP", "ACER PLATANOIDES"))
+no_c_test <- data.frame(name = c("ABRONIA FRAGRANS", "ACER GLABRUM", "ACER GRANDIDENTATUM", "BOOP", "ACER PLATANOIDES"),
+                        cover = c(1, 2, 3, 4, 62))
 
 #cover method test
 cover_test <- data.frame(acronym  = c("ABEESC", "ABIBAL", "AMMBRE", "ANTELE"),

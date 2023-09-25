@@ -156,14 +156,16 @@ transect_summary <- function(x, key = "name", db, cover_class = "percent_cover",
   entries_c <- entries %>%
     dplyr::group_by(!!as.name(key)) %>%
     dplyr::mutate(mean = mean(.data$cover)) %>%
-    dplyr::distinct(!!as.name(key), mean, c)
+    dplyr::distinct(!!as.name(key), mean, c) %>%
+    dplyr::filter(!is.na(c))
 
   #get native entries c
   entries_n <- entries %>%
     dplyr::filter(.data$nativity == "native") %>%
     dplyr::group_by(!!as.name(key)) %>%
     dplyr::mutate(mean = mean(.data$cover)) %>%
-    dplyr::distinct(!!as.name(key), mean, c)
+    dplyr::distinct(!!as.name(key), mean, c) %>%
+    dplyr::filter(!is.na(c))
 
 
   #create list of all metrics that will be included in the output
