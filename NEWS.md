@@ -15,7 +15,9 @@
 
 ## Misc Changes
 
-Changed aggregate functions (`all_metrics`, `transect_summary`) to be produce a % hydrophyte score of NA instead of 0 if wetland status is not available for the regional database.
+- Changed aggregate functions (`all_metrics`, `transect_summary`) to be produce a % hydrophyte score of NA instead of 0 if wetland status is not available for the regional database.
+
+- Fixed a bug where no c scores would result in NA for cover mean c and cover fqi in transect summary function
 
 # fqacalc 1.0.0
 
